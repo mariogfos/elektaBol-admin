@@ -1,8 +1,8 @@
-
-import { useState } from 'react'
-import styles from './Statistics.module.css'
-import WidgetTableStats from '@/components/Widgets/WidgetTableStats/WidgetTableStats';
-
+import { useState } from "react";
+import styles from "./Statistics.module.css";
+import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
+import { DepartmentsMaps } from "@/components/Maps/Departments/DepartmentsMaps";
+import useAxios from "@/mk/hooks/useAxios";
 
 const paramInitial: any = {
   perPage: 10,
@@ -11,12 +11,15 @@ const paramInitial: any = {
 };
 const Statistics = () => {
   const [params, setParams] = useState(paramInitial);
-  const [level, setLevel] = useState(0)
+  const [level, setLevel] = useState(0);
+  const { data: dashboard } = useAxios("/dashboard", "GET", {
+    fullType: "L",
+    searchBy: "",
+  });
   const reload: any = null;
   const statistics = {
     data: [
       {
-
         id: 1,
         code: "01",
         name: "Santa Cruz",
@@ -31,7 +34,6 @@ const Statistics = () => {
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
-
       },
       {
         id: 3,
@@ -88,16 +90,18 @@ const Statistics = () => {
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
-
       },
-
-
-
-
     ],
-
-  }
-  console.log(params, 'params')
+  };
+  let dataDpto = dashboard?.data?.dptos.map((dpto: any) => {
+    return {
+      id: dpto?.id,
+      titulo: dpto?.name,
+      habitantes: dpto?.habitantes,
+      habilitados: dpto?.habilitados,
+      afiliados: dpto?.affiliate_count,
+    };
+  });
   // const accessInfo = () =>{
 
   //   if(level < 3){setLevel(level+1)}
@@ -105,18 +109,21 @@ const Statistics = () => {
   // }
 
   return (
-    <div className={styles['statistics']}>
-
-      <div >
-        holl
+    <div className={styles["statistics"]}>
+      <div>
+        <DepartmentsMaps tooltipsData={dataDpto} isClicker={true} />
       </div>
       <div>
-        <WidgetTableStats data={statistics?.data} level={level} setLevel={setLevel} params={params} setParams={setParams}  />
-
+        <WidgetTableStats
+          data={statistics?.data}
+          level={level}
+          setLevel={setLevel}
+          params={params}
+          setParams={setParams}
+        />
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Statistics
+export default Statistics;
