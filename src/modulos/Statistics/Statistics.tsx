@@ -1,8 +1,7 @@
 
 import { useState } from 'react'
 import styles from './Statistics.module.css'
-import WidgetTable from '@/components/Widgets/WidgetTable.tsx/WidgetTable'
-import { ParamsType } from '@/mk/types/generics';
+import WidgetTableStats from '@/components/Widgets/WidgetTableStats/WidgetTableStats';
 
 
 const paramInitial: any = {
@@ -112,7 +111,7 @@ const Statistics = () => {
         holl
       </div>
       <div>
-        <WidgetTable data={statistics?.data} level={level} setLevel={setLevel} params={params} setParams={setParams}  />
+        <WidgetTableStats data={statistics?.data} level={level} setLevel={setLevel} params={params} setParams={setParams}  />
 
       </div>
 

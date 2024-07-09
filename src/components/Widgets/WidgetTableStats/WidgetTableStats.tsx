@@ -1,26 +1,36 @@
 import Table from "@/mk/components/ui/Table/Table";
-import style from "./WidgetTable.module.css";
+import style from "./WidgetTableStats.module.css";
 import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumberCustom } from "@/mk/utils/date";
 import { formatNumber } from "@/mk/utils/numbers";
 import { useEffect, useState } from "react";
+import { ParamsType } from "@/mk/types/generics";
 
-const WidgetTable = ({ data }: any) => {
+
+
+const WidgetTableStats = ({ data, level, setLevel , params , setParams , reload }: any) => {
+
+  const labels: string[] = [
+    'Departamento',
+    'Circunscripción',
+    'Recinto',
+    'Mesa'
+  ]
   const header = [
     {
-      key: "index",
-      label: "nro",
-      width: "120px",
+      key: "code",
+      label: "Cod",
+      width: "150px",
       responsive: "onlyDesktop",
     },
     {
       key: "name",
-      label: "Departamento",
+      label: labels[level],
       responsive: "onlyDesktop",
     },
     {
       key: "habitantes",
-      label: "Poblacion total",
+      label: "Poblacion",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
       onRender: (item: any) => {
@@ -29,16 +39,18 @@ const WidgetTable = ({ data }: any) => {
     },
     {
       key: "habilitados",
-      label: "Habilitados totales",
+      label: "Empadronados",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
     },
+ 
     {
-      key: "affiliate_count",
-      label: "Afiliados totales",
+      key: "entidad",
+      label:labels[level+1
+      ],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
       onRender: (item: any) => {
@@ -67,6 +79,13 @@ const WidgetTable = ({ data }: any) => {
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
+  const handleRowClick = (row: any) => {
+    console.log(row);
+    setParams({...params,searchBy:row.id,level:level+1});
+    if(level < 3){setLevel(level+1)}
+    return
+   
+  }
   return (
     <div className={style.container}>
       <section>
@@ -81,8 +100,10 @@ const WidgetTable = ({ data }: any) => {
         }}
         renderBody={render}
         data={data}
+        onRowClick={(row: any) => handleRowClick(row)}
         header={header}
-        className="striped"
+        className="striped" 
+       
       />
       <div
         style={{
@@ -144,4 +165,4 @@ const WidgetTable = ({ data }: any) => {
   );
 };
 
-export default WidgetTable;
+export default WidgetTableStats;

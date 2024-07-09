@@ -1,0 +1,16 @@
+.container {
+    background-color: var(--cBlackV1);
+    padding: var(--spM);
+    border-radius: var(--bRadiusS);
+    & > section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spM);
+      & > p {
+        font-weight: 600;
+        font-size: var(--sL);
+      }
+    }
+  }
+  
