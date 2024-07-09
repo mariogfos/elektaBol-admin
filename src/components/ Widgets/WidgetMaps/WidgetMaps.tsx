@@ -1,12 +1,10 @@
 import React from "react";
 import { Card } from "@/mk/components/ui/Card/Card";
-import { IconUruguay } from "@/components/layout/icons/IconsBiblioteca";
 import { DepartmentsMaps } from "@/components/Maps/Departments/DepartmentsMaps";
+import Image from "next/image";
 
 import styles from "./WidgetMaps.module.css";
 import { formatNumber } from "../../../mk/utils/numbers";
-import { formatNumberCustom } from "@/mk/utils/date";
-import Image from "next/image";
 
 type TypeProps = {
   tooltipsData: any;
@@ -45,10 +43,8 @@ export const WidgetMaps = ({
             src="/images/Uruguay.webp"
             alt="Uruguay"
             layout="fixed"
-            // style={{ width: "100%", height: "100%" }}
             width={190}
             height={50}
-            // objectFit="contain"
           />
         </div>
       </div>
