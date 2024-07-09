@@ -86,7 +86,9 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
           href="/comunication"
           label="Comunicación"
           icon={<IconComunication />}
+          
         />
+          <Item href="/statistics" label="Prueba" icon={<IconNet />} />
         <Item href="/config" label="Configuracion" icon={<IconSetting />} />
       </div>
       <div className={styles["menu-bottom"]}>
