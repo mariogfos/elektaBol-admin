@@ -36,7 +36,7 @@ export const WidgetMaps = ({
         </Card>
       </div>
 
-      <DepartmentsMaps tooltipsData={tooltipsData} isClicker={true} />
+      <DepartmentsMaps tooltipsData={tooltipsData} />
       <div className={styles.footer}>
         <div className={styles.uruguay}>
           <Image
