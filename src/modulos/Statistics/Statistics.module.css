@@ -1,0 +1,15 @@
+.statistics {
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+  /* media query para desktop*/
+
+  & > div {
+    width: 50%;
+    border: 1px solid black;
+    height: calc(100vh - 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
