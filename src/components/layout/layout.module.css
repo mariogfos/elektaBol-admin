@@ -1,0 +1,16 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100vw;
+  background-color: var(--cBlack);
+}
+.modalLogout{
+  padding: 20px;
+  color:var(--cBlackV2)
+}
+
+.header{
+  position: fixed;
+  transition: "margin-left 0.3s, width 0.3s";
+}

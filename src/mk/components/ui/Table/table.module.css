@@ -1,0 +1,129 @@
+.table {
+  display: grid;
+  font-size: var(--sM);
+  overflow: auto;
+
+  border-radius: var(--bRadius);
+  @media (width <= 1024px) {
+    background-color: transparent;
+    border: none;
+  }
+  & header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    /* gap: var(--spS); */
+    color: var(--cWhite);
+    font-weight: var(--bSemiBold);
+    /* padding: var(--spM);
+    padding-bottom: var(--spS); */
+    margin-bottom: 1px;
+    overflow: hidden;
+    background-color: var(--cTerciary);
+    border-top-left-radius: var(--bRadius);
+    border-top-right-radius: var(--bRadius);
+    & > div {
+      /* text-overflow: ellipsis; */
+      /* white-space: nowrap; */
+      /* overflow: hidden; */
+      border-left: 1px solid var(--cWhiteV2);
+      padding: var(--spM);
+      padding-bottom: var(--spS);
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    & > div:first-child {
+      /* text-overflow: ellipsis; */
+      /* white-space: nowrap; */
+      /* overflow: hidden; */
+
+      border-left: 0;
+    }
+    @media (width <= 1024px) {
+      background-color: transparent;
+      border: none;
+    }
+  }
+  & main {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    border-bottom-left-radius: var(--bRadius);
+    border-bottom-right-radius: var(--bRadius);
+    overflow: hidden;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      /* gap: var(--spS); */
+      gap: 0px;
+      /* border-radius: var(--bRadius); */
+      background-color: var(--cBlackV1);
+      color: var(--cBlackV2);
+      /* padding: var(--spM); */
+      overflow: hidden;
+      cursor: pointer;
+
+      @media (width <= 1024px) {
+        background-color: transparent;
+      }
+      & > span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: var(--spM);
+        border: 1px solid var(--cWhiteV1);
+        height: 100%;
+        width: 100%;
+        /* display: flex;
+        align-items: center; */
+      }
+    }
+  }
+  & header > div.onlyDesktop,
+  & main > div > span.onlyDesktop {
+    @media (width <= 768px) {
+      display: none;
+    }
+  }
+  & header > div.tablet,
+  & main > div > span.tablet {
+    display: none;
+    @media (width <= 768px) {
+      display: flex;
+    }
+  }
+  & header > div.mobile,
+  & main > div > span.mobile {
+    display: none;
+    @media (width <= 480px) {
+      display: flex;
+    }
+  }
+}
+
+.table.striped {
+  & main {
+    & > div:nth-child(even) {
+      background-color: var(--cWhiteV1);
+      color: var(--cBlackV2);
+    }
+    & > div:nth-child(odd) {
+      background-color: var(--cBlackV1);
+      color: var(--cBlackV2);
+    }
+  }
+}
+
+.table.V1 {
+  @media (width <= 1024px) {
+    border: var(--cWhiteV2) solid 1px;
+  }
+  & header {
+    @media (width <= 1024px) {
+      border: var(--cWhiteV2) solid 1px;
+    }
+  }
+}

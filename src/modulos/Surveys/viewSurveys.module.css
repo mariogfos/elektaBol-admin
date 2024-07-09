@@ -1,0 +1,35 @@
+.headerViewSurveys {
+    /* background-color: red; */
+    display:flex;
+    padding: var(--spS);
+    justify-content: space-between;
+}
+.cardsInfoContainer{
+    display: flex;
+    justify-content: center;
+    gap:var(--spS);
+    margin-top:var(--spL);
+    margin-bottom:var(--spL) ;
+}
+
+.cardInfo {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: var(--spXxl);
+    border-radius: var(--bRadius);
+    border: 2px solid var(--cWhiteV2);
+    gap: var(--spXl);
+    width:194px;
+
+  & > div:nth-child(1){
+    color:var(--cBlackV2);
+    font-size: var(--sL);
+    width: 135px;
+  }
+  & > div:nth-child(2){
+    color:var(--cWhite);
+    font-size: var(--spXl);
+
+  }
+}

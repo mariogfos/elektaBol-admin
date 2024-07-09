@@ -1,0 +1,19 @@
+/* data-search */
+
+.dataSearch {
+    padding-right: 0;
+    width: 100%;
+   
+  
+    & > span > svg.error {
+      color: var(--cError);
+    }
+  
+    & > span:nth-child(3) {
+      background-color: var(--cPrimary);
+      border-radius: var(--bRadius);
+      margin-top: 0px;
+      margin-right: 0px;
+      height: 48px;
+    }
+  }

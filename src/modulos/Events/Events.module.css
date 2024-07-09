@@ -1,0 +1,27 @@
+.roles {
+  width: 100%;
+  position: relative;
+  padding-left: var(--spL);
+  padding-right: var(--spL);
+  padding-bottom: 70px;
+}
+.cardEventContainer{
+  display: flex;
+  width:100%;
+  background-color:var(--cBlackV1);
+  margin-top: var(--spL);
+  padding: var(--spL);
+  border-radius: var(--bRadius);
+  & > div:nth-child(1){
+ border-radius: var(--bRadius);
+  }
+  & > div:nth-child(2){
+    gap:4px;
+    padding-left: var(--spL);
+    padding-right: var(--spL);
+  & > div:nth-child(3){
+   color:var(--cSuccess)
+  }
+  }
+
+}

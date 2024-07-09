@@ -1,0 +1,11 @@
+.WidgetProgresiveBar{
+    min-height: 250px;
+    
+     & > div:nth-child(1) {
+            font-weight: 600;
+            font-size: var(--sL);
+            margin-bottom: 50px
+        
+    }
+
+}

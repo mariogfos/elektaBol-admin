@@ -1,0 +1,100 @@
+.mainmenu {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+}
+
+.mainmenu.collapsed {
+    width: 80px;
+    /* Ajustar ancho cuando está colapsado */
+}
+
+.mainmenu>div:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: var(--spXl);
+}
+
+.mainmenu>div:nth-child(1)>p:nth-child(2) {
+    color: var(--cWhite);
+    font-size: var(--sS);
+    margin-top: var(--spS);
+    margin-bottom: var(--spXs);
+}
+
+.mainmenu>div:nth-child(1)>p:nth-child(3) {
+    font-size: var(--sM);
+    color: var(--cWhiteV2);
+}
+
+.mainmenu-item {
+    border-radius: var(--bRadiusS);
+    margin: var(--spS);
+    padding: var(--spS);
+    transition: all 0.3s ease;
+}
+
+.mainmenu-item.collapsed {
+    justify-content: center;
+    padding: var(--spXs);
+}
+
+.mainmenu-item>a:nth-child(1) {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: var(--spS);
+    text-decoration: none;
+    font-size: var(--sM);
+    color: var(--cBlackV2);
+}
+
+.mainmenu-item.collapsed>a:nth-child(1) {
+    flex-direction: column;
+    gap: var(--spXs);
+}
+
+.mainmenu-item>a:nth-child(1)>p:nth-child(1) {
+    display: flex;
+    align-items: center;
+}
+
+.mainmenu-item.collapsed>a:nth-child(1)>p:nth-child(2) {
+    display: none;
+    /* Ocultar etiquetas cuando está colapsado */
+}
+
+.menu-content {
+    flex-grow: 1;
+    /* Toma todo el espacio disponible */
+}
+
+.menu-bottom {
+    margin-top: auto;
+    /* Empuja el contenido hacia abajo */
+}
+
+
+/* mainmenu.module.css */
+.mainmenu-item {
+    /* estilos existentes */
+  }
+  
+  .mainmenu-item.active-item {
+    background-color: rgba(255, 255, 255, 0.1); /* o el color que prefieras */
+    color: white;
+  }
+  
+  .mainmenu-item.active-item p {
+    color: white; /* Hacer el texto blanco */
+  }
+  
+  .collapsed {
+    /* estilos existentes para el estado colapsado */
+  }
+  

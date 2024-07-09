@@ -1,0 +1,36 @@
+.roles {
+  width: 100%;
+  position: relative;
+  padding-left: var(--spL);
+  padding-right: var(--spL);
+  padding-bottom: 70px;
+}
+.renderViewContent{  
+  padding-top: var(--spL);
+  padding-bottom: var(--spL);
+  gap:var(--spL);
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
+
+}
+
+.renderViewDescription{
+    font-size: 14px;
+    color:var(--cWhite);
+    text-align: start;
+    align-self: flex-start;
+    padding-top: var(--spL);
+    padding-bottom: var(--spL);
+  
+}
+.renderViewImage{
+  margin-top: var(--spL);
+  max-width:100%;
+  min-height: 100%;
+  gap: 0px;
+  display: flex;
+  justify-content: center;
+  
+}

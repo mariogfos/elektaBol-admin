@@ -1,0 +1,57 @@
+.container {
+  & > p {
+    color: var(--cWhite);
+    font-weight: 600;
+    margin-top: 8px;
+    font-size: var(--sL);
+    margin-bottom: var(--spM);
+    & > span {
+      color: var(--cError);
+      border-radius: 8px;
+
+      padding: 2px;
+      border: 2px solid var(--cBlackV1);
+    }
+  }
+  & > div {
+    display: flex;
+    background-color: var(--cBlackV1);
+    border-radius: var(--bRadiusS);
+
+    & > div {
+      flex-grow: 1;
+      z-index: 1;
+      position: relative;
+      padding: var(--spM) 0px;
+      text-align: center;
+      & > div:nth-child(1) {
+        background-color: var(--cAccent);
+        position: absolute;
+        height: 100%;
+        transition: width 0.5s ease-in-out;
+        top: 0px;
+        left: 0px;
+        z-index: -2;
+        border-top-right-radius: var(--spS);
+        border-bottom-right-radius: var(--spS);
+      }
+      & > div:nth-child(2) {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        & > div {
+          flex-grow: 1;
+          border-right: var(--bWidth) solid var(--cWhiteV1);
+        }
+      }
+      & > span {
+        font-size: var(--sXxl);
+        font-weight: 600;
+      }
+    }
+  }
+}
