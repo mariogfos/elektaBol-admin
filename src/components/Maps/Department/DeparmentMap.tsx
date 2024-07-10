@@ -1,6 +1,5 @@
 import React from "react";
 import { formatNumber } from "@/mk/utils/numbers";
-import Link from "next/link";
 import SantaCruz from "./SantaCruz/SantaCruz";
 import Tarija from "./Tarija/Tarija";
 import Chuquisaca from "./Chuquisaca/Chuquisaca";
@@ -19,7 +18,7 @@ type TooltipDataType = {
 };
 
 type PropsType = {
-  department: TooltipDataType;
+  department: any;
 };
 
 const DepartmentMap = ({ department }: PropsType) => {
@@ -29,7 +28,7 @@ const DepartmentMap = ({ department }: PropsType) => {
     console.log(id);
     switch (id) {
       case 1:
-        return <Pando />
+        return <Pando />;
       case 2:
         return <LaPaz />;
       case 3:
@@ -45,7 +44,7 @@ const DepartmentMap = ({ department }: PropsType) => {
       case 8:
         return <Tarija />;
       case 9:
-        return <SantaCruz />;
+        return <SantaCruz circunscripcion={department}/>;
       default:
         return null;
     }
@@ -54,8 +53,8 @@ const DepartmentMap = ({ department }: PropsType) => {
   return (
     <div>
       <h2>{department.titulo}</h2>
-      <p>Habitantes: {formatNumber(department?.data?.habitantes, 0)}</p>
-      <p>Habilitados: {formatNumber(department?.data?.habilitados, 0)}</p>
+      <p>Habitantes: {formatNumber(department?.habitantes, 0)}</p>
+      <p>Habilitados: {formatNumber(department?.habilitados, 0)}</p>
       <p>
         Afiliados:{" "}
         {department?.data?.afiliados

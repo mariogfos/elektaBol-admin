@@ -89,7 +89,7 @@ const Statistics = () => {
         code: "01",
         name: "Santa Cruz",
         habitantes: 11673029,
-        habilitados: 11673029,
+        habilitados: 11,
         affiliate_count: 11673029,
       },
     ],
