@@ -17,14 +17,14 @@ import LaPaz from "./LaPaz/LaPaz";
 // import Beni from "./Beni/Beni";
 // import Pando from "./Pando/Pando";
 
-type TooltipDataType = {
-  id: number;
-  titulo: string;
-  data: any;
-};
+// type TooltipDataType = {
+//   id: number;
+//   titulo: string;
+//   data: any;
+// };
 
 type PropsType = {
-  department: TooltipDataType;
+  department: any;
 };
 
 const DepartmentMap = ({ department }: PropsType) => {
@@ -34,11 +34,11 @@ const DepartmentMap = ({ department }: PropsType) => {
     console.log(id);
     switch (id) {
       case 1:
-        return <Pando />
+        return <Pando />;
       case 2:
         return <LaPaz />;
       case 3:
-         return <Beni />;
+        return <Beni />;
       // case 4:
       //   return <Oruro data={data} />;
       case 6:
@@ -61,8 +61,8 @@ const DepartmentMap = ({ department }: PropsType) => {
   return (
     <div>
       <h2>{department.titulo}</h2>
-      <p>Habitantes: {formatNumber(department?.data?.habitantes, 0)}</p>
-      <p>Habilitados: {formatNumber(department?.data?.habilitados, 0)}</p>
+      <p>Habitantes: {formatNumber(department?.habitantes, 0)}</p>
+      <p>Habilitados: {formatNumber(department?.habilitados, 0)}</p>
       <p>
         Afiliados:{" "}
         {department?.data?.afiliados
