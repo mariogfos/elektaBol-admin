@@ -2,7 +2,8 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 import styles from "./DepartmentsMaps.module.css";
 import { formatNumber } from "@/mk/utils/numbers";
-import DeparmentMap from "../DeparmentMap/DeparmentMap";
+import DeparmentMap from "../Department/DeparmentMap";
+import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
 
 type TooltipDataType = {
   id: number;
@@ -124,7 +125,7 @@ export const DepartmentsMaps = ({
       {selectedDepartment ? (
         <div>
           <button onClick={handleBackClick} className={styles.backButton}>
-            <img src="/path/to/icon.png" alt="Volver" />
+            <IconArrowLeft />
           </button>
           <DeparmentMap department={selectedDepartment} />
         </div>

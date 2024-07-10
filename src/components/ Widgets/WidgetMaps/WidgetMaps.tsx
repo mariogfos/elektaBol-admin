@@ -1,10 +1,10 @@
 import React from "react";
 import { Card } from "@/mk/components/ui/Card/Card";
-import { DepartmentsMaps } from "@/components/Maps/Departments/DepartmentsMaps";
 import Image from "next/image";
 
 import styles from "./WidgetMaps.module.css";
 import { formatNumber } from "../../../mk/utils/numbers";
+import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 
 type TypeProps = {
   tooltipsData: any;

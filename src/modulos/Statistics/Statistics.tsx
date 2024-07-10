@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
-import { DepartmentsMaps } from "@/components/Maps/Departments/DepartmentsMaps";
 import useAxios from "@/mk/hooks/useAxios";
+import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 
 const paramInitial: any = {
   perPage: 10,
