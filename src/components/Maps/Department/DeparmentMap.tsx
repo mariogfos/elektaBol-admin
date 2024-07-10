@@ -3,6 +3,8 @@ import { formatNumber } from "@/mk/utils/numbers";
 import Link from "next/link";
 import SantaCruz from "./SantaCruz/SantaCruz";
 import Pando from "./Pando/Pando";
+import Beni from "./Beni/Beni";
+import LaPaz from "./LaPaz/LaPaz";
 // import LaPaz from "./LaPaz/LaPaz";
 // import Cochabamba from "./Cochabamba/Cochabamba";
 // import Oruro from "./Oruro/Oruro";
@@ -29,8 +31,8 @@ const DepartmentMap = ({ department }: PropsType) => {
     switch (id) {
       case 9:
         return <SantaCruz />;
-      // case 2:
-      //   return <LaPaz data={data} />;
+      case 2:
+        return <LaPaz />;
       // case 3:
       //   return <Cochabamba data={data} />;
       // case 4:
@@ -41,8 +43,8 @@ const DepartmentMap = ({ department }: PropsType) => {
       //   return <Tarija data={data} />;
       // case 7:
       //   return <Chuquisaca data={data} />;
-      // case 8:
-      //   return <Beni data={data} />;
+      case 3:
+        return <Beni />;
       case 1:
         return <Pando />;
       default:
