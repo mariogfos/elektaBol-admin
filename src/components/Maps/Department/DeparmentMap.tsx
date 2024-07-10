@@ -52,7 +52,7 @@ const DepartmentMap = ({ department }: PropsType) => {
 
   return (
     <div>
-      {/* <h2>{department.titulo}</h2>
+      <h2>{department.titulo}</h2>
       <p>Habitantes: {formatNumber(department?.data?.habitantes, 0)}</p>
       <p>Habilitados: {formatNumber(department?.data?.habilitados, 0)}</p>
       <p>
@@ -60,7 +60,7 @@ const DepartmentMap = ({ department }: PropsType) => {
         {department?.data?.afiliados
           ? formatNumber(department?.data?.afiliados, 0)
           : "N/A"}
-      </p> */}
+      </p>
       <div>{getDepartmentComponent(department.id)}</div>
     </div>
   );
