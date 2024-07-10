@@ -2,6 +2,7 @@ import React from "react";
 import { formatNumber } from "@/mk/utils/numbers";
 import Link from "next/link";
 import SantaCruz from "./SantaCruz/SantaCruz";
+import Tarija from "./Tarija/Tarija";
 // import LaPaz from "./LaPaz/LaPaz";
 // import Cochabamba from "./Cochabamba/Cochabamba";
 // import Oruro from "./Oruro/Oruro";
@@ -36,8 +37,8 @@ const DepartmentMap = ({ department }: PropsType) => {
       //   return <Oruro data={data} />;
       // case 5:
       //   return <Potosi data={data} />;
-      // case 6:
-      //   return <Tarija data={data} />;
+       case 8:
+         return <Tarija />;
       // case 7:
       //   return <Chuquisaca data={data} />;
       // case 8:
