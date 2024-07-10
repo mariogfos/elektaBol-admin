@@ -6,16 +6,21 @@ import { formatNumber } from "@/mk/utils/numbers";
 import { useEffect, useState } from "react";
 import { ParamsType } from "@/mk/types/generics";
 
-
-
-const WidgetTableStats = ({ data, level, setLevel , params , setParams , reload }: any) => {
-
+const WidgetTableStats = ({
+  data,
+  level,
+  setLevel,
+  params,
+  setParams,
+  onClickLevel,
+  title,
+}: any) => {
   const labels: string[] = [
-    'Departamento',
-    'Circunscripción',
-    'Recinto',
-    'Mesa'
-  ]
+    "Departamento",
+    "Circunscripción",
+    "Recinto",
+    "Mesa",
+  ];
   const header = [
     {
       key: "code",
@@ -46,11 +51,10 @@ const WidgetTableStats = ({ data, level, setLevel , params , setParams , reload 
         return formatNumber(item.value, 0);
       },
     },
- 
+
     {
       key: "entidad",
-      label:labels[level+1
-      ],
+      label: labels[level + 1],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
       onRender: (item: any) => {
@@ -79,17 +83,18 @@ const WidgetTableStats = ({ data, level, setLevel , params , setParams , reload 
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
-  const handleRowClick = (row: any) => {
-    console.log(row);
-    setParams({...params,searchBy:row.id,level:level+1});
-    if(level < 3){setLevel(level+1)}
-    return
-   
-  }
+  // const handleRowClick = (row: any) => {
+  //   console.log(row);
+  //   setParams({ ...params, searchBy: row.id, level: level + 1 });
+  //   if (level < 3) {
+  //     setLevel(level + 1);
+  //   }
+  //   return;
+  // };
   return (
     <div className={style.container}>
       <section>
-        <p>Resumen general a nivel Nacional</p>
+        <p>{title || "Resumen"}</p>
         <IconExport color="var(--cWhiteV2)" />
       </section>
       <Table
@@ -100,10 +105,9 @@ const WidgetTableStats = ({ data, level, setLevel , params , setParams , reload 
         }}
         renderBody={render}
         data={data}
-        onRowClick={(row: any) => handleRowClick(row)}
+        onRowClick={(row: any) => onClickLevel(row)}
         header={header}
-        className="striped" 
-       
+        className="striped"
       />
       <div
         style={{
