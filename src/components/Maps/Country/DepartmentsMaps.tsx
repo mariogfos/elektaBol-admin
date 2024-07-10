@@ -16,11 +16,19 @@ type TooltipDataType = {
 type PropsType = {
   tooltipsData: TooltipDataType[] | [];
   isClicker?: boolean;
+  level?: number;
+  params?: any;
+  setLevel?: any;
+  setParams?: any;
 };
 
 export const DepartmentsMaps = ({
   tooltipsData,
   isClicker = false,
+  level = 0,
+  params = {},
+  setLevel = () => {},
+  setParams = () => {},
 }: PropsType) => {
   const [tooltip, setTooltip] = useState({
     visible: false,
@@ -35,8 +43,6 @@ export const DepartmentsMaps = ({
   const handleMouseEnter = (event: any, data: TooltipDataType) => {
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
-    console.log("rect", rect);
-    console.log("svgRect", svgRect);
     setTooltip({
       visible: true,
       x: rect.left - svgRect.left + rect.width / 2,
@@ -51,6 +57,7 @@ export const DepartmentsMaps = ({
 
   const handleDepartmentClick = (data: TooltipDataType) => {
     setSelectedDepartment(data);
+    setLevel(level + 1);
   };
 
   const handleBackClick = () => {
@@ -60,9 +67,6 @@ export const DepartmentsMaps = ({
   if (!tooltipsData || tooltipsData.length === 0) {
     return <div>Cargando...</div>;
   }
-
-  // console.log("selectedDepartment", selectedDepartment);
-
   const paths = [
     {
       id: 1,

@@ -111,7 +111,14 @@ const Statistics = () => {
   return (
     <div className={styles["statistics"]}>
       <div>
-        <DepartmentsMaps tooltipsData={dataDpto} isClicker={true} />
+        <DepartmentsMaps
+          level={level}
+          setLevel={setLevel}
+          params={params}
+          setParams={setParams}
+          tooltipsData={dataDpto}
+          isClicker={true}
+        />
       </div>
       <div>
         <WidgetTableStats

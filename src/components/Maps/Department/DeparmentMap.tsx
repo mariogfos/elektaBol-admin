@@ -5,6 +5,9 @@ import SantaCruz from "./SantaCruz/SantaCruz";
 import Tarija from "./Tarija/Tarija";
 import Chuquisaca from "./Chuquisaca/Chuquisaca";
 import Potosi from "./Potosi/Potosi";
+import Pando from "./Pando/Pando";
+import Beni from "./Beni/Beni";
+import LaPaz from "./LaPaz/LaPaz";
 // import LaPaz from "./LaPaz/LaPaz";
 // import Cochabamba from "./Cochabamba/Cochabamba";
 // import Oruro from "./Oruro/Oruro";
@@ -29,10 +32,12 @@ const DepartmentMap = ({ department }: PropsType) => {
 
   const getDepartmentComponent = (id: number) => {
     switch (id) {
-      // case 2:
-      //   return <LaPaz data={data} />;
-      // case 3:
-      //   return <Cochabamba data={data} />;
+      case 1:
+        return <Pando />
+      case 2:
+        return <LaPaz />;
+      case 3:
+         return <Beni />;
       // case 4:
       //   return <Oruro data={data} />;
       case 6:
