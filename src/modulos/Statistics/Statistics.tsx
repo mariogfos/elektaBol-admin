@@ -13,17 +13,18 @@ const paramInitial: any = {
 const Statistics = () => {
   const [params, setParams] = useState(paramInitial);
   const [level, setLevel] = useState(0);
+  const [selectedDepartment, setSelectedDepartment]: any = useState(null);
   const { data: dashboard } = useAxios("/dashboard", "GET", {
     fullType: "L",
     searchBy: "",
   });
-  const reload: any = null;
+
   const statistics = {
     data: [
       {
         id: 1,
-        code: "01",
-        name: "Santa Cruz",
+        code: "09",
+        name: "Pando",
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
@@ -38,8 +39,8 @@ const Statistics = () => {
       },
       {
         id: 3,
-        code: "03",
-        name: "Cochabamba",
+        code: "08",
+        name: "Beni",
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
@@ -54,16 +55,16 @@ const Statistics = () => {
       },
       {
         id: 5,
-        code: "05",
-        name: "Potosi",
+        code: "03",
+        name: "Cochabamba",
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
       },
       {
         id: 6,
-        code: "06",
-        name: "Tarija",
+        code: "05",
+        name: "Potosi",
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
@@ -78,18 +79,18 @@ const Statistics = () => {
       },
       {
         id: 8,
-        code: "08",
-        name: "Beni",
+        code: "06",
+        name: "Tarija",
         habitantes: 11673029,
         habilitados: 11673029,
         affiliate_count: 11673029,
       },
       {
         id: 9,
-        code: "09",
-        name: "Pando",
+        code: "01",
+        name: "Santa Cruz",
         habitantes: 11673029,
-        habilitados: 11673029,
+        habilitados: 11,
         affiliate_count: 11673029,
       },
     ],
@@ -108,6 +109,18 @@ const Statistics = () => {
   //   if(level < 3){setLevel(level+1)}
   //   return
   // }
+  const onClickLevel = (row: any) => {
+    setParams({ ...params, searchBy: row.id, level: level + 1 });
+    if (level < 3) {
+      setLevel(level + 1);
+    }
+    setSelectedDepartment(row);
+  };
+  const onClickBack = () => {
+    if (level > 0) {
+      setLevel(level - 1);
+    }
+  };
 
   return (
     <div className={styles["statistics"]}>
@@ -145,8 +158,16 @@ const Statistics = () => {
       <section>
         <WidgetTableStats
           data={statistics?.data}
+          title={
+            level == 0
+              ? "Departamentos"
+              : level == 1
+              ? "Circunscripciones"
+              : "Recintos electorales"
+          }
           level={level}
           setLevel={setLevel}
+          onClickLevel={onClickLevel}
           params={params}
           setParams={setParams}
         />

@@ -8,10 +8,10 @@ import DepartmentMap from "../Department/DeparmentMap";
 
 type TooltipDataType = {
   id: number;
-  titulo: string;
+  titulo?: string;
   habitantes: number;
   habilitados: number;
-  afiliados: number | undefined;
+  afiliados?: number | undefined;
 };
 
 type PropsType = {
@@ -21,6 +21,10 @@ type PropsType = {
   params?: any;
   setLevel?: any;
   setParams?: any;
+  onClickLevel?: any;
+  onClickBack?: any;
+  selectedDepartment?: any;
+  setSelectedDepartment?: any;
 };
 
 export const DepartmentsMaps = ({
@@ -30,6 +34,10 @@ export const DepartmentsMaps = ({
   params = {},
   setLevel = () => {},
   setParams = () => {},
+  onClickLevel = () => {},
+  onClickBack = () => {},
+  selectedDepartment,
+  setSelectedDepartment,
 }: PropsType) => {
   const [tooltip, setTooltip] = useState({
     visible: false,
@@ -38,7 +46,6 @@ export const DepartmentsMaps = ({
     data: null as TooltipDataType | null,
   });
 
-  const [selectedDepartment, setSelectedDepartment] = useState<any>(null);
   const svgRef: any = useRef(null);
 
   const handleMouseEnter = (event: any, data: TooltipDataType) => {
@@ -56,13 +63,15 @@ export const DepartmentsMaps = ({
     setTooltip({ visible: false, x: 0, y: 0, data: null });
   };
 
-  const handleDepartmentClick = (data: TooltipDataType) => {
-    setSelectedDepartment(data);
-    setLevel(level + 1);
-  };
+  // const handleDepartmentClick = (data: TooltipDataType) => {
+  //   setSelectedDepartment(data);
+  //   onClickLevel(data);
+  //   setLevel(level + 1);
+  // };
 
   const handleBackClick = () => {
     setSelectedDepartment(null);
+    onClickBack();
   };
 
   if (!tooltipsData || tooltipsData.length === 0) {
@@ -214,7 +223,7 @@ export const DepartmentsMaps = ({
               <Link
                 key={path.id}
                 href="#"
-                onClick={() => (isClicker ? handleDepartmentClick(path) : null)}
+                onClick={() => (isClicker ? onClickLevel(path.data) : null)}
                 title={path.title}
               >
                 <path
