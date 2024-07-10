@@ -1,20 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Dptos.module.css";
+import styles from "./Provs.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
-import ImportDataModal from "../shared/ImportDataModal";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "dptos",
-  singular: "departamento",
-  plural: "departamentos",
+  modulo: "provs",
+  singular: "provincia",
+  plural: "provincias",
   permiso: "",
-  import: true,
   extraData: true,
 };
 
@@ -25,7 +23,7 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Dptos = () => {
+const Provs = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -33,13 +31,19 @@ const Dptos = () => {
         rules: ["required"],
         api: "ae",
         label: "País",
-        list: { width: "250px" },
         form: { type: "select", optionsExtra: "countries" },
+      },
+      dpto_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Dpto",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "dptos" },
       },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
+        label: "Provincia",
         list: true,
         form: { type: "text" },
       },
@@ -83,23 +87,14 @@ const Dptos = () => {
     };
   }, []);
 
-  const {
-    userCan,
-    List,
-    setStore,
-    onSearch,
-    searchs,
-    onEdit,
-    onDel,
-    showToast,
-    execute,
-    reLoad,
-  } = useCrud({
-    paramsInitial,
-    mod,
-    fields,
-  });
-  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
+  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
+    {
+      paramsInitial,
+      mod,
+      fields,
+    }
+  );
+  const { onLongPress, selItem } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -107,11 +102,6 @@ const Dptos = () => {
     onEdit,
     onDel,
   });
-
-  const [openImport, setOpenImport] = useState(false);
-  useEffect(() => {
-    setOpenImport(searchState == 3);
-  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -141,21 +131,8 @@ const Dptos = () => {
   return (
     <div className={styles.style}>
       <List onTabletRow={renderItem} actionsWidth="300px" />
-      {openImport && (
-        <ImportDataModal
-          open={openImport}
-          onClose={() => {
-            setSearchState(0);
-          }}
-          mod={mod}
-          showToast={showToast}
-          reLoad={reLoad}
-          execute={execute}
-          requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
-        />
-      )}
     </div>
   );
 };
 
-export default Dptos;
+export default Provs;

@@ -410,7 +410,7 @@ const Contents = () => {
 
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
   return (
-    <div className={styles.roles}>
+    <div className={styles.style}>
       <List onTabletRow={renderItem} actionsWidth="140px" />
     </div>
   );

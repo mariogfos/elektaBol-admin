@@ -841,7 +841,7 @@ const useCrud = ({
     return "";
   };
   const _onRender = (field: any) => {
-    const render = field.list.onRender || field.onRender || null;
+    const render = field.list?.onRender || field.onRender || null;
     if (mod.extraData) {
       if (field.form?.type === "select" && field.form.optionsExtra)
         return (item: RenderColType) => {
@@ -865,7 +865,7 @@ const useCrud = ({
         };
       if (render) {
         return (item: RenderColType) => {
-          return field.list.onRender(item);
+          return render(item);
         };
       }
     }

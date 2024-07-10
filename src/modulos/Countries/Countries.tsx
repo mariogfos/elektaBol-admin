@@ -1,18 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import useCrud from "@/mk/hooks/useCrud/useCrud";
+import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Barrios.module.css";
+import styles from "./Countries.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
+import { formatNumber } from "@/mk/utils/numbers";
 
-const mod = {
-  modulo: "barrios",
-  singular: "barrio",
-  plural: "barrios",
+const mod: ModCrudType = {
+  modulo: "countries",
+  singular: "País",
+  plural: "Países",
   permiso: "",
-  extraData: true,
+  import: false,
 };
 
 const paramsInitial = {
@@ -22,40 +23,56 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Barrios = () => {
-  const fields = useMemo(
-    () => ({
+const Countries = () => {
+  const fields = useMemo(() => {
+    return {
       id: { rules: [], api: "e" },
-      dpto_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Departamento",
-        list: { width: "430px" },
-        form: { type: "select", optionsExtra: "dptos" },
-      },
-      local_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Localidad",
-        list: { width: "400px" },
-        form: { type: "select", optionsExtra: "locals" },
-      },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Barrio",
+        label: "País",
         list: true,
         form: { type: "text" },
       },
+
       code: {
         rules: ["max:5", "noSpaces"],
         api: "ae",
-        label: "Código",
+        label: "Cód",
+        list: { width: "120px", style: { textAlign: "right" } },
         form: { type: "text" },
       },
-    }),
-    []
-  );
+      habitantes: {
+        rules: ["positive"],
+        api: "ae",
+        label: "Habitantes",
+        list: {
+          width: "400px",
+          style: { textAlign: "right" },
+          onRender: (item: any) => formatNumber(item.value, 0),
+        },
+
+        form: { type: "text" },
+      },
+      habilitados: {
+        rules: ["positive"],
+        api: "ae",
+        label: "Habilitados",
+        list: {
+          width: "400px",
+          style: { textAlign: "right" },
+          onRender: (item: any) => formatNumber(item.value, 0),
+        },
+        form: { type: "text" },
+      },
+      escanos: {
+        rules: ["positive"],
+        api: "ae",
+        label: "Escaños asignados",
+        form: { type: "text" },
+      },
+    };
+  }, []);
 
   const {
     userCan,
@@ -65,8 +82,9 @@ const Barrios = () => {
     searchs,
     onEdit,
     onDel,
-    extraData,
-    findOptions,
+    showToast,
+    execute,
+    reLoad,
   } = useCrud({
     paramsInitial,
     mod,
@@ -89,11 +107,14 @@ const Barrios = () => {
     return (
       <RenderItem item={item} onClick={onClick} onLongPress={onLongPress}>
         <ItemList
-          title={item?.name + " - " + item?.code}
+          title={item?.name}
           subtitle={
-            findOptions(item.dpto_id, extraData?.dptos) +
-            " - " +
-            findOptions(item.local_id, extraData?.locals)
+            "Habitantes: " +
+            (item?.habitantes +
+              " - Habilitados: " +
+              item?.habilitados +
+              " - Escaños: " +
+              item?.escanos)
           }
           variant="V1"
           active={selItem && selItem.id == item.id}
@@ -110,4 +131,4 @@ const Barrios = () => {
   );
 };
 
-export default Barrios;
+export default Countries;

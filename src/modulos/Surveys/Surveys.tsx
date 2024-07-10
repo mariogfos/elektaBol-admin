@@ -436,7 +436,7 @@ const Surveys = () => {
 
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
   return (
-    <div className={styles.roles}>
+    <div className={styles.style}>
       <List onTabletRow={renderItem} actionsWidth="300px" />
     </div>
   );

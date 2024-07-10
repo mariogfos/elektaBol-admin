@@ -29,3 +29,10 @@
     }
   }
 }
+
+.tabsButton.scrollable {
+  overflow-x: auto;
+  width: auto;
+  justify-content: flex-start;
+  gap: var(--spXl);
+}
