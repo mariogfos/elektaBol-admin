@@ -1,6 +1,5 @@
 import React from "react";
 import { formatNumber } from "@/mk/utils/numbers";
-import Link from "next/link";
 import SantaCruz from "./SantaCruz/SantaCruz";
 import Pando from "./Pando/Pando";
 import Beni from "./Beni/Beni";
@@ -30,7 +29,7 @@ const DepartmentMap = ({ department }: PropsType) => {
   const getDepartmentComponent = (id: number) => {
     switch (id) {
       case 9:
-        return <SantaCruz />;
+        return <SantaCruz circunscripcion={department} />;
       case 2:
         return <LaPaz />;
       // case 3:

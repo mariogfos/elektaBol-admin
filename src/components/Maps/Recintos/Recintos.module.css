@@ -1,0 +1,37 @@
+.RecintosMap {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    max-height: 250px; /* Ajusta la altura máxima inicial para pantallas pequeñas */
+
+    @media (min-width: 768px) {
+      min-height: 400px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1440px) {
+      min-height: 500px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        fill: #212529;
+        stroke: green;
+        stroke-width: 2px;
+        transition: fill 0.3s, stroke-width 0.3s;
+        animation: fadeIn 0.5s;
+
+        &:hover {
+          cursor: pointer;
+          stroke-width: 7px;
+        }
+      }
+    }
+  }
+}
