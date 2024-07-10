@@ -28,6 +28,7 @@ const DepartmentMap = ({ department }: PropsType) => {
   console.log("department", department);
 
   const getDepartmentComponent = (id: number) => {
+    console.log(id);
     switch (id) {
       case 9:
         return <SantaCruz />;
