@@ -1,5 +1,5 @@
 .TarijaMap{
-    position: relative; /* Ensure the container is relative */
+    position: relative;
   max-width: 100%;
   height: auto;
   display: flex;
@@ -9,14 +9,14 @@
   & svg {
     width: 100%;
     height: auto;
-    max-height: 250px; /* Ajusta la altura máxima inicial para pantallas pequeñas */
+    max-height: 250px; 
 
     @media (min-width: 768px) {
-      min-height: 400px; /* Aumenta la altura máxima para pantallas medianas */
+      min-height: 400px; 
     }
 
     @media (min-width: 1440px) {
-      min-height: 500px; /* Aumenta la altura máxima para la resolución 1440x900px */
+      min-height: 500px; 
     }
 
     & > a {

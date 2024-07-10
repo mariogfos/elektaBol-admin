@@ -3,6 +3,8 @@ import { formatNumber } from "@/mk/utils/numbers";
 import Link from "next/link";
 import SantaCruz from "./SantaCruz/SantaCruz";
 import Tarija from "./Tarija/Tarija";
+import Chuquisaca from "./Chuquisaca/Chuquisaca";
+import Potosi from "./Potosi/Potosi";
 // import LaPaz from "./LaPaz/LaPaz";
 // import Cochabamba from "./Cochabamba/Cochabamba";
 // import Oruro from "./Oruro/Oruro";
@@ -27,20 +29,20 @@ const DepartmentMap = ({ department }: PropsType) => {
 
   const getDepartmentComponent = (id: number) => {
     switch (id) {
-      case 9:
-        return <SantaCruz />;
       // case 2:
       //   return <LaPaz data={data} />;
       // case 3:
       //   return <Cochabamba data={data} />;
       // case 4:
       //   return <Oruro data={data} />;
-      // case 5:
-      //   return <Potosi data={data} />;
-       case 8:
-         return <Tarija />;
-      // case 7:
-      //   return <Chuquisaca data={data} />;
+      case 6:
+        return <Potosi />;
+      case 7:
+        return <Chuquisaca />;
+      case 8:
+        return <Tarija />;
+      case 9:
+        return <SantaCruz />;
       // case 8:
       //   return <Beni data={data} />;
       // case 9:
