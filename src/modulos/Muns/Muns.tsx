@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Circuns.module.css";
+import styles from "./Muns.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
@@ -9,9 +9,9 @@ import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "circuns",
-  singular: "circunscripción",
-  plural: "circunscripciones",
+  modulo: "muns",
+  singular: "municipio",
+  plural: "municipios",
   permiso: "",
   extraData: true,
 };
@@ -23,7 +23,7 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Circuns = () => {
+const Muns = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -37,17 +37,41 @@ const Circuns = () => {
         rules: ["required"],
         api: "ae",
         label: "Dpto",
-        list: { width: "250px" },
         form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        list: { width: "300px" },
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+        list: {
+          width: "250px",
+          label: "Circuns.",
+          style: { textAlign: "right" },
+        },
+        form: { type: "select", optionsExtra: "circuns" },
       },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Circunscripción",
+        label: "Municipio",
         list: true,
         form: { type: "text" },
       },
 
+      code: {
+        rules: ["max:5", "noSpaces"],
+        api: "ae",
+        label: "Cód",
+        list: { width: "120px", style: { textAlign: "right" } },
+        form: { type: "text" },
+      },
       habitantes: {
         rules: ["positive"],
         api: "ae",
@@ -128,4 +152,4 @@ const Circuns = () => {
   );
 };
 
-export default Circuns;
+export default Muns;

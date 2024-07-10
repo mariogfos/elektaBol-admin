@@ -1,21 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import useCrud from "@/mk/hooks/useCrud/useCrud";
+import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
 import styles from "./Locals.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
-import ImportDataModal from "../shared/ImportDataModal";
-import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
+import { formatNumber } from "@/mk/utils/numbers";
 
-const mod = {
+const mod: ModCrudType = {
   modulo: "locals",
   singular: "localidad",
   plural: "localidades",
   permiso: "",
   extraData: true,
-  import: true,
 };
 
 const paramsInitial = {
@@ -26,15 +24,44 @@ const paramsInitial = {
 };
 
 const Locals = () => {
-  const fields = useMemo(
-    () => ({
+  const fields = useMemo(() => {
+    return {
       id: { rules: [], api: "e" },
+      country_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "País",
+        form: { type: "select", optionsExtra: "countries" },
+      },
       dpto_id: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
-        list: { width: "300px" },
+        label: "Dpto",
         form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+        list: {
+          width: "250px",
+          label: "Circuns.",
+          style: { textAlign: "right" },
+        },
+        form: { type: "select", optionsExtra: "circuns" },
+      },
+      mun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Municipio",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "muns" },
       },
       name: {
         rules: ["required"],
@@ -43,36 +70,48 @@ const Locals = () => {
         list: true,
         form: { type: "text" },
       },
+
       code: {
         rules: ["max:5", "noSpaces"],
         api: "ae",
-        label: "Código",
-        list: false,
+        label: "Cód",
+        list: { width: "120px", style: { textAlign: "right" } },
         form: { type: "text" },
       },
-    }),
-    []
+      habitantes: {
+        rules: ["positive"],
+        api: "ae",
+        label: "Habitantes",
+        list: {
+          width: "400px",
+          style: { textAlign: "right" },
+          onRender: (item: any) => formatNumber(item.value, 0),
+        },
+
+        form: { type: "text" },
+      },
+      habilitados: {
+        rules: ["positive"],
+        api: "ae",
+        label: "Habilitados",
+        list: {
+          width: "400px",
+          style: { textAlign: "right" },
+          onRender: (item: any) => formatNumber(item.value, 0),
+        },
+        form: { type: "text" },
+      },
+    };
+  }, []);
+
+  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
+    {
+      paramsInitial,
+      mod,
+      fields,
+    }
   );
-
-  const {
-    userCan,
-    List,
-    setStore,
-    onSearch,
-    searchs,
-    onEdit,
-    onDel,
-    extraData,
-    findOptions,
-    showToast,
-    execute,
-    reLoad,
-  } = useCrud({
-    paramsInitial,
-    mod,
-    fields,
-  });
-  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
+  const { onLongPress, selItem } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -80,11 +119,6 @@ const Locals = () => {
     onEdit,
     onDel,
   });
-
-  const [openImport, setOpenImport] = useState(false);
-  useEffect(() => {
-    setOpenImport(searchState == 3);
-  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -94,13 +128,13 @@ const Locals = () => {
     return (
       <RenderItem item={item} onClick={onClick} onLongPress={onLongPress}>
         <ItemList
-          title={
-            item?.name + " - " + findOptions(item.dpto_id, extraData?.dptos)
+          title={item?.name}
+          subtitle={
+            "Habitantes: " +
+            (item?.habitantes + " - Habilitados: " + item?.habilitados)
           }
-          subtitle={"Habilitados: " + item?.habilitados}
           variant="V1"
           active={selItem && selItem.id == item.id}
-          left={<Avatar name={item.code} />}
         />
       </RenderItem>
     );
@@ -110,19 +144,6 @@ const Locals = () => {
   return (
     <div className={styles.style}>
       <List onTabletRow={renderItem} actionsWidth="300px" />
-      {openImport && (
-        <ImportDataModal
-          open={openImport}
-          onClose={() => {
-            setSearchState(0);
-          }}
-          mod={mod}
-          showToast={showToast}
-          reLoad={reLoad}
-          execute={execute}
-          requiredCols="DPTO,LOCALIDAD,HABILITADOS,CODE"
-        />
-      )}
     </div>
   );
 };

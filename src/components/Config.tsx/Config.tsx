@@ -5,6 +5,7 @@ import Countries from "@/modulos/Countries/Countries";
 import Dptos from "@/modulos/Dptos/Dptos";
 import Listas from "@/modulos/Listas/Listas";
 import Locals from "@/modulos/Locals/Locals";
+import Muns from "@/modulos/Muns/Muns";
 import Provs from "@/modulos/Provs/Provs";
 import Sublemas from "@/modulos/Sublemas/Sublemas";
 import { useState } from "react";
@@ -39,7 +40,7 @@ const Config = () => {
       {typeSearch === "2" && <Dptos />}
       {typeSearch === "3" && <Provs />}
       {typeSearch === "4" && <Circuns />}
-      {typeSearch === "5" && <Dptos />}
+      {typeSearch === "5" && <Muns />}
       {typeSearch === "6" && <Locals />}
       {typeSearch === "7" && <Dptos />}
       {typeSearch === "8" && <Dptos />}
