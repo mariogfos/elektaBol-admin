@@ -7,20 +7,15 @@ import Potosi from "./Potosi/Potosi";
 import Pando from "./Pando/Pando";
 import Beni from "./Beni/Beni";
 import LaPaz from "./LaPaz/LaPaz";
-// import LaPaz from "./LaPaz/LaPaz";
-// import Cochabamba from "./Cochabamba/Cochabamba";
-// import Oruro from "./Oruro/Oruro";
-// import Potosi from "./Potosi/Potosi";
-// import Tarija from "./Tarija/Tarija";
-// import Chuquisaca from "./Chuquisaca/Chuquisaca";
-// import Beni from "./Beni/Beni";
-// import Pando from "./Pando/Pando";
+import Oruro from "./Oruro/Oruro";
+import Cochabamba from "./Cochabamba/Cochabamba";
 
-// type TooltipDataType = {
-//   id: number;
-//   titulo: string;
-//   data: any;
-// };
+
+type TooltipDataType = {
+  id: number;
+  titulo: string;
+  data: any;
+};
 
 type PropsType = {
   department: any;
@@ -37,9 +32,11 @@ const DepartmentMap = ({ department }: PropsType) => {
       case 2:
         return <LaPaz />;
       case 3:
-        return <Beni />;
-      // case 4:
-      //   return <Oruro data={data} />;
+         return <Beni />;
+      case 4:
+         return <Oruro/>;
+      case 5:
+        return <Cochabamba/>;
       case 6:
         return <Potosi />;
       case 7:
@@ -47,11 +44,7 @@ const DepartmentMap = ({ department }: PropsType) => {
       case 8:
         return <Tarija />;
       case 9:
-        return <SantaCruz circunscripcion={department} />;
-      // case 8:
-      //   return <Beni data={data} />;
-      // case 9:
-      //   return <Pando data={data} />;
+        return <SantaCruz circunscripcion={department}/>;
       default:
         return null;
     }
