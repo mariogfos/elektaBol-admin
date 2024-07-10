@@ -34,6 +34,8 @@ export const DepartmentsMaps = ({
   const handleMouseEnter = (event: any, data: TooltipDataType) => {
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
+    console.log("rect", rect);
+    console.log("svgRect", svgRect);
     setTooltip({
       visible: true,
       x: rect.left - svgRect.left + rect.width / 2,
