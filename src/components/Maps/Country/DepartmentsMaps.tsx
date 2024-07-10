@@ -125,7 +125,7 @@ export const DepartmentsMaps = ({
       {selectedDepartment ? (
         <div>
           <button onClick={handleBackClick} className={styles.backButton}>
-            <IconArrowLeft />
+            Volver
           </button>
           <DeparmentMap department={selectedDepartment} />
         </div>
