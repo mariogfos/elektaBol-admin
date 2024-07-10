@@ -54,3 +54,39 @@
     opacity: 1;
   }
 }
+
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 16px;
+  margin-top: -16px;
+}
+
+.breadcrumbList {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumbItem {
+  margin-right: 8px;
+}
+
+.breadcrumbLink {
+  color: #9ea5ab;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.breadcrumbSeparator {
+  color: #fff;
+  margin-right: 8px;
+}
+
+.breadcrumbCurrent {
+  color: #fff;
+}

@@ -4,6 +4,7 @@ import styles from "./DepartmentsMaps.module.css";
 import { formatNumber } from "@/mk/utils/numbers";
 import DeparmentMap from "../Department/DeparmentMap";
 import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
+import DepartmentMap from "../Department/DeparmentMap";
 
 type TooltipDataType = {
   id: number;
@@ -128,10 +129,26 @@ export const DepartmentsMaps = ({
     <div className={styles.DepartmentsMaps}>
       {selectedDepartment ? (
         <div>
-          <button onClick={handleBackClick} className={styles.backButton}>
-            Volver
-          </button>
-          <DeparmentMap department={selectedDepartment} />
+          <nav aria-label="breadcrumb" className={styles.breadcrumb}>
+            <ol className={styles.breadcrumbList}>
+              <li className={styles.breadcrumbItem}>
+                <a
+                  href="#"
+                  onClick={handleBackClick}
+                  className={styles.breadcrumbLink}
+                >
+                  Mapa de Bolivia
+                </a>
+              </li>
+              <li className={styles.breadcrumbSeparator}> &lt; </li>
+              <li className={styles.breadcrumbItem}>
+                <span className={styles.breadcrumbCurrent}>
+                  Departamento de {selectedDepartment.title}
+                </span>
+              </li>
+            </ol>
+          </nav>
+          <DepartmentMap department={selectedDepartment} />
         </div>
       ) : (
         <div>

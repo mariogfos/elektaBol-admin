@@ -3,6 +3,7 @@ import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
+import WidgetResume from "@/components/Widgets/WidgetResume/WidgetResume";
 
 const paramInitial: any = {
   perPage: 10,
@@ -110,17 +111,38 @@ const Statistics = () => {
 
   return (
     <div className={styles["statistics"]}>
-      <div>
-        <DepartmentsMaps
-          level={level}
-          setLevel={setLevel}
-          params={params}
-          setParams={setParams}
-          tooltipsData={dataDpto}
-          isClicker={true}
-        />
-      </div>
-      <div>
+      <h1>Datos electorales históricos de Bolivia</h1>
+      <section
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "64px",
+          marginTop: "32px",
+          marginBottom: "32px",
+        }}
+      >
+        <div>
+          <DepartmentsMaps
+            level={level}
+            setLevel={setLevel}
+            params={params}
+            setParams={setParams}
+            tooltipsData={dataDpto}
+            isClicker={true}
+          />
+        </div>
+        <div>
+          <WidgetResume
+            data={statistics?.data}
+            level={level}
+            setLevel={setLevel}
+            params={params}
+            setParams={setParams}
+          />
+        </div>
+      </section>
+      <section>
         <WidgetTableStats
           data={statistics?.data}
           level={level}
@@ -128,7 +150,7 @@ const Statistics = () => {
           params={params}
           setParams={setParams}
         />
-      </div>
+      </section>
     </div>
   );
 };
