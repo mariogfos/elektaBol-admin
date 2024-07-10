@@ -62,12 +62,6 @@ export const DepartmentsMaps = ({
     setTooltip({ visible: false, x: 0, y: 0, data: null });
   };
 
-  // const handleDepartmentClick = (data: TooltipDataType) => {
-  //   setSelectedDepartment(data);
-  //   onClickLevel(data);
-  //   setLevel(level + 1);
-  // };
-
   const handleBackClick = () => {
     setSelectedDepartment(null);
     onClickBack();

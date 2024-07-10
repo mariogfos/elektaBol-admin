@@ -7,20 +7,6 @@ import Potosi from "./Potosi/Potosi";
 import Pando from "./Pando/Pando";
 import Beni from "./Beni/Beni";
 import LaPaz from "./LaPaz/LaPaz";
-// import LaPaz from "./LaPaz/LaPaz";
-// import Cochabamba from "./Cochabamba/Cochabamba";
-// import Oruro from "./Oruro/Oruro";
-// import Potosi from "./Potosi/Potosi";
-// import Tarija from "./Tarija/Tarija";
-// import Chuquisaca from "./Chuquisaca/Chuquisaca";
-// import Beni from "./Beni/Beni";
-// import Pando from "./Pando/Pando";
-
-// type TooltipDataType = {
-//   id: number;
-//   titulo: string;
-//   data: any;
-// };
 
 type PropsType = {
   department: any;
