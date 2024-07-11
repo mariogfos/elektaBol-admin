@@ -3,8 +3,6 @@ import React, { useRef, useState } from "react";
 import styles from "./DepartmentsMaps.module.css";
 import { formatNumber } from "@/mk/utils/numbers";
 import DeparmentMap from "../Department/DeparmentMap";
-import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
-import DepartmentMap from "../Department/DeparmentMap";
 
 type TooltipDataType = {
   id: number;
