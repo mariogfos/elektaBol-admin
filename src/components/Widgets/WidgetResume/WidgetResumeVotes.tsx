@@ -19,10 +19,16 @@ const WidgetResumeVotes = () => {
             <div>200</div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
+            <IconPercentage color={'var(--cBlackV2)'}/>
+            <div>Participación</div>
+            <div>3333 %</div>
+        </div>
+        <div className={styles['cardInfoResumeVotes']}>
             <IconCheck color={'var(--cBlackV2)'}/>
             <div>Votos válidos</div>
             <div>76467</div>
         </div>
+        
         <div className={styles['cardInfoResumeVotes']}>
             <IconX color={'var(--cBlackV2)'}/>
             <div>Votos nulos</div>
@@ -33,11 +39,7 @@ const WidgetResumeVotes = () => {
             <div>Votos blancos</div>
             <div>20000</div>
         </div>
-        <div className={styles['cardInfoResumeVotes']}>
-            <IconPercentage color={'var(--cBlackV2)'}/>
-            <div>Participación</div>
-            <div>3333 %</div>
-        </div>
+   
      </div> 
     </Card>
   )
