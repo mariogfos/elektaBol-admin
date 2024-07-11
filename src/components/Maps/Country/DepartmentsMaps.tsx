@@ -63,11 +63,6 @@ export const DepartmentsMaps = ({
     setTooltip({ visible: false, x: 0, y: 0, data: null });
   };
 
-  const handleBackClick = () => {
-    setSelectedDepartment(null);
-    onClickBack();
-  };
-
   if (!tooltipsData || tooltipsData.length === 0) {
     return <div>Cargando...</div>;
   }
