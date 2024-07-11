@@ -131,31 +131,38 @@ export const DepartmentsMaps = ({
   return (
     <div className={styles.DepartmentsMaps}>
       {selectedDepartment ? (
-        <div>
-          <nav aria-label="breadcrumb" className={styles.breadcrumb}>
-            <ol className={styles.breadcrumbList}>
-              <li className={styles.breadcrumbItem}>
-                <a
-                  href="#"
-                  onClick={() => onClickBack()}
-                  className={styles.breadcrumbLink}
-                >
-                  Mapa de Bolivia
-                </a>
-              </li>
-              <li className={styles.breadcrumbSeparator}> &lt; </li>
-              <li className={styles.breadcrumbItem}>
-                <span className={styles.breadcrumbCurrent}>
-                  Departamento de {selectedDepartment.title}
-                </span>
-              </li>
-            </ol>
-          </nav>
-          <DeparmentMap
-            onClickBack={onClickBack}
-            department={selectedDepartment}
-          />
-        </div>
+        <>
+          <div>
+            <nav aria-label="breadcrumb" className={styles.breadcrumb}>
+              <ol className={styles.breadcrumbList}>
+                <li className={styles.breadcrumbItem}>
+                  <a
+                    href="#"
+                    onClick={() => onClickBack()}
+                    className={styles.breadcrumbLink}
+                  >
+                    Mapa de Bolivia
+                  </a>
+                </li>
+                <li className={styles.breadcrumbSeparator}> &lt; </li>
+                <li className={styles.breadcrumbItem}>
+                  <span className={styles.breadcrumbCurrent}>
+                    Departamento de {selectedDepartment?.name}
+                  </span>
+                </li>
+              </ol>
+            </nav>
+            <h1 style={{ marginBottom: 16 }}>
+              {selectedDepartment
+                ? "Departamento de " + selectedDepartment.name
+                : null}
+            </h1>
+            <DeparmentMap
+              onClickBack={onClickBack}
+              department={selectedDepartment}
+            />
+          </div>
+        </>
       ) : (
         <div>
           {tooltip.visible && (

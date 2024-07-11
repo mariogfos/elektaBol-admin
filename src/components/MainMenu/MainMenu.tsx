@@ -62,7 +62,7 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
       }`}
     >
       <div>
-        <IconLogoElekta size={collapsed ?44:88}/>
+        <IconLogoElekta size={collapsed ? 44 : 88} />
         <Avatar
           w={collapsed ? 64 : 127}
           h={collapsed ? 64 : 127}
@@ -86,9 +86,8 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
           href="/comunication"
           label="Comunicación"
           icon={<IconComunication />}
-          
         />
-          <Item href="/statistics" label="Prueba" icon={<IconNet />} />
+        <Item href="/statistics" label="Estadísticas" icon={<IconNet />} />
         <Item href="/config" label="Configuracion" icon={<IconSetting />} />
       </div>
       <div className={styles["menu-bottom"]}>

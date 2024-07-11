@@ -124,9 +124,13 @@ const Statistics = () => {
     setSelectedDepartment(null);
   };
 
+  // console.log("selected department", selectedDepartment);
+
   return (
     <div className={styles["statistics"]}>
-      <h1>Datos electorales históricos de Bolivia</h1>
+      <h1>
+        {selectedDepartment ? null : "Datos electorales históricos de Bolivia"}
+      </h1>
       <section
         style={{
           display: "flex",
