@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Countries.module.css";
+import styles from "./Recintos.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
@@ -9,11 +9,11 @@ import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "countries",
-  singular: "País",
-  plural: "Países",
+  modulo: "recintos",
+  singular: "recinto",
+  plural: "recintos",
   permiso: "",
-  import: false,
+  extraData: true,
 };
 
 const paramsInitial = {
@@ -23,14 +23,57 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Countries = () => {
+const Recintos = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
-      name: {
+      country_id: {
         rules: ["required"],
         api: "ae",
         label: "País",
+        form: { type: "select", optionsExtra: "countries" },
+      },
+      dpto_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Dpto",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+        list: {
+          width: "250px",
+          label: "Circuns.",
+          style: { textAlign: "right" },
+        },
+        form: { type: "select", optionsExtra: "circuns" },
+      },
+      mun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Municipio",
+        form: { type: "select", optionsExtra: "muns" },
+      },
+      local_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Localidad",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "locals" },
+      },
+      name: {
+        rules: ["required"],
+        api: "ae",
+        label: "Recinto",
         list: true,
         form: { type: "text" },
       },
@@ -40,18 +83,6 @@ const Countries = () => {
         api: "ae",
         label: "Cód",
         list: { width: "120px", style: { textAlign: "right" } },
-        form: { type: "text" },
-      },
-      habitantes: {
-        rules: ["positive"],
-        api: "ae",
-        label: "Habitantes",
-        list: {
-          width: "400px",
-          style: { textAlign: "right" },
-          onRender: (item: any) => formatNumber(item.value, 0),
-        },
-
         form: { type: "text" },
       },
       habilitados: {
@@ -65,31 +96,16 @@ const Countries = () => {
         },
         form: { type: "text" },
       },
-      escanos: {
-        rules: ["positive"],
-        api: "ae",
-        label: "Escaños asignados",
-        form: { type: "text" },
-      },
     };
   }, []);
 
-  const {
-    userCan,
-    List,
-    setStore,
-    onSearch,
-    searchs,
-    onEdit,
-    onDel,
-    showToast,
-    execute,
-    reLoad,
-  } = useCrud({
-    paramsInitial,
-    mod,
-    fields,
-  });
+  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
+    {
+      paramsInitial,
+      mod,
+      fields,
+    }
+  );
   const { onLongPress, selItem } = useCrudUtils({
     onSearch,
     searchs,
@@ -109,12 +125,7 @@ const Countries = () => {
         <ItemList
           title={item?.name}
           subtitle={
-            "Habitantes: " +
-            (item?.habitantes +
-              " - Habilitados: " +
-              item?.habilitados +
-              " - Escaños: " +
-              item?.escanos)
+            "Cod:" + item?.code + " - Habilitados: " + item?.habilitados
           }
           variant="V1"
           active={selItem && selItem.id == item.id}
@@ -131,4 +142,4 @@ const Countries = () => {
   );
 };
 
-export default Countries;
+export default Recintos;

@@ -499,6 +499,7 @@ const useCrud = ({
             </LeftRigthElement>
           );
         case "textArea":
+        case "textarea":
           return (
             <LeftRigthElement
               key={_field.key}

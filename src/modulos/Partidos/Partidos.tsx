@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Circuns.module.css";
+import styles from "./Partidos.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
@@ -9,11 +9,10 @@ import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "circuns",
-  singular: "circunscripción",
-  plural: "circunscripciones",
+  modulo: "partidos",
+  singular: "partido",
+  plural: "partidos",
   permiso: "",
-  extraData: true,
 };
 
 const paramsInitial = {
@@ -23,59 +22,32 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Circuns = () => {
+const Partidos = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
-      country_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "País",
-        form: { type: "select", optionsExtra: "countries" },
-      },
-      dpto_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Dpto",
-        list: { width: "250px" },
-        form: { type: "select", optionsExtra: "dptos" },
-      },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Circunscripción",
+        label: "Partido",
         list: true,
         form: { type: "text" },
       },
-
-      habitantes: {
-        rules: ["positive"],
+      description: {
+        rules: [],
         api: "ae",
-        label: "Habitantes",
-        list: {
-          width: "400px",
-          style: { textAlign: "right" },
-          onRender: (item: any) => formatNumber(item.value, 0),
-        },
-
-        form: { type: "text" },
+        label: "Description",
+        form: { type: "textarea", lines: 5 },
       },
-      habilitados: {
-        rules: ["positive"],
+      color: {
+        rules: [],
         api: "ae",
-        label: "Habilitados",
-        list: {
-          width: "400px",
-          style: { textAlign: "right" },
-          onRender: (item: any) => formatNumber(item.value, 0),
-        },
-        form: { type: "text" },
-      },
-      escanos: {
-        rules: ["positive"],
-        api: "ae",
-        label: "Escaños asignados",
-        form: { type: "text" },
+        label: "Color Distintivo",
+        onRender: (item: any) => (
+          <span style={{ color: item.value }}>{item.value}</span>
+        ),
+        list: { width: "250px", label: "Color" },
+        form: { type: "text", precarga: "#FFFFFF" },
       },
     };
   }, []);
@@ -105,14 +77,7 @@ const Circuns = () => {
       <RenderItem item={item} onClick={onClick} onLongPress={onLongPress}>
         <ItemList
           title={item?.name}
-          subtitle={
-            "Habitantes: " +
-            (item?.habitantes +
-              " - Habilitados: " +
-              item?.habilitados +
-              " - Escaños: " +
-              item?.escanos)
-          }
+          subtitle={"Color: " + item?.color}
           variant="V1"
           active={selItem && selItem.id == item.id}
         />
@@ -128,4 +93,4 @@ const Circuns = () => {
   );
 };
 
-export default Circuns;
+export default Partidos;

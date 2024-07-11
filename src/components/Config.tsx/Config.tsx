@@ -5,8 +5,11 @@ import Countries from "@/modulos/Countries/Countries";
 import Dptos from "@/modulos/Dptos/Dptos";
 import Listas from "@/modulos/Listas/Listas";
 import Locals from "@/modulos/Locals/Locals";
+import Mesas from "@/modulos/Mesas/Mesas";
 import Muns from "@/modulos/Muns/Muns";
+import Partidos from "@/modulos/Partidos/Partidos";
 import Provs from "@/modulos/Provs/Provs";
+import Recintos from "@/modulos/Recintos/Recintos";
 import Sublemas from "@/modulos/Sublemas/Sublemas";
 import { useState } from "react";
 
@@ -29,6 +32,7 @@ const Config = () => {
             { value: "7", text: "Recintos" },
             { value: "8", text: "Mesas" },
             { value: "B", text: "Barrios" },
+            { value: "P", text: "Partidos" },
           ]}
           sel={typeSearch}
           setSel={setTypeSearch}
@@ -42,9 +46,10 @@ const Config = () => {
       {typeSearch === "4" && <Circuns />}
       {typeSearch === "5" && <Muns />}
       {typeSearch === "6" && <Locals />}
-      {typeSearch === "7" && <Dptos />}
-      {typeSearch === "8" && <Dptos />}
+      {typeSearch === "7" && <Recintos />}
+      {typeSearch === "8" && <Mesas />}
       {typeSearch === "B" && <Barrios />}
+      {typeSearch === "P" && <Partidos />}
     </div>
   );
 };
