@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatNumber } from "@/mk/utils/numbers";
 import SantaCruz from "./SantaCruz/SantaCruz";
 import Tarija from "./Tarija/Tarija";
@@ -9,15 +9,20 @@ import Beni from "./Beni/Beni";
 import LaPaz from "./LaPaz/LaPaz";
 import Oruro from "./Oruro/Oruro";
 import Cochabamba from "./Cochabamba/Cochabamba";
+import {  DepartmentsType, TooltipDataType } from "./types";
 
-type PropsType = {
-  department: any;
-  onClickBack: () => void;
-};
 
-const DepartmentMap = ({ department, onClickBack }: PropsType) => {
+
+
+const DepartmentMap = ({ department, onClickBack }: DepartmentsType) => {
   console.log("department", department);
+  const [selectedCircunscripcion, setSelectedCircunscripcion] =
+    useState<any>(null);
 
+  const handleCircunscripcion = (data: TooltipDataType) => {
+    setSelectedCircunscripcion(data);
+    // setLevel(level + 1);
+  };
   const getDepartmentComponent = (id: number) => {
     console.log(id);
     switch (id) {
@@ -36,10 +41,10 @@ const DepartmentMap = ({ department, onClickBack }: PropsType) => {
       case 7:
         return <Chuquisaca />;
       case 8:
-        return <Tarija />;
+        return <Tarija  circunscripcion={department} onClickBack={onClickBack}/>;
       case 9:
         return (
-          <SantaCruz circunscripcion={department} onClickBack={onClickBack} />
+          <SantaCruz circunscripcion={department} onClickBack={onClickBack} handleCircunscripcion={handleCircunscripcion} selectedCircunscripcion={selectedCircunscripcion}/>
         );
       default:
         return null;
@@ -48,16 +53,6 @@ const DepartmentMap = ({ department, onClickBack }: PropsType) => {
 
   return (
     <div>
-      {/* <h2>{department.titulo}</h2>
-      <p>Habitantes: {formatNumber(department?.habitantes, 0)}</p>
-      <p>Habilitados: {formatNumber(department?.habilitados, 0)}</p>
-      <p>
-        Afiliados:{" "}
-        {department?.data?.afiliados
-          ? formatNumber(department?.data?.afiliados, 0)
-          : "N/A"}
-      </p> */}
-
       <div>{getDepartmentComponent(department.id)}</div>
     </div>
   );

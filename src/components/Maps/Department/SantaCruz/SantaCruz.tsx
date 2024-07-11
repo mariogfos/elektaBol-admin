@@ -1,28 +1,14 @@
 import Link from "next/link";
-
 import styles from "./SantaCruz.module.css";
 import { useState } from "react";
 import CircunscripcionMap from "../../Circunscripcion/Circunscripcion";
+import { DepartmentType } from "../types";
 
-type TooltipDataType = {
-  id: number;
-  titulo: string;
-  data: any;
-};
 
-type PropsType = {
-  circunscripcion: TooltipDataType;
-  onClickBack?: () => void;
-};
 
-const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
-  const [selectedCircunscripcion, setSelectedCircunscripcion] =
-    useState<any>(null);
 
-  const handleCircunscripcion = (data: TooltipDataType) => {
-    setSelectedCircunscripcion(data);
-    // setLevel(level + 1);
-  };
+const SantaCruz = ({ circunscripcion, onClickBack ,handleCircunscripcion ,selectedCircunscripcion }: DepartmentType) => {
+
 
   console.log("SantaCruz", circunscripcion);
 
@@ -42,10 +28,9 @@ const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
               fill="red"
             />
           </svg>
-          {/* <button onClick={handleBackClick}>Volver</button>
-          <CircunscripcionMap circunscripcion={selectedCircunscripcion} /> */}
+         
         </div>
-      ) : (
+      ) : ( 
         <>
           <svg viewBox="0 0 6122 3709">
             <Link
@@ -534,7 +519,7 @@ const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
             />
           </svg>
         </>
-      )}
+       )} 
     </div>
   );
 };
