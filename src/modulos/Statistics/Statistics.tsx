@@ -4,6 +4,8 @@ import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableS
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetResume from "@/components/Widgets/WidgetResume/WidgetResume";
+import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
+import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
 
 const paramInitial: any = {
   perPage: 10,
@@ -155,13 +157,16 @@ const Statistics = () => {
           />
         </div>
         <div>
-          <WidgetResume
+          {/* <WidgetResume
             data={statistics?.data}
             level={level}
             setLevel={setLevel}
             params={params}
             setParams={setParams}
-          />
+          /> */}
+
+          <WidgetResumeVotes/>
+          <WidgetResumeWinnerParty/>
         </div>
       </section>
       <section>

@@ -66,3 +66,54 @@
     padding-right: var(--spS);
   }
 }
+
+.widgetResumeVotes{
+  min-width: 430px;
+  & > div:nth-child(1){
+    font-size: var(--sXxl);
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  & > div:nth-child(2){
+   background-color: red;
+   display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--spS);
+   
+  }
+ 
+}
+
+.cardInfoResumeVotes{
+  display: flex;
+  flex-direction: column;
+  text-align: center; 
+  padding:var(--spS);
+  border-radius: var(--bRadius);
+  border: 1px solid var(--cBlackV3);
+  text-align: start;
+  background-color: #FFFFFF0D;
+  /* max-width: 208px; */
+  max-width: 180px;
+  @media (min-width: 1024px) {
+    width: 100%; 
+  }
+  @media (max-width: 1524px) {
+    width: 100%;
+    max-width: 100%;
+    }
+  & > div:nth-child(1) {
+    color: var(--cBlackV2);
+  }
+  & > div:nth-child(2) {
+    color: var(--cBlackV2);
+    font-size: var(--spM);
+
+    padding-right: var(--spS);
+  }
+  & > div:nth-child(3) {
+    color: var(--cWhite);  
+    font-size: var(--spXl);
+    padding-right: var(--spS);
+  }
+}
