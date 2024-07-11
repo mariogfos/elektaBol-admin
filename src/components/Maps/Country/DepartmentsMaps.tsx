@@ -158,7 +158,9 @@ export const DepartmentsMaps = ({
               </ol>
             </nav>
             <h1 style={{ marginBottom: 16 }}>
-              {selectedDepartment
+              {selectedCircunscripcion
+                ? selectedCircunscripcion.titulo
+                : selectedDepartment
                 ? "Departamento de " + selectedDepartment.name
                 : null}
             </h1>
