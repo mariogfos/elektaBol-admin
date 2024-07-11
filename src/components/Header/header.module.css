@@ -45,3 +45,10 @@
     color: var(--cWhiteV2);
   }
 }
+
+.profile-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f10 !important;
+}
