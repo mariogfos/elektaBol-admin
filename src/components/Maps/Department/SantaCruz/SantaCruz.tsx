@@ -12,21 +12,11 @@ type TooltipDataType = {
 
 type PropsType = {
   circunscripcion: TooltipDataType;
-  level?: number;
-  params?: any;
-  setLevel?: any;
-  setParams?: any;
+
   onClickBack?: () => void;
 };
 
-const SantaCruz = ({
-  circunscripcion,
-  level = 0,
-  params,
-  setLevel,
-  setParams,
-  onClickBack,
-}: PropsType) => {
+const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
   const [selectedCircunscripcion, setSelectedCircunscripcion] =
     useState<any>(null);
 

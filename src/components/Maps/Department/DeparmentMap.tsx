@@ -10,12 +10,6 @@ import LaPaz from "./LaPaz/LaPaz";
 import Oruro from "./Oruro/Oruro";
 import Cochabamba from "./Cochabamba/Cochabamba";
 
-type TooltipDataType = {
-  id: number;
-  titulo: string;
-  data: any;
-};
-
 type PropsType = {
   department: any;
   onClickBack: () => void;
