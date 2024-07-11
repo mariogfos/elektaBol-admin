@@ -4,6 +4,8 @@ import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableS
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetResume from "@/components/Widgets/WidgetResume/WidgetResume";
+import useCrud from "@/mk/hooks/useCrud/useCrud";
+import t from "@/mk/utils/traductor";
 import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
 import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
 
@@ -23,6 +25,7 @@ const Statistics = () => {
   //   searchBy: "",
   // });
   console.log(level);
+
   const statistics = {
     data: [
       {

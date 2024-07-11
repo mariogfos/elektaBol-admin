@@ -3,8 +3,6 @@ import React, { useRef, useState } from "react";
 import styles from "./DepartmentsMaps.module.css";
 import { formatNumber } from "@/mk/utils/numbers";
 import DeparmentMap from "../Department/DeparmentMap";
-import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
-import DepartmentMap from "../Department/DeparmentMap";
 
 type TooltipDataType = {
   id: number;
@@ -160,7 +158,9 @@ export const DepartmentsMaps = ({
               </ol>
             </nav>
             <h1 style={{ marginBottom: 16 }}>
-              {selectedDepartment
+              {selectedCircunscripcion
+                ? selectedCircunscripcion.titulo
+                : selectedDepartment
                 ? "Departamento de " + selectedDepartment.name
                 : null}
             </h1>
