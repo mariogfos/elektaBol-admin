@@ -16,27 +16,27 @@ const WidgetResumeVotes = () => {
         <div className={styles['cardInfoResumeVotes']}>
             <IconVotes color={'var(--cBlackV2)'}/>
             <div>Votos emitidos</div>
-            <div>sasassas</div>
+            <div>200</div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
             <IconCheck color={'var(--cBlackV2)'}/>
             <div>Votos válidos</div>
-            <div>sasassas</div>
+            <div>76467</div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
             <IconX color={'var(--cBlackV2)'}/>
             <div>Votos nulos</div>
-            <div>sasassas</div>
+            <div>10000000</div>
         </div>
        <div className={styles['cardInfoResumeVotes']}>
             <IconWhiteVotes color={'var(--cBlackV2)'}/>
             <div>Votos blancos</div>
-            <div>sasassas</div>
+            <div>20000</div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
             <IconPercentage color={'var(--cBlackV2)'}/>
             <div>Participación</div>
-            <div>sasassas</div>
+            <div>3333 %</div>
         </div>
      </div> 
     </Card>

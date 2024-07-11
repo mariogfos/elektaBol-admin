@@ -75,7 +75,7 @@
     margin-bottom: 16px;
   }
   & > div:nth-child(2){
-   background-color: red;
+   /* background-color: red; */
    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--spS);
