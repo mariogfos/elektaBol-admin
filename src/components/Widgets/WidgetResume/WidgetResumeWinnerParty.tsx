@@ -5,6 +5,14 @@ import { Avatar } from "@/mk/components/ui/Avatar/Avatar"
 import { IconCamera } from "@/components/layout/icons/IconsBiblioteca"
 
 const WidgetResumeWinnerParty = () => {
+    const data = {
+        values: [
+          { name: "Category 1", value: 5, values: [10, 20] },
+          
+        ],
+      };
+    
+    
   return (
     <Card className={styles['widgetResumeWinner']}>
         <div>Partido ganador</div>
@@ -16,7 +24,16 @@ const WidgetResumeWinnerParty = () => {
             <div>Num de votos</div>
             </div>
             <div>
-            <IconCamera/>
+            <GraphBase
+              data={data}
+              chartTypes={["radialBar"]}
+              options={{
+                height: 170,
+                colors: ['#F58220'],
+                
+                
+              }}
+            />
             </div>
         </div>
 
