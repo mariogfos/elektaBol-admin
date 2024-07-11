@@ -2,14 +2,30 @@ import Link from "next/link";
 import styles from "./SantaCruz.module.css";
 import { useState } from "react";
 import C44 from "../../Circunscripcion/C44";
-import { DepartmentType, TooltipDataType } from "../types";
 
+type PropsType = {
+  circunscripcion: any;
+  onClickBack?: () => void;
+  onClickLevel?: (data: any) => void;
+  selectedCircunscripcion: any;
+  setSelectedCircunscripcion: any;
+};
 
-
-
-const SantaCruz = ({ circunscripcion, onClickBack ,handleCircunscripcion ,selectedCircunscripcion }: DepartmentType) => {
-
-
+const SantaCruz = ({
+  circunscripcion,
+  onClickBack,
+  onClickLevel,
+  selectedCircunscripcion,
+  setSelectedCircunscripcion,
+}: PropsType) => {
+  const handleCircunscripcion = (data: any) => {
+    setSelectedCircunscripcion(data);
+    if (onClickLevel) {
+      onClickLevel(data);
+    }
+    // setLevel(level + 1);
+  };
+  console.log("SantaCruz", circunscripcion);
   const getCircunscripcionComponent = (id: number) => {
     console.log(id);
     switch (id) {

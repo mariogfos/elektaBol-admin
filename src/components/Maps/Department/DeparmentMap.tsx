@@ -9,22 +9,23 @@ import Beni from "./Beni/Beni";
 import LaPaz from "./LaPaz/LaPaz";
 import Oruro from "./Oruro/Oruro";
 import Cochabamba from "./Cochabamba/Cochabamba";
-import {  DepartmentsType, TooltipDataType } from "./types";
 
+type PropsType = {
+  department: any;
+  onClickBack: () => void;
+  onClickLevel: () => void;
+  selectedCircunscripcion: any;
+  setSelectedCircunscripcion: any;
+};
 
-
-
-const DepartmentMap = ({ department, onClickBack }: DepartmentsType) => {
-  console.log("department", department);
-  const [selectedCircunscripcion, setSelectedCircunscripcion] =
-    useState<any>(null);
-
-  const handleCircunscripcion = (data: TooltipDataType) => {
-    setSelectedCircunscripcion(data);
-    // setLevel(level + 1);
-  };
+const DepartmentMap = ({
+  department,
+  onClickBack,
+  onClickLevel,
+  selectedCircunscripcion,
+  setSelectedCircunscripcion,
+}: PropsType) => {
   const getDepartmentComponent = (id: number) => {
-    console.log(id);
     switch (id) {
       case 1:
         return <Pando />;
@@ -44,7 +45,13 @@ const DepartmentMap = ({ department, onClickBack }: DepartmentsType) => {
         return <Tarija  circunscripcion={department} onClickBack={onClickBack}/>;
       case 9:
         return (
-          <SantaCruz circunscripcion={department} onClickBack={onClickBack} handleCircunscripcion={handleCircunscripcion} selectedCircunscripcion={selectedCircunscripcion}/>
+          <SantaCruz
+            circunscripcion={department}
+            onClickBack={onClickBack}
+            onClickLevel={onClickLevel}
+            selectedCircunscripcion={selectedCircunscripcion}
+            setSelectedCircunscripcion={setSelectedCircunscripcion}
+          />
         );
       default:
         return null;
