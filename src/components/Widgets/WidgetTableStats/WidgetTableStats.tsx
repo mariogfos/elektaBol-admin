@@ -117,13 +117,14 @@ const WidgetTableStats = ({
           paddingRight: "8px",
         }}
       >
-        <div style={{ width: "150px" }}></div>
+        <div style={{ width: "220px" }}></div>
         <div style={{ width: "100%" }}></div>
         <div
           style={{
             width: "100%",
             backgroundColor: "var(--cWhiteV1)",
-            border: "1px solid var(--cBlackV2)",
+            border: "1px solid var(--cWhiteV1)",
+            borderRadius: "0px 0px 0px 8px",
             textAlign: "right",
             paddingTop: "8px",
             paddingBottom: "8px",
@@ -138,7 +139,7 @@ const WidgetTableStats = ({
           style={{
             width: "100%",
             backgroundColor: "var(--cWhiteV1)",
-            border: "1px solid var(--cBlackV2)",
+            border: "1px solid var(--cWhiteV1)",
             textAlign: "right",
             paddingTop: "8px",
             paddingBottom: "8px",
@@ -153,7 +154,8 @@ const WidgetTableStats = ({
           style={{
             width: "100%",
             backgroundColor: "var(--cWhiteV1)",
-            border: "1px solid var(--cBlackV2)",
+            border: "1px solid var(--cWhiteV1)",
+            borderRadius: "0px 0px 8  px 0px",
             textAlign: "right",
             paddingTop: "8px",
             paddingBottom: "8px",
