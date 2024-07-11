@@ -134,7 +134,10 @@ export const DepartmentsMaps = ({
           <button onClick={handleBackClick} className={styles.backButton}>
             Volver
           </button>
-          <DeparmentMap department={selectedDepartment} />
+          <DeparmentMap
+            onClickBack={onClickBack}
+            department={selectedDepartment}
+          />
         </div>
       ) : (
         <div>

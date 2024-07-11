@@ -18,9 +18,10 @@ type TooltipDataType = {
 
 type PropsType = {
   department: any;
+  onClickBack: () => void;
 };
 
-const DepartmentMap = ({ department }: PropsType) => {
+const DepartmentMap = ({ department, onClickBack }: PropsType) => {
   console.log("department", department);
 
   const getDepartmentComponent = (id: number) => {
@@ -43,7 +44,9 @@ const DepartmentMap = ({ department }: PropsType) => {
       case 8:
         return <Tarija />;
       case 9:
-        return <SantaCruz circunscripcion={department} />;
+        return (
+          <SantaCruz circunscripcion={department} onClickBack={onClickBack} />
+        );
       default:
         return null;
     }
@@ -51,7 +54,7 @@ const DepartmentMap = ({ department }: PropsType) => {
 
   return (
     <div>
-      <h2>{department.titulo}</h2>
+      {/* <h2>{department.titulo}</h2>
       <p>Habitantes: {formatNumber(department?.habitantes, 0)}</p>
       <p>Habilitados: {formatNumber(department?.habilitados, 0)}</p>
       <p>
@@ -59,7 +62,7 @@ const DepartmentMap = ({ department }: PropsType) => {
         {department?.data?.afiliados
           ? formatNumber(department?.data?.afiliados, 0)
           : "N/A"}
-      </p>
+      </p> */}
 
       <div>{getDepartmentComponent(department.id)}</div>
     </div>

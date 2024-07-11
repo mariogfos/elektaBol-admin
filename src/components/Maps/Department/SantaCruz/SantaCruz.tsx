@@ -16,6 +16,7 @@ type PropsType = {
   params?: any;
   setLevel?: any;
   setParams?: any;
+  onClickBack?: () => void;
 };
 
 const SantaCruz = ({
@@ -24,6 +25,7 @@ const SantaCruz = ({
   params,
   setLevel,
   setParams,
+  onClickBack,
 }: PropsType) => {
   const [selectedCircunscripcion, setSelectedCircunscripcion] =
     useState<any>(null);
@@ -33,10 +35,6 @@ const SantaCruz = ({
     // setLevel(level + 1);
   };
 
-  const handleBackClick = () => {
-    setSelectedCircunscripcion(null);
-  };
-
   console.log("SantaCruz", circunscripcion);
 
   return (
@@ -44,7 +42,7 @@ const SantaCruz = ({
       {selectedCircunscripcion ? (
         <div>
           <h2>{selectedCircunscripcion.titulo}</h2>
-          <button onClick={handleBackClick}>Volver</button>
+          <button onClick={onClickBack}>Volver</button>
           <svg viewBox="0 0 100 100">
             <circle
               cx="50"
