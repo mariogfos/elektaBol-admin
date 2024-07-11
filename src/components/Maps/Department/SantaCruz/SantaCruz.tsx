@@ -12,7 +12,6 @@ type TooltipDataType = {
 
 type PropsType = {
   circunscripcion: TooltipDataType;
-
   onClickBack?: () => void;
 };
 
