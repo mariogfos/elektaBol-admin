@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import styles from "./SantaCruz.module.css";
 import { useState } from "react";
-import CircunscripcionMap from "../../Circunscripcion/Circunscripcion";
+import C44 from "../../Circunscripcion/C44";
 
 type TooltipDataType = {
   id: number;
@@ -11,7 +11,7 @@ type TooltipDataType = {
 };
 
 type PropsType = {
-  circunscripcion: TooltipDataType;
+  circunscripcion: any;
   onClickBack?: () => void;
 };
 
@@ -23,28 +23,38 @@ const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
     setSelectedCircunscripcion(data);
     // setLevel(level + 1);
   };
-
-  console.log("SantaCruz", circunscripcion);
+  const getCircunscripcionComponent = (id: number) => {
+    console.log(id);
+    switch (id) {
+      case 44:
+        return <C44 />;
+      // case 2:
+      //   return <LaPaz />;
+      // case 3:
+      //   return <Beni />;
+      // case 4:
+      //   return <Oruro />;
+      // case 5:
+      //   return <Cochabamba />;
+      // case 6:
+      //   return <Potosi />;
+      // case 7:
+      //   return <Chuquisaca />;
+      // case 8:
+      //   return <Tarija />;
+      // case 9:
+      //   return (
+      //     <SantaCruz circunscripcion={department} onClickBack={onClickBack} />
+      //   );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className={styles["SantaCruzMap"]}>
       {selectedCircunscripcion ? (
-        <div>
-          <h2>{selectedCircunscripcion.titulo}</h2>
-          <button onClick={onClickBack}>Volver</button>
-          <svg viewBox="0 0 100 100">
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              stroke="black"
-              strokeWidth="3"
-              fill="red"
-            />
-          </svg>
-          {/* <button onClick={handleBackClick}>Volver</button>
-          <CircunscripcionMap circunscripcion={selectedCircunscripcion} /> */}
-        </div>
+        <div>{getCircunscripcionComponent(selectedCircunscripcion.id)}</div>
       ) : (
         <>
           <svg viewBox="0 0 6122 3709">
@@ -53,7 +63,7 @@ const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 1,
+                  id: 53,
                   titulo: "Circunscripción 53",
                   data: {
                     habitantes: 1000,
@@ -392,7 +402,7 @@ const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 14,
+                  id: 44,
                   titulo: "Circunscripción 4",
                   data: {
                     habitantes: 277230,
