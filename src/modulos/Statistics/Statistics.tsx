@@ -14,11 +14,13 @@ const Statistics = () => {
   const [params, setParams] = useState(paramInitial);
   const [level, setLevel] = useState(0);
   const [selectedDepartment, setSelectedDepartment]: any = useState(null);
+  const [selectedCircunscripcion, setSelectedCircunscripcion]: any =
+    useState(null);
   // const { data: dashboard } = useAxios("/dashboard", "GET", {
   //   fullType: "L",
   //   searchBy: "",
   // });
-
+  console.log(level);
   const statistics = {
     data: [
       {
@@ -95,36 +97,30 @@ const Statistics = () => {
       },
     ],
   };
-  // let dataDpto = dashboard?.data?.dptos.map((dpto: any) => {
-  //   return {
-  //     id: dpto?.id,
-  //     titulo: dpto?.name,
-  //     habitantes: dpto?.habitantes,
-  //     habilitados: dpto?.habilitados,
-  //     afiliados: dpto?.affiliate_count,
-  //   };
-  // });
-  // const accessInfo = () =>{
-
-  //   if(level < 3){setLevel(level+1)}
-  //   return
-  // }
   const onClickLevel = (row: any) => {
-    console.log(row);
+    console.log("row", row);
     setParams({ ...params, searchBy: row.id, level: level + 1 });
+    if (level === 0) {
+      setSelectedDepartment(row);
+    }
+    if (level === 1) {
+      setSelectedCircunscripcion(row);
+    }
     if (level < 3) {
       setLevel(level + 1);
     }
-    setSelectedDepartment(row);
   };
   const onClickBack = () => {
     if (level > 0) {
       setLevel(level - 1);
     }
-    setSelectedDepartment(null);
+    if (level === 1) {
+      setSelectedDepartment(null);
+    }
+    if (level === 2) {
+      setSelectedCircunscripcion(null);
+    }
   };
-
-  // console.log("selected department", selectedDepartment);
 
   return (
     <div className={styles["statistics"]}>
@@ -152,6 +148,9 @@ const Statistics = () => {
             onClickLevel={onClickLevel}
             onClickBack={onClickBack}
             selectedDepartment={selectedDepartment}
+            setSelectedDepartment={setSelectedDepartment}
+            selectedCircunscripcion={selectedCircunscripcion}
+            setSelectedCircunscripcion={setSelectedCircunscripcion}
           />
         </div>
         <div>

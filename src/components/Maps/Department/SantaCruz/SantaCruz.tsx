@@ -4,25 +4,29 @@ import styles from "./SantaCruz.module.css";
 import { useState } from "react";
 import C44 from "../../Circunscripcion/C44";
 
-type TooltipDataType = {
-  id: number;
-  titulo: string;
-  data: any;
-};
-
 type PropsType = {
   circunscripcion: any;
   onClickBack?: () => void;
+  onClickLevel?: (data: any) => void;
+  selectedCircunscripcion: any;
+  setSelectedCircunscripcion: any;
 };
 
-const SantaCruz = ({ circunscripcion, onClickBack }: PropsType) => {
-  const [selectedCircunscripcion, setSelectedCircunscripcion] =
-    useState<any>(null);
-
-  const handleCircunscripcion = (data: TooltipDataType) => {
+const SantaCruz = ({
+  circunscripcion,
+  onClickBack,
+  onClickLevel,
+  selectedCircunscripcion,
+  setSelectedCircunscripcion,
+}: PropsType) => {
+  const handleCircunscripcion = (data: any) => {
     setSelectedCircunscripcion(data);
+    if (onClickLevel) {
+      onClickLevel(data);
+    }
     // setLevel(level + 1);
   };
+  console.log("SantaCruz", circunscripcion);
   const getCircunscripcionComponent = (id: number) => {
     console.log(id);
     switch (id) {

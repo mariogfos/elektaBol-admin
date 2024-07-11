@@ -25,6 +25,8 @@ type PropsType = {
   onClickBack?: any;
   selectedDepartment?: any;
   setSelectedDepartment?: any;
+  selectedCircunscripcion: any;
+  setSelectedCircunscripcion: any;
 };
 
 export const DepartmentsMaps = ({
@@ -38,6 +40,8 @@ export const DepartmentsMaps = ({
   onClickBack = () => {},
   selectedDepartment,
   setSelectedDepartment,
+  selectedCircunscripcion,
+  setSelectedCircunscripcion,
 }: PropsType) => {
   const [tooltip, setTooltip] = useState({
     visible: false,
@@ -123,6 +127,13 @@ export const DepartmentsMaps = ({
     },
   ];
 
+  let tabs: any = [];
+  if (selectedDepartment) {
+    tabs.push(selectedDepartment.name);
+  }
+  if (selectedCircunscripcion) {
+    tabs.push(selectedCircunscripcion.titulo);
+  }
   return (
     <div className={styles.DepartmentsMaps}>
       {selectedDepartment ? (
@@ -131,20 +142,21 @@ export const DepartmentsMaps = ({
             <nav aria-label="breadcrumb" className={styles.breadcrumb}>
               <ol className={styles.breadcrumbList}>
                 <li className={styles.breadcrumbItem}>
-                  <a
-                    href="#"
-                    onClick={() => onClickBack()}
-                    className={styles.breadcrumbLink}
-                  >
-                    Mapa de Bolivia
-                  </a>
+                  <p className={styles.breadcrumbLink}>Mapa de Bolivia</p>
                 </li>
-                <li className={styles.breadcrumbSeparator}> &lt; </li>
-                <li className={styles.breadcrumbItem}>
-                  <span className={styles.breadcrumbCurrent}>
-                    Departamento de {selectedDepartment?.name}
-                  </span>
-                </li>
+
+                {tabs.map((tab: any, index: number) => (
+                  <>
+                    <div
+                      onClick={() => tabs.length - 1 <= index && onClickBack()}
+                    >
+                      <li key={index} className={styles.breadcrumbItem}>
+                        <span className={styles.breadcrumbSeparator}>&lt;</span>
+                        <span className={styles.breadcrumbCurrent}>{tab}</span>
+                      </li>
+                    </div>
+                  </>
+                ))}
               </ol>
             </nav>
             <h1 style={{ marginBottom: 16 }}>
@@ -155,6 +167,9 @@ export const DepartmentsMaps = ({
             <DeparmentMap
               onClickBack={onClickBack}
               department={selectedDepartment}
+              onClickLevel={onClickLevel}
+              selectedCircunscripcion={selectedCircunscripcion}
+              setSelectedCircunscripcion={setSelectedCircunscripcion}
             />
           </div>
         </>

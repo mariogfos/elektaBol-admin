@@ -13,13 +13,19 @@ import Cochabamba from "./Cochabamba/Cochabamba";
 type PropsType = {
   department: any;
   onClickBack: () => void;
+  onClickLevel: () => void;
+  selectedCircunscripcion: any;
+  setSelectedCircunscripcion: any;
 };
 
-const DepartmentMap = ({ department, onClickBack }: PropsType) => {
-  console.log("department", department);
-
+const DepartmentMap = ({
+  department,
+  onClickBack,
+  onClickLevel,
+  selectedCircunscripcion,
+  setSelectedCircunscripcion,
+}: PropsType) => {
   const getDepartmentComponent = (id: number) => {
-    console.log(id);
     switch (id) {
       case 1:
         return <Pando />;
@@ -39,7 +45,13 @@ const DepartmentMap = ({ department, onClickBack }: PropsType) => {
         return <Tarija />;
       case 9:
         return (
-          <SantaCruz circunscripcion={department} onClickBack={onClickBack} />
+          <SantaCruz
+            circunscripcion={department}
+            onClickBack={onClickBack}
+            onClickLevel={onClickLevel}
+            selectedCircunscripcion={selectedCircunscripcion}
+            setSelectedCircunscripcion={setSelectedCircunscripcion}
+          />
         );
       default:
         return null;
