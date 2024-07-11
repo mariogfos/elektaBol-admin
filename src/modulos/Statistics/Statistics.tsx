@@ -14,10 +14,10 @@ const Statistics = () => {
   const [params, setParams] = useState(paramInitial);
   const [level, setLevel] = useState(0);
   const [selectedDepartment, setSelectedDepartment]: any = useState(null);
-  const { data: dashboard } = useAxios("/dashboard", "GET", {
-    fullType: "L",
-    searchBy: "",
-  });
+  // const { data: dashboard } = useAxios("/dashboard", "GET", {
+  //   fullType: "L",
+  //   searchBy: "",
+  // });
 
   const statistics = {
     data: [
@@ -95,21 +95,22 @@ const Statistics = () => {
       },
     ],
   };
-  let dataDpto = dashboard?.data?.dptos.map((dpto: any) => {
-    return {
-      id: dpto?.id,
-      titulo: dpto?.name,
-      habitantes: dpto?.habitantes,
-      habilitados: dpto?.habilitados,
-      afiliados: dpto?.affiliate_count,
-    };
-  });
+  // let dataDpto = dashboard?.data?.dptos.map((dpto: any) => {
+  //   return {
+  //     id: dpto?.id,
+  //     titulo: dpto?.name,
+  //     habitantes: dpto?.habitantes,
+  //     habilitados: dpto?.habilitados,
+  //     afiliados: dpto?.affiliate_count,
+  //   };
+  // });
   // const accessInfo = () =>{
 
   //   if(level < 3){setLevel(level+1)}
   //   return
   // }
   const onClickLevel = (row: any) => {
+    console.log(row);
     setParams({ ...params, searchBy: row.id, level: level + 1 });
     if (level < 3) {
       setLevel(level + 1);
@@ -120,6 +121,7 @@ const Statistics = () => {
     if (level > 0) {
       setLevel(level - 1);
     }
+    setSelectedDepartment(null);
   };
 
   return (
@@ -141,8 +143,11 @@ const Statistics = () => {
             setLevel={setLevel}
             params={params}
             setParams={setParams}
-            tooltipsData={dataDpto}
+            tooltipsData={statistics?.data}
             isClicker={true}
+            onClickLevel={onClickLevel}
+            onClickBack={onClickBack}
+            selectedDepartment={selectedDepartment}
           />
         </div>
         <div>

@@ -137,7 +137,7 @@ export const DepartmentsMaps = ({
               <li className={styles.breadcrumbItem}>
                 <a
                   href="#"
-                  onClick={handleBackClick}
+                  onClick={() => onClickBack()}
                   className={styles.breadcrumbLink}
                 >
                   Mapa de Bolivia
