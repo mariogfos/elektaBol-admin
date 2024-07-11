@@ -1,0 +1,25 @@
+.container {
+  background-color: var(--cBlackV1);
+  border-radius: var(--bRadiusM);
+  padding: var(--spL);
+
+  &>section {}
+}
+
+.container-card {
+  display: flex;
+  gap: 8px;
+
+  &>div {
+    width: 170px;
+    max-width: 200px;
+    &>h2 {
+      font-size: 12px;
+    }
+    &>p {
+      font-size: 24px;
+      text-align: end;
+    }
+
+  }
+}
