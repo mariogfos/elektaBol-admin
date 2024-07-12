@@ -33,15 +33,15 @@ const WidgetResume = ({
         </div>
         <div className={styles["container-card"]}>
           <div className={styles["cardInfo"]}>
-            <h2>Departamentos</h2>
+            <h2>{labels[level]}</h2>
             <p>{data.length}</p>
           </div>
           <div className={styles["cardInfo"]}>
-            <h2>Circunscripciones</h2>
+            <h2>{labels[level + 1]}</h2>
             <p>{totalCircunscripciones}</p>
           </div>
           <div className={styles["cardInfo"]}>
-            <h2>Recintos</h2>
+            <h2>{labels[level + 2]}</h2>
             <p>{dataExtra}</p>
           </div>
         </div>
@@ -51,3 +51,4 @@ const WidgetResume = ({
 };
 
 export default WidgetResume;
+
