@@ -101,7 +101,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "54",
+                  id: "13",
+                  code: "54",
                   titulo: "Circunscripción 54",
                   data: {
                     habitantes: 277230,
@@ -117,7 +118,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "52",
+                  id: "14",
+                  code: "52",
                   titulo: "Circunscripción 52",
                   data: {
                     habitantes: 277230,
@@ -133,7 +135,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "57",
+                  id: "11",
+                  code: "57",
                   titulo: "Circunscripción 57",
                   data: {
                     habitantes: 277230,
@@ -149,7 +152,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "56",
+                  id: "9",
+                  code: "56",
                   titulo: "Circunscripción 56",
                   data: {
                     habitantes: 277230,
@@ -165,7 +169,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 55,
+                  id: "10",
+                  code: "55",
                   titulo: "Circunscripción 55",
                   data: {
                     habitantes: 277230,
@@ -282,7 +287,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 49,
+                  id: "6",
+                  code: "49",
                   titulo: "Circunscripción 49",
                   data: {
                     habitantes: 277230,
@@ -298,7 +304,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 45,
+                  id: "2",
+                  code: "45",
                   titulo: "Circunscripción 45",
                   data: {
                     habitantes: 277230,
@@ -314,7 +321,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 51,
+                  id: "8",
+                  code: "51",
                   titulo: "Circunscripción 51",
                   data: {
                     habitantes: 277230,
@@ -330,7 +338,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 50,
+                  id: "7",
+                  code: "50",
                   titulo: "Circunscripción 50",
                   data: {
                     habitantes: 277230,
@@ -346,7 +355,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 49,
+                  id: "6",
+                  code: "49",
                   titulo: "Circunscripción 49",
                   data: {
                     habitantes: 277230,
@@ -362,7 +372,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 49,
+                  id: "6",
+                  code: "49",
                   titulo: "Circunscripción 49",
                   data: {
                     habitantes: 277230,
@@ -378,8 +389,9 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 47,
-                  titulo: "Circunscripción 48",
+                  id: "4",
+                  code: "47",
+                  titulo: "Circunscripción 47",
                   data: {
                     habitantes: 277230,
                     habilitados: 212230,
@@ -394,7 +406,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 46,
+                  id: "3",
+                  code: "46",
                   titulo: "Circunscripción 46",
                   data: {
                     habitantes: 277230,
@@ -410,7 +423,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 44,
+                  id: "1",
+                  code: "44",
                   titulo: "Circunscripción 44",
                   data: {
                     habitantes: 277230,
