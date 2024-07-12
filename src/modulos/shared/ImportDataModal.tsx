@@ -92,7 +92,12 @@ const ImportDataModal = ({
               showToast("Se importaron todos los datos", "success");
               break;
             } else {
-              setErrorImport((old: any) => [...old, ...data.data?.error]);
+              setErrorImport((old: any) => {
+                if (Array.isArray(old)) {
+                  return [...old, ...data.data?.error];
+                }
+                return data.data?.error;
+              });
               showToast(
                 `Importado  ${currentBatch.length} registros, aun quedan ${remainingData.length} registros por enviar`,
                 "warning"
@@ -100,7 +105,12 @@ const ImportDataModal = ({
             }
             reLoad();
           } else {
-            setErrorImport((old: any) => [...old, ...data.data?.error]);
+            setErrorImport((old: any) => {
+              if (Array.isArray(old)) {
+                return [...old, ...data.data?.error];
+              }
+              return data.data?.error;
+            });
             setDataImport(null);
             showToast(`Error al importar: ${errors}`, "error");
             break;
