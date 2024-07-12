@@ -4,12 +4,17 @@ import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 
 const WidgetResume = ({
   data,
+  dataExtra,
   level,
   setLevel,
   params,
   setParams,
   reload,
 }: any) => {
+  let totalCircunscripciones = data.reduce((acc: any, item: any) => {
+    return acc + item.circuns_count;
+  }, 0);
+
   return (
     <div className={style.container}>
       <section>
@@ -34,15 +39,15 @@ const WidgetResume = ({
         <div className={style["container-card"]}>
           <Card>
             <h2>Departamentos</h2>
-            <p>9</p>
+            <p>{data.length}</p>
           </Card>
           <Card>
             <h2>Circunscripciones</h2>
-            <p>63</p>
+            <p>{totalCircunscripciones}</p>
           </Card>
           <Card>
             <h2>Recintos</h2>
-            <p>3,500</p>
+            <p>{dataExtra}</p>
           </Card>
         </div>
       </section>

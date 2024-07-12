@@ -21,17 +21,15 @@ const WidgetTableStats = ({
     "Recinto", // 2
     "Mesa", // 3
   ];
-
-  console.log("params", params);
-  console.log(
-    "result: ",
-    data.find((item: any) => item.id == params.searchBy)
-  );
+  // console.log(
+  //   "result: ",
+  //   data.find((item: any) => item.id == params.searchBy)
+  // );
 
   const header = [
     {
-      key: "code",
-      label: "Cod",
+      key: "index",
+      label: "Nro",
       width: "150px",
       responsive: "onlyDesktop",
     },
@@ -60,7 +58,7 @@ const WidgetTableStats = ({
     },
 
     {
-      key: "entidad",
+      key: "circuns_count",
       label: labels[level + 1],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
@@ -86,18 +84,18 @@ const WidgetTableStats = ({
     data.forEach((item: any) => {
       col1 += item.habitantes;
       col2 += item.habilitados;
-      col3 += item.affiliate_count;
+      col3 += item.circuns_count;
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
-  // const handleRowClick = (row: any) => {
-  //   console.log(row);
-  //   setParams({ ...params, searchBy: row.id, level: level + 1 });
-  //   if (level < 3) {
-  //     setLevel(level + 1);
-  //   }
-  //   return;
-  // };
+  const handleRowClick = (row: any) => {
+    console.log(row);
+    setParams({ ...params, searchBy: row.id, level: level + 1 });
+    if (level < 3) {
+      setLevel(level + 1);
+    }
+    return;
+  };
   return (
     <div className={style.container}>
       <section>

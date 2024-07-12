@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import styles from "./SantaCruz.module.css";
-import { useState } from "react";
 import C44 from "../../Circunscripcion/C44";
 import C45 from "../../Circunscripcion/C45";
 import C46 from "../../Circunscripcion/C46";
@@ -32,6 +31,7 @@ const SantaCruz = ({
   setSelectedCircunscripcion,
 }: PropsType) => {
   const handleCircunscripcion = (data: any) => {
+    // console.log(data, "circunscripcion");
     setSelectedCircunscripcion(data);
     if (onClickLevel) {
       onClickLevel(data);
@@ -39,34 +39,33 @@ const SantaCruz = ({
     // setLevel(level + 1);
   };
   console.log("SantaCruz", circunscripcion);
-  const getCircunscripcionComponent = (id: number) => {
-    console.log(id);
-    switch (id) {
-      case 44:
+  const getCircunscripcionComponent = (name: string) => {
+    switch (name) {
+      case "44":
         return <C44 />;
-      case 45:
+      case "45":
         return <C45 />;
-      case 46:
+      case "46":
         return <C46 />;
-      case 47:
+      case "47":
         return <C47 />;
-      case 49:
+      case "49":
         return <C49 />;
-      case 50:
+      case "50":
         return <C50 />;
-      case 51:
+      case "51":
         return <C51 />;
-      case 52:
+      case "52":
         return <C52 />;
-      case 53:
+      case "53":
         return <C53 />;
-      case 54:
+      case "54":
         return <C54 />;
-      case 55:
+      case "55":
         return <C55 />;
-      case 56:
+      case "56":
         return <C56 />;
-      case 57:
+      case "57":
         return <C57 />;
       default:
         return null;
@@ -76,7 +75,7 @@ const SantaCruz = ({
   return (
     <div className={styles["SantaCruzMap"]}>
       {selectedCircunscripcion ? (
-        <div>{getCircunscripcionComponent(selectedCircunscripcion.id)}</div>
+        <div>{getCircunscripcionComponent(selectedCircunscripcion.code)}</div>
       ) : (
         <>
           <svg viewBox="0 0 6122 3709">
@@ -85,7 +84,8 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 53,
+                  id: 12,
+                  code: "53",
                   titulo: "Circunscripción 53",
                   data: {
                     habitantes: 1000,
@@ -101,7 +101,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 54,
+                  id: "54",
                   titulo: "Circunscripción 54",
                   data: {
                     habitantes: 277230,
@@ -117,7 +117,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 52,
+                  id: "52",
                   titulo: "Circunscripción 52",
                   data: {
                     habitantes: 277230,
@@ -133,7 +133,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 57,
+                  id: "57",
                   titulo: "Circunscripción 57",
                   data: {
                     habitantes: 277230,
@@ -149,7 +149,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: 56,
+                  id: "56",
                   titulo: "Circunscripción 56",
                   data: {
                     habitantes: 277230,

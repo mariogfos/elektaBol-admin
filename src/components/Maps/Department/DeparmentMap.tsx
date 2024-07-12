@@ -16,6 +16,7 @@ type PropsType = {
   onClickLevel: () => void;
   selectedCircunscripcion: any;
   setSelectedCircunscripcion: any;
+  params: any;
 };
 
 const DepartmentMap = ({
@@ -24,26 +25,24 @@ const DepartmentMap = ({
   onClickLevel,
   selectedCircunscripcion,
   setSelectedCircunscripcion,
+  params,
 }: PropsType) => {
-  const getDepartmentComponent = (id: number) => {
+  const getDepartmentComponent = (id: string) => {
+    console.log("id funcion", id);
     switch (id) {
-      case 1:
-        return <Pando />;
-      case 2:
-        return <LaPaz />;
-      case 3:
-        return <Beni />;
-      case 4:
-        return <Oruro />;
-      case 5:
-        return <Cochabamba />;
-      case 6:
-        return <Potosi />;
-      case 7:
+      case "1":
         return <Chuquisaca />;
-      case 8:
+      case "2":
+        return <LaPaz />;
+      case "3":
+        return <Cochabamba />;
+      case "4":
+        return <Oruro />;
+      case "5":
+        return <Potosi />;
+      case "6":
         return <Tarija />;
-      case 9:
+      case "7":
         return (
           <SantaCruz
             circunscripcion={department}
@@ -53,6 +52,10 @@ const DepartmentMap = ({
             setSelectedCircunscripcion={setSelectedCircunscripcion}
           />
         );
+      case "8":
+        return <Beni />;
+      case "9":
+        return <Pando />;
       default:
         return null;
     }
@@ -70,7 +73,7 @@ const DepartmentMap = ({
           : "N/A"}
       </p> */}
 
-      <div>{getDepartmentComponent(department.id)}</div>
+      <div>{getDepartmentComponent(department?.code)}</div>
     </div>
   );
 };
