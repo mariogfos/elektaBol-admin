@@ -23,8 +23,8 @@ type PropsType = {
   onClickBack?: any;
   selectedDepartment?: any;
   setSelectedDepartment?: any;
-  selectedCircunscripcion: any;
-  setSelectedCircunscripcion: any;
+  selectedCircunscripcion?: any;
+  setSelectedCircunscripcion?: any;
 };
 
 export const DepartmentsMaps = ({

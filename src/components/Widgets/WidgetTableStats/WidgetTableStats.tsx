@@ -21,6 +21,13 @@ const WidgetTableStats = ({
     "Recinto", // 2
     "Mesa", // 3
   ];
+
+  console.log("params", params);
+  console.log(
+    "result: ",
+    data.find((item: any) => item.id == params.searchBy)
+  );
+
   const header = [
     {
       key: "code",

@@ -38,9 +38,9 @@ export const WidgetMaps = ({
 
       <DepartmentsMaps tooltipsData={tooltipsData} />
       <div className={styles.footer}>
-        <div className={styles.uruguay}>
+        <div className={styles.bolivia}>
           <Image
-            src="/images/Uruguay.webp"
+            src="/images/Bolivia.webp"
             alt="Uruguay"
             layout="fixed"
             width={190}
