@@ -8,9 +8,7 @@ import useCrud from "@/mk/hooks/useCrud/useCrud";
 import t from "@/mk/utils/traductor";
 
 const paramInitial: any = {
-  perPage: 10,
-  page: 1,
-  fullType: "L",
+  searchBy: "",
 };
 const Statistics = () => {
   const [params, setParams] = useState(paramInitial);
@@ -18,11 +16,8 @@ const Statistics = () => {
   const [selectedDepartment, setSelectedDepartment]: any = useState(null);
   const [selectedCircunscripcion, setSelectedCircunscripcion]: any =
     useState(null);
-  // const { data: dashboard } = useAxios("/dashboard", "GET", {
-  //   fullType: "L",
-  //   searchBy: "",
-  // });
-  console.log(level);
+  const { data: stads } = useAxios("/estads", "GET", { ...paramInitial });
+  console.log(stads);
 
   const statistics = {
     data: [

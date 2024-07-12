@@ -16,10 +16,10 @@ const WidgetTableStats = ({
   title,
 }: any) => {
   const labels: string[] = [
-    "Departamento",
-    "Circunscripción",
-    "Recinto",
-    "Mesa",
+    "Departamento", // 0
+    "Circunscripción", // 1
+    "Recinto", // 2
+    "Mesa", // 3
   ];
 
   console.log("params", params);
