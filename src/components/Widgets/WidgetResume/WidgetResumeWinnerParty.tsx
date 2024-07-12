@@ -7,8 +7,9 @@ import { IconCamera } from "@/components/layout/icons/IconsBiblioteca"
 const WidgetResumeWinnerParty = ({data,title}:any) => {
     const deta = {
         values: [
-          { name: "Category 1", value: 5, values: [10, 20] },
-          
+          { name: "Category 1", value: 1, values: [1, 50] },
+
+    
         ],
       };
     

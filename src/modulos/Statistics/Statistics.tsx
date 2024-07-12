@@ -133,16 +133,17 @@ const Statistics = () => {
         {selectedDepartment ? null : "Datos electorales históricos de Bolivia"}
       </h1>
       <section
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "64px",
-          marginTop: "32px",
-          marginBottom: "32px",
-        }}
+      className={styles['topSection']} 
+        // style={{
+        //   display: "flex",
+        //   justifyContent: "center",
+        //   alignItems: "center",
+        //   gap: "64px",
+        //   marginTop: "32px",
+        //   marginBottom: "32px",
+        // }}
       >
-        <div>
+        <div >
           <DepartmentsMaps
             level={level}
             setLevel={setLevel}
@@ -197,7 +198,7 @@ const Statistics = () => {
           setParams={setParams}
         /> :
         <div style={{ width: "100%", display: "flex" }}>
-        <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Partido ganador'}/>
+        <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Otros resultados'}/>
         </div>
       }
       </section>

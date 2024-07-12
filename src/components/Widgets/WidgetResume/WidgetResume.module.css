@@ -89,7 +89,7 @@
     /* background-color: red; */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--spS);
+    gap: var(--spL);
 
 
   }
