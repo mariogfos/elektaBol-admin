@@ -14,7 +14,12 @@ const WidgetResume = ({
   let totalCircunscripciones = data.reduce((acc: any, item: any) => {
     return acc + item.total;
   }, 0);
-
+  const labels: any = [
+    "Departamento", // 0
+    "Circunscripción", // 1
+    "Recinto", // 2
+    "Mesa", // 3
+  ];
   return (
     <div className={style.container}>
       <section>
@@ -38,15 +43,15 @@ const WidgetResume = ({
         </p>
         <div className={style["container-card"]}>
           <Card>
-            <h2>Departamentos</h2>
+            <h2>{labels[level]}</h2>
             <p>{data.length}</p>
           </Card>
           <Card>
-            <h2>Circunscripciones</h2>
+            <h2>{labels[level + 1]}</h2>
             <p>{totalCircunscripciones}</p>
           </Card>
           <Card>
-            <h2>Recintos</h2>
+            <h2>{labels[level + 2]}</h2>
             <p>{dataExtra}</p>
           </Card>
         </div>

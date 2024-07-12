@@ -101,7 +101,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "13",
+                  id: 13,
                   code: "54",
                   titulo: "Circunscripción 54",
                   data: {
@@ -118,7 +118,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "14",
+                  id: 14,
                   code: "52",
                   titulo: "Circunscripción 52",
                   data: {
@@ -135,7 +135,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "11",
+                  id: 11,
                   code: "57",
                   titulo: "Circunscripción 57",
                   data: {
@@ -152,7 +152,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "9",
+                  id: 9,
                   code: "56",
                   titulo: "Circunscripción 56",
                   data: {
@@ -169,7 +169,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "10",
+                  id: 10,
                   code: "55",
                   titulo: "Circunscripción 55",
                   data: {

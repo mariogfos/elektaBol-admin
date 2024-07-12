@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./Circunscripcion.module.css";
 
-const C44 = () => {
+const C44 = ({ onClickBack, onClickLevel }: any) => {
   const pins = [];
   // Define the bounds of the rectangular area within the path
   const minX = 10; // minimum x-coordinate
