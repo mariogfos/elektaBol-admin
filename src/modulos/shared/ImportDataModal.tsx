@@ -1,6 +1,7 @@
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
+import ProgressBar from "./ProgresBar";
 
 const ImportDataModal = ({
   children = null,
@@ -24,7 +25,7 @@ const ImportDataModal = ({
     }
   }, [open]);
 
-  const onImport = async () => {
+  const onImport2 = async () => {
     if (dataImport && dataImport.length > 0) {
       const { data, errors } = await execute(mod.modulo + "-import", "POST", {
         data: dataImport,
@@ -53,6 +54,71 @@ const ImportDataModal = ({
       }
     }
     // showToast("No disponible", "error");
+  };
+
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [sentCount, setSentCount] = useState(0);
+  const [pendingCount, setPendingCount] = useState(0);
+  const onImport = async () => {
+    if (dataImport && dataImport.length > 0) {
+      let remainingData = [...dataImport];
+      const batchSize = 500;
+      setIsProcessing(true);
+      while (remainingData.length > 0) {
+        const currentBatch = remainingData.slice(0, batchSize);
+        remainingData = remainingData.slice(batchSize);
+
+        try {
+          setPendingCount(currentBatch.length);
+          const { data, errors } = await execute(
+            `${mod.modulo}-import`,
+            "POST",
+            {
+              data: currentBatch,
+              lineBase: dataImport.length - remainingData.length,
+            }
+          );
+
+          if (data?.success) {
+            console.log(
+              data.data?.total,
+              currentBatch.length,
+              remainingData.length
+            );
+            setPendingCount(0);
+            setSentCount((prev) => prev + currentBatch.length * 1);
+            if (data.data?.total === 0) {
+              onClose(true);
+              showToast("Se importaron todos los datos", "success");
+              break;
+            } else {
+              setErrorImport((old: any) => [...old, ...data.data?.error]);
+              showToast(
+                `Importado  ${currentBatch.length} registros, aun quedan ${remainingData.length} registros por enviar`,
+                "warning"
+              );
+            }
+            reLoad();
+          } else {
+            setErrorImport((old: any) => [...old, ...data.data?.error]);
+            setDataImport(null);
+            showToast(`Error al importar: ${errors}`, "error");
+            break;
+          }
+        } catch (error: any) {
+          setErrorImport(error.message);
+          setDataImport(null);
+          showToast(`Error al importar: ${error.message}`, "error");
+          break;
+        }
+      }
+
+      setIsProcessing(false);
+    } else {
+      showToast("No disponible", "error");
+    }
+    // setIsProcessing(false);
+    showToast("Se importaron todos los datos", "success");
   };
 
   const onImportFile = (e: any) => {
@@ -99,6 +165,13 @@ const ImportDataModal = ({
           onClose={() => onClose(false)}
           open={open}
         >
+          {isProcessing && (
+            <ProgressBar
+              total={dataImport?.length}
+              sent={sentCount}
+              pending={pendingCount}
+            />
+          )}
           {requiredCols && (
             <div className="text-[14px]">
               <span className="font-bold my-2">
@@ -127,7 +200,6 @@ const ImportDataModal = ({
               </div>
             </label>
           )}
-
           {dataImport && dataImport.length > 0 && !errorImport && (
             <>
               <div className="overflow-auto max-h-[300px]">

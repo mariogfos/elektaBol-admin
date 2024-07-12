@@ -926,15 +926,22 @@ const useCrud = ({
           <AddButton />
         </div>
         <LoadingScreen skeletonType="LatestInvoicesSkeleton">
-          <Table
-            data={data?.data}
-            onRowClick={onView}
-            header={header}
-            onTabletRow={props.onTabletRow}
-            onButtonActions={onButtonActions}
-            // actionsWidth={props.actionsWidth}
-            actionsWidth={"170px"}
-          />
+          <div
+            style={{
+              height: "calc(100vh - 240px)",
+              overflowY: "auto",
+            }}
+          >
+            <Table
+              data={data?.data}
+              onRowClick={onView}
+              header={header}
+              onTabletRow={props.onTabletRow}
+              onButtonActions={onButtonActions}
+              // actionsWidth={props.actionsWidth}
+              actionsWidth={"170px"}
+            />
+          </div>
           {openView && (
             <>
               {mod.renderView ? (
