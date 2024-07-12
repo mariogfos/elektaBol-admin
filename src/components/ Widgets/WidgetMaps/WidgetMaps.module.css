@@ -38,9 +38,10 @@
   @media (min-width: 768px) {
     width: auto;
     margin-bottom: 0;
+    align-self: flex-start;
   }
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1441px) {
     width: 100%;
   }
 }
