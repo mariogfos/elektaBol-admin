@@ -123,8 +123,8 @@ const Roles = () => {
 
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
   return (
-    <div className={styles.roles}>
-      <List onTabletRow={renderItem} actionsWidth="300px" />
+    <div className={styles.style}>
+      <List onTabletRow={renderItem} />
     </div>
   );
 };

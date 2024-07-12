@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Listas.module.css";
+import styles from "./Partidos.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
+import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "listas",
-  singular: "lista",
-  plural: "listas",
+  modulo: "partidos",
+  singular: "partido",
+  plural: "partidos",
   permiso: "",
-  extraData: true,
 };
 
 const paramsInitial = {
@@ -22,50 +22,43 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Listas = () => {
-  const fields = useMemo(
-    () => ({
+const Partidos = () => {
+  const fields = useMemo(() => {
+    return {
       id: { rules: [], api: "e" },
-      sublema_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Sublema",
-        list: { width: "350px" },
-        form: { type: "select", optionsExtra: "sublemas" },
-      },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Lista",
-        list: { width: "350px" },
+        label: "Partido",
+        list: true,
         form: { type: "text" },
       },
       description: {
         rules: [],
         api: "ae",
-        label: "Descripción",
-        list: true,
-        form: { type: "text" },
+        label: "Description",
+        form: { type: "textarea", lines: 5 },
       },
-    }),
-    []
-  );
+      color: {
+        rules: [],
+        api: "ae",
+        label: "Color Distintivo",
+        onRender: (item: any) => (
+          <span style={{ color: item.value }}>{item.value}</span>
+        ),
+        list: { width: "250px", label: "Color" },
+        form: { type: "text", precarga: "#FFFFFF" },
+      },
+    };
+  }, []);
 
-  const {
-    userCan,
-    List,
-    setStore,
-    onSearch,
-    searchs,
-    onEdit,
-    onDel,
-    extraData,
-    findOptions,
-  } = useCrud({
-    paramsInitial,
-    mod,
-    fields,
-  });
+  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
+    {
+      paramsInitial,
+      mod,
+      fields,
+    }
+  );
   const { onLongPress, selItem } = useCrudUtils({
     onSearch,
     searchs,
@@ -84,7 +77,7 @@ const Listas = () => {
       <RenderItem item={item} onClick={onClick} onLongPress={onLongPress}>
         <ItemList
           title={item?.name}
-          subtitle={findOptions(item.sublema_id, extraData?.sublemas)}
+          subtitle={"Color: " + item?.color}
           variant="V1"
           active={selItem && selItem.id == item.id}
         />
@@ -100,4 +93,4 @@ const Listas = () => {
   );
 };
 
-export default Listas;
+export default Partidos;

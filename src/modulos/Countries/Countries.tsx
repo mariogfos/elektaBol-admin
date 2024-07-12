@@ -1,21 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Dptos.module.css";
+import styles from "./Countries.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
-import ImportDataModal from "../shared/ImportDataModal";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "dptos",
-  singular: "departamento",
-  plural: "departamentos",
+  modulo: "countries",
+  singular: "País",
+  plural: "Países",
   permiso: "",
-  import: true,
-  extraData: true,
+  import: false,
 };
 
 const paramsInitial = {
@@ -25,21 +23,14 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Dptos = () => {
+const Countries = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
-      country_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "País",
-        list: { width: "250px" },
-        form: { type: "select", optionsExtra: "countries" },
-      },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
+        label: "País",
         list: true,
         form: { type: "text" },
       },
@@ -99,7 +90,7 @@ const Dptos = () => {
     mod,
     fields,
   });
-  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
+  const { onLongPress, selItem } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -107,11 +98,6 @@ const Dptos = () => {
     onEdit,
     onDel,
   });
-
-  const [openImport, setOpenImport] = useState(false);
-  useEffect(() => {
-    setOpenImport(searchState == 3);
-  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -141,21 +127,8 @@ const Dptos = () => {
   return (
     <div className={styles.style}>
       <List onTabletRow={renderItem} />
-      {openImport && (
-        <ImportDataModal
-          open={openImport}
-          onClose={() => {
-            setSearchState(0);
-          }}
-          mod={mod}
-          showToast={showToast}
-          reLoad={reLoad}
-          execute={execute}
-          requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
-        />
-      )}
     </div>
   );
 };
 
-export default Dptos;
+export default Countries;

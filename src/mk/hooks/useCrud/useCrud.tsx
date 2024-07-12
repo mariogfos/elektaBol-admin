@@ -23,6 +23,7 @@ import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
   IconAdd,
   IconEdit,
+  IconImport,
   IconTrash,
 } from "@/components/layout/icons/IconsBiblioteca";
 import TextArea from "@/mk/components/forms/TextArea/TextArea";
@@ -47,6 +48,7 @@ type PropsType = {
   getSearch?: Function;
   getFilter?: Function;
   _onChange?: Function;
+  _onImport?: Function;
 };
 
 type PropsDetail = {
@@ -64,6 +66,7 @@ type UseCrudType = {
   onDel: Function;
   onEdit: Function;
   onView: Function;
+  onImport: Function;
   onExist: Function;
   onExportItem: Function;
   onExport: Function;
@@ -109,6 +112,7 @@ const useCrud = ({
   getSearch,
   getFilter,
   _onChange,
+  _onImport,
 }: PropsType): UseCrudType => {
   const { user, showToast, userCan, store, setStore } = useAuth();
   const [formState, setFormState]: any = useState({});
@@ -190,6 +194,14 @@ const useCrud = ({
     initOpen(setOpenView, item, "view");
   }, []);
 
+  const onImport = useCallback((e: any) => {
+    // e.stopPropagation();
+    if (!userCan(mod.permiso, "C"))
+      return showToast("No tiene permisos para importar", "error");
+    if (_onImport) {
+      _onImport();
+    }
+  }, []);
   const onExist = useCallback(
     async ({ type = "", cols = "id", modulo = "", searchBy = "" }: any) => {
       if (modulo == "") modulo = mod.modulo;
@@ -499,6 +511,7 @@ const useCrud = ({
             </LeftRigthElement>
           );
         case "textArea":
+        case "textarea":
           return (
             <LeftRigthElement
               key={_field.key}
@@ -763,7 +776,7 @@ const useCrud = ({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-start",
-          gap: "var(--spM)",
+          gap: "var(--spL)",
           padding: "var(--spM)",
           marginBottom: "-22px",
         }}
@@ -784,6 +797,11 @@ const useCrud = ({
             {/* <IconAdd size={24} /> */}
           </Button>
         </div>
+        {mod.import && (
+          <div style={{ marginTop: "12px" }} onClick={onImport}>
+            <IconImport />
+          </div>
+        )}
       </div>
     );
   });
@@ -841,7 +859,7 @@ const useCrud = ({
     return "";
   };
   const _onRender = (field: any) => {
-    const render = field.list.onRender || field.onRender || null;
+    const render = field.list?.onRender || field.onRender || null;
     if (mod.extraData) {
       if (field.form?.type === "select" && field.form.optionsExtra)
         return (item: RenderColType) => {
@@ -865,7 +883,7 @@ const useCrud = ({
         };
       if (render) {
         return (item: RenderColType) => {
-          return field.list.onRender(item);
+          return render(item);
         };
       }
     }
@@ -908,15 +926,22 @@ const useCrud = ({
           <AddButton />
         </div>
         <LoadingScreen skeletonType="LatestInvoicesSkeleton">
-          <Table
-            data={data?.data}
-            onRowClick={onView}
-            header={header}
-            onTabletRow={props.onTabletRow}
-            onButtonActions={onButtonActions}
-            // actionsWidth={props.actionsWidth}
-            actionsWidth={"170px"}
-          />
+          <div
+            style={{
+              height: "calc(100vh - 240px)",
+              overflowY: "auto",
+            }}
+          >
+            <Table
+              data={data?.data}
+              onRowClick={onView}
+              header={header}
+              onTabletRow={props.onTabletRow}
+              onButtonActions={onButtonActions}
+              // actionsWidth={props.actionsWidth}
+              actionsWidth={"170px"}
+            />
+          </div>
           {openView && (
             <>
               {mod.renderView ? (
@@ -965,6 +990,7 @@ const useCrud = ({
     onDel,
     onEdit,
     onView,
+    onImport,
     onExist,
     onExportItem,
     onExport,

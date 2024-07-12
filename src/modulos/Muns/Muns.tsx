@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Dptos.module.css";
+import styles from "./Muns.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useEffect, useMemo, useState } from "react";
 import RenderItem from "../shared/RenderItem";
-import ImportDataModal from "../shared/ImportDataModal";
 import { formatNumber } from "@/mk/utils/numbers";
+import ImportDataModal from "../shared/ImportDataModal";
 
 const mod: ModCrudType = {
-  modulo: "dptos",
-  singular: "departamento",
-  plural: "departamentos",
+  modulo: "muns",
+  singular: "municipio",
+  plural: "municipios",
   permiso: "",
-  import: true,
   extraData: true,
+  import: true,
 };
 
 const paramsInitial = {
@@ -25,7 +25,7 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Dptos = () => {
+const Muns = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -33,13 +33,37 @@ const Dptos = () => {
         rules: ["required"],
         api: "ae",
         label: "País",
-        list: { width: "250px" },
         form: { type: "select", optionsExtra: "countries" },
+      },
+      dpto_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Dpto",
+        list: true,
+        form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        list: { width: "300px" },
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+        list: {
+          width: "250px",
+          label: "Circuns.",
+          style: { textAlign: "right" },
+        },
+        form: { type: "select", optionsExtra: "circuns" },
       },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
+        label: "Municipio",
         list: true,
         form: { type: "text" },
       },
@@ -83,6 +107,10 @@ const Dptos = () => {
     };
   }, []);
 
+  const onImport = () => {
+    setOpenImport(true);
+  };
+
   const {
     userCan,
     List,
@@ -98,6 +126,7 @@ const Dptos = () => {
     paramsInitial,
     mod,
     fields,
+    _onImport: onImport,
   });
   const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
@@ -146,16 +175,17 @@ const Dptos = () => {
           open={openImport}
           onClose={() => {
             setSearchState(0);
+            setOpenImport(false);
           }}
           mod={mod}
           showToast={showToast}
           reLoad={reLoad}
           execute={execute}
-          requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
         />
       )}
     </div>
   );
 };
 
-export default Dptos;
+export default Muns;
