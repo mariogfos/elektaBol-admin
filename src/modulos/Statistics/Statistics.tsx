@@ -158,18 +158,27 @@ const Statistics = () => {
             setSelectedCircunscripcion={setSelectedCircunscripcion}
           />
         </div>
-        <div>
-          {/* <WidgetResume
+
+
+        {level < 2 && <div>
+          <WidgetResume
             data={statistics?.data}
             level={level}
             setLevel={setLevel}
             params={params}
             setParams={setParams}
-          /> */}
+          />
 
-          <WidgetResumeVotes/>
-          <WidgetResumeWinnerParty/>
-        </div>
+
+        </div>}
+
+        {level >= 2 && (
+          <div className={styles['topWidgets']}>
+            <WidgetResumeVotes />
+            <WidgetResumeWinnerParty />
+          </div>
+        )
+        }
       </section>
       <section>
         <WidgetTableStats
@@ -178,8 +187,8 @@ const Statistics = () => {
             level == 0
               ? "Departamentos"
               : level == 1
-              ? "Circunscripciones"
-              : "Recintos electorales"
+                ? "Circunscripciones"
+                : "Recintos electorales"
           }
           level={level}
           setLevel={setLevel}
