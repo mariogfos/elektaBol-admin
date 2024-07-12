@@ -12,7 +12,7 @@ const WidgetResume = ({
   reload,
 }: any) => {
   let totalCircunscripciones = data.reduce((acc: any, item: any) => {
-    return acc + item.circuns_count;
+    return acc + item.total;
   }, 0);
 
   return (

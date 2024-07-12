@@ -30,8 +30,8 @@ const Statistics = () => {
     let data: any = [];
     stads?.data.data.map((item: any) => {
       stads?.data.entidad.map((entidad: any) => {
-        if (item.id === entidad.dpto_id) {
-          data.push({ ...item, circuns_count: entidad.circuns_count });
+        if (item.id === entidad.id) {
+          data.push({ ...item, total: entidad.total });
         }
       });
     });
@@ -124,7 +124,7 @@ const Statistics = () => {
       </section>
       <section>
         <WidgetTableStats
-          data={level == 0 ? dataFormatted : stads?.data.data}
+          data={dataFormatted}
           title={
             level == 0
               ? "Departamentos"

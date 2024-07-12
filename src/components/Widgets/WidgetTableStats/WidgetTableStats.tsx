@@ -58,7 +58,7 @@ const WidgetTableStats = ({
     },
 
     {
-      key: "circuns_count",
+      key: "total",
       label: labels[level + 1],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
@@ -84,7 +84,7 @@ const WidgetTableStats = ({
     data.forEach((item: any) => {
       col1 += item.habitantes;
       col2 += item.habilitados;
-      col3 += item.circuns_count;
+      col3 += item.total;
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
