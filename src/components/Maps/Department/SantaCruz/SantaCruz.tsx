@@ -100,7 +100,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "13",
+                  id: 13,
                   code: "54",
                   titulo: "Circunscripción 54",
                   data: {
@@ -117,7 +117,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "14",
+                  id: 14,
                   code: "52",
                   titulo: "Circunscripción 52",
                   data: {
@@ -134,7 +134,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "11",
+                  id: 11,
                   code: "57",
                   titulo: "Circunscripción 57",
                   data: {
@@ -151,7 +151,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "9",
+                  id: 9,
                   code: "56",
                   titulo: "Circunscripción 56",
                   data: {
@@ -168,7 +168,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "10",
+                  id: 10,
                   code: "55",
                   titulo: "Circunscripción 55",
                   data: {
@@ -286,7 +286,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "6",
+                  id: 6,
                   code: "49",
                   titulo: "Circunscripción 49",
                   data: {
@@ -303,7 +303,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "2",
+                  id: 2,
                   code: "45",
                   titulo: "Circunscripción 45",
                   data: {
@@ -320,7 +320,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "8",
+                  id: 8,
                   code: "51",
                   titulo: "Circunscripción 51",
                   data: {
@@ -337,7 +337,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "7",
+                  id: 7,
                   code: "50",
                   titulo: "Circunscripción 50",
                   data: {
@@ -354,7 +354,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "6",
+                  id: 6,
                   code: "49",
                   titulo: "Circunscripción 49",
                   data: {
@@ -371,7 +371,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "6",
+                  id: 6,
                   code: "49",
                   titulo: "Circunscripción 49",
                   data: {
@@ -388,7 +388,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "4",
+                  id: 4,
                   code: "47",
                   titulo: "Circunscripción 47",
                   data: {
@@ -405,7 +405,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "3",
+                  id: 3,
                   code: "46",
                   titulo: "Circunscripción 46",
                   data: {
@@ -422,7 +422,7 @@ const SantaCruz = ({
               onClick={(e) => {
                 e.preventDefault();
                 handleCircunscripcion({
-                  id: "1",
+                  id: 1,
                   code: "44",
                   titulo: "Circunscripción 44",
                   data: {

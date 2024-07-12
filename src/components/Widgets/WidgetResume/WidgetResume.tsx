@@ -12,9 +12,14 @@ const WidgetResume = ({
   reload,
 }: any) => {
   let totalCircunscripciones = data.reduce((acc: any, item: any) => {
-    return acc + item.circuns_count;
+    return acc + item.total;
   }, 0);
-
+  const labels: any = [
+    "Departamento", // 0
+    "Circunscripción", // 1
+    "Recinto", // 2
+    "Mesa", // 3
+  ];
   return (
     <div className={styles.container}>
       <section>

@@ -1,4 +1,4 @@
-const C46 = () => {
+const C46 = ({ onClickBack, onClickLevel }: any) => {
   return (
     <div>
       <svg width="312" height="245" viewBox="0 0 312 245" fill="none">

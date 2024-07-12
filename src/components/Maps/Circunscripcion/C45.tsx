@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./Circunscripcion.module.css";
 
-const C45 = () => {
+const C45 = ({ onClickBack, onClickLevel }: any) => {
   return (
     <div className={styles.circunscripcion}>
       <svg width="196" height="305" viewBox="0 0 196 305" fill="none">

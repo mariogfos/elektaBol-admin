@@ -1,6 +1,6 @@
 import React from "react";
 
-const C52 = () => {
+const C52 = ({ onClickBack, onClickLevel }: any) => {
   return (
     <div>
       <svg width="285" height="288" viewBox="0 0 285 288" fill="none">

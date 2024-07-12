@@ -1,6 +1,6 @@
 import React from "react";
 
-const C51 = () => {
+const C51 = ({ onClickBack, onClickLevel }: any) => {
   return (
     <div>
       <svg
