@@ -40,7 +40,7 @@ export const WidgetMaps = ({
       <div className={styles.footer}>
         <div className={styles.bolivia}>
           <Image
-            src="/images/Bolivia.webp"
+            src="/images/Bolivia.png"
             alt="Uruguay"
             layout="fixed"
             width={190}
