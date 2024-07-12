@@ -4,9 +4,10 @@ import NotAccess from "@/components/auth/NotAccess/NotAccess";
 import styles from "./Muns.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
+import ImportDataModal from "../shared/ImportDataModal";
 
 const mod: ModCrudType = {
   modulo: "muns",
@@ -14,6 +15,7 @@ const mod: ModCrudType = {
   plural: "municipios",
   permiso: "",
   extraData: true,
+  import: true,
 };
 
 const paramsInitial = {
@@ -104,14 +106,28 @@ const Muns = () => {
     };
   }, []);
 
-  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
-    {
-      paramsInitial,
-      mod,
-      fields,
-    }
-  );
-  const { onLongPress, selItem } = useCrudUtils({
+  const onImport = () => {
+    setOpenImport(true);
+  };
+
+  const {
+    userCan,
+    List,
+    setStore,
+    onSearch,
+    searchs,
+    onEdit,
+    onDel,
+    showToast,
+    execute,
+    reLoad,
+  } = useCrud({
+    paramsInitial,
+    mod,
+    fields,
+    _onImport: onImport,
+  });
+  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -119,6 +135,11 @@ const Muns = () => {
     onEdit,
     onDel,
   });
+
+  const [openImport, setOpenImport] = useState(false);
+  useEffect(() => {
+    setOpenImport(searchState == 3);
+  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -148,6 +169,20 @@ const Muns = () => {
   return (
     <div className={styles.style}>
       <List onTabletRow={renderItem} />
+      {openImport && (
+        <ImportDataModal
+          open={openImport}
+          onClose={() => {
+            setSearchState(0);
+            setOpenImport(false);
+          }}
+          mod={mod}
+          showToast={showToast}
+          reLoad={reLoad}
+          execute={execute}
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+        />
+      )}
     </div>
   );
 };

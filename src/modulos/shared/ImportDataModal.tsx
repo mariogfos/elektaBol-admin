@@ -25,37 +25,6 @@ const ImportDataModal = ({
     }
   }, [open]);
 
-  const onImport2 = async () => {
-    if (dataImport && dataImport.length > 0) {
-      const { data, errors } = await execute(mod.modulo + "-import", "POST", {
-        data: dataImport,
-      });
-      if (data?.success) {
-        // setOpenImport(false);
-        if (data.data?.total == 0) {
-          onClose(true);
-          showToast("Se importaron todos los datos", "success");
-        } else {
-          setErrorImport(data.data?.error);
-          showToast(
-            "Importado con algunos errores: " +
-              data.data?.total +
-              " de " +
-              dataImport.length +
-              " datos",
-            "warning"
-          );
-        }
-        reLoad();
-      } else {
-        setErrorImport(data?.data?.error);
-        setDataImport(null);
-        showToast("Error al importar:" + errors, "error");
-      }
-    }
-    // showToast("No disponible", "error");
-  };
-
   const [isProcessing, setIsProcessing] = useState(false);
   const [sentCount, setSentCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);

@@ -8,7 +8,6 @@ import { useEffect, useMemo, useState } from "react";
 import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
 import ImportDataModal from "../shared/ImportDataModal";
-import { on } from "events";
 
 const mod: ModCrudType = {
   modulo: "mesas",
