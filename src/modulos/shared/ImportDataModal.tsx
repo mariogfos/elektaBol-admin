@@ -14,8 +14,8 @@ const ImportDataModal = ({
   opcionalCols = "",
   requiredCols = "",
 }: any) => {
-  const [dataImport, setDataImport]: any = useState(null);
-  const [errorImport, setErrorImport]: any = useState(null);
+  const [dataImport, setDataImport]: any = useState([]);
+  const [errorImport, setErrorImport]: any = useState([]);
 
   useEffect(() => {
     if (open) {
