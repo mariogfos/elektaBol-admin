@@ -1,31 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Dptos.module.css";
+import styles from "./Mesas.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useEffect, useMemo, useState } from "react";
 import RenderItem from "../shared/RenderItem";
-import ImportDataModal from "../shared/ImportDataModal";
 import { formatNumber } from "@/mk/utils/numbers";
+import ImportDataModal from "../shared/ImportDataModal";
 
 const mod: ModCrudType = {
-  modulo: "dptos",
-  singular: "departamento",
-  plural: "departamentos",
+  modulo: "mesas",
+  singular: "mesa",
+  plural: "mesas",
   permiso: "",
   import: true,
   extraData: true,
 };
 
 const paramsInitial = {
-  perPage: -1,
+  perPage: 100,
   page: 1,
   fullType: "L",
   searchBy: "",
 };
 
-const Dptos = () => {
+const Mesas = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -33,34 +33,63 @@ const Dptos = () => {
         rules: ["required"],
         api: "ae",
         label: "País",
-        list: { width: "250px" },
         form: { type: "select", optionsExtra: "countries" },
+      },
+      dpto_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Dpto",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+        list: {
+          width: "150px",
+          label: "Circuns.",
+          style: { textAlign: "right" },
+        },
+        form: { type: "select", optionsExtra: "circuns" },
+      },
+      mun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Municipio",
+        form: { type: "select", optionsExtra: "muns" },
+      },
+      local_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Localidad",
+        form: { type: "select", optionsExtra: "locals" },
+      },
+      recinto_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Recinto",
+        list: { width: "450px" },
+        form: { type: "select", optionsExtra: "recintos" },
       },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
+        label: "Mesa",
         list: true,
         form: { type: "text" },
       },
-
       code: {
         rules: ["max:5", "noSpaces"],
         api: "ae",
         label: "Cód",
-        list: { width: "120px", style: { textAlign: "right" } },
-        form: { type: "text" },
-      },
-      habitantes: {
-        rules: ["positive"],
-        api: "ae",
-        label: "Habitantes",
-        list: {
-          width: "400px",
-          style: { textAlign: "right" },
-          onRender: (item: any) => formatNumber(item.value, 0),
-        },
-
+        list: { width: "200px", style: { textAlign: "right" } },
         form: { type: "text" },
       },
       habilitados: {
@@ -74,14 +103,12 @@ const Dptos = () => {
         },
         form: { type: "text" },
       },
-      escanos: {
-        rules: ["positive"],
-        api: "ae",
-        label: "Escaños asignados",
-        form: { type: "text" },
-      },
     };
   }, []);
+
+  const onImport = () => {
+    setOpenImport(true);
+  };
 
   const {
     userCan,
@@ -98,6 +125,7 @@ const Dptos = () => {
     paramsInitial,
     mod,
     fields,
+    _onImport: onImport,
   });
   const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
@@ -123,12 +151,7 @@ const Dptos = () => {
         <ItemList
           title={item?.name}
           subtitle={
-            "Habitantes: " +
-            (item?.habitantes +
-              " - Habilitados: " +
-              item?.habilitados +
-              " - Escaños: " +
-              item?.escanos)
+            "Cod:" + item?.code + " - Habilitados: " + item?.habilitados
           }
           variant="V1"
           active={selItem && selItem.id == item.id}
@@ -146,16 +169,17 @@ const Dptos = () => {
           open={openImport}
           onClose={() => {
             setSearchState(0);
+            setOpenImport(false);
           }}
           mod={mod}
           showToast={showToast}
           reLoad={reLoad}
           execute={execute}
-          requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
         />
       )}
     </div>
   );
 };
 
-export default Dptos;
+export default Mesas;
