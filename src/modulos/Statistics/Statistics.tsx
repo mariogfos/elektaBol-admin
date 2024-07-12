@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
 import useAxios from "@/mk/hooks/useAxios";
@@ -6,13 +6,13 @@ import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetResume from "@/components/Widgets/WidgetResume/WidgetResume";
 import useCrud from "@/mk/hooks/useCrud/useCrud";
 import t from "@/mk/utils/traductor";
+import DataModal from "@/mk/components/ui/DataModal/DataModal";
+import CircunscripcionesSczMaps from "@/components/Maps/Circunscripcion/CircunscripcionesSczMaps";
 import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
 import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
 
 const paramInitial: any = {
-  perPage: 10,
-  page: 1,
-  fullType: "L",
+  searchBy: "",
 };
 const Statistics = () => {
   const [params, setParams] = useState(paramInitial);
@@ -20,113 +20,63 @@ const Statistics = () => {
   const [selectedDepartment, setSelectedDepartment]: any = useState(null);
   const [selectedCircunscripcion, setSelectedCircunscripcion]: any =
     useState(null);
-  // const { data: dashboard } = useAxios("/dashboard", "GET", {
-  //   fullType: "L",
-  //   searchBy: "",
-  // });
-  console.log(level);
+  const { data: stads, reLoad } = useAxios("/estads", "POST", {
+    ...paramInitial,
+  });
 
-  const statistics = {
-    data: [
-      {
-        id: 1,
-        code: "09",
-        name: "Pando",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 2,
-        code: "02",
-        name: "La Paz",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 3,
-        code: "08",
-        name: "Beni",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 4,
-        code: "04",
-        name: "Oruro",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 5,
-        code: "03",
-        name: "Cochabamba",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 6,
-        code: "05",
-        name: "Potosi",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 7,
-        code: "07",
-        name: "Chuquisaca",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 8,
-        code: "06",
-        name: "Tarija",
-        habitantes: 11673029,
-        habilitados: 11673029,
-        affiliate_count: 11673029,
-      },
-      {
-        id: 9,
-        code: "01",
-        name: "Santa Cruz",
-        habitantes: 11673029,
-        habilitados: 11,
-        affiliate_count: 11673029,
-      },
-    ],
-  };
+  const [dataFormatted, setDataFormatted]: any = useState([]);
+
+  console.log("stads", stads?.data);
+
+  useEffect(() => {
+    let data: any = [];
+    stads?.data.data.map((item: any) => {
+      stads?.data.entidad.map((entidad: any) => {
+        if (item.id === entidad.dpto_id) {
+          data.push({ ...item, circuns_count: entidad.circuns_count });
+        }
+      });
+    });
+    setDataFormatted(data);
+  }, [stads?.data]);
+
+  useEffect(() => {
+    reLoad(params);
+  }, [params]);
+
   const onClickLevel = (row: any) => {
-    console.log("row", row);
     setParams({ ...params, searchBy: row.id, level: level + 1 });
+
     if (level === 0) {
       setSelectedDepartment(row);
+      setLevel(level + 1);
     }
     if (level === 1) {
       setSelectedCircunscripcion(row);
+      setLevel(level + 1);
     }
     if (level < 3) {
       setLevel(level + 1);
     }
   };
   const onClickBack = () => {
+    // setParams({ ...params, level: level - 1 });
     if (level > 0) {
       setLevel(level - 1);
     }
     if (level === 1) {
+      setParams({
+        ...params,
+        searchBy: selectedDepartment.id,
+        level: level - 1,
+      });
       setSelectedDepartment(null);
     }
     if (level === 2) {
       setSelectedCircunscripcion(null);
     }
   };
-
+  console.log(level);
   return (
     <div className={styles["statistics"]}>
       <h1>
@@ -143,13 +93,14 @@ const Statistics = () => {
         //   marginBottom: "32px",
         // }}
       >
-        <div >
+        <div>
+          {/* {level == 0 && ( */}
           <DepartmentsMaps
             level={level}
             setLevel={setLevel}
             params={params}
             setParams={setParams}
-            tooltipsData={statistics?.data}
+            tooltipsData={level == 0 ? dataFormatted : stads?.data.data}
             isClicker={true}
             onClickLevel={onClickLevel}
             onClickBack={onClickBack}
@@ -158,12 +109,17 @@ const Statistics = () => {
             selectedCircunscripcion={selectedCircunscripcion}
             setSelectedCircunscripcion={setSelectedCircunscripcion}
           />
+          {/* )} */}
+          {/* {level == 1 && (
+            <CircunscripcionesSczMaps tooltipsData={stads?.data.data} />
+          )} */}
         </div>
 
 
         {level < 2 && <div>
           <WidgetResume
-            data={statistics?.data}
+            data={dataFormatted}
+            dataExtra={stads?.data.total_entidad2}
             level={level}
             setLevel={setLevel}
             params={params}
@@ -182,25 +138,27 @@ const Statistics = () => {
         }
       </section>
       <section>
-     { level < 3 ?  <WidgetTableStats
-          data={statistics?.data}
+        <WidgetTableStats
+          data={level == 0 ? dataFormatted : stads?.data.data}
           title={
             level == 0
               ? "Departamentos"
               : level == 1
-                ? "Circunscripciones"
-                : "Recintos electorales"
+              ? "Circunscripciones"
+              : level == 2
+              ? "Recintos electorales"
+              : "Mesas electorales"
           }
           level={level}
           setLevel={setLevel}
           onClickLevel={onClickLevel}
           params={params}
           setParams={setParams}
-        /> :
-        <div style={{ width: "100%", display: "flex" }}>
+        /> 
+       {/* {level === 3 && <div style={{ width: "100%", display: "flex" }}> */}
         <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Otros resultados'}/>
-        </div>
-      }
+        {/* </div>} */}
+      
       </section>
     </div>
   );

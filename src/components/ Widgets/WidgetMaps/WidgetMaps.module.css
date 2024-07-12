@@ -8,10 +8,10 @@
 
   @media (min-width: 768px) {
     flex-direction: row;
-    align-items: flex-start;
+    /* align-items: flex-start; */
     gap: 63px;
   }
-  @media (max-width: 1440px) {
+  @media (max-width: 1600px) {
     flex-direction: column;
   }
 }
@@ -38,9 +38,10 @@
   @media (min-width: 768px) {
     width: auto;
     margin-bottom: 0;
+    align-self: flex-start;
   }
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1441px) {
     width: 100%;
   }
 }
@@ -53,19 +54,17 @@
   height: 60px; /* increased height for better visibility */
   margin-top: 30px;
 
-  @media (min-width: 1440px) {
+  @media (min-width: 768px) {
     margin-top: 0 !important;
-    align-self: flex-start;
-    height: 50px; /* slightly reduced for larger screens */
   }
 
-  @media (max-width: 768px) {
+  @media (min-width: 1600px) {
     margin-top: 0 !important;
-    height: 60px; /* ensuring it remains the same size for small screens */
+    align-self: flex-start;
   }
 }
 
-.uruguay {
+.bolivia {
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -81,7 +80,7 @@
   }
 
   @media (min-width: 2200px) {
-    margin-left: -380px;
+    margin-left: -180px;
     margin-top: 140px;
     & > svg {
       width: 64px;

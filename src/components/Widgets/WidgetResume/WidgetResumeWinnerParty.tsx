@@ -3,6 +3,7 @@ import GraphBase from "@/mk/components/ui/Graphs/GraphBase"
 import styles from "./WidgetResume.module.css"
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar"
 import { IconCamera } from "@/components/layout/icons/IconsBiblioteca"
+import ProgresiveBar from "@/mk/components/ui/ProgresiveBar/ProgresiveBar"
 
 const WidgetResumeWinnerParty = ({data,title}:any) => {
     const deta = {
@@ -27,17 +28,14 @@ const WidgetResumeWinnerParty = ({data,title}:any) => {
             <div>{item.title}</div>
             <div>{item.votes}</div>
             </div>
-            <div>
-            <GraphBase
-              data={deta}
-              chartTypes={["radialBar"]}
-              options={{
-                height: 170,
-                colors: [`${item.color}`],
-                
-                
-              }}
-            />
+            <div style={{width:"100%"}}>
+            <ProgresiveBar
+        
+          total={100}
+          actualValue={70}
+          titleTotal={`Habilitados`}
+          titleActualValue={`${item.votes} Votos`}
+        />
             </div>
         </div>
         </div>)}

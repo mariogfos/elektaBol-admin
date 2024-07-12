@@ -16,6 +16,7 @@ type PropsType = {
   onClickLevel: () => void;
   selectedCircunscripcion: any;
   setSelectedCircunscripcion: any;
+  params: any;
 };
 
 const DepartmentMap = ({
@@ -24,26 +25,24 @@ const DepartmentMap = ({
   onClickLevel,
   selectedCircunscripcion,
   setSelectedCircunscripcion,
+  params,
 }: PropsType) => {
-  const getDepartmentComponent = (id: number) => {
+  const getDepartmentComponent = (id: string) => {
+    console.log("id funcion", id);
     switch (id) {
-      case 1:
-        return <Pando />;
-      case 2:
-        return <LaPaz />;
-      case 3:
-        return <Beni />;
-      case 4:
-        return <Oruro />;
-      case 5:
-        return <Cochabamba />;
-      case 6:
-        return <Potosi />;
-      case 7:
+      case "1":
         return <Chuquisaca />;
-      case 8:
-        return <Tarija  circunscripcion={department} onClickBack={onClickBack}/>;
-      case 9:
+      case "2":
+        return <LaPaz />;
+      case "3":
+        return <Cochabamba />;
+      case "4":
+        return <Oruro />;
+      case "5":
+        return <Potosi />;
+      case "6":
+        return <Tarija />;
+      case "7":
         return (
           <SantaCruz
             circunscripcion={department}
@@ -53,6 +52,10 @@ const DepartmentMap = ({
             setSelectedCircunscripcion={setSelectedCircunscripcion}
           />
         );
+      case "8":
+        return <Beni />;
+      case "9":
+        return <Pando />;
       default:
         return null;
     }
@@ -60,7 +63,17 @@ const DepartmentMap = ({
 
   return (
     <div>
-      <div>{getDepartmentComponent(department.id)}</div>
+      {/* <h2>{department.titulo}</h2>
+      <p>Habitantes: {formatNumber(department?.habitantes, 0)}</p>
+      <p>Habilitados: {formatNumber(department?.habilitados, 0)}</p>
+      <p>
+        Afiliados:{" "}
+        {department?.data?.afiliados
+          ? formatNumber(department?.data?.afiliados, 0)
+          : "N/A"}
+      </p> */}
+
+      <div>{getDepartmentComponent(department?.code)}</div>
     </div>
   );
 };

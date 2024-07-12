@@ -15,7 +15,7 @@
       min-height: 400px; /* Aumenta la altura máxima para pantallas medianas */
     }
 
-    @media (min-width: 1440px) {
+    @media (min-width: 1600px) {
       min-height: 500px; /* Aumenta la altura máxima para la resolución 1440x900px */
     }
 

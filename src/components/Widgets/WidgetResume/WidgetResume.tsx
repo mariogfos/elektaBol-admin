@@ -4,33 +4,40 @@ import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 
 const WidgetResume = ({
   data,
+  dataExtra,
   level,
   setLevel,
   params,
   setParams,
   reload,
 }: any) => {
+  let totalCircunscripciones = data.reduce((acc: any, item: any) => {
+    return acc + item.circuns_count;
+  }, 0);
+
   return (
     <div className={styles.container}>
       <section>
         <div >
-          Resumen general a nivel nacional
+        {level === 0 && 'Resumen general a nivel nacional'}
+        {level === 1 && 'Resumen general a nivel departamental'}
         </div>
         <div>
-          Al lunes 10 de junio del 2024
+          {level === 0 && 'Bolivia'}
+          {level === 0 && data.name}
         </div>
         <div className={styles["container-card"]}>
           <div className={styles["cardInfo"]}>
             <h2>Departamentos</h2>
-            <p>9</p>
+            <p>{data.length}</p>
           </div>
           <div className={styles["cardInfo"]}>
             <h2>Circunscripciones</h2>
-            <p>63</p>
+            <p>{totalCircunscripciones}</p>
           </div>
           <div className={styles["cardInfo"]}>
             <h2>Recintos</h2>
-            <p>3,500</p>
+            <p>{dataExtra}</p>
           </div>
         </div>
       </section>

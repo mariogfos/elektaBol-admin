@@ -8,7 +8,7 @@ interface ProgresiveBarProps {
   topLabels?: boolean;
   bottomLabels?: boolean;
   titleTotal?: string;
-  titleActualValue: string;
+  titleActualValue?: string;
 }
 
 const ProgresiveBar = ({
