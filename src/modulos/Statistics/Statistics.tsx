@@ -174,7 +174,9 @@ const Statistics = () => {
               ? "Departamentos"
               : level == 1
               ? "Circunscripciones"
-              : "Recintos electorales"
+              : level == 2
+              ? "Recintos electorales"
+              : "Mesas electorales"
           }
           level={level}
           setLevel={setLevel}
