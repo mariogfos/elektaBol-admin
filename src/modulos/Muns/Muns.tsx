@@ -39,6 +39,7 @@ const Muns = () => {
         rules: ["required"],
         api: "ae",
         label: "Dpto",
+        list: true,
         form: { type: "select", optionsExtra: "dptos" },
       },
       prov_id: {
