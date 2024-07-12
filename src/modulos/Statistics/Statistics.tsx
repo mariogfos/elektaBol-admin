@@ -22,7 +22,6 @@ const Statistics = () => {
   //   fullType: "L",
   //   searchBy: "",
   // });
-  console.log(level);
 
   const statistics = {
     data: [
