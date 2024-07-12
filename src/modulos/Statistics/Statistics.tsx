@@ -175,13 +175,13 @@ const Statistics = () => {
         {level >= 2 && (
           <div className={styles['topWidgets']}>
             <WidgetResumeVotes />
-            <WidgetResumeWinnerParty />
+            <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Partido ganador'}/>
           </div>
         )
         }
       </section>
       <section>
-        <WidgetTableStats
+     { level < 3 ?  <WidgetTableStats
           data={statistics?.data}
           title={
             level == 0
@@ -195,7 +195,11 @@ const Statistics = () => {
           onClickLevel={onClickLevel}
           params={params}
           setParams={setParams}
-        />
+        /> :
+        <div style={{ width: "100%", display: "flex" }}>
+        <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Partido ganador'}/>
+        </div>
+      }
       </section>
     </div>
   );

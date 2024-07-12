@@ -77,6 +77,7 @@
 
 .widgetResumeVotes {
   min-width: 430px;
+  width: 100%;
 
   &>div:nth-child(1) {
     font-size: var(--sXxl);
@@ -89,6 +90,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--spS);
+
 
   }
 
@@ -104,7 +106,8 @@
   text-align: start;
   background-color: #FFFFFF0D;
   /* max-width: 208px; */
-  max-width: 180px;
+  /* max-width: 180px; */
+  
 
   @media (min-width: 1024px) {
     width: 100%;
@@ -114,69 +117,99 @@
     width: 100%;
     max-width: 100%;
   }
-
+  
   &>div:nth-child(1) {
     color: var(--cBlackV2);
   }
 
   &>div:nth-child(2) {
     color: var(--cBlackV2);
-    font-size: var(--spM);
-
+    font-size: var(--spL);
+    
     padding-right: var(--spS);
   }
 
   &>div:nth-child(3) {
+    margin-top: var(--spXxl);
     color: var(--cWhite);
     font-size: var(--spXl);
     padding-right: var(--spS);
   }
 }
 
+.widgetResumeWinnerCarousel {
+   
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+    gap: var(--sL);
+  
+}
+
+
 
 .widgetResumeWinner {
+display: flex;
+width: 100%;
 
-  &>div:nth-child(1) {
-    font-size: var(--sXxl);
-    font-weight: bold;
-    margin-bottom: var(--spS);
-  }
 
-  &>div:nth-child(2) {
-    /* background-color: red;  */
+&>h1{
+  font-size: var(--sXxl);
+  font-weight: bold;
+  margin-bottom: var(--spL);
+
+
+}
+  &>div {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border: 1px solid var(--cBlackV3);
-    border-radius: var(--bRadius);
-    padding: var(--spS);
-    gap: var(--spS);
-    text-align: center;
-
+    gap:8px;
+    overflow-x: scroll;
+   
+  & > div {
+    /* background-color: purple; */
+    display: flex;
+    flex-direction: row;
+    
     &>div:nth-child(1) {
-      /* background-color: aqua; */
-
-      &>div:nth-child(2) {
-        /* titulo */
-        margin-top: var(--spS);
-        font-size: var(--spL);
-
-
+      /* background-color: red;  */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column; 
+      border: 1px solid var(--cBlackV3);
+      border-radius: var(--bRadius);
+      padding: var(--spS);
+      gap: var(--spS);
+      text-align: center;
+     
+  
+      &>div:nth-child(1) {
+        /* background-color: aqua; */
+       
+        &>div:nth-child(2) {
+          /* titulo */
+          margin-top: var(--spS);
+          font-size: var(--spL);
+  
+  
+        }
+  
+        &>div:nth-child(3) {
+          /* subtitulo */
+          font-size: var(--sM);
+          color: var(--cBlackV2);
+        }
       }
-
-      &>div:nth-child(3) {
-        /* subtitulo */
-        font-size: var(--sM);
-        color: var(--cBlackV2);
-      }
+  
+   
+  
     }
-
     &>div:nth-child(2) {
       margin-top: var(--spS);
       /* background-color: yellow; */
     }
+  }}
 
-  }
+ 
 
 }

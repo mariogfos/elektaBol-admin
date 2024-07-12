@@ -4,8 +4,8 @@ import styles from "./WidgetResume.module.css"
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar"
 import { IconCamera } from "@/components/layout/icons/IconsBiblioteca"
 
-const WidgetResumeWinnerParty = () => {
-    const data = {
+const WidgetResumeWinnerParty = ({data,title}:any) => {
+    const deta = {
         values: [
           { name: "Category 1", value: 5, values: [10, 20] },
           
@@ -14,27 +14,32 @@ const WidgetResumeWinnerParty = () => {
     
     
   return (
-    <Card className={styles['widgetResumeWinner']}>
-        <div>Partido ganador</div>
-        <div>
-            <div>
-                
-            <Avatar />
-            <div>Titulo del partido</div>
-            <div>Num de votos</div>
+    <Card className={styles['widgetResumeWinner']} >
+  <h1>{title}</h1>
+  <div>
+      {data?.map((item:any,i:number)=>
+      <div style={{width:'100%'}} key={i} >
+    
+        <div style={data?.length >1 ? {width:247}:{width:'100%'}}>
+            <div>               
+            <Avatar name={item.name} />
+            <div>{item.title}</div>
+            <div>{item.votes}</div>
             </div>
             <div>
             <GraphBase
-              data={data}
+              data={deta}
               chartTypes={["radialBar"]}
               options={{
                 height: 170,
-                colors: ['#F58220'],
+                colors: [`${item.color}`],
                 
                 
               }}
             />
             </div>
+        </div>
+        </div>)}
         </div>
 
 

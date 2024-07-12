@@ -9,7 +9,7 @@
 .topWidgets {
   display: flex;
   width: 100%;
-  justify-content: space-around;
   margin-bottom: 24px;
   background-color: blue;
+  gap: 24px;
 }
