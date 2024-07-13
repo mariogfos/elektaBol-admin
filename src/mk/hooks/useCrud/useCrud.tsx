@@ -21,7 +21,6 @@ import styles from "./usecrud.module.css";
 import FloatButton from "@/mk/components/forms/FloatButton/FloatButton";
 import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
-  IconAdd,
   IconEdit,
   IconImport,
   IconTrash,
@@ -49,6 +48,7 @@ type PropsType = {
   getFilter?: Function;
   _onChange?: Function;
   _onImport?: Function;
+  menuFilter?: any;
 };
 
 type PropsDetail = {
@@ -113,6 +113,7 @@ const useCrud = ({
   getFilter,
   _onChange,
   _onImport,
+  menuFilter = null,
 }: PropsType): UseCrudType => {
   const { user, showToast, userCan, store, setStore } = useAuth();
   const [formState, setFormState]: any = useState({});
@@ -802,6 +803,7 @@ const useCrud = ({
             <IconImport />
           </div>
         )}
+        {menuFilter || null}
       </div>
     );
   });
