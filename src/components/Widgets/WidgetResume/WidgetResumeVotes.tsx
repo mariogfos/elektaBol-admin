@@ -5,12 +5,15 @@ import { formatNumber } from "@/mk/utils/numbers";
 type PropsType = {
     title: string;
     subtitle?: string;
-    total_entidad?:any;
+    dataCircunscripciones?:any;
     total_entidad2?:any;
 }
 
-const WidgetResumeVotes = ({title,subtitle,total_entidad,total_entidad2}:PropsType) => {
-    console.log('data',total_entidad,total_entidad2);
+const WidgetResumeVotes = ({title,subtitle,dataCircunscripciones,total_entidad2}:PropsType) => {
+    console.log('data',dataCircunscripciones,total_entidad2);
+    const totalHabilitados = dataCircunscripciones?.reduce((acc: number, curr: any) => acc + Number(curr.habilitados), 0) || 0;
+    const totalEmitidos = Number(total_entidad2.nulos) + Number(total_entidad2.blancos) + Number(total_entidad2.validos)
+
   return (
     <Card className={styles['widgetResumeVotes']}>
         <div>
@@ -21,17 +24,17 @@ const WidgetResumeVotes = ({title,subtitle,total_entidad,total_entidad2}:PropsTy
         <div className={styles['cardInfoResumeVotes']}>
             <IconElectoralParty color={'var(--cBlackV2)'}/>
             <div>Padrón electoral</div>
-            <div>3000</div>
+            <div>{formatNumber(totalHabilitados,0)}</div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
             <IconVotes color={'var(--cBlackV2)'}/>
             <div>Votos emitidos</div>
-            <div>{formatNumber((Number(total_entidad2.nulos) + Number(total_entidad2.blancos) + Number(total_entidad2.validos)),0 )} </div>
+            <div>{formatNumber(totalEmitidos,0 )} </div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
             <IconPercentage color={'var(--cBlackV2)'}/>
             <div>Participación</div>
-            <div>3333 %</div>
+            <div>{formatNumber(( totalEmitidos / totalHabilitados ) * 100)}%</div>
         </div>
         <div className={styles['cardInfoResumeVotes']}>
             <IconCheck color={'var(--cBlackV2)'}/>
