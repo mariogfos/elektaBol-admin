@@ -171,7 +171,10 @@ const WidgetTableStats = ({
             {formatNumber(total?.col3, 0)}
           </span>
         </div>
+
       </div>
+
+      <div style={{marginTop:16,color:'var(--cBlackV2)'}}>Fuente: Instituto Nacional de Estadística (INE) y Órgano Electoral Plurinacional (OEP)</div>
     </div>
   );
 };

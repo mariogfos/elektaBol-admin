@@ -76,7 +76,7 @@
 }
 
 .widgetResumeVotes {
-  min-width: 430px;
+  min-width: 540px;
   width: 100%;
 
   &>div:nth-child(1) {
@@ -111,6 +111,8 @@
   background-color: #FFFFFF0D;
   /* max-width: 208px; */
   /* max-width: 180px; */
+  min-width: 159px;
+  min-height: 123px;
   
 
   @media (min-width: 1024px) {
