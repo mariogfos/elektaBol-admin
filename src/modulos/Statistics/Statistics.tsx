@@ -1,13 +1,9 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetResume from "@/components/Widgets/WidgetResume/WidgetResume";
-import useCrud from "@/mk/hooks/useCrud/useCrud";
-import t from "@/mk/utils/traductor";
-import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import CircunscripcionesSczMaps from "@/components/Maps/Circunscripcion/CircunscripcionesSczMaps";
 import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
 import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
 
@@ -21,12 +17,10 @@ const Statistics = () => {
   const [selectedCircunscripcion, setSelectedCircunscripcion]: any =
     useState(null);
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
-    ...paramInitial,
+    ...params,
   });
 
   const [dataFormatted, setDataFormatted]: any = useState([]);
-
-  console.log("stads", stads?.data,'selecCric',selectedCircunscripcion);
 
   useEffect(() => {
     let data: any = [];
@@ -43,40 +37,58 @@ const Statistics = () => {
   useEffect(() => {
     reLoad(params);
   }, [params]);
+  // console.log(params);
 
   const onClickLevel = (row: any) => {
-    setParams({ ...params, searchBy: row.id, level: level + 1 });
+    console.log("ROWWW", row);
+    setParams((prevParams: any) => ({
+      ...prevParams,
+      searchBy: row.id,
+      level: level + 1,
+    }));
 
-    if (level === 0) {
+    if (level == 0) {
       setSelectedDepartment(row);
-      setLevel(level + 1);
     }
-    if (level === 1) {
+    if (level == 1) {
       setSelectedCircunscripcion(row);
-      setLevel(level + 1);
     }
+
     if (level < 3) {
       setLevel(level + 1);
     }
   };
+
   const onClickBack = () => {
-    // setParams({ ...params, level: level - 1 });
+    switch (level) {
+      case 1:
+        setSelectedDepartment(null);
+        setParams({
+          searchBy: "",
+          level: level - 1,
+        });
+        break;
+      case 2:
+        setSelectedCircunscripcion(null);
+        setParams({
+          searchBy: selectedDepartment.id,
+          level: level - 1,
+        });
+        break;
+      default:
+        setParams((prevParams: any) => ({
+          ...prevParams,
+          searchBy: "",
+          level: level - 1,
+        }));
+
+        break;
+    }
+
     if (level > 0) {
       setLevel(level - 1);
     }
-    if (level === 1) {
-      setParams({
-        ...params,
-        searchBy: selectedDepartment.id,
-        level: level - 1,
-      });
-      setSelectedDepartment(null);
-    }
-    if (level === 2) {
-      setSelectedCircunscripcion(null);
-    }
   };
-  console.log(level);
   return (
     <div className={styles["statistics"]}>
       <h1>
@@ -100,7 +112,7 @@ const Statistics = () => {
             setLevel={setLevel}
             params={params}
             setParams={setParams}
-            tooltipsData={level == 0 ? dataFormatted : stads?.data.data}
+            tooltipsData={dataFormatted}
             isClicker={true}
             onClickLevel={onClickLevel}
             onClickBack={onClickBack}

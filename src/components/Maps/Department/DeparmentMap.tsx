@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { formatNumber } from "@/mk/utils/numbers";
-import SantaCruz from "./SantaCruz/SantaCruz";
 import Tarija from "./Tarija/Tarija";
 import Chuquisaca from "./Chuquisaca/Chuquisaca";
 import Potosi from "./Potosi/Potosi";
@@ -9,6 +8,7 @@ import Beni from "./Beni/Beni";
 import LaPaz from "./LaPaz/LaPaz";
 import Oruro from "./Oruro/Oruro";
 import Cochabamba from "./Cochabamba/Cochabamba";
+import SantaCruz from "./SantaCruz/SantaCruz";
 
 type PropsType = {
   department: any;
@@ -17,6 +17,7 @@ type PropsType = {
   selectedCircunscripcion: any;
   setSelectedCircunscripcion: any;
   params: any;
+  tooltipsData: any;
 };
 
 const DepartmentMap = ({
@@ -25,6 +26,7 @@ const DepartmentMap = ({
   onClickLevel,
   selectedCircunscripcion,
   setSelectedCircunscripcion,
+  tooltipsData,
   params,
 }: PropsType) => {
   const getDepartmentComponent = (id: string) => {
@@ -45,13 +47,19 @@ const DepartmentMap = ({
       case "7":
         return (
           <SantaCruz
-            circunscripcion={department}
-            onClickBack={onClickBack}
+            tooltipsData={tooltipsData}
             onClickLevel={onClickLevel}
             selectedCircunscripcion={selectedCircunscripcion}
-            setSelectedCircunscripcion={setSelectedCircunscripcion}
           />
         );
+      // case "7":
+      //   return (
+      //     <CircunscripcionesSczMaps
+      //       tooltipsData={tooltipsData}
+      //       onClickLevel={onClickLevel}
+      //       selectedCircunscripcion={selectedCircunscripcion}
+      //     />
+      //   );
       case "8":
         return <Beni />;
       case "9":

@@ -131,7 +131,7 @@ export const DepartmentsMaps = ({
     tabs.push(selectedDepartment.name);
   }
   if (selectedCircunscripcion) {
-    tabs.push(selectedCircunscripcion.titulo);
+    tabs.push(selectedCircunscripcion.name);
   }
   return (
     <div className={styles.DepartmentsMaps}>
@@ -159,12 +159,13 @@ export const DepartmentsMaps = ({
             </nav>
             <h1 style={{ marginBottom: 16 }}>
               {selectedCircunscripcion
-                ? selectedCircunscripcion.titulo
+                ? "Circunscripción " + selectedCircunscripcion.name
                 : selectedDepartment
                 ? "Departamento de " + selectedDepartment.name
                 : null}
             </h1>
             <DeparmentMap
+              tooltipsData={tooltipsData}
               params={params}
               onClickBack={onClickBack}
               department={selectedDepartment}
