@@ -1,48 +1,44 @@
-import { Card } from "@/mk/components/ui/Card/Card"
-import GraphBase from "@/mk/components/ui/Graphs/GraphBase"
-import styles from "./WidgetResume.module.css"
-import { Avatar } from "@/mk/components/ui/Avatar/Avatar"
-import { IconCamera } from "@/components/layout/icons/IconsBiblioteca"
-import ProgresiveBar from "@/mk/components/ui/ProgresiveBar/ProgresiveBar"
+import { Card } from "@/mk/components/ui/Card/Card";
+import GraphBase from "@/mk/components/ui/Graphs/GraphBase";
+import styles from "./WidgetResume.module.css";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
+import { IconCamera } from "@/components/layout/icons/IconsBiblioteca";
+import ProgresiveBar from "@/mk/components/ui/ProgresiveBar/ProgresiveBar";
+import DonutChart from "@/mk/components/DonutChart/DonutChart";
 
-const WidgetResumeWinnerParty = ({ data, title ,subtitle }: any) => {
+const WidgetResumeWinnerParty = ({ data, title, subtitle, style }: any) => {
   const deta = {
-    values: [
-      { name: "Category 1", value: 1, values: [1, 50] },
-
-
-    ],
+    values: [{ name: "Category 1", value: 1, values: [1, 50] }],
   };
 
-
   return (
-    <Card className={styles['widgetResumeWinner']} >
+    <Card className={styles["widgetResumeWinner"]}>
       <div>
-      <h1>{title}</h1>
-      <div>{subtitle}</div>
+        <h1>{title}</h1>
+        <div>{subtitle}</div>
       </div>
-      <div>
-        {data?.map((item: any, i: number) =>
-          <div style={{ width: '100%' }} key={i} >
-
-            <div style={data?.length > 1 ? { width: 247 } : { width: '100%' }}>
+      <div style={style}>
+        {data?.map((item: any, i: number) => (
+          <div style={{ width: "100%" }} key={i}>
+            <div style={data?.length > 1 ? { width: 247 } : { width: "100%" }}>
               <div>
                 <Avatar name={item.name} />
                 <div>{item.title}</div>
                 <div>{item.votes} votos obtenidos</div>
               </div>
-              <div style={{ width: "100%" }}>
-                <ProgresiveBar
+              <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                {/* <ProgresiveBar
                   color={item.color}
                   total={100}
                   actualValue={item.votes}
                   titleActualValue={`${item.votes} Votos`}
-                />
+                /> */}
+                 <DonutChart percentage={item.votes} color={item.color} size={100} />
               </div>
             </div>
-          </div>)}
+          </div>
+        ))}
       </div>
-
 
       {/* <GraphBase
               data={[]}
@@ -53,7 +49,7 @@ const WidgetResumeWinnerParty = ({ data, title ,subtitle }: any) => {
               }}
             /> */}
     </Card>
-  )
-}
+  );
+};
 
-export default WidgetResumeWinnerParty
+export default WidgetResumeWinnerParty;
