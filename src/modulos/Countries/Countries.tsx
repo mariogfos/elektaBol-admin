@@ -7,6 +7,7 @@ import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
+import { IconStarProfile } from "@/components/layout/icons/IconsBiblioteca";
 
 const mod: ModCrudType = {
   modulo: "countries",
@@ -74,6 +75,14 @@ const Countries = () => {
     };
   }, []);
 
+  const MenuFilter = () => {
+    return (
+      <div style={{ paddingTop: "12px" }}>
+        <IconStarProfile onClick={actDatos} />
+      </div>
+    );
+  };
+
   const {
     userCan,
     List,
@@ -89,6 +98,7 @@ const Countries = () => {
     paramsInitial,
     mod,
     fields,
+    menuFilter: <MenuFilter />,
   });
   const { onLongPress, selItem } = useCrudUtils({
     onSearch,
@@ -98,6 +108,18 @@ const Countries = () => {
     onEdit,
     onDel,
   });
+
+  const actDatos = async () => {
+    const { data, error } = await execute("actDatos", "POST", {
+      type: mod.modulo,
+    });
+    if (data.success) {
+      showToast("Datos actualizados", "success");
+      reLoad();
+    } else {
+      showToast("Error al actualizar datos", "error");
+    }
+  };
 
   const renderItem = (
     item: Record<string, any>,
