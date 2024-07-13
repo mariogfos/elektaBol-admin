@@ -5,6 +5,7 @@ import { formatNumber } from "@/mk/utils/numbers";
 interface ProgresiveBarProps {
   total: number;
   actualValue: number;
+  color?:string;
   topLabels?: boolean;
   bottomLabels?: boolean;
   titleTotal?: string;
@@ -14,6 +15,7 @@ interface ProgresiveBarProps {
 const ProgresiveBar = ({
   topLabels,
   bottomLabels,
+  color,
   total,
   actualValue,
   titleTotal,
@@ -65,7 +67,7 @@ const ProgresiveBar = ({
       )}
 
       <div className={styles.progresiveBar}>
-        <div style={{ width: `${percentage}%`, position: "relative" }}>
+        <div  style={color?{backgroundColor:color,width: `${percentage}%`, position: "relative"}:{ width: `${percentage}%`, position: "relative" }}>
           {percentage > 0 && <p>{percentage} %</p>}
         </div>
       </div>

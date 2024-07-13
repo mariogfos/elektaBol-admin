@@ -132,13 +132,13 @@ const Statistics = () => {
         {level >= 2 && (
           <div className={styles['topWidgets']}>
             <WidgetResumeVotes />
-            <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Partido ganador'}/>
+            <WidgetResumeWinnerParty data={[{name:'eliot',title:'Creemos',votes:98,color:'red'}]} title={'Partido ganador'}/>
           </div>
         )
         }
       </section>
       <section>
-        <WidgetTableStats
+ {  level < 3 &&    <WidgetTableStats
           data={dataFormatted}
           title={
             level == 0
@@ -154,10 +154,10 @@ const Statistics = () => {
           onClickLevel={onClickLevel}
           params={params}
           setParams={setParams}
-        /> 
-       {/* {level === 3 && <div style={{ width: "100%", display: "flex" }}> */}
-        <WidgetResumeWinnerParty data={[{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'},{name:'eliot',title:'cambiemos',votes:222,color:'red'}]} title={'Otros resultados'}/>
-        {/* </div>} */}
+        /> }
+        {level === 3 && <div style={{ width: "100%", display: "flex" }}> 
+        <WidgetResumeWinnerParty data={[{name:'eliot',title:'Comunidad Ciudadana',votes:32,color:'green'},{name:'eliot',title:'MAS - IPSP',votes:52,color:'blue'},{name:'eliot',title:'PAN - BOL',votes:56,color:'white'},{name:'eliot',title:'Juntos',votes:29,color:'yellow'}]} title={'Otros resultados'}/>
+       </div>}
       
       </section>
     </div>
