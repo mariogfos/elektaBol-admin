@@ -1,0 +1,33 @@
+.chartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .donutChart {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .donutRing {
+    fill: transparent;
+    stroke: #444;
+    stroke-width: 3.8;
+  }
+  
+  .donutSegment {
+    fill: transparent;
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  
+  .donutText {
+    fill: white;
+    font-size: 4px;
+    font-weight: bold;
+  }
+  
