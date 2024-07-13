@@ -26,7 +26,7 @@ const Statistics = () => {
 
   const [dataFormatted, setDataFormatted]: any = useState([]);
 
-  console.log("stads", stads?.data);
+  console.log("stads", stads?.data,'selecCric',selectedCircunscripcion);
 
   useEffect(() => {
     let data: any = [];
@@ -131,8 +131,8 @@ const Statistics = () => {
 
         {level >= 2 && (
           <div className={styles['topWidgets']}>
-            <WidgetResumeVotes />
-            <WidgetResumeWinnerParty data={[{name:'eliot',title:'Creemos',votes:98,color:'red'}]} title={'Partido ganador'}/>
+            <WidgetResumeVotes  title={'Datos de las elecciones del 2020'} subtitle={level === 2?selectedCircunscripcion?.titulo:'' }/>
+            <WidgetResumeWinnerParty data={[{name:'eliot',title:'Creemos',votes:98,color:'red'}]} title={'Partido ganador'}  subtitle={level === 2?selectedCircunscripcion?.titulo:'' }/>
           </div>
         )
         }

@@ -83,6 +83,10 @@
     font-size: var(--sXxl);
     font-weight: bold;
     margin-bottom: 16px;
+    &>div:nth-child(2){
+      font-size: var(--sM);
+      color: var(--cBlackV2);
+    }
   }
 
   &>div:nth-child(2) {

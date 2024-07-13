@@ -1,12 +1,19 @@
 import { IconCheck, IconElectoralParty, IconPercentage, IconVotes, IconWhiteVotes, IconX } from "@/components/layout/icons/IconsBiblioteca"
 import { Card } from "@/mk/components/ui/Card/Card"
 import styles from "./WidgetResume.module.css"
+type PropsType = {
+    title: string;
+    subtitle?: string;
+    
+}
 
-
-const WidgetResumeVotes = () => {
+const WidgetResumeVotes = ({title,subtitle}:PropsType) => {
   return (
     <Card className={styles['widgetResumeVotes']}>
-        <div>Resumen de votos</div>
+        <div>
+        <div>{title}</div>
+        <div>{subtitle}</div>
+        </div>
     <div>  
         <div className={styles['cardInfoResumeVotes']}>
             <IconElectoralParty color={'var(--cBlackV2)'}/>

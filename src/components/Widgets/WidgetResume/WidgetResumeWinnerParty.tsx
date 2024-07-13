@@ -5,7 +5,7 @@ import { Avatar } from "@/mk/components/ui/Avatar/Avatar"
 import { IconCamera } from "@/components/layout/icons/IconsBiblioteca"
 import ProgresiveBar from "@/mk/components/ui/ProgresiveBar/ProgresiveBar"
 
-const WidgetResumeWinnerParty = ({ data, title }: any) => {
+const WidgetResumeWinnerParty = ({ data, title ,subtitle }: any) => {
   const deta = {
     values: [
       { name: "Category 1", value: 1, values: [1, 50] },
@@ -17,7 +17,10 @@ const WidgetResumeWinnerParty = ({ data, title }: any) => {
 
   return (
     <Card className={styles['widgetResumeWinner']} >
+      <div>
       <h1>{title}</h1>
+      <div>{subtitle}</div>
+      </div>
       <div>
         {data?.map((item: any, i: number) =>
           <div style={{ width: '100%' }} key={i} >
