@@ -142,21 +142,34 @@ const Statistics = () => {
     const h: any = histParam[0];
     h.push(params);
     histParam[1](h);
-    setParams({ ...params, searchBy: item.id, level: (params.level || 0) + 1 });
-    console.log(
-      "id:",
-      id,
-      "item:",
-      item,
-      "histParam:",
-      histParam,
-      "histTitulo:",
-      histTitulo,
-      "params:",
-      params,
-      "setParams:",
-      setParams
-    );
+    setParams({
+      ...params,
+      searchBy: item.id,
+      level: (params?.level || 0) + 1,
+    });
+    // console.log(
+    //   "id:",
+    //   id,
+    //   "item:",
+    //   item,
+    //   "histParam:",
+    //   histParam,
+    //   "histTitulo:",
+    //   histTitulo,
+    //   "params:",
+    //   params,
+    //   "setParams:",
+    //   setParams
+    // );
+  };
+  const onBack = () => {
+    const h: any = histParam[0];
+    const t: any = histTitulo[0];
+    h.pop();
+    t.pop();
+    histParam[1](h);
+    histTitulo[1](t);
+    setParams(histParam[0][histParam[0].length - 1]);
   };
   return (
     <div className={styles["statistics"]}>
@@ -165,6 +178,7 @@ const Statistics = () => {
           histParams={histParam}
           params={[params, setParams]}
           histTitulos={histTitulo}
+          onBack={onBack}
         />
       </div>
       <div style={{ display: "flex", gap: "var(--spM)" }}>

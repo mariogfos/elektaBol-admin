@@ -1,0 +1,34 @@
+.container {
+  & > nav {
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 16px;
+    margin-top: -16px;
+    & > ol {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      & > li {
+        & > p {
+          color: var(--cBlackV2);
+          text-decoration: none;
+        }
+      }
+      & > div {
+        margin-left: 8px;
+
+        color: var(--cBlackV2);
+        & > li {
+          display: flex;
+          gap: 4px;
+        }
+      }
+      & > div:last-child {
+        cursor: pointer;
+        color: #fff;
+      }
+    }
+  }
+}
