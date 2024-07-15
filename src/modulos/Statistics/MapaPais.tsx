@@ -59,7 +59,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
       <svg
         ref={svgRef}
         viewBox={
-          viewBoxs[data.find((d: any) => d.code == param?.searchBy).code || 0]
+          viewBoxs[data.find((d: any) => d.code == param?.searchBy)?.code || 0]
         }
       >
         {path.map((path: any) => (

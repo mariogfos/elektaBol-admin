@@ -3,16 +3,17 @@ import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
-import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
+import WidgetResumeVotes from "@/modulos/Statistics/WidgetResumen/WidgetResumeVotes";
 import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetTabla from "./WidgetTabla";
-import WidgetResumen from "./WidgetResumen";
+import WidgetResumen from "./WidgetResumen/WidgetResumen";
 
 const paramInitial: any = {
   searchBy: "",
+  level:0
 };
 const Statistics = () => {
   const { setStore } = useAuth();
@@ -55,6 +56,12 @@ const Statistics = () => {
         },
       ],
     },
+    total_entidad2: {
+      validos:100,
+      nulos:50,
+      blancos:20
+    }
+   
   };
 
   // const [dataFormatted, setDataFormatted]: any = useState([]);
@@ -176,7 +183,7 @@ const Statistics = () => {
           />
         </div>
         <div>
-          <WidgetResumen params={[params, setParams]} data={stads?.data} />
+          <WidgetResumen params={[params, setParams]} data={stads} />
         </div>
       </div>
       <div>
