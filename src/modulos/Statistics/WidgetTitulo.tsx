@@ -13,28 +13,7 @@ const WidgetTitulo = ({ params, histParams, histTitulos, onBack }: any) => {
   }
   return (
     <div className={styles["container"]}>
-      {level >= 1 && (
-        // <nav>
-        //   <ol>
-        //     <li>
-        //       <p>Mapa de Bolivia</p>
-        //     </li>
-
-        //     {histTitulo.map((title: any, index: number) => (
-        //       <div
-        //         key={index}
-        //         onClick={() => histTitulo.length - 1 <= index && onBack()}
-        //       >
-        //         <li className={styles.breadcrumbItem}>
-        //           <span className={styles.breadcrumbSeparator}>&lt;</span>
-        //           <span className={styles.breadcrumbCurrent}>{title}</span>
-        //         </li>
-        //       </div>
-        //     ))}
-        //   </ol>
-        // </nav>
-        <HistoryTitle histTitulo={histTitulo} onBack={onBack} />
-      )}
+      {level >= 1 && <HistoryTitle histTitulo={histTitulo} onBack={onBack} />}
       <span>{title}</span>
     </div>
   );
