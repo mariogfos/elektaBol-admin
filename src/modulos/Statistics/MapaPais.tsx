@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./Mapa.module.css";
 import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
-import { pathsPais, pathsSantaCruz } from "./pathMapas";
+import { pathsCochabamba, pathsPais, pathsSantaCruz } from "./pathMapas";
 
 const viewBoxs = ["0 0 3994 4548", "", "", "", "", "", "", "0 0 6122 3709"];
 const MapaPais = ({ onClick, data, param }: any) => {
@@ -24,6 +24,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
       case 7:
         path = pathsSantaCruz;
         break;
+      case 3:
+        path = pathsCochabamba;
       default:
         path = pathsPais;
     }
