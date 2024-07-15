@@ -96,14 +96,14 @@ const Statistics = () => {
       </h1>
       <section
         className={styles["topSection"]}
-        // style={{
-        //   display: "flex",
-        //   justifyContent: "center",
-        //   alignItems: "center",
-        //   gap: "64px",
-        //   marginTop: "32px",
-        //   marginBottom: "32px",
-        // }}
+      // style={{
+      //   display: "flex",
+      //   justifyContent: "center",
+      //   alignItems: "center",
+      //   gap: "64px",
+      //   marginTop: "32px",
+      //   marginBottom: "32px",
+      // }}
       >
         <div>
           {/* {level == 0 && ( */}
@@ -142,8 +142,10 @@ const Statistics = () => {
 
         {level >= 2 && (
           <div className={styles['topWidgets']}>
-            <WidgetResumeVotes  title={'Datos de las elecciones del 2020'} subtitle={ selectedCircunscripcion?.titulo } dataCircunscripciones = {stads?.data?.data} total_entidad2={ stads?.data?.total_entidad2} />
-            <WidgetResumeWinnerParty data={[{name:'eliot',title:'Creemos',votes:98,color:'red'}]} title={'Partido ganador'}  subtitle={level === 2?selectedCircunscripcion?.titulo:'' }/>
+            <WidgetResumeVotes title={'Datos de las elecciones del 2020'} subtitle={selectedCircunscripcion?.titulo} dataCircunscripciones={stads?.data?.data} total_entidad2={stads?.data?.total_entidad2} />
+            <WidgetResumeWinnerParty data={[{ name: 'eliot', title: 'Creemos', votes: 98, color: 'red' }]} title={'Partido ganador'} subtitle={level === 2 ? selectedCircunscripcion?.titulo : ''} style={{
+              height: "320px",
+            }} />
           </div>
         )}
       </section>
@@ -155,10 +157,10 @@ const Statistics = () => {
               level == 0
                 ? "Departamentos"
                 : level == 1
-                ? "Circunscripciones"
-                : level == 2
-                ? "Recintos electorales"
-                : "Mesas electorales"
+                  ? "Circunscripciones"
+                  : level == 2
+                    ? "Recintos electorales"
+                    : "Mesas electorales"
             }
             level={level}
             setLevel={setLevel}
