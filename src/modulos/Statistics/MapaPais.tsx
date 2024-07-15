@@ -62,7 +62,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
           viewBoxs[data.find((d: any) => d.code == param?.searchBy)?.code || 0]
         }
       >
-        {path.map((path: any) => (
+        {/* {path.map((path: any) => (
           <Link
             key={path.id}
             href="#"
@@ -75,7 +75,52 @@ const MapaPais = ({ onClick, data, param }: any) => {
               onMouseLeave={() => onTooltip(null, path.id, false)}
             />
           </Link>
-        ))}
+        ))} */}
+        {path.map((path: any) => {
+          if (path.title == "rect") {
+            return (
+              <rect
+                x={path.x}
+                y={path.y}
+                width={path.width}
+                height={path.height}
+                rx={path.rx}
+                style={{ fill: "#fff" }}
+                key={path.id}
+              />
+            );
+          }
+
+          return (
+            <Link
+              key={path.id}
+              href="#"
+              onClick={() =>
+                path.title != "map" && path.title != "line"
+                  ? _onClick(path.id)
+                  : {}
+              }
+              title={path.title}
+            >
+              <path
+                style={{
+                  fill: path.title == "map" ? "#101111" : "",
+                  stroke:
+                    path.title == "value"
+                      ? "#000"
+                      : path.title == "line"
+                      ? "#fff"
+                      : "#F58220",
+                  cursor:
+                    path.title == "map" || path.title == "line"
+                      ? "default"
+                      : "pointer",
+                }}
+                d={path.d}
+              />
+            </Link>
+          );
+        })}
       </svg>
       {tooltip.visible && (
         <Tooltip
