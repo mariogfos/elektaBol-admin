@@ -5,11 +5,10 @@ import WidgetResumeVotes from "./WidgetResumeVotes";
 const WidgetResumen = ({ data, params }: any) => {
   const [paramsValue, setParams] = params;
   const { level } = paramsValue;
-  const { data: dataInner } = data || {};
-  const { table: tableData, name: tableName } = dataInner || {};
+
   
-  console.log('tabledata',tableData);
-  let totalCircunscripciones = tableData?.reduce((acc: any, item: any) => {
+  console.log('level',level,data);
+  let totalCircunscripciones = data?.data?.table?.reduce((acc: any, item: any) => {
     return acc + item.total;
   }, 0);
   const labels: any = [
@@ -29,16 +28,16 @@ const WidgetResumen = ({ data, params }: any) => {
       </div>
       <div>
         {level === 0 && "Bolivia"}
-        {level === 0 && tableName}
+        {level === 0 && data?.data?.table?.name}
       </div>
       <div className={styles["container-card"]}>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level]}</h2>
-          { tableData && <p>{ tableData?.length}</p>}
+          { data?.data?.table && <p>{ data?.data?.table?.length}</p>}
         </div>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level + 1]}</h2>
-          { tableData && <p>{totalCircunscripciones}</p>}
+          { data?.data?.table && <p>{totalCircunscripciones}</p>}
         </div>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level + 2]}</h2>
