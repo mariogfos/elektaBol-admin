@@ -40,7 +40,6 @@ const Statistics = () => {
   // console.log(params);
 
   const onClickLevel = (row: any) => {
-    console.log("ROWWW", row);
     setParams((prevParams: any) => ({
       ...prevParams,
       searchBy: row.id,
@@ -89,13 +88,15 @@ const Statistics = () => {
       setLevel(level - 1);
     }
   };
+  console.log(params, "params");
+  console.log(stads?.data);
   return (
     <div className={styles["statistics"]}>
       <h1>
         {selectedDepartment ? null : "Datos electorales históricos de Bolivia"}
       </h1>
       <section
-      className={styles['topSection']} 
+        className={styles["topSection"]}
         // style={{
         //   display: "flex",
         //   justifyContent: "center",
@@ -127,50 +128,85 @@ const Statistics = () => {
           )} */}
         </div>
 
+        {level < 2 && (
+          <div>
+            <WidgetResume
+              data={dataFormatted}
+              dataExtra={level <= 1 ? stads?.data?.total_entidad2 : null}
+              level={level}
+              setLevel={setLevel}
+              params={params}
+              setParams={setParams}
+            />
+          </div>
+        )}
 
-        {level < 2 && <div>
-          <WidgetResume
+        {level >= 2 && (
+          <div className={styles["topWidgets"]}>
+            <WidgetResumeVotes
+              title={"Datos de las elecciones del 2020"}
+              subtitle={selectedCircunscripcion?.titulo}
+              total_entidad={stads?.data?.total_entidad}
+              total_entidad2={stads?.data?.total_entidad2}
+            />
+            <WidgetResumeWinnerParty
+              data={[
+                { name: "eliot", title: "Creemos", votes: 98, color: "red" },
+              ]}
+              title={"Partido ganador"}
+              subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
+            />
+          </div>
+        )}
+      </section>
+      <section>
+        {level < 3 && (
+          <WidgetTableStats
             data={dataFormatted}
-            dataExtra={stads?.data.total_entidad2}
+            title={
+              level == 0
+                ? "Departamentos"
+                : level == 1
+                ? "Circunscripciones"
+                : level == 2
+                ? "Recintos electorales"
+                : "Mesas electorales"
+            }
             level={level}
             setLevel={setLevel}
+            onClickLevel={onClickLevel}
             params={params}
             setParams={setParams}
           />
-
-
-        </div>}
-
-        {level >= 2 && (
-          <div className={styles['topWidgets']}>
-            <WidgetResumeVotes  title={'Datos de las elecciones del 2020'} subtitle={ selectedCircunscripcion?.titulo } total_entidad = {stads?.data?.total_entidad} total_entidad2={ stads?.data?.total_entidad2} />
-            <WidgetResumeWinnerParty data={[{name:'eliot',title:'Creemos',votes:98,color:'red'}]} title={'Partido ganador'}  subtitle={level === 2?selectedCircunscripcion?.titulo:'' }/>
+        )}
+        {level === 3 && (
+          <div style={{ width: "100%", display: "flex" }}>
+            <WidgetResumeWinnerParty
+              data={[
+                {
+                  name: "eliot",
+                  title: "Comunidad Ciudadana",
+                  votes: 32,
+                  color: "green",
+                },
+                {
+                  name: "eliot",
+                  title: "MAS - IPSP",
+                  votes: 52,
+                  color: "blue",
+                },
+                {
+                  name: "eliot",
+                  title: "PAN - BOL",
+                  votes: 56,
+                  color: "white",
+                },
+                { name: "eliot", title: "Juntos", votes: 29, color: "yellow" },
+              ]}
+              title={"Otros resultados"}
+            />
           </div>
-        )
-        }
-      </section>
-      <section>
- {  level < 3 &&    <WidgetTableStats
-          data={dataFormatted}
-          title={
-            level == 0
-              ? "Departamentos"
-              : level == 1
-              ? "Circunscripciones"
-              : level == 2
-              ? "Recintos electorales"
-              : "Mesas electorales"
-          }
-          level={level}
-          setLevel={setLevel}
-          onClickLevel={onClickLevel}
-          params={params}
-          setParams={setParams}
-        /> }
-        {level === 3 && <div style={{ width: "100%", display: "flex" }}> 
-        <WidgetResumeWinnerParty data={[{name:'eliot',title:'Comunidad Ciudadana',votes:32,color:'green'},{name:'eliot',title:'MAS - IPSP',votes:52,color:'blue'},{name:'eliot',title:'PAN - BOL',votes:56,color:'white'},{name:'eliot',title:'Juntos',votes:29,color:'yellow'}]} title={'Otros resultados'}/>
-       </div>}
-      
+        )}
       </section>
     </div>
   );
