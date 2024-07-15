@@ -146,7 +146,7 @@ const Statistics = () => {
             <WidgetResumeVotes
               title={"Datos de las elecciones del 2020"}
               subtitle={selectedCircunscripcion?.titulo}
-              total_entidad={stads?.data?.total_entidad}
+              dataCircunscripciones={stads?.data?.data}
               total_entidad2={stads?.data?.total_entidad2}
             />
             <WidgetResumeWinnerParty
