@@ -28,7 +28,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
-    console.log("Level 1:::", item);
     switch (item.code) {
       case 7:
         path = pathsSantaCruz;
@@ -46,7 +45,11 @@ const MapaPais = ({ onClick, data, param }: any) => {
     onClick(id);
   };
 
-  const onTooltip = (event: any, id: string | number, show: boolean = true) => {
+  const onTooltip = (
+    event: any,
+    id: string | number,
+    show: boolean = false
+  ) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();

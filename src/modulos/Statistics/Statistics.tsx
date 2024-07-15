@@ -133,7 +133,7 @@ const Statistics = () => {
   // console.log(params, "params");
   // console.log(stads?.data);
   const histParam = useState([]);
-  const histTitulo: any = useState([]);
+  const histTitulo: any = useState(["Mapa de Bolivia"]);
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
     const t = histTitulo[0];
@@ -162,14 +162,22 @@ const Statistics = () => {
     //   setParams
     // );
   };
-  const onBack = () => {
-    const h: any = histParam[0];
-    const t: any = histTitulo[0];
-    h.pop();
-    t.pop();
+  const onBack = (index: number) => {
+    let h: any = histParam[0];
+    let t: any = histTitulo[0];
+    const param = h[index];
+    // h.splice(index - 1, h.length - 1);
+    // t.splice(index - 1, t.length - 1);
+    h = h.slice(0, index + 1);
+    t = t.slice(0, index + 1);
+    if (index === 0) {
+      h = [];
+      t = ["Mapa de Bolivia"];
+    }
     histParam[1](h);
     histTitulo[1](t);
-    setParams(histParam[0][histParam[0].length - 1]);
+    setParams(param);
+    console.log("BACK", t, index);
   };
   return (
     <div className={styles["statistics"]}>
