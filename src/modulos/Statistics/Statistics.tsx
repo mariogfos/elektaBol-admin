@@ -140,7 +140,7 @@ const Statistics = () => {
   // console.log(params, "params");
   // console.log(stads?.data);
   const histParam = useState([]);
-  const histTitulo: any = useState([]);
+  const histTitulo: any = useState(["Mapa de Bolivia"]);
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
     const t = histTitulo[0];
@@ -149,21 +149,42 @@ const Statistics = () => {
     const h: any = histParam[0];
     h.push(params);
     histParam[1](h);
-    setParams({ ...params, searchBy: item.id, level: (params.level || 0) + 1 });
-    console.log(
-      "id:",
-      id,
-      "item:",
-      item,
-      "histParam:",
-      histParam,
-      "histTitulo:",
-      histTitulo,
-      "params:",
-      params,
-      "setParams:",
-      setParams
-    );
+    setParams({
+      ...params,
+      searchBy: item.id,
+      level: (params?.level || 0) + 1,
+    });
+    // console.log(
+    //   "id:",
+    //   id,
+    //   "item:",
+    //   item,
+    //   "histParam:",
+    //   histParam,
+    //   "histTitulo:",
+    //   histTitulo,
+    //   "params:",
+    //   params,
+    //   "setParams:",
+    //   setParams
+    // );
+  };
+  const onBack = (index: number) => {
+    let h: any = histParam[0];
+    let t: any = histTitulo[0];
+    const param = h[index];
+    // h.splice(index - 1, h.length - 1);
+    // t.splice(index - 1, t.length - 1);
+    h = h.slice(0, index + 1);
+    t = t.slice(0, index + 1);
+    if (index === 0) {
+      h = [];
+      t = ["Mapa de Bolivia"];
+    }
+    histParam[1](h);
+    histTitulo[1](t);
+    setParams(param);
+    console.log("BACK", t, index);
   };
   return (
     <div className={styles["statistics"]}>
@@ -172,6 +193,7 @@ const Statistics = () => {
           histParams={histParam}
           params={[params, setParams]}
           histTitulos={histTitulo}
+          onBack={onBack}
         />
       </div>
       <div style={{ display: "flex", gap: "var(--spM)" }}>

@@ -2,9 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./Mapa.module.css";
 import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
-import { pathsPais, pathsSantaCruz } from "./pathMapas";
+import { pathsCochabamba, pathsPais, pathsSantaCruz } from "./pathMapas";
 
-const viewBoxs = ["0 0 3994 4548", "", "", "", "", "", "", "0 0 6122 3709"];
+const viewBoxs = [
+  "0 0 3994 4548",
+  "",
+  "",
+  "0 0 632 668",
+  "",
+  "",
+  "",
+  "0 0 6122 3709",
+];
 const MapaPais = ({ onClick, data, param }: any) => {
   const svgRef: any = useRef(null);
 
@@ -18,11 +27,13 @@ const MapaPais = ({ onClick, data, param }: any) => {
   let path: any = [];
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
-    const item = data.find((d: any) => d.code == param?.searchBy);
-    console.log("Level 1:::", item);
+    const item = data.find((d: any) => d.id == param?.searchBy);
     switch (item.code) {
       case 7:
         path = pathsSantaCruz;
+        break;
+      case 3:
+        path = pathsCochabamba;
         break;
       default:
         path = pathsPais;
@@ -34,7 +45,11 @@ const MapaPais = ({ onClick, data, param }: any) => {
     onClick(id);
   };
 
-  const onTooltip = (event: any, id: string | number, show: boolean = true) => {
+  const onTooltip = (
+    event: any,
+    id: string | number,
+    show: boolean = false
+  ) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
@@ -52,30 +67,61 @@ const MapaPais = ({ onClick, data, param }: any) => {
       item: item,
     });
   };
-
   return (
     <div className={styles.mapa}>
-      {}
       <svg
         ref={svgRef}
         viewBox={
-          viewBoxs[data.find((d: any) => d.code == param?.searchBy)?.code || 0]
+          viewBoxs[data.find((d: any) => d.id == param?.searchBy)?.code || 0]
         }
       >
-        {path.map((path: any) => (
-          <Link
-            key={path.id}
-            href="#"
-            onClick={() => _onClick(path.id)}
-            title={path.title}
-          >
-            <path
-              d={path.d}
-              onMouseEnter={(e) => onTooltip(e, path.id)}
-              onMouseLeave={() => onTooltip(null, path.id, false)}
-            />
-          </Link>
-        ))}
+        {path.map((path: any) => {
+          if (path.title == "rect") {
+            return (
+              <rect
+                x={path.x}
+                y={path.y}
+                width={path.width}
+                height={path.height}
+                rx={path.rx}
+                style={{ fill: "#fff" }}
+                key={path.id}
+              />
+            );
+          }
+
+          return (
+            <Link
+              key={path.id}
+              href="#"
+              onClick={() =>
+                path.title != "map" && path.title != "line"
+                  ? _onClick(path.id)
+                  : {}
+              }
+              title={path.title}
+            >
+              <path
+                style={{
+                  fill: path.title == "map" ? "#101111" : "",
+                  stroke:
+                    path.title == "value"
+                      ? "#000"
+                      : path.title == "line"
+                      ? "#fff"
+                      : "#F58220",
+                  cursor:
+                    path.title == "map" || path.title == "line"
+                      ? "default"
+                      : "pointer",
+                }}
+                d={path.d}
+                onMouseEnter={(e) => onTooltip(e, path.id)}
+                onMouseLeave={() => onTooltip(null, path.id, false)}
+              />
+            </Link>
+          );
+        })}
       </svg>
       {tooltip.visible && (
         <Tooltip

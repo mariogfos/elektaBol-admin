@@ -1,0 +1,38 @@
+.container {
+  & > nav {
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 16px;
+    margin-top: -16px;
+    & > ol {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      & > li {
+        & > p {
+          color: var(--cBlackV2);
+          text-decoration: none;
+        }
+      }
+      & > div {
+        margin-left: 8px;
+        cursor: pointer;
+        color: var(--cBlackV2);
+        &:hover {
+          color: var(--cAccent);
+          /* text-decoration: underline; */
+        }
+        & > li {
+          display: flex;
+          gap: 4px;
+        }
+      }
+      & > div:last-child {
+        color: #fff;
+        cursor: default;
+      }
+    }
+  }
+}
