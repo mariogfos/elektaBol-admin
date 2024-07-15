@@ -1,16 +1,8 @@
 import { Card } from "@/mk/components/ui/Card/Card";
-import style from "./WidgetResume.module.css";
+import styles from "./WidgetResume.module.css";
 import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 
-const WidgetResume = ({
-  data,
-  dataExtra,
-  level,
-  setLevel,
-  params,
-  setParams,
-  reload,
-}: any) => {
+const WidgetResume = ({ data, dataExtra, level }: any) => {
   let totalCircunscripciones = data.reduce((acc: any, item: any) => {
     return acc + item.total;
   }, 0);
@@ -21,39 +13,29 @@ const WidgetResume = ({
     "Mesa", // 3
   ];
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       <section>
-        <p
-          style={{
-            fontSize: "16px",
-            fontWeight: "bold",
-          }}
-        >
-          Resumen general a nivel nacional
-        </p>
-        <p
-          style={{
-            fontSize: "14px",
-            fontWeight: "normal",
-            color: "var(--cBlackV2)",
-            marginTop: "4px",
-          }}
-        >
-          Al lunes 10 de junio del 2024
-        </p>
-        <div className={style["container-card"]}>
-          <Card>
+        <div>
+          {level === 0 && "Resumen general a nivel nacional"}
+          {level === 1 && "Resumen general a nivel departamental"}
+        </div>
+        <div>
+          {level === 0 && "Bolivia"}
+          {level === 0 && data.name}
+        </div>
+        <div className={styles["container-card"]}>
+          <div className={styles["cardInfo"]}>
             <h2>{labels[level]}</h2>
-            <p>{data.length}</p>
-          </Card>
-          <Card>
+            {data && <p>{data.length}</p>}
+          </div>
+          <div className={styles["cardInfo"]}>
             <h2>{labels[level + 1]}</h2>
-            <p>{totalCircunscripciones}</p>
-          </Card>
-          <Card>
+            {data && <p>{totalCircunscripciones}</p>}
+          </div>
+          <div className={styles["cardInfo"]}>
             <h2>{labels[level + 2]}</h2>
-            <p>{dataExtra}</p>
-          </Card>
+            {typeof dataExtra == "number" && <p>{dataExtra}</p>}
+          </div>
         </div>
       </section>
     </div>

@@ -1,0 +1,56 @@
+.mapa {
+  position: relative; /* Ensure the container is relative */
+  max-width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & svg {
+    width: 100%;
+    height: auto;
+    max-height: 250px; /* Ajusta la altura máxima inicial para pantallas pequeñas */
+
+    @media (min-width: 768px) {
+      min-height: 400px; /* Aumenta la altura máxima para pantallas medianas */
+    }
+
+    @media (min-width: 1600px) {
+      min-height: 500px; /* Aumenta la altura máxima para la resolución 1440x900px */
+    }
+
+    & > a {
+      & > path {
+        fill: #212529;
+        stroke: #f5951c;
+        stroke-width: 3px;
+        transition: fill 0.3s, stroke-width 0.3s;
+        animation: fadeIn 0.5s;
+
+        &:hover {
+          cursor: pointer;
+          stroke-width: 7px;
+        }
+      }
+    }
+  }
+}
+
+.tooltip {
+  position: absolute;
+  background: #fff;
+  width: 200px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: translate(-50%, -100%);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
