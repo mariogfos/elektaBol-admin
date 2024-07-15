@@ -67,6 +67,39 @@ const WidgetTableStats = ({
       },
     },
   ];
+  const headeLevel1 = [
+    {
+      key: "index",
+      label: "Nro",
+      width: "150px",
+      responsive: "onlyDesktop",
+    },
+    {
+      key: "name",
+      label: labels[level],
+      responsive: "onlyDesktop",
+    },
+
+    {
+      key: "habilitados",
+      label: "Empadronados",
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
+      onRender: (item: any) => {
+        return formatNumber(item.value, 0);
+      },
+    },
+
+    {
+      key: "total",
+      label: labels[level + 1],
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
+      onRender: (item: any) => {
+        return formatNumber(item.value, 0);
+      },
+    },
+  ];
   const render = (item: any, row: any, index: any) => {
     if (item.key == "index") {
       return index;
@@ -111,7 +144,7 @@ const WidgetTableStats = ({
         renderBody={render}
         data={data}
         onRowClick={(row: any) => onClickLevel(row)}
-        header={header}
+        header={level == 0 ? header : level == 1 ? headeLevel1 : header}
         className="striped"
       />
       <div
@@ -124,22 +157,24 @@ const WidgetTableStats = ({
       >
         <div style={{ width: "220px" }}></div>
         <div style={{ width: "100%" }}></div>
-        <div
-          style={{
-            width: "100%",
-            backgroundColor: "var(--cWhiteV1)",
-            border: "1px solid var(--cWhiteV1)",
-            borderRadius: "0px 0px 0px 8px",
-            textAlign: "right",
-            paddingTop: "8px",
-            paddingBottom: "8px",
-            fontSize: "16px",
-          }}
-        >
-          <span style={{ paddingRight: "15px" }}>
-            {formatNumber(total?.col1, 0)}
-          </span>
-        </div>
+        {level == 0 && (
+          <div
+            style={{
+              width: "100%",
+              backgroundColor: "var(--cWhiteV1)",
+              border: "1px solid var(--cWhiteV1)",
+              borderRadius: "0px 0px 0px 8px",
+              textAlign: "right",
+              paddingTop: "8px",
+              paddingBottom: "8px",
+              fontSize: "16px",
+            }}
+          >
+            <span style={{ paddingRight: "15px" }}>
+              {formatNumber(total?.col1, 0)}
+            </span>
+          </div>
+        )}
         <div
           style={{
             width: "100%",
@@ -171,10 +206,12 @@ const WidgetTableStats = ({
             {formatNumber(total?.col3, 0)}
           </span>
         </div>
-
       </div>
 
-      <div style={{marginTop:16,color:'var(--cBlackV2)'}}>Fuente: Instituto Nacional de Estadística (INE) y Órgano Electoral Plurinacional (OEP)</div>
+      <div style={{ marginTop: 16, color: "var(--cBlackV2)" }}>
+        Fuente: Instituto Nacional de Estadística (INE) y Órgano Electoral
+        Plurinacional (OEP)
+      </div>
     </div>
   );
 };
