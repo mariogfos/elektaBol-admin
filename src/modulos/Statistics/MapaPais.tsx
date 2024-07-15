@@ -62,20 +62,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
           viewBoxs[data.find((d: any) => d.code == param?.searchBy)?.code || 0]
         }
       >
-        {/* {path.map((path: any) => (
-          <Link
-            key={path.id}
-            href="#"
-            onClick={() => _onClick(path.id)}
-            title={path.title}
-          >
-            <path
-              d={path.d}
-              onMouseEnter={(e) => onTooltip(e, path.id)}
-              onMouseLeave={() => onTooltip(null, path.id, false)}
-            />
-          </Link>
-        ))} */}
         {path.map((path: any) => {
           if (path.title == "rect") {
             return (
@@ -117,6 +103,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
                       : "pointer",
                 }}
                 d={path.d}
+                onMouseEnter={(e) => onTooltip(e, path.id)}
+                onMouseLeave={() => onTooltip(null, path.id, false)}
               />
             </Link>
           );
