@@ -12,8 +12,10 @@ const WidgetResume = ({ data, dataExtra, level }: any) => {
     "Recinto", // 2
     "Mesa", // 3
   ];
-  return (
-    <div className={styles.container}>
+  return (<div>
+
+
+    {level < 2 && <div className={styles.container}>
       <section>
         <div>
           {level === 0 && "Resumen general a nivel nacional"}
@@ -38,7 +40,10 @@ const WidgetResume = ({ data, dataExtra, level }: any) => {
           </div>
         </div>
       </section>
-    </div>
+    </div>}
+
+
+  </div>
   );
 };
 
