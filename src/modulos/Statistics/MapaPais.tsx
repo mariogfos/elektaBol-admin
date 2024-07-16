@@ -91,7 +91,17 @@ const MapaPais = ({ onClick, data, param }: any) => {
   )?.code;
 
   return (
-    <div className={departmentValue === 3 ? styles.CochabambaMap : styles.mapa}>
+    <div
+      className={
+        departmentValue === 3
+          ? styles.CochabambaMap
+          : departmentValue === 2
+          ? styles.LaPazMap
+          : departmentValue === 7
+          ? styles.SantaCruzMap
+          : styles.mapa
+      }
+    >
       <svg
         ref={svgRef}
         viewBox={
@@ -132,7 +142,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
                       ? "#000"
                       : path.title == "line"
                       ? "#fff"
-                      : "#F58220",
+                      : "",
 
                   cursor:
                     path.title == "map" || path.title == "line"
