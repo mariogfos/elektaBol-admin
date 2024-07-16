@@ -59,7 +59,13 @@ const Statistics = () => {
     extras: {
       validos:100,
       nulos:50,
-      blancos:20
+      blancos:20,
+      winner:{
+        id:1,
+        name:'Eugenio',
+        color:'red', 
+        total_votos:2000
+      }
     }
    
   };

@@ -56,11 +56,10 @@ const WidgetResumen = ({ data, params }: any) => {
     extras={data?.extras}
    />
       <WidgetResumeWinnerParty
-             data={[
-               { name: "eliot", title: "Creemos", votes: 98, color: "red" },
-             ]}
+             data={[data?.extras?.winner]}
              title={"Partido ganador"}
              //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
+             total={data?.extras?.total}
            />
    
    </div>} 
