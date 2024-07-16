@@ -138,18 +138,41 @@ const Statistics = () => {
           <WidgetResumen params={[params, setParams]} data={stads} />
         </div>
       </div>
-      <div>
-        {/* <WidgetTabla
-          params={[params, setParams]}
-          onClick={onClick}
-          data={stads?.data.tabla}
-        /> */}
+     {params?.level < 3 &&<div>
         <WidgetTableStats
           data={stads?.data.tabla}
           onClick={onClick}
           params={[params, setParams]}
         />
-      </div>
+      </div>}
+      {params.level === 3 && (
+           <div style={{ width: "100%", display: "flex" }}>
+             <WidgetResumeWinnerParty
+               data={[
+                 {
+                   name: "eliot",
+                   title: "Comunidad Ciudadana",
+                   total_votos: 32,
+                   color: "green",
+                 },
+                 {
+                   name: "eliot",
+                   title: "MAS - IPSP",
+                   total_votos: 52,
+                   color: "blue",
+                 },
+                 {
+                   name: "eliot",
+                   title: "PAN - BOL",
+                   total_votos: 56,
+                   color: "white",
+                 },
+                 { name: "eliot", title: "Juntos", total_votos: 29, color: "yellow" },
+               ]}
+               title={"Otros resultados"}
+             />
+           </div>
+         )}
     </div>
 
     // <div className={styles["statistics"]}>

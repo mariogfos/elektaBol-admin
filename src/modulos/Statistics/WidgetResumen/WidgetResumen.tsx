@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
 import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
@@ -6,12 +6,16 @@ import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 const WidgetResumen = ({ data, params }: any) => {
   const [paramsValue, setParams] = params;
   const { level } = paramsValue;
-
   
-  console.log('level',level,data);
-  let totalCircunscripciones = data?.data?.tabla?.reduce((acc: any, item: any) => {
-    return acc + item.total;
-  }, 0);
+   const calculateTotalHabilitados = () => {
+    let totalHab = 0;
+    data?.data?.tabla?.map((item: any) => {
+      totalHab += item.habilitados;
+    });
+    return totalHab;
+   };
+  console.log('totalHab',calculateTotalHabilitados());
+
   const labels: any = [
     "Departamento", // 0
     "Circunscripción", // 1
@@ -38,7 +42,7 @@ const WidgetResumen = ({ data, params }: any) => {
         </div>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level + 1]}</h2>
-          { data?.data?.tabla && <p>{totalCircunscripciones}</p>}
+         { data?.data?.tabla && <p>{calculateTotalHabilitados()}</p>} 
         </div>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level + 2]}</h2>
@@ -54,12 +58,13 @@ const WidgetResumen = ({ data, params }: any) => {
    // subtitle={selectedCircunscripcion?.titulo}
     data={data?.tabla}
     extras={data?.extras}
+    total={calculateTotalHabilitados()}
    />
       <WidgetResumeWinnerParty
              data={[data?.extras?.winner]}
              title={"Partido ganador"}
              //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
-             total={data?.extras?.total}
+             total={calculateTotalHabilitados()}
            />
    
    </div>} 

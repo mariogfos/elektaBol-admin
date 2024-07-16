@@ -32,7 +32,7 @@ const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total}: any) =>
                 <div>{item.total_votos} votos obtenidos</div>
               </div>
               <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                 <DonutChart percentage={parseFloat(calculatePercentage(3000, Number(item.total_votos)))}  color={item.color} size={100} />
+                 <DonutChart percentage={parseFloat(calculatePercentage(total, Number(item.total_votos)))}  color={item.color} size={100} />
               </div>
             </div>
           </div>
