@@ -13,12 +13,11 @@ import WidgetResumen from "./WidgetResumen/WidgetResumen";
 
 const paramInitial: any = {
   searchBy: "",
-  level:0
+  level: 0,
 };
 const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
-  const [level, setLevel] = useState(0);
 
   // const { data: stads, reLoad } = useAxios("/estads", "POST", {
   //   ...params,
@@ -70,19 +69,17 @@ const Statistics = () => {
       ],
     },
     extras: {
-      validos:100,
-      nulos:50,
-      blancos:20,
-      winner:{
-        id:1,
-        name:'Eugenio',
-        color:'red', 
-        total_votos:2000
-      }
-    }
-   
+      validos: 100,
+      nulos: 50,
+      blancos: 20,
+      winner: {
+        id: 1,
+        name: "Eugenio",
+        color: "red",
+        total_votos: 2000,
+      },
+    },
   };
-  
 
   useEffect(() => {
     setStore({
@@ -144,7 +141,7 @@ const Statistics = () => {
           onBack={onBack}
         />
       </div>
-      <div style={{ display: "flex", gap: "var(--spM)" }}>
+      <div>
      {params.level < 3 &&   <div>
           <WidgetMapa
             params={[params, setParams]}
@@ -164,7 +161,7 @@ const Statistics = () => {
         />
       </div>}
       {params.level === 3 && (
-           <div style={{ width: "100%", display: "flex" }}>
+           <div>
              <WidgetResumeWinnerParty
                data={[
                  {
