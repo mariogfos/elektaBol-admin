@@ -67,6 +67,14 @@ const Statistics = () => {
           code: 4,
         },
         {
+          id: 5,
+          name: "Potosí",
+          total: 100,
+          habitantes: 100,
+          habilitados: 80,
+          code: 5,
+        },
+        {
           id: 7,
           name: "Santa Cruz",
           total: 100,

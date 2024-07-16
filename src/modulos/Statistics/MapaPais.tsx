@@ -10,6 +10,7 @@ import {
   pathsOruro,
   pathsPais,
   pathsPando,
+  pathsPotosi,
   pathsSantaCruz,
 } from "./pathMapas";
 
@@ -19,7 +20,7 @@ const viewBoxs = [
   "0 0 890 917",
   "0 0 632 668",
   "0 0 684 354",
-  "",
+  "0 0 596 750",
   "",
   "0 0 6122 3709",
   "0 0 1953 2022",
@@ -57,6 +58,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
         break;
       case 4:
         path = pathsOruro;
+        break;
+      case 5:
+        path = pathsPotosi;
         break;
       case 7:
         path = pathsSantaCruz;
@@ -119,6 +123,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
           ? styles.BeniMap
           : departmentValue === 4
           ? styles.OruroMap
+          : departmentValue === 5
+          ? styles.PotosiMap
           : styles.mapa
       }
     >
