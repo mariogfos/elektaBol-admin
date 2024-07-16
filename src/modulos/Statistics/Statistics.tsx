@@ -145,13 +145,13 @@ const Statistics = () => {
         />
       </div>
       <div style={{ display: "flex", gap: "var(--spM)" }}>
-        <div>
+     {params.level < 3 &&   <div>
           <WidgetMapa
             params={[params, setParams]}
             onClick={onClick}
             data={stads?.data.tabla}
           />
-        </div>
+        </div>}
         <div>
           <WidgetResumen params={[params, setParams]} data={stads} />
         </div>
