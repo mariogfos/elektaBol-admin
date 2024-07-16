@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
+import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 
 const WidgetResumen = ({ data, params }: any) => {
   const [paramsValue, setParams] = params;
@@ -8,7 +9,7 @@ const WidgetResumen = ({ data, params }: any) => {
 
   
   console.log('level',level,data);
-  let totalCircunscripciones = data?.data?.table?.reduce((acc: any, item: any) => {
+  let totalCircunscripciones = data?.data?.tabla?.reduce((acc: any, item: any) => {
     return acc + item.total;
   }, 0);
   const labels: any = [
@@ -28,30 +29,41 @@ const WidgetResumen = ({ data, params }: any) => {
       </div>
       <div>
         {level === 0 && "Bolivia"}
-        {level === 0 && data?.data?.table?.name}
+        {level === 0 && data?.data?.tabla?.name}
       </div>
       <div className={styles["container-card"]}>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level]}</h2>
-          { data?.data?.table && <p>{ data?.data?.table?.length}</p>}
+          { data?.data?.tabla && <p>{ data?.data?.tabla?.length}</p>}
         </div>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level + 1]}</h2>
-          { data?.data?.table && <p>{totalCircunscripciones}</p>}
+          { data?.data?.tabla && <p>{totalCircunscripciones}</p>}
         </div>
         <div className={styles["cardInfo"]}>
           <h2>{labels[level + 2]}</h2>
-
+          {/* {typeof data?.data?.extras == "number" && <p>{data?.data?.extras}</p>} */}
         </div>
       </div>
     </section>
   </div>}
-   {/* {level >= 2 && <WidgetResumeVotes 
+   { level >= 2 && <div className={styles["topWidgets"]}>
+   
+   <WidgetResumeVotes 
     title={"Datos de las elecciones del 2020"}
    // subtitle={selectedCircunscripcion?.titulo}
-    dataCircunscripciones={data?.table}
-    total_entidad2={data?.total_entidad2}
-   />} */}
+    data={data?.tabla}
+    extras={data?.extras}
+   />
+      <WidgetResumeWinnerParty
+             data={[
+               { name: "eliot", title: "Creemos", votes: 98, color: "red" },
+             ]}
+             title={"Partido ganador"}
+             //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
+           />
+   
+   </div>} 
 
 
     

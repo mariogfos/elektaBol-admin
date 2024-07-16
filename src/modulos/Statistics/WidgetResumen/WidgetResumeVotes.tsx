@@ -2,17 +2,19 @@ import { IconCheck, IconElectoralParty, IconPercentage, IconVotes, IconWhiteVote
 import { Card } from "@/mk/components/ui/Card/Card"
 import styles from "./WidgetResume.module.css"
 import { formatNumber } from "@/mk/utils/numbers";
+import InfoCards from "@/components/InfoCard/InfoCard";
+import InfoCard from "@/components/InfoCard/InfoCard";
 type PropsType = {
     title: string;
     subtitle?: string;
-    dataCircunscripciones?:any;
-    total_entidad2?:any;
+    data?:any;
+    extras?:any;
 }
 
-const WidgetResumeVotes = ({title,subtitle,dataCircunscripciones,total_entidad2}:PropsType) => {
-    console.log('data',dataCircunscripciones,total_entidad2);
-    const totalHabilitados = dataCircunscripciones?.reduce((acc: number, curr: any) => acc + Number(curr.habilitados), 0) || 0;
-    const totalEmitidos = Number(total_entidad2.nulos) + Number(total_entidad2.blancos) + Number(total_entidad2.validos)
+const WidgetResumeVotes = ({title,subtitle,data,extras}:PropsType) => {
+    console.log('data',data,extras);
+    const totalHabilitados = data?.reduce((acc: number, curr: any) => acc + Number(curr.habilitados), 0) || 0;
+    const totalEmitidos = Number(extras.nulos) + Number(extras.blancos) + Number(extras.validos)
 
   return (
     <Card className={styles['widgetResumeVotes']}>
@@ -21,38 +23,12 @@ const WidgetResumeVotes = ({title,subtitle,dataCircunscripciones,total_entidad2}
         <div>{subtitle}</div>
         </div>
     <div>  
-        <div className={styles['cardInfoResumeVotes']}>
-            <IconElectoralParty color={'var(--cBlackV2)'}/>
-            <div>Padrón electoral</div>
-            <div>{formatNumber(totalHabilitados,0)}</div>
-        </div>
-        <div className={styles['cardInfoResumeVotes']}>
-            <IconVotes color={'var(--cBlackV2)'}/>
-            <div>Votos emitidos</div>
-            <div>{formatNumber(totalEmitidos,0 )} </div>
-        </div>
-        <div className={styles['cardInfoResumeVotes']}>
-            <IconPercentage color={'var(--cBlackV2)'}/>
-            <div>Participación</div>
-            <div>{formatNumber(( totalEmitidos / totalHabilitados ) * 100)}%</div>
-        </div>
-        <div className={styles['cardInfoResumeVotes']}>
-            <IconCheck color={'var(--cBlackV2)'}/>
-            <div>Votos válidos</div>
-            <div>{formatNumber(total_entidad2.validos,0)}</div>
-        </div>
-        
-        <div className={styles['cardInfoResumeVotes']}>
-            <IconX color={'var(--cBlackV2)'}/>
-            <div>Votos nulos</div>
-            <div>{formatNumber(total_entidad2.nulos,0)}</div>
-        </div>
-       <div className={styles['cardInfoResumeVotes']}>
-            <IconWhiteVotes color={'var(--cBlackV2)'}/>
-            <div>Votos blancos</div>
-            <div>{formatNumber(total_entidad2.blancos,0)}</div>
-        </div>
-   
+        <InfoCard icon={ <IconElectoralParty color={'var(--cBlackV2)'}/>} title={'Padrón electoral'} value={totalHabilitados}/>
+        <InfoCard icon={ <IconVotes color={'var(--cBlackV2)'}/>} title={'Votos emitidos'} value={totalEmitidos}/>
+        <InfoCard icon={ <IconPercentage color={'var(--cBlackV2)'}/>} title={'Participación'} value={( totalEmitidos / totalHabilitados ) * 100} ext={'%'}/>
+        <InfoCard icon={ <IconCheck color={'var(--cBlackV2)'}/>} title={'Votos válidos'} value={extras.validos}/>
+        <InfoCard icon={ <IconX color={'var(--cBlackV2)'}/>} title={'Votos nulos'} value={extras.nulos}/>
+        <InfoCard icon={ <IconWhiteVotes color={'var(--cBlackV2)'}/>} title={'Votos nulos'} value={extras.blancos}/>
      </div> 
     </Card>
   )

@@ -4,7 +4,7 @@ import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableS
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetResumeVotes from "@/modulos/Statistics/WidgetResumen/WidgetResumeVotes";
-import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
+import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
@@ -56,13 +56,14 @@ const Statistics = () => {
         },
       ],
     },
-    total_entidad2: {
+    extras: {
       validos:100,
       nulos:50,
       blancos:20
     }
    
   };
+  
 
   // const [dataFormatted, setDataFormatted]: any = useState([]);
 

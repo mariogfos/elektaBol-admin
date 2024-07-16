@@ -1,0 +1,35 @@
+.cardInfoResumeVotes {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: var(--spS);
+    border-radius: var(--bRadius);
+    border: 1px solid var(--cBlackV3);
+    text-align: start;
+    background-color: #FFFFFF0D;
+    min-width: 159px;
+    min-height: 123px;
+    @media (min-width: 1024px) {
+      width: 100%;
+    }
+    @media (max-width: 1524px) {
+      width: 100%;
+      max-width: 100%;
+    } 
+    &>div:nth-child(1) {
+      color: var(--cBlackV2);
+    }
+    &>div:nth-child(2) {
+      color: var(--cBlackV2);
+      font-size: var(--spL);
+  
+      padding-right: var(--spS);
+    } 
+    &>div:nth-child(3) {
+      margin-top: var(--spXxl);
+      color: var(--cWhite);
+      font-size: var(--spXl);
+      padding-right: var(--spS);
+    }
+  }
+  
