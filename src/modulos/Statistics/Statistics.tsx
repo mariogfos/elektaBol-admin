@@ -3,21 +3,21 @@ import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
 import useAxios from "@/mk/hooks/useAxios";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
-import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
-import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
+import WidgetResumeVotes from "@/modulos/Statistics/WidgetResumen/WidgetResumeVotes";
+import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetTabla from "./WidgetTabla";
-import WidgetResumen from "./WidgetResumen";
+import WidgetResumen from "./WidgetResumen/WidgetResumen";
 
 const paramInitial: any = {
   searchBy: "",
+  level: 0,
 };
 const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
-  const [level, setLevel] = useState(0);
 
   // const { data: stads, reLoad } = useAxios("/estads", "POST", {
   //   ...params,
@@ -84,6 +84,17 @@ const Statistics = () => {
         },
       ],
     },
+    extras: {
+      validos: 100,
+      nulos: 50,
+      blancos: 20,
+      winner: {
+        id: 1,
+        name: "Eugenio",
+        color: "red",
+        total_votos: 2000,
+      },
+    },
   };
 
   useEffect(() => {
@@ -146,7 +157,7 @@ const Statistics = () => {
           onBack={onBack}
         />
       </div>
-      <div style={{ display: "flex", gap: "var(--spM)" }}>
+      <div>
         <div>
           <WidgetMapa
             params={[params, setParams]}
@@ -155,7 +166,7 @@ const Statistics = () => {
           />
         </div>
         <div>
-          <WidgetResumen params={[params, setParams]} data={stads?.data} />
+          <WidgetResumen params={[params, setParams]} data={stads} />
         </div>
       </div>
       <div>
