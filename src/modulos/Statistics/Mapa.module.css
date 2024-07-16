@@ -136,7 +136,7 @@
     & > a {
       & > path {
         fill: #212529;
-        stroke: green;
+        stroke: var(--cPrimary);
         stroke-width: 2px;
         transition: fill 0.3s, stroke-width 0.3s;
         animation: fadeIn 0.5s;
