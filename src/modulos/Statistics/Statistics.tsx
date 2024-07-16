@@ -19,9 +19,6 @@ const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
   const [level, setLevel] = useState(0);
-  // const [selectedDepartment, setSelectedDepartment]: any = useState(null);
-  // const [selectedCircunscripcion, setSelectedCircunscripcion]: any =
-  //   useState(null);
 
   // const { data: stads, reLoad } = useAxios("/estads", "POST", {
   //   ...params,
@@ -71,8 +68,6 @@ const Statistics = () => {
   };
   
 
-  // const [dataFormatted, setDataFormatted]: any = useState([]);
-
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
@@ -91,61 +86,6 @@ const Statistics = () => {
   //   setDataFormatted(data);
   // }, [stads?.data]);
 
-  // useEffect(() => {
-  //   reLoad(params);
-  // }, [params]);
-
-  // const onClickLevel = (row: any) => {
-  //   setParams((prevParams: any) => ({
-  //     ...prevParams,
-  //     searchBy: row.id,
-  //     level: level + 1,
-  //   }));
-
-  //   if (level == 0) {
-  //     setSelectedDepartment(row);
-  //   }
-  //   if (level == 1) {
-  //     setSelectedCircunscripcion(row);
-  //   }
-
-  //   if (level < 3) {
-  //     setLevel(level + 1);
-  //   }
-  // };
-
-  // const onClickBack = () => {
-  //   switch (level) {
-  //     case 1:
-  //       setSelectedDepartment(null);
-  //       setParams({
-  //         searchBy: "",
-  //         level: level - 1,
-  //       });
-  //       break;
-  //     case 2:
-  //       setSelectedCircunscripcion(null);
-  //       setParams({
-  //         searchBy: selectedDepartment.id,
-  //         level: level - 1,
-  //       });
-  //       break;
-  //     default:
-  //       setParams((prevParams: any) => ({
-  //         ...prevParams,
-  //         searchBy: "",
-  //         level: level - 1,
-  //       }));
-
-  //       break;
-  //   }
-
-  //   if (level > 0) {
-  //     setLevel(level - 1);
-  //   }
-  // };
-  // console.log(params, "params");
-  // console.log(stads?.data);
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
   const onClick = (id: any) => {
@@ -161,27 +101,11 @@ const Statistics = () => {
       searchBy: item.id,
       level: (params?.level || 0) + 1,
     });
-    // console.log(
-    //   "id:",
-    //   id,
-    //   "item:",
-    //   item,
-    //   "histParam:",
-    //   histParam,
-    //   "histTitulo:",
-    //   histTitulo,
-    //   "params:",
-    //   params,
-    //   "setParams:",
-    //   setParams
-    // );
   };
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
     const param = h[index];
-    // h.splice(index - 1, h.length - 1);
-    // t.splice(index - 1, t.length - 1);
     h = h.slice(0, index + 1);
     t = t.slice(0, index + 1);
     if (index === 0) {
@@ -191,7 +115,6 @@ const Statistics = () => {
     histParam[1](h);
     histTitulo[1](t);
     setParams(param);
-    console.log("BACK", t, index);
   };
   return (
     <div className={styles["statistics"]}>
@@ -216,10 +139,15 @@ const Statistics = () => {
         </div>
       </div>
       <div>
-        <WidgetTabla
+        {/* <WidgetTabla
           params={[params, setParams]}
           onClick={onClick}
           data={stads?.data.tabla}
+        /> */}
+        <WidgetTableStats
+          data={stads?.data.tabla}
+          onClick={onClick}
+          params={[params, setParams]}
         />
       </div>
     </div>
@@ -293,25 +221,6 @@ const Statistics = () => {
     //     )}
     //   </section>
     //   <section>
-    //     {level < 3 && (
-    //       <WidgetTableStats
-    //         data={dataFormatted}
-    //         title={
-    //           level == 0
-    //             ? "Departamentos"
-    //             : level == 1
-    //             ? "Circunscripciones"
-    //             : level == 2
-    //             ? "Recintos electorales"
-    //             : "Mesas electorales"
-    //         }
-    //         level={level}
-    //         setLevel={setLevel}
-    //         onClickLevel={onClickLevel}
-    //         params={params}
-    //         setParams={setParams}
-    //       />
-    //     )}
     //     {level === 3 && (
     //       <div style={{ width: "100%", display: "flex" }}>
     //         <WidgetResumeWinnerParty

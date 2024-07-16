@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import styles from "./Mapa.module.css";
 import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
@@ -13,6 +14,8 @@ const viewBoxs = [
   "",
   "",
   "0 0 6122 3709",
+  "",
+  "",
 ];
 const MapaPais = ({ onClick, data, param }: any) => {
   const svgRef: any = useRef(null);
@@ -25,15 +28,18 @@ const MapaPais = ({ onClick, data, param }: any) => {
   });
 
   let path: any = [];
+  let styleMap: string = "";
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
     switch (item.code) {
       case 7:
         path = pathsSantaCruz;
+        styleMap = "SantaCruzMap";
         break;
       case 3:
         path = pathsCochabamba;
+        styleMap = "CochabambaMap";
         break;
       default:
         path = pathsPais;
@@ -41,7 +47,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
   }
 
   const _onClick = (id: string | number) => {
-    // const item = data.find((d: any) => d.code === id);
     onClick(id);
   };
 
@@ -67,6 +72,16 @@ const MapaPais = ({ onClick, data, param }: any) => {
       item: item,
     });
   };
+
+  console.log(
+    "value: ",
+    viewBoxs[data.find((d: any) => d.id == param?.searchBy)?.code || 0],
+    "value2: ",
+    data.find((d: any) => d.id == param?.searchBy)?.code
+  );
+
+  let isCocha = data.find((d: any) => d.id == param?.searchBy)?.code === 3;
+
   return (
     <div className={styles.mapa}>
       <svg
@@ -114,6 +129,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
                     path.title == "map" || path.title == "line"
                       ? "default"
                       : "pointer",
+                  strokeWidth: isCocha ? 0.5 : 3,
                 }}
                 d={path.d}
                 onMouseEnter={(e) => onTooltip(e, path.id)}
