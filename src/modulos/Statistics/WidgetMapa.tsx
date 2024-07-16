@@ -1,4 +1,3 @@
-import React from "react";
 import MapaPais from "./MapaPais";
 
 const WidgetMapa = ({ data, onClick, params }: any) => {
