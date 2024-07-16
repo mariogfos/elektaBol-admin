@@ -3,12 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./Mapa.module.css";
 import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
-import { pathsCochabamba, pathsPais, pathsSantaCruz } from "./pathMapas";
+import {
+  pathsCochabamba,
+  pathsLaPaz,
+  pathsPais,
+  pathsSantaCruz,
+} from "./pathMapas";
 
 const viewBoxs = [
   "0 0 3994 4548",
   "",
-  "",
+  "0 0 890 917",
   "0 0 632 668",
   "",
   "",
@@ -28,18 +33,19 @@ const MapaPais = ({ onClick, data, param }: any) => {
   });
 
   let path: any = [];
-  let styleMap: string = "";
+
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
     switch (item.code) {
-      case 7:
-        path = pathsSantaCruz;
-        styleMap = "SantaCruzMap";
+      case 2:
+        path = pathsLaPaz;
         break;
       case 3:
         path = pathsCochabamba;
-        styleMap = "CochabambaMap";
+        break;
+      case 7:
+        path = pathsSantaCruz;
         break;
       default:
         path = pathsPais;
@@ -80,10 +86,12 @@ const MapaPais = ({ onClick, data, param }: any) => {
     data.find((d: any) => d.id == param?.searchBy)?.code
   );
 
-  let isCocha = data.find((d: any) => d.id == param?.searchBy)?.code === 3;
+  let departmentValue: number = data.find(
+    (d: any) => d.id == param?.searchBy
+  )?.code;
 
   return (
-    <div className={styles.mapa}>
+    <div className={departmentValue === 3 ? styles.CochabambaMap : styles.mapa}>
       <svg
         ref={svgRef}
         viewBox={
@@ -118,18 +126,18 @@ const MapaPais = ({ onClick, data, param }: any) => {
             >
               <path
                 style={{
-                  fill: path.title == "map" ? "#101111" : "",
+                  fill: path.title == "map" ? "#F58220" : "",
                   stroke:
                     path.title == "value"
                       ? "#000"
                       : path.title == "line"
                       ? "#fff"
                       : "#F58220",
+
                   cursor:
                     path.title == "map" || path.title == "line"
                       ? "default"
                       : "pointer",
-                  strokeWidth: isCocha ? 0.5 : 3,
                 }}
                 d={path.d}
                 onMouseEnter={(e) => onTooltip(e, path.id)}
