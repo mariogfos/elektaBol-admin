@@ -110,7 +110,7 @@ const Countries = () => {
   });
 
   const actDatos = async () => {
-    const { data, error } = await execute("actDatos", "POST", {
+    const { data, error } = await execute("actdatos", "POST", {
       type: mod.modulo,
     });
     if (data.success) {
