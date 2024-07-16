@@ -59,6 +59,14 @@ const Statistics = () => {
           code: 3,
         },
         {
+          id: 4,
+          name: "Oruro",
+          total: 100,
+          habitantes: 100,
+          habilitados: 80,
+          code: 4,
+        },
+        {
           id: 7,
           name: "Santa Cruz",
           total: 100,

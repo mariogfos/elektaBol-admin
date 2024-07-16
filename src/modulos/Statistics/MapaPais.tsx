@@ -7,6 +7,7 @@ import {
   pathsBeni,
   pathsCochabamba,
   pathsLaPaz,
+  pathsOruro,
   pathsPais,
   pathsPando,
   pathsSantaCruz,
@@ -17,7 +18,7 @@ const viewBoxs = [
   "",
   "0 0 890 917",
   "0 0 632 668",
-  "",
+  "0 0 684 354",
   "",
   "",
   "0 0 6122 3709",
@@ -53,6 +54,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
         break;
       case 3:
         path = pathsCochabamba;
+        break;
+      case 4:
+        path = pathsOruro;
         break;
       case 7:
         path = pathsSantaCruz;
@@ -113,6 +117,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
           ? styles.PandoMap
           : departmentValue === 8
           ? styles.BeniMap
+          : departmentValue === 4
+          ? styles.OruroMap
           : styles.mapa
       }
     >
@@ -150,7 +156,12 @@ const MapaPais = ({ onClick, data, param }: any) => {
             >
               <path
                 style={{
-                  fill: path.title == "map" ? "#F58220" : "",
+                  fill:
+                    path.title == "map"
+                      ? "#F58220"
+                      : path.title == "salar"
+                      ? "#656F78"
+                      : "",
                   stroke:
                     path.title == "value"
                       ? "#000"
