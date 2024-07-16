@@ -169,7 +169,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
                       ? "#fff"
                       : "",
                   cursor:
-                    path.title == "map" || path.title == "line"
+                    path.title == "map" ||
+                    path.title == "line" ||
+                    path.title == "salar"
                       ? "default"
                       : "pointer",
                 }}
