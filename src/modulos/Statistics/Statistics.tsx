@@ -27,6 +27,22 @@ const Statistics = () => {
     data: {
       tabla: [
         {
+          id: 9,
+          name: "Pando",
+          total: 100,
+          habitantes: 100,
+          habilitados: 80,
+          code: 9,
+        },
+        {
+          id: 8,
+          name: "Beni",
+          total: 100,
+          habitantes: 100,
+          habilitados: 80,
+          code: 8,
+        },
+        {
           id: 2,
           name: "La Paz",
           total: 100,
@@ -76,6 +92,8 @@ const Statistics = () => {
   const histTitulo: any = useState(["Mapa de Bolivia"]);
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
+    console.log("item: ", item);
+    console.log("id: ", id);
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
@@ -84,7 +102,7 @@ const Statistics = () => {
     histParam[1](h);
     setParams({
       ...params,
-      searchBy: item.id,
+      searchBy: item?.id,
       level: (params?.level || 0) + 1,
     });
   };

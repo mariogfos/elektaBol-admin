@@ -4,9 +4,11 @@ import styles from "./Mapa.module.css";
 import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
+  pathsBeni,
   pathsCochabamba,
   pathsLaPaz,
   pathsPais,
+  pathsPando,
   pathsSantaCruz,
 } from "./pathMapas";
 
@@ -19,8 +21,8 @@ const viewBoxs = [
   "",
   "",
   "0 0 6122 3709",
-  "",
-  "",
+  "0 0 1953 2022",
+  "0 0 4491 3047",
 ];
 const MapaPais = ({ onClick, data, param }: any) => {
   const svgRef: any = useRef(null);
@@ -34,10 +36,18 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   let path: any = [];
 
+  console.log("param: ", param);
+
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
     switch (item.code) {
+      case 9:
+        path = pathsPando;
+        break;
+      case 8:
+        path = pathsBeni;
+        break;
       case 2:
         path = pathsLaPaz;
         break;
@@ -99,6 +109,10 @@ const MapaPais = ({ onClick, data, param }: any) => {
           ? styles.LaPazMap
           : departmentValue === 7
           ? styles.SantaCruzMap
+          : departmentValue === 9
+          ? styles.PandoMap
+          : departmentValue === 8
+          ? styles.BeniMap
           : styles.mapa
       }
     >
@@ -143,7 +157,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
                       : path.title == "line"
                       ? "#fff"
                       : "",
-
                   cursor:
                     path.title == "map" || path.title == "line"
                       ? "default"
