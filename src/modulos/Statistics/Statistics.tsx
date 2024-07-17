@@ -112,7 +112,30 @@ const Statistics = () => {
   //     },
   //   },
   // };
-
+  const stad2=[
+    {
+      name: "Comunidad Ciudadana",
+      total_votos: 320,
+      color: "green",
+      avatar:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
+    },
+    {
+      name: "MAS - IPSP",
+      total_votos: 520,
+      color: "blue",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
+    },
+    {
+      name: "PAN - BOL",
+      total_votos: 560,
+      color: "white",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
+    },
+    { name: "Juntos", total_votos: 29, color: "yellow" },
+  ]
 
 
 
@@ -122,9 +145,9 @@ const Statistics = () => {
       title: "Estadísticas electorales",
     });
   }, []);
-  useEffect(() => {
-    reLoad(params);
-  }, [params]);
+   useEffect(() => {
+     reLoad(params);
+   }, [params]);
 
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
@@ -145,7 +168,7 @@ const Statistics = () => {
   };
 
   const onClick = (id: any) => {
-    const item: any = stads.data.tabla.find((d: any) => d.code == id);
+    const item: any = stads?.data?.tabla?.find((d: any) => d.code == id);
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
@@ -184,7 +207,7 @@ const Statistics = () => {
         />
       </div>
       <div>
-        {params.level < 3 && (
+        {/* {params.level < 3 && (
           <div>
             <WidgetMapa
               params={[params, setParams]}
@@ -192,12 +215,12 @@ const Statistics = () => {
               data={stads?.data.tabla}
             />
           </div>
-        )}
+        )} */}
         <div>
           <WidgetResumen
             params={[params, setParams]}
             data={dataFormatted()}
-            dataExtra={stads?.data.extra}
+            dataExtra={stads?.data?.extra}
             onClick={() => setOpenModal(true)}
           />
         </div>
@@ -214,30 +237,7 @@ const Statistics = () => {
       {params.level === 4 && (
         <div>
           <WidgetResumeWinnerParty
-            data={[
-              {
-                name: "Comunidad Ciudadana",
-                total_votos: 320,
-                color: "green",
-                avatar:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
-              },
-              {
-                name: "MAS - IPSP",
-                total_votos: 520,
-                color: "blue",
-                avatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
-              },
-              {
-                name: "PAN - BOL",
-                total_votos: 560,
-                color: "white",
-                avatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
-              },
-              { name: "Juntos", total_votos: 29, color: "yellow" },
-            ]}
+            data={stad2.slice(1)}
             title={"Otros resultados"}
           />
         </div>
@@ -245,7 +245,8 @@ const Statistics = () => {
       <DataModal
         open={openModal}
         onClose={() => setOpenModal(false)}
-       
+        buttonCancel=""
+        buttonText=""
       >
             <WidgetResumeWinnerParty
             data={[

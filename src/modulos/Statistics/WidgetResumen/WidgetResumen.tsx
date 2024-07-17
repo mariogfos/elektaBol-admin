@@ -64,7 +64,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
             total={calculateTotalHabilitados()}
           />
           <WidgetResumeWinnerParty
-            data={[data?.extras?.winner]}
+            data={[data?.extras?.winner[0]]}
             title={"Partido ganador"}
             //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
             total={calculateTotalHabilitados()}
