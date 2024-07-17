@@ -140,7 +140,6 @@ const Statistics = () => {
 
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
-
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
