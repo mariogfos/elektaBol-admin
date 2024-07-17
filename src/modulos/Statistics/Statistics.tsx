@@ -206,7 +206,7 @@ const Statistics = () => {
   };
 
   return (
-    <LoadingScreen>
+    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
       <div className={styles["statistics"]}>
         <div>
           <WidgetTitulo
