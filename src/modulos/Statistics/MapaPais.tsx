@@ -5,6 +5,10 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsC40,
+  pathsC41,
+  pathsC42,
+  pathsC43,
   pathsC44,
   pathsC45,
   pathsC46,
@@ -23,6 +27,8 @@ import {
   pathsC59,
   pathsC60,
   pathsC61,
+  pathsC62,
+  pathsC63,
   pathsChuquisaca,
   pathsCochabamba,
   pathsLaPaz,
@@ -95,6 +101,18 @@ const MapaPais = ({ onClick, data, param }: any) => {
   if (param?.level == 2) {
     console.log(param?.code);
     switch (param?.code) {
+      case "40":
+        path = pathsC40;
+        break;
+      case "41":
+        path = pathsC41;
+        break;
+      case "42":
+        path = pathsC42;
+        break;
+      case "43":
+        path = pathsC43;
+        break;
       case "44":
         path = pathsC44;
         break;
@@ -148,6 +166,12 @@ const MapaPais = ({ onClick, data, param }: any) => {
         break;
       case "61":
         path = pathsC61;
+        break;
+      case "62":
+        path = pathsC62;
+        break;
+      case "63":
+        path = pathsC63;
         break;
       default:
         return null;
