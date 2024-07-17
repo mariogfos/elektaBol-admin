@@ -145,52 +145,53 @@ const MapaPais = ({ onClick, data, param }: any) => {
       }
     >
       <svg ref={svgRef} viewBox={path[0].vb}>
-        {path.map((path: any) => {
-          if (path.title == "rect") {
+        {path.map((path: any, index: number) => {
+          if (path.title === "rect") {
             return (
               <rect
+                key={path.id || index}
                 x={path.x}
                 y={path.y}
                 width={path.width}
                 height={path.height}
                 rx={path.rx}
                 style={{ fill: "#fff" }}
-                key={path.id}
               />
             );
           }
 
           return (
             <Link
-              key={path.id}
+              key={path.id || index}
               href="#"
               onClick={() =>
-                path.title != "map" &&
-                path.title != "line" &&
-                path.title != "salar"
+                path.title !== "map" &&
+                path.title !== "line" &&
+                path.title !== "salar"
                   ? _onClick(path.code)
                   : {}
               }
               title={path.title}
             >
               <path
+                key={path.id || index}
                 style={{
                   fill:
-                    path.title == "map"
+                    path.title === "map"
                       ? "#F58220"
-                      : path.title == "salar"
+                      : path.title === "salar"
                       ? "#656F78"
                       : "",
                   stroke:
-                    path.title == "value"
+                    path.title === "value"
                       ? "#000"
-                      : path.title == "line"
+                      : path.title === "line"
                       ? "#fff"
                       : "",
                   cursor:
-                    path.title == "map" ||
-                    path.title == "line" ||
-                    path.title == "salar"
+                    path.title === "map" ||
+                    path.title === "line" ||
+                    path.title === "salar"
                       ? "default"
                       : "pointer",
                 }}
@@ -202,6 +203,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
           );
         })}
       </svg>
+
       {tooltip.visible && (
         <Tooltip
           x={tooltip.x}
