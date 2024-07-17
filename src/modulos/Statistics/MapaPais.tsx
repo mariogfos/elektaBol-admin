@@ -42,7 +42,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
-    const item = data.find((d: any) => d.id == param?.searchBy);
+    console.log(data);
+    const item = data.find((d: any) => d.code == param?.code);
+    console.log(item);
     switch (item?.code) {
       case "9":
         path = pathsPando;
@@ -146,12 +148,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
           : styles.mapa
       }
     >
-      <svg
-        ref={svgRef}
-        viewBox={
-          viewBoxs[data?.find((d: any) => d.id == param?.searchBy)?.code || 0]
-        }
-      >
+      <svg ref={svgRef} viewBox={path[0].vb}>
         {path.map((path: any) => {
           if (path.title == "rect") {
             return (
