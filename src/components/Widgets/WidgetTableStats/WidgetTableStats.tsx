@@ -108,7 +108,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         }}
         renderBody={render}
         data={data}
-        onRowClick={(row: any) => onClick(row.id)}
+        onRowClick={(row: any) => onClick(row.code)}
         header={headerFormatted()}
         className="striped"
       />
