@@ -167,8 +167,9 @@ const Statistics = () => {
     return data;
   };
 
-  const onClick = (id: any) => {
-    const item: any = stads?.data?.tabla?.find((d: any) => d.code == id);
+  const onClick = (code: any) => {
+    const item: any = stads.data.tabla.find((d: any) => d.code == code);
+
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
@@ -179,9 +180,10 @@ const Statistics = () => {
       ...params,
       searchBy: item?.id,
       level: (params?.level || 0) + 1,
+      code: code.toString(),
     });
   };
-
+  console.log(params);
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
@@ -215,15 +217,15 @@ const Statistics = () => {
               data={stads?.data.tabla}
             />
           </div>
-        )} */}
-        <div>
+        )}
+        {/* <div>
           <WidgetResumen
             params={[params, setParams]}
             data={dataFormatted()}
             dataExtra={stads?.data?.extra}
             onClick={() => setOpenModal(true)}
           />
-        </div>
+        </div> */}
       </div>
       {params?.level < 4 && (
         <div>

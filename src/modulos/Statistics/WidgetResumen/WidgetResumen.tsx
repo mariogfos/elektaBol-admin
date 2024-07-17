@@ -60,7 +60,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
             title={"Datos de las elecciones del 2020"}
             // subtitle={selectedCircunscripcion?.titulo}
             data={data?.tabla}
-            extras={data?.extras}
+            extras={dataExtra}
             total={calculateTotalHabilitados()}
           />
           <WidgetResumeWinnerParty

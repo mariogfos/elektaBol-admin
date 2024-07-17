@@ -42,8 +42,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
-    const item = data.find((d: any) => d.id == param?.searchBy);
-    switch (item?.code) {
+    switch (param?.code) {
       case "9":
         path = pathsPando;
         break;
@@ -75,13 +74,13 @@ const MapaPais = ({ onClick, data, param }: any) => {
         path = pathsPais;
     }
   }
-  if (param?.level == 2) {
-    const item = data.find((d: any) => d.id == param?.searchBy);
-    path = pathsPais;
-  }
+  // if (param?.level == 2) {
+  //   const item = data.find((d: any) => d.id == param?.searchBy);
+  //   path = pathsPais;
+  // }
 
-  const _onClick = (id: string | number) => {
-    onClick(id);
+  const _onClick = (code: string | number) => {
+    onClick(code);
   };
 
   const onTooltip = (
@@ -107,9 +106,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  let departmentValue: number = data?.find(
-    (d: any) => d.id == param?.searchBy
-  )?.code;
+  let departmentValue: number = 0;
+  if (param?.level == 1) departmentValue = param?.code;
 
   const getStyle = (departmentValue: string) => {
     switch (departmentValue) {
@@ -146,12 +144,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
           : styles.mapa
       }
     >
-      <svg
-        ref={svgRef}
-        viewBox={
-          viewBoxs[data?.find((d: any) => d.id == param?.searchBy)?.code || 0]
-        }
-      >
+      <svg ref={svgRef} viewBox={path[0].vb}>
         {path.map((path: any) => {
           if (path.title == "rect") {
             return (
@@ -175,7 +168,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 path.title != "map" &&
                 path.title != "line" &&
                 path.title != "salar"
-                  ? _onClick(path.id)
+                  ? _onClick(path.code)
                   : {}
               }
               title={path.title}
