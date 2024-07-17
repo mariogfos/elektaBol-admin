@@ -105,7 +105,7 @@ const Statistics = () => {
   const histTitulo: any = useState(["Mapa de Bolivia"]);
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
-    console.log("item: ", item);
+    // console.log("item: ", item);
     console.log("id: ", id);
     const t = histTitulo[0];
     t.push(item?.name);
