@@ -154,7 +154,7 @@ const Statistics = () => {
       code: code.toString(),
     });
   };
-  console.log(params);
+
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
