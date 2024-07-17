@@ -70,7 +70,7 @@ const Partidos = () => {
         form: { type: "text", precarga: "#FFFFFF" },
       },
       avatar: {
-        rules: ["requiredFile"],
+        rules: ["requiredFile*edit"],
         api: "ae",
         label: "Suba una Imagen",
         list: {
