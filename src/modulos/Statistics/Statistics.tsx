@@ -206,7 +206,7 @@ const Statistics = () => {
       <DataModal
         open={openModal}
         onClose={() => setOpenModal(false)}
-        title={"Datos de las elecciones del 2020"}
+        title={"Otros Resultados"}
 
 
       >
@@ -241,7 +241,7 @@ const Statistics = () => {
               { name: "Juntos", total_votos: 29, color: "yellow" },
               { name: "Juntos", total_votos: 29, color: "yellow" },
             ]}
-            title={"Otros resultados"}
+         
           />
       </DataModal>
     </div>

@@ -164,7 +164,7 @@
 .widgetResumeWinner {
 gap:var(--spL);
 display: flex;
-overflow-x: scroll;
+
 /* background-color: aqua; */
 
 & > section:nth-child(1){
@@ -191,6 +191,7 @@ overflow-x: scroll;
 }
   & > section:nth-child(2){
     display: flex;
+    overflow-x: scroll;
     gap: var(--spS);
 
     & > div{   
