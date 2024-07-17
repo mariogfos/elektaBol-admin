@@ -5,21 +5,25 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsChuquisaca,
   pathsCochabamba,
   pathsLaPaz,
+  pathsOruro,
   pathsPais,
   pathsPando,
+  pathsPotosi,
   pathsSantaCruz,
+  pathsTarija,
 } from "./pathMapas";
 
 const viewBoxs = [
   "0 0 3994 4548",
-  "",
+  "0 0 612 570",
   "0 0 890 917",
   "0 0 632 668",
-  "",
-  "",
-  "",
+  "0 0 684 354",
+  "0 0 596 750",
+  "0 0 4898 3123",
   "0 0 6122 3709",
   "0 0 1953 2022",
   "0 0 4491 3047",
@@ -36,8 +40,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   let path: any = [];
 
-  console.log("param: ", param);
-
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
@@ -51,8 +53,20 @@ const MapaPais = ({ onClick, data, param }: any) => {
       case 2:
         path = pathsLaPaz;
         break;
+      case 1:
+        path = pathsChuquisaca;
+        break;
       case 3:
         path = pathsCochabamba;
+        break;
+      case 4:
+        path = pathsOruro;
+        break;
+      case 5:
+        path = pathsPotosi;
+        break;
+      case 6:
+        path = pathsTarija;
         break;
       case 7:
         path = pathsSantaCruz;
@@ -89,37 +103,49 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  console.log(
-    "value: ",
-    viewBoxs[data.find((d: any) => d.id == param?.searchBy)?.code || 0],
-    "value2: ",
-    data.find((d: any) => d.id == param?.searchBy)?.code
-  );
-
-  let departmentValue: number = data.find(
+  let departmentValue: number = data?.find(
     (d: any) => d.id == param?.searchBy
   )?.code;
+
+  const getStyle = (departmentValue: number) => {
+    switch (departmentValue) {
+      case 3:
+        return styles.CochabambaMap;
+      case 2:
+        return styles.LaPazMap;
+      case 7:
+        return styles.SantaCruzMap;
+      case 9:
+        return styles.PandoMap;
+      case 8:
+        return styles.BeniMap;
+      case 4:
+        return styles.OruroMap;
+      case 5:
+        return styles.PotosiMap;
+      case 1:
+        return styles.ChuquisacaMap;
+      case 6:
+        return styles.TarijaMap;
+      default:
+        return styles.mapa;
+    }
+  };
 
   return (
     <div
       className={
-        departmentValue === 3
-          ? styles.CochabambaMap
-          : departmentValue === 2
-          ? styles.LaPazMap
-          : departmentValue === 7
-          ? styles.SantaCruzMap
-          : departmentValue === 9
-          ? styles.PandoMap
-          : departmentValue === 8
-          ? styles.BeniMap
+        param?.level == 1
+          ? getStyle(departmentValue)
+          : param?.level == 2
+          ? styles.recinto
           : styles.mapa
       }
     >
       <svg
         ref={svgRef}
         viewBox={
-          viewBoxs[data.find((d: any) => d.id == param?.searchBy)?.code || 0]
+          viewBoxs[data?.find((d: any) => d.id == param?.searchBy)?.code || 0]
         }
       >
         {path.map((path: any) => {
@@ -142,7 +168,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
               key={path.id}
               href="#"
               onClick={() =>
-                path.title != "map" && path.title != "line"
+                path.title != "map" &&
+                path.title != "line" &&
+                path.title != "salar"
                   ? _onClick(path.id)
                   : {}
               }
@@ -150,7 +178,12 @@ const MapaPais = ({ onClick, data, param }: any) => {
             >
               <path
                 style={{
-                  fill: path.title == "map" ? "#F58220" : "",
+                  fill:
+                    path.title == "map"
+                      ? "#F58220"
+                      : path.title == "salar"
+                      ? "#656F78"
+                      : "",
                   stroke:
                     path.title == "value"
                       ? "#000"
@@ -158,7 +191,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
                       ? "#fff"
                       : "",
                   cursor:
-                    path.title == "map" || path.title == "line"
+                    path.title == "map" ||
+                    path.title == "line" ||
+                    path.title == "salar"
                       ? "default"
                       : "pointer",
                 }}

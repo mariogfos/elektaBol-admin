@@ -20,7 +20,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     let col1 = 0;
     let col2 = 0;
     let col3 = 0;
-    data.forEach((item: any) => {
+    data?.forEach((item: any) => {
       col1 += item.habitantes;
       col2 += item.habilitados;
       col3 += item.total;
