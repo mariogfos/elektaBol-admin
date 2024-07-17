@@ -153,7 +153,7 @@ const Statistics = () => {
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
   const dataFormatted = () => {
-    if(params.level === 4)return stads?.data?.tabla;
+    if(params.level === 4)return stads?.data?.tabla[0];
     let data: any = [];
     stads?.data?.tabla?.map((item: any) => {
       stads?.data?.entidad?.map((entidad: any) => {
