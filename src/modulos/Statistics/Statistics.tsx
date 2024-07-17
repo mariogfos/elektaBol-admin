@@ -206,63 +206,65 @@ const Statistics = () => {
   };
 
   return (
-    <div className={styles["statistics"]}>
-      <div>
-        <WidgetTitulo
-          histParams={histParam}
-          params={[params, setParams]}
-          histTitulos={histTitulo}
-          onBack={onBack}
-        />
-      </div>
-      <div>
-        {/* {params.level < 3 && (
+    <LoadingScreen>
+      <div className={styles["statistics"]}>
+        <div>
+          <WidgetTitulo
+            histParams={histParam}
+            params={[params, setParams]}
+            histTitulos={histTitulo}
+            onBack={onBack}
+          />
+        </div>
+        <div>
+          {params.level < 3 && (
+            <div>
+              <WidgetMapa
+                params={[params, setParams]}
+                onClick={onClick}
+                data={stads?.data.tabla}
+              />
+            </div>
+          )}
           <div>
-            <WidgetMapa
+            <WidgetResumen
               params={[params, setParams]}
-              onClick={onClick}
-              data={stads?.data.tabla}
+              data={dataFormatted()}
+              dataExtra={stads?.data?.extras}
+              openModal={() => setOpenModal(true)}
             />
           </div>
-        )}  */}
-        <div>
-          <WidgetResumen
-            params={[params, setParams]}
-            data={dataFormatted()}
-            dataExtra={stads?.data?.extras}
-            openModal={() => setOpenModal(true)}
-          />
         </div>
-      </div>
-      {params?.level < 4 && (
-        <div>
-          <WidgetTableStats
-            data={dataFormatted()}
-            onClick={onClick}
-            params={[params, setParams]}
-          />
-        </div>
-      )}
-      {params.level === 4 && (
-        <div>
+        {params?.level < 4 && (
+          <div>
+            <WidgetTableStats
+              data={dataFormatted()}
+              onClick={onClick}
+              params={[params, setParams]}
+            />
+          </div>
+        )}
+        {params.level === 4 && (
+          <div>
+            <WidgetResumeWinnerParty
+              data={stads?.data?.extras?.winner?.slice(1)}
+              title={"Otros resultados"}
+            />
+          </div>
+        )}
+        <DataModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          buttonCancel=""
+          buttonText=""
+        >
           <WidgetResumeWinnerParty
             data={stads?.data?.extras?.winner?.slice(1)}
             title={"Otros resultados"}
           />
-        </div>
-      )}
-      <DataModal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        buttonCancel=""
-        buttonText=""
-      >
-        <WidgetResumeWinnerParty
-          data={stads?.data?.extras?.winner?.slice(1)}
-          title={"Otros resultados"}
-        />
-      </DataModal>
-    </div>
+        </DataModal>
+      </div>
+    </LoadingScreen>
 
     // <div className={styles["statistics"]}>
     //   <h1>
