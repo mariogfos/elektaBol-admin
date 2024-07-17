@@ -15,100 +15,101 @@ const paramInitial: any = {
 const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
-  const { data: stads1, reLoad } = useAxios("/estads", "POST", {
-    ...paramInitial,
+  const { data: stads, reLoad } = useAxios("/estads", "POST", {
+    ...params,
   });
-  const stads = {
-    data: {
-      tabla: [
-        {
-          id: 1,
-          name: "Chuquisaca",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 1,
-        },
-        {
-          id: 9,
-          name: "Pando",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 9,
-        },
-        {
-          id: 8,
-          name: "Beni",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 8,
-        },
-        {
-          id: 2,
-          name: "La Paz",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 2,
-        },
-        {
-          id: 3,
-          name: "Cochabamba",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 3,
-        },
-        {
-          id: 4,
-          name: "Oruro",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 4,
-        },
-        {
-          id: 5,
-          name: "Potosí",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 5,
-        },
-        {
-          id: 6,
-          name: "Tarija",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 6,
-        },
-        {
-          id: 7,
-          name: "Santa Cruz",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 7,
-        },
-      ],
-    },
-    extras: {
-      validos: 100,
-      nulos: 50,
-      blancos: 20,
-      winner: {
-        id: 1,
-        name: "Creemos",
-        color: "red",
-        total_votos: 200,
-        avatar:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s",
-      },
-    },
-  };
+  // console.log(stads1?.data.tabla);
+  // const stads = {
+  //   data: {
+  //     tabla: [
+  //       {
+  //         id: 1,
+  //         name: "Chuquisaca",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 1,
+  //       },
+  //       {
+  //         id: 9,
+  //         name: "Pando",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 9,
+  //       },
+  //       {
+  //         id: 8,
+  //         name: "Beni",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 8,
+  //       },
+  //       {
+  //         id: 2,
+  //         name: "La Paz",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 2,
+  //       },
+  //       {
+  //         id: 3,
+  //         name: "Cochabamba",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 3,
+  //       },
+  //       {
+  //         id: 4,
+  //         name: "Oruro",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 4,
+  //       },
+  //       {
+  //         id: 5,
+  //         name: "Potosí",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 5,
+  //       },
+  //       {
+  //         id: 6,
+  //         name: "Tarija",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 6,
+  //       },
+  //       {
+  //         id: 7,
+  //         name: "Santa Cruz",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 7,
+  //       },
+  //     ],
+  //   },
+  //   extras: {
+  //     validos: 100,
+  //     nulos: 50,
+  //     blancos: 20,
+  //     winner: {
+  //       id: 1,
+  //       name: "Creemos",
+  //       color: "red",
+  //       total_votos: 200,
+  //       avatar:
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s",
+  //     },
+  //   },
+  // };
 
   useEffect(() => {
     setStore({
@@ -121,6 +122,21 @@ const Statistics = () => {
 
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
+
+  const dataFormatted = () => {
+    let data: any = [];
+    stads?.data.tabla.map((item: any) => {
+      stads?.data.entidad.map((entidad: any) => {
+        if (item.id == entidad.id) {
+          data.push({
+            ...item,
+            total: entidad.total,
+          });
+        }
+      });
+    });
+    return data;
+  };
 
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
@@ -172,13 +188,17 @@ const Statistics = () => {
           </div>
         )}
         <div>
-          <WidgetResumen params={[params, setParams]} data={stads} />
+          <WidgetResumen
+            params={[params, setParams]}
+            data={dataFormatted()}
+            dataExtra={stads?.data.extra}
+          />
         </div>
       </div>
       {params?.level < 4 && (
         <div>
           <WidgetTableStats
-            data={stads?.data.tabla}
+            data={dataFormatted()}
             onClick={onClick}
             params={[params, setParams]}
           />

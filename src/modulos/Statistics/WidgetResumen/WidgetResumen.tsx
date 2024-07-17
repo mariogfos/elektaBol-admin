@@ -3,16 +3,17 @@ import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
 import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 
-const WidgetResumen = ({ data, params }: any) => {
+const WidgetResumen = ({ data, params, dataExtra }: any) => {
   const [paramsValue, setParams] = params;
   const { level } = paramsValue;
 
   const calculateTotalHabilitados = () => {
-    let totalHab = 0;
-    data?.data?.tabla?.map((item: any) => {
-      totalHab += item.habilitados;
+    let total = 0;
+    data.forEach((item: any) => {
+      total += item?.total;
     });
-    return totalHab;
+
+    return total;
   };
 
   const labels: any = [
@@ -37,15 +38,15 @@ const WidgetResumen = ({ data, params }: any) => {
             <div className={styles["container-card"]}>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level]}</h2>
-                {data?.data?.tabla && <p>{data?.data?.tabla?.length}</p>}
+                {data && <p>{data?.length}</p>}
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 1]}</h2>
-                {data?.data?.tabla && <p>{calculateTotalHabilitados()}</p>}
+                {data && <p>{calculateTotalHabilitados()}</p>}
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
-                {/* {typeof data?.data?.extras == "number" && <p>{data?.data?.extras}</p>} */}
+                {typeof dataExtra == "number" && <p>{dataExtra}</p>}
               </div>
             </div>
           </section>
