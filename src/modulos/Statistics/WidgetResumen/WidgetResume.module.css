@@ -25,8 +25,8 @@
   margin-top: var(--spL);
 
   &>div {
-    width: 170px;
-    max-width: 200px;
+    /* width: 170px;
+    max-width: 200px; */
 
     &>h2 {
       font-size: 12px;
@@ -41,11 +41,12 @@
 }
 
 .topWidgets {
-  display: flex;
-  width: 100%;
-  /* margin-bottom: 24px; */
-  /* background-color: blue; */
+  display:flex; 
   gap: 24px;
+  & > div{
+   width: 50%;
+  
+  }
 }
 
 
@@ -160,73 +161,45 @@
 
 }
 
-
-
 .widgetResumeWinner {
-  display: flex;
-  width: 100%;
+gap:var(--spL);
 
-
-  &>h1 {
-    font-size: var(--sXxl);
-    font-weight: bold;
-    margin-bottom: var(--spL);
-
-
-  }
-
-  &>div {
+  & > section:nth-child(2){
     display: flex;
-    gap: 8px;
-    overflow-x: scroll;
+    gap: var(--spS);
 
-    &>div {
-      /* background-color: purple; */
+    & > div{   
       display: flex;
-      flex-direction: row;
-
-      &>div:nth-child(1) {
-        /* background-color: red;  */
+      flex-direction: column; 
+      justify-content: center;    
+      border: 1px solid var(--cBlackV3);
+      border-radius: var(--bRadius);
+      width: 100%;
+      flex-grow: 1;
+      height:280px;
+      gap: var( --spL);
+      text-align: center;  
+      & > div:nth-child(1) {
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
-        border: 1px solid var(--cBlackV3);
-        border-radius: var(--bRadius);
-        padding: var(--spS);
         gap: var(--spS);
-        text-align: center;
+   & > span:first-of-type {
 
+    font-size: var(--spL);
+    font-weight: bold;
+    color: var(--cWhite);
+}
+& > span:last-of-type{
 
-        &>div:nth-child(1) {
-          /* background-color: aqua; */
-
-          &>div:nth-child(2) {
-            /* titulo */
-            margin-top: var(--spS);
-            font-size: var(--spL);
-
-
-          }
-
-          &>div:nth-child(3) {
-            /* subtitulo */
-            font-size: var(--sM);
-            color: var(--cBlackV2);
-          }
-        }
-
-
-
+  font-size: var(--spL);
+  font-weight: 400;
+  color: var(--cBlackV2);
+  font-size: var(--sM);
+}
       }
 
-      &>div:nth-child(2) {
-        margin-top: var(--spS);
-        /* background-color: yellow; */
-      }
     }
   }
-
-
-
 }
+
+

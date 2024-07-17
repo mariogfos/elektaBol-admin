@@ -52,6 +52,7 @@ const WidgetResumen = ({ data, params }: any) => {
     </section>
   </div>}
    { level >= 2 && <div className={styles["topWidgets"]}>
+    
    
    <WidgetResumeVotes 
     title={"Datos de las elecciones del 2020"}

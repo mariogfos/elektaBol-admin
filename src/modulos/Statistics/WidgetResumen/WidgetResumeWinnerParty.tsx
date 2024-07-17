@@ -17,27 +17,29 @@ const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total}: any) =>
 
   return (
     <Card className={styles["widgetResumeWinner"]}>
-      <div>
+      <section>
         <h1>{title}</h1>
         <div>{subtitle}</div>
-      </div>
-      <div style={style}>
+      </section>
+      <section style={style}>
         {data?.map((item: any, i: number) => (
-          <div style={{ width: "100%" }} key={i}>
-            <div style={data?.length > 1 ? { width: 247 } : { width: "100%" }}>
+          // <div style={{ width: "100%",height:"100%" }} key={i}>
+            <div 
+            // style={data?.length > 1 ? { width: 247 } : { width: "100%" }} 
+            key={i}>
               <div>
-                <Avatar src={''}
+                <Avatar src={item.avatar}
                  name={item.name} />
-                <div>{item.title}</div>
-                <div>{item.total_votos} votos obtenidos</div>
+                <span>{item.name}</span>
+                <span>{item.total_votos} votos obtenidos</span>
               </div>
               <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                  <DonutChart percentage={parseFloat(calculatePercentage(total, Number(item.total_votos)))}  color={item.color} size={100} />
               </div>
             </div>
-          </div>
+          // </div>
         ))}
-      </div>
+      </section>
     </Card>
   );
 };
