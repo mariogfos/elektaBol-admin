@@ -43,32 +43,32 @@ const MapaPais = ({ onClick, data, param }: any) => {
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
-    switch (item.code) {
-      case 9:
+    switch (item?.code) {
+      case "9":
         path = pathsPando;
         break;
-      case 8:
+      case "8":
         path = pathsBeni;
         break;
-      case 2:
+      case "2":
         path = pathsLaPaz;
         break;
-      case 1:
+      case "1":
         path = pathsChuquisaca;
         break;
-      case 3:
+      case "3":
         path = pathsCochabamba;
         break;
-      case 4:
+      case "4":
         path = pathsOruro;
         break;
-      case 5:
+      case "5":
         path = pathsPotosi;
         break;
-      case 6:
+      case "6":
         path = pathsTarija;
         break;
-      case 7:
+      case "7":
         path = pathsSantaCruz;
         break;
       default:
@@ -111,25 +111,25 @@ const MapaPais = ({ onClick, data, param }: any) => {
     (d: any) => d.id == param?.searchBy
   )?.code;
 
-  const getStyle = (departmentValue: number) => {
+  const getStyle = (departmentValue: string) => {
     switch (departmentValue) {
-      case 3:
+      case "3":
         return styles.CochabambaMap;
-      case 2:
+      case "2":
         return styles.LaPazMap;
-      case 7:
+      case "7":
         return styles.SantaCruzMap;
-      case 9:
+      case "9":
         return styles.PandoMap;
-      case 8:
+      case "8":
         return styles.BeniMap;
-      case 4:
+      case "4":
         return styles.OruroMap;
-      case 5:
+      case "5":
         return styles.PotosiMap;
-      case 1:
+      case "1":
         return styles.ChuquisacaMap;
-      case 6:
+      case "6":
         return styles.TarijaMap;
       default:
         return styles.mapa;
@@ -140,7 +140,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
     <div
       className={
         param?.level == 1
-          ? getStyle(departmentValue)
+          ? getStyle(departmentValue + "")
           : param?.level == 2
           ? styles.recinto
           : styles.mapa
