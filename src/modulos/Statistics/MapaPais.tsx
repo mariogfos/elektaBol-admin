@@ -106,11 +106,11 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  let departmentValue: number = 0;
-  if (param?.level == 1) departmentValue = param?.code;
+  // let departmentValue: number = 0;
+  // if (param?.level == 1) departmentValue = param?.code;
 
-  const getStyle = (departmentValue: string) => {
-    switch (departmentValue) {
+  const getStyle = () => {
+    switch (param?.code) {
       case "3":
         return styles.CochabambaMap;
       case "2":
@@ -138,7 +138,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
     <div
       className={
         param?.level == 1
-          ? getStyle(departmentValue + "")
+          ? getStyle()
           : param?.level == 2
           ? styles.recinto
           : styles.mapa
