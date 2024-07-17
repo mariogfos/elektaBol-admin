@@ -15,6 +15,19 @@ import {
   pathsSantaCruz,
   pathsTarija,
 } from "./pathMapas";
+import C44 from "@/components/Maps/Circunscripcion/C44";
+import C45 from "@/components/Maps/Circunscripcion/C45";
+import C46 from "@/components/Maps/Circunscripcion/C46";
+import C47 from "@/components/Maps/Circunscripcion/C47";
+import C49 from "@/components/Maps/Circunscripcion/C49";
+import C50 from "@/components/Maps/Circunscripcion/C50";
+import C51 from "@/components/Maps/Circunscripcion/C51";
+import C52 from "@/components/Maps/Circunscripcion/C52";
+import C53 from "@/components/Maps/Circunscripcion/C53";
+import C54 from "@/components/Maps/Circunscripcion/C54";
+import C55 from "@/components/Maps/Circunscripcion/C55";
+import C56 from "@/components/Maps/Circunscripcion/C56";
+import C57 from "@/components/Maps/Circunscripcion/C57";
 
 const viewBoxs = [
   "0 0 3994 4548",
@@ -74,6 +87,41 @@ const MapaPais = ({ onClick, data, param }: any) => {
         path = pathsPais;
     }
   }
+  // if (param?.level == 2) {
+  // }
+  const getCircunscripcion = () => {
+    console.log(param?.code);
+    switch (param?.code) {
+      case "44":
+        return <C44 />;
+      case "45":
+        return <C45 />;
+      case "46":
+        return <C46 />;
+      case "47":
+        return <C47 />;
+      case "49":
+        return <C49 />;
+      case "50":
+        return <C50 />;
+      case "51":
+        return <C51 />;
+      case "52":
+        return <C52 />;
+      case "53":
+        return <C53 />;
+      case "54":
+        return <C54 />;
+      case "55":
+        return <C55 />;
+      case "56":
+        return <C56 />;
+      case "57":
+        return <C57 />;
+      default:
+        return null;
+    }
+  };
 
   const _onClick = (code: string | number) => {
     onClick(code);
