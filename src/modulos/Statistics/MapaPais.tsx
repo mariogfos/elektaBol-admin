@@ -40,8 +40,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   let path: any = [];
 
-  console.log("param: ", param);
-
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
     const item = data.find((d: any) => d.id == param?.searchBy);
@@ -104,13 +102,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
       item: item,
     });
   };
-
-  console.log(
-    "value: ",
-    viewBoxs[data.find((d: any) => d.id == param?.searchBy)?.code || 0],
-    "value2: ",
-    data.find((d: any) => d.id == param?.searchBy)?.code
-  );
 
   let departmentValue: number = data.find(
     (d: any) => d.id == param?.searchBy
