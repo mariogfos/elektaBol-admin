@@ -106,9 +106,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  let departmentValue: number = data?.find(
-    (d: any) => d.id == param?.searchBy
-  )?.code;
+  let departmentValue: number = 0;
+  if (param?.level == 1) departmentValue = param?.code;
 
   const getStyle = (departmentValue: string) => {
     switch (departmentValue) {
