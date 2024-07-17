@@ -10,6 +10,7 @@ import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetTabla from "./WidgetTabla";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
+import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
 const paramInitial: any = {
   searchBy: "",
@@ -18,7 +19,7 @@ const paramInitial: any = {
 const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
-
+  const [openModal, setOpenModal] = useState(false);
   // const { data: stads, reLoad } = useAxios("/estads", "POST", {
   //   ...params,
   // });
@@ -77,7 +78,7 @@ const Statistics = () => {
         name: "Creemos",
         color: "red",
         total_votos: 200,
-        avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s'
+        avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s'
       },
     },
   };
@@ -143,7 +144,7 @@ const Statistics = () => {
         />
       </div>
       <div>
-     {params.level < 3 &&   <div>
+        {params.level < 3 && <div>
           <WidgetMapa
             params={[params, setParams]}
             onClick={onClick}
@@ -151,10 +152,10 @@ const Statistics = () => {
           />
         </div>}
         <div>
-          <WidgetResumen params={[params, setParams]} data={stads} />
+          <WidgetResumen params={[params, setParams]} data={stads} openModal={params.level < 4?()=>setOpenModal(true):null} />
         </div>
       </div>
-     {params?.level < 4 &&<div>
+      {params?.level < 4 && <div>
         <WidgetTableStats
           data={stads?.data.tabla}
           onClick={onClick}
@@ -162,37 +163,87 @@ const Statistics = () => {
         />
       </div>}
       {params.level === 4 && (
-           <div >
-             <WidgetResumeWinnerParty
-               data={[
-                 {
-        
-                   name: "Comunidad Ciudadana",
-                   total_votos: 320,
-                   color: "green",
-                   avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s'
-          
-                 },
-                 {
-       
-                   name: "MAS - IPSP",
-                   total_votos: 520,
-                   color: "blue",
-                   avatar:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png'
-                 },
-                 {
-                
-                   name: "PAN - BOL",
-                   total_votos: 560,
-                   color: "white",
-                   avatar:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png'
-                 },
-                 {  name: "Juntos", total_votos: 29, color: "yellow" },
-               ]}
-               title={"Otros resultados"}
-             />
-           </div>
-         )}
+        <div >
+          <WidgetResumeWinnerParty
+            data={[
+              {
+
+                name: "Comunidad Ciudadana",
+                total_votos: 320,
+                color: "green",
+                avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s'
+
+              },
+              {
+
+                name: "MAS - IPSP",
+                total_votos: 520,
+                color: "blue",
+                avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png'
+              },
+              {
+
+                name: "PAN - BOL",
+                total_votos: 560,
+                color: "white",
+                avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png'
+              },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              
+            ]}
+            title={"Otros resultados"}
+          />
+        </div>
+      )}
+
+
+      <DataModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        title={"Datos de las elecciones del 2020"}
+
+
+      >
+          <WidgetResumeWinnerParty
+            data={[
+              {
+
+                name: "Comunidad Ciudadana",
+                total_votos: 320,
+                color: "green",
+                avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s'
+
+              },
+              {
+
+                name: "MAS - IPSP",
+                total_votos: 520,
+                color: "blue",
+                avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png'
+              },
+              {
+
+                name: "PAN - BOL",
+                total_votos: 560,
+                color: "white",
+                avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png'
+              },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+            ]}
+            title={"Otros resultados"}
+          />
+      </DataModal>
     </div>
 
     // <div className={styles["statistics"]}>

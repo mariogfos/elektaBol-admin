@@ -6,7 +6,7 @@ import { IconCamera } from "@/components/layout/icons/IconsBiblioteca";
 import ProgresiveBar from "@/mk/components/ui/ProgresiveBar/ProgresiveBar";
 import DonutChart from "@/mk/components/DonutChart/DonutChart";
 
-const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total}: any) => {
+const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total,onClick}: any) => {
  console.log(data,'data desde w')
  const calculatePercentage:any = (totalVotes:  number, votes: number) => {
   if (!totalVotes) return 0;
@@ -18,8 +18,11 @@ const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total}: any) =>
   return (
     <Card className={styles["widgetResumeWinner"]}>
       <section>
-        <h1>{title}</h1>
+        <div>
+        <div>{title}</div>
         <div>{subtitle}</div>
+        </div>
+      {onClick &&  <div onClick={onClick}>Ver más</div>}
       </section>
       <section style={style}>
         {data?.map((item: any, i: number) => (

@@ -163,7 +163,32 @@
 
 .widgetResumeWinner {
 gap:var(--spL);
+display: flex;
+overflow-x: scroll;
+/* background-color: aqua; */
 
+& > section:nth-child(1){
+  /* background-color: aqua; */
+  display: flex;
+  justify-content: space-between;
+  &>div:nth-child(1){
+    /* background-color: red; */
+    font-size: var(--spXl);
+    font-weight: bold;
+    & >div:nth-child(2){
+      /* subtitle */
+        font-size: var(--spL);
+        font-weight: 400;
+        color: var(--cBlackV2);
+    }
+  }
+  &>div:nth-child(2){
+    color:var(--cAccent);
+    align-self: center;
+    cursor: pointer;
+    border-bottom: 1px solid var(--cAccent);
+  }
+}
   & > section:nth-child(2){
     display: flex;
     gap: var(--spS);
@@ -178,6 +203,7 @@ gap:var(--spL);
       flex-grow: 1;
       height:280px;
       gap: var( --spL);
+      min-width:300px;
       text-align: center;  
       & > div:nth-child(1) {
         display: flex;

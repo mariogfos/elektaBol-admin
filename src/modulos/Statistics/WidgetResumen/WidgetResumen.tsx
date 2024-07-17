@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
 import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
+import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
-const WidgetResumen = ({ data, params }: any) => {
+const WidgetResumen = ({ data, params ,openModal}: any) => {
   const [paramsValue, setParams] = params;
+ 
   const { level } = paramsValue;
   
    const calculateTotalHabilitados = () => {
@@ -65,6 +67,7 @@ const WidgetResumen = ({ data, params }: any) => {
              data={[data?.extras?.winner]}
              title={"Partido ganador"}
              //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
+             onClick={openModal}
              total={calculateTotalHabilitados()}
            />
    
