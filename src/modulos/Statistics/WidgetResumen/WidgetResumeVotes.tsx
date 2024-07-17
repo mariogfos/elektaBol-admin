@@ -13,9 +13,9 @@ type PropsType = {
 }
 
 const WidgetResumeVotes = ({title,subtitle,data,extras,total}:PropsType) => {
-    console.log('data16',total);
+    console.log('data16',extras);
     // const totalHabilitados = data?.reduce((acc: number, curr: any) => acc + Number(curr.habilitados), 0) || 0;
-    const totalEmitidos = Number(extras.nulos) + Number(extras.blancos) + Number(extras.validos)
+    const totalEmitidos = Number(extras?.nulos) + Number(extras?.blancos) + Number(extras?.validos)
 
   return (
     <Card className={styles['widgetResumeVotes']}>
@@ -27,9 +27,9 @@ const WidgetResumeVotes = ({title,subtitle,data,extras,total}:PropsType) => {
         <InfoCard icon={ <IconElectoralParty color={'var(--cBlackV2)'}/>} title={'Padrón electoral'} value={total}/>
         <InfoCard icon={ <IconVotes color={'var(--cBlackV2)'}/>} title={'Votos emitidos'} value={totalEmitidos}/>
         <InfoCard icon={ <IconPercentage color={'var(--cBlackV2)'}/>} title={'Participación'} value={( totalEmitidos / total ) * 100} ext={'%'}/>
-        <InfoCard icon={ <IconCheck color={'var(--cBlackV2)'}/>} title={'Votos válidos'} value={extras.validos}/>
-        <InfoCard icon={ <IconX color={'var(--cBlackV2)'}/>} title={'Votos nulos'} value={extras.nulos}/>
-        <InfoCard icon={ <IconWhiteVotes color={'var(--cBlackV2)'}/>} title={'Votos nulos'} value={extras.blancos}/>
+        <InfoCard icon={ <IconCheck color={'var(--cBlackV2)'}/>} title={'Votos válidos'} value={extras?.validos}/>
+        <InfoCard icon={ <IconX color={'var(--cBlackV2)'}/>} title={'Votos nulos'} value={extras?.nulos}/>
+        <InfoCard icon={ <IconWhiteVotes color={'var(--cBlackV2)'}/>} title={'Votos nulos'} value={extras?.blancos}/>
      </div> 
     </Card>
   )
