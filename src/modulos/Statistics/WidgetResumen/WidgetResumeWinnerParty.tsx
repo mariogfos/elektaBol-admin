@@ -30,13 +30,15 @@ const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total,onClick}:
                 {/* <Avatar src={''}
                  name={item.name} /> */}
                 <span>{item?.name}</span>
-                <span>{item?.total_votos} votos obtenidos</span>
+               {data.length === 0 ?<span>No hay votos</span>: <span>{item?.total_votos} votos obtenidos</span>}
+
               </div>
               <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                  <DonutChart percentage={parseFloat(calculatePercentage(total, Number(item?.total_votos)))}  color={item?.color} size={100} />
               </div>
             </div>
         ))}
+
       </section>
     </Card>
   );

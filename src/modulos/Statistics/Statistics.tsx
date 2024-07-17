@@ -217,15 +217,15 @@ const Statistics = () => {
               data={stads?.data.tabla}
             />
           </div>
-        )}
-        {/* <div>
+        )}  */}
+      <div>
           <WidgetResumen
             params={[params, setParams]}
             data={dataFormatted()}
             dataExtra={stads?.data?.extra}
             onClick={() => setOpenModal(true)}
           />
-        </div> */}
+        </div>
       </div>
       {params?.level < 4 && (
         <div>

@@ -12,11 +12,12 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
   const calculateTotalHabilitados = () => {
     let total = 0;
     data.forEach((item: any) => {
-      total += item?.total;
+      total += item?.total * 1;
     });
 
-    return total;
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
+  console.log(data?.extras?.winner, "total");
 
   const labels: any = [
     "Departamento", // 0
