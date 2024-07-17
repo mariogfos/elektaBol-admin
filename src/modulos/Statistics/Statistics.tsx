@@ -15,7 +15,6 @@ const paramInitial: any = {
 const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
-  const [code, setCode] = useState("");
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
@@ -138,11 +137,10 @@ const Statistics = () => {
     });
     return data;
   };
-  console.log(params);
 
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
-    setCode(code);
+
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
