@@ -103,7 +103,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  let departmentValue: number = data.find(
+  let departmentValue: number = data?.find(
     (d: any) => d.id == param?.searchBy
   )?.code;
 
@@ -145,7 +145,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
       <svg
         ref={svgRef}
         viewBox={
-          viewBoxs[data.find((d: any) => d.id == param?.searchBy)?.code || 0]
+          viewBoxs[data?.find((d: any) => d.id == param?.searchBy)?.code || 0]
         }
       >
         {path.map((path: any) => {
