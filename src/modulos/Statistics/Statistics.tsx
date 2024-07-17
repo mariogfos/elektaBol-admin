@@ -15,10 +15,6 @@ const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
 
-  // const { data: stads, reLoad } = useAxios("/estads", "POST", {
-  //   ...params,
-  // });
-
   const stads = {
     data: {
       tabla: [
@@ -117,20 +113,9 @@ const Statistics = () => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   let data: any = [];
-  //   stads?.data.data.map((item: any) => {
-  //     stads?.data.entidad.map((entidad: any) => {
-  //       if (item.id === entidad.id) {
-  //         data.push({ ...item, total: entidad.total });
-  //       }
-  //     });
-  //   });
-  //   setDataFormatted(data);
-  // }, [stads?.data]);
-
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
+
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
     const t = histTitulo[0];
@@ -145,6 +130,7 @@ const Statistics = () => {
       level: (params?.level || 0) + 1,
     });
   };
+
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
