@@ -58,8 +58,9 @@ const ImportDataModal = ({
             setPendingCount(0);
             setSentCount((prev) => prev + currentBatch.length * 1);
             if (data?.data?.total === 0) {
-              onClose(true);
+              // onClose(true);
               showToast("Se importaron todos los datos", "success");
+              reLoad();
               break;
             } else {
               setErrorImport((old: any) => {
@@ -73,7 +74,7 @@ const ImportDataModal = ({
                 "warning"
               );
             }
-            reLoad();
+            // reLoad();
           } else {
             setErrorImport((old: any) => {
               if (Array.isArray(old)) {
@@ -99,6 +100,7 @@ const ImportDataModal = ({
     }
     // setIsProcessing(false);
     showToast("Se importaron todos los datos", "success");
+    reLoad();
   };
 
   const onImportFile = (e: any) => {
