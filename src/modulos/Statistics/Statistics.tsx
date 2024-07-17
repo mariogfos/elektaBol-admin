@@ -151,10 +151,10 @@ const Statistics = () => {
       ...params,
       searchBy: item?.id,
       level: (params?.level || 0) + 1,
-      code: code,
+      code: code.toString(),
     });
   };
-
+  console.log(params);
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];

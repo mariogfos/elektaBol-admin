@@ -42,9 +42,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
-    console.log(data);
     const item = data.find((d: any) => d.code == param?.code);
     console.log(item);
+
     switch (item?.code) {
       case "9":
         path = pathsPando;
