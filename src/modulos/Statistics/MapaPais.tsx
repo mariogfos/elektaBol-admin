@@ -42,10 +42,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   if ((param?.level || 0) == 0) path = pathsPais;
   if (param?.level == 1) {
-    const item = data.find((d: any) => d.code == param?.code);
-    console.log(item);
-
-    switch (item?.code) {
+    switch (param?.code) {
       case "9":
         path = pathsPando;
         break;
@@ -82,8 +79,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
   //   path = pathsPais;
   // }
 
-  const _onClick = (id: string | number) => {
-    onClick(id);
+  const _onClick = (code: string | number) => {
+    onClick(code);
   };
 
   const onTooltip = (
@@ -172,7 +169,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 path.title != "map" &&
                 path.title != "line" &&
                 path.title != "salar"
-                  ? _onClick(path.id)
+                  ? _onClick(path.code)
                   : {}
               }
               title={path.title}
