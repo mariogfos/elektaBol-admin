@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsChuquisaca,
   pathsCochabamba,
   pathsLaPaz,
   pathsOruro,
@@ -12,16 +13,17 @@ import {
   pathsPando,
   pathsPotosi,
   pathsSantaCruz,
+  pathsTarija,
 } from "./pathMapas";
 
 const viewBoxs = [
   "0 0 3994 4548",
-  "",
+  "0 0 612 570",
   "0 0 890 917",
   "0 0 632 668",
   "0 0 684 354",
   "0 0 596 750",
-  "",
+  "0 0 4898 3123",
   "0 0 6122 3709",
   "0 0 1953 2022",
   "0 0 4491 3047",
@@ -53,6 +55,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
       case 2:
         path = pathsLaPaz;
         break;
+      case 1:
+        path = pathsChuquisaca;
+        break;
       case 3:
         path = pathsCochabamba;
         break;
@@ -61,6 +66,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
         break;
       case 5:
         path = pathsPotosi;
+        break;
+      case 6:
+        path = pathsTarija;
         break;
       case 7:
         path = pathsSantaCruz;
@@ -125,6 +133,10 @@ const MapaPais = ({ onClick, data, param }: any) => {
           ? styles.OruroMap
           : departmentValue === 5
           ? styles.PotosiMap
+          : departmentValue === 1
+          ? styles.ChuquisacaMap
+          : departmentValue === 6
+          ? styles.TarijaMap
           : styles.mapa
       }
     >

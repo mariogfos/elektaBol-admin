@@ -27,6 +27,14 @@ const Statistics = () => {
     data: {
       tabla: [
         {
+          id: 1,
+          name: "Chuquisaca",
+          total: 100,
+          habitantes: 100,
+          habilitados: 80,
+          code: 1,
+        },
+        {
           id: 9,
           name: "Pando",
           total: 100,
@@ -73,6 +81,14 @@ const Statistics = () => {
           habitantes: 100,
           habilitados: 80,
           code: 5,
+        },
+        {
+          id: 6,
+          name: "Tarija",
+          total: 100,
+          habitantes: 100,
+          habilitados: 80,
+          code: 6,
         },
         {
           id: 7,
