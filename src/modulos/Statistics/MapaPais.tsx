@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import styles from "./Mapa.module.css";
 import Link from "next/link";
@@ -74,6 +74,10 @@ const MapaPais = ({ onClick, data, param }: any) => {
       default:
         path = pathsPais;
     }
+  }
+  if (param?.level == 2) {
+    const item = data.find((d: any) => d.id == param?.searchBy);
+    path = pathsPais;
   }
 
   const _onClick = (id: string | number) => {
