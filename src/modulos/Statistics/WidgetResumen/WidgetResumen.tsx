@@ -12,12 +12,20 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
   const calculateTotalHabilitados = () => {
     let total = 0;
     data.forEach((item: any) => {
+      total += item?.habilitados * 1;
+    });
+
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
+  const calculateTotalMesas = () => {
+    let total = 0;
+    data.forEach((item: any) => {
       total += item?.total * 1;
     });
 
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
-  console.log(data?.extras?.winner, "total");
+  console.log(dataExtra, "dataextra");
 
   const labels: any = [
     "Departamento", // 0
@@ -45,7 +53,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 1]}</h2>
-                {data && <p>{calculateTotalHabilitados()}</p>}
+                {data && level===0?<p>{calculateTotalHabilitados()}</p>:<p>{calculateTotalMesas()}</p>}
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
@@ -65,11 +73,11 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
             total={calculateTotalHabilitados()}
           />
           <WidgetResumeWinnerParty
-            data={[data?.extras?.winner[0]]}
+            data={[dataExtra?.winner[0]]}
             title={"Partido ganador"}
             //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
             total={calculateTotalHabilitados()}
-            onClick={openModal}
+            onClick={level > 4 ? openModal : null}
           />
         </div>
       )}

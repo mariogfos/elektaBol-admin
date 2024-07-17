@@ -3,9 +3,10 @@ import GraphBase from "@/mk/components/ui/Graphs/GraphBase";
 import styles from "./WidgetResume.module.css";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import DonutChart from "@/mk/components/DonutChart/DonutChart";
+import { getUrlImages } from "@/mk/utils/string";
 
 const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total,onClick}: any) => {
- console.log(data,'data desde w')
+
  const calculatePercentage:any = (totalVotes:  number, votes: number) => {
   if (!totalVotes) return 0;
   return ((votes / totalVotes) * 100).toFixed(2);
@@ -27,10 +28,10 @@ const WidgetResumeWinnerParty = ({ data, title, subtitle, style ,total,onClick}:
             <div 
             key={i}>
               <div>
-                {/* <Avatar src={''}
-                 name={item.name} /> */}
+               <Avatar src={getUrlImages("/PAR-" + item?.id + ".png?d=" + item?.updated_at)}
+                 name={item?.name} /> 
                 <span>{item?.name}</span>
-               {data.length === 0 ?<span>No hay votos</span>: <span>{item?.total_votos} votos obtenidos</span>}
+               {data?.length === 0 ?<span>No hay votos</span>: <span>{item?.total_votos} votos obtenidos</span>}
 
               </div>
               <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>

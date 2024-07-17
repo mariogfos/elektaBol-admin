@@ -20,7 +20,7 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  // console.log(stads1?.data.tabla);
+  console.log(stads, "stads");
   // const stads = {
   //   data: {
   //     tabla: [
@@ -222,8 +222,8 @@ const Statistics = () => {
           <WidgetResumen
             params={[params, setParams]}
             data={dataFormatted()}
-            dataExtra={stads?.data?.extra}
-            onClick={() => setOpenModal(true)}
+            dataExtra={stads?.data?.extras}
+            openModal={() => setOpenModal(true)}
           />
         </div>
       </div>
@@ -239,7 +239,7 @@ const Statistics = () => {
       {params.level === 4 && (
         <div>
           <WidgetResumeWinnerParty
-            data={stad2.slice(1)}
+            data={stads?.data?.extras?.winner?.slice(1)}
             title={"Otros resultados"}
           />
         </div>
@@ -251,30 +251,7 @@ const Statistics = () => {
         buttonText=""
       >
             <WidgetResumeWinnerParty
-            data={[
-              {
-                name: "Comunidad Ciudadana",
-                total_votos: 320,
-                color: "green",
-                avatar:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
-              },
-              {
-                name: "MAS - IPSP",
-                total_votos: 520,
-                color: "blue",
-                avatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
-              },
-              {
-                name: "PAN - BOL",
-                total_votos: 560,
-                color: "white",
-                avatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
-              },
-              { name: "Juntos", total_votos: 29, color: "yellow" },
-            ]}
+            data={stads?.data?.extras?.winner?.slice(1)}
             title={"Otros resultados"}
           />
       </DataModal>
