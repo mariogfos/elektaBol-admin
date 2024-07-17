@@ -6,6 +6,7 @@ import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
+import useAxios from "@/mk/hooks/useAxios";
 
 const paramInitial: any = {
   searchBy: "",
@@ -14,7 +15,9 @@ const paramInitial: any = {
 const Statistics = () => {
   const { setStore } = useAuth();
   const [params, setParams] = useState(paramInitial);
-
+  const { data: stads1, reLoad } = useAxios("/estads", "POST", {
+    ...paramInitial,
+  });
   const stads = {
     data: {
       tabla: [
@@ -112,6 +115,9 @@ const Statistics = () => {
       title: "Estadísticas electorales",
     });
   }, []);
+  useEffect(() => {
+    reLoad(params);
+  }, [params]);
 
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
