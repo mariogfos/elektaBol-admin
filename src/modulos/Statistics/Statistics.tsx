@@ -1,192 +1,270 @@
 import { useEffect, useState } from "react";
 import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
-import useAxios from "@/mk/hooks/useAxios";
-import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
-import WidgetResumeVotes from "@/components/Widgets/WidgetResume/WidgetResumeVotes";
-import WidgetResumeWinnerParty from "@/components/Widgets/WidgetResume/WidgetResumeWinnerParty";
+import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
-import WidgetTabla from "./WidgetTabla";
-import WidgetResumen from "./WidgetResumen";
+import WidgetResumen from "./WidgetResumen/WidgetResumen";
+import useAxios from "@/mk/hooks/useAxios";
+import SkeletonAdapterComponent from "@/mk/components/ui/LoadingScreen/SkeletonAdapter";
+import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
+import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
 const paramInitial: any = {
   searchBy: "",
+  level: 0,
 };
 const Statistics = () => {
   const { setStore } = useAuth();
+  const [openModal, setOpenModal] = useState(false);
   const [params, setParams] = useState(paramInitial);
-  const [level, setLevel] = useState(0);
-  // const [selectedDepartment, setSelectedDepartment]: any = useState(null);
-  // const [selectedCircunscripcion, setSelectedCircunscripcion]: any =
-  //   useState(null);
-
-  // const { data: stads, reLoad } = useAxios("/estads", "POST", {
-  //   ...params,
-  // });
-
-  const stads = {
-    data: {
-      tabla: [
-        {
-          id: 2,
-          name: "La Paz",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 2,
-        },
-        {
-          id: 3,
-          name: "Cochabamba",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 3,
-        },
-        {
-          id: 7,
-          name: "Santa Cruz",
-          total: 100,
-          habitantes: 100,
-          habilitados: 80,
-          code: 7,
-        },
-      ],
+  const { data: stads, reLoad } = useAxios("/estads", "POST", {
+    ...params,
+  });
+  console.log(stads, "stads");
+  // const stads = {
+  //   data: {
+  //     tabla: [
+  //       {
+  //         id: 1,
+  //         name: "Chuquisaca",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 1,
+  //       },
+  //       {
+  //         id: 9,
+  //         name: "Pando",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 9,
+  //       },
+  //       {
+  //         id: 8,
+  //         name: "Beni",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 8,
+  //       },
+  //       {
+  //         id: 2,
+  //         name: "La Paz",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 2,
+  //       },
+  //       {
+  //         id: 3,
+  //         name: "Cochabamba",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 3,
+  //       },
+  //       {
+  //         id: 4,
+  //         name: "Oruro",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 4,
+  //       },
+  //       {
+  //         id: 5,
+  //         name: "Potosí",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 5,
+  //       },
+  //       {
+  //         id: 6,
+  //         name: "Tarija",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 6,
+  //       },
+  //       {
+  //         id: 7,
+  //         name: "Santa Cruz",
+  //         total: 100,
+  //         habitantes: 100,
+  //         habilitados: 80,
+  //         code: 7,
+  //       },
+  //     ],
+  //   },
+  //   extras: {
+  //     validos: 100,
+  //     nulos: 50,
+  //     blancos: 20,
+  //     winner: {
+  //       id: 1,
+  //       name: "Creemos",
+  //       color: "red",
+  //       total_votos: 200,
+  //       avatar:
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s",
+  //     },
+  //   },
+  // };
+  const stad2 = [
+    {
+      name: "Comunidad Ciudadana",
+      total_votos: 320,
+      color: "green",
+      avatar:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
     },
-  };
-
-  // const [dataFormatted, setDataFormatted]: any = useState([]);
+    {
+      name: "MAS - IPSP",
+      total_votos: 520,
+      color: "blue",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
+    },
+    {
+      name: "PAN - BOL",
+      total_votos: 560,
+      color: "white",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
+    },
+    { name: "Juntos", total_votos: 29, color: "yellow" },
+  ];
 
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
     });
   }, []);
+  useEffect(() => {
+    reLoad(params);
+  }, [params]);
 
-  // useEffect(() => {
-  //   let data: any = [];
-  //   stads?.data.data.map((item: any) => {
-  //     stads?.data.entidad.map((entidad: any) => {
-  //       if (item.id === entidad.id) {
-  //         data.push({ ...item, total: entidad.total });
-  //       }
-  //     });
-  //   });
-  //   setDataFormatted(data);
-  // }, [stads?.data]);
-
-  // useEffect(() => {
-  //   reLoad(params);
-  // }, [params]);
-
-  // const onClickLevel = (row: any) => {
-  //   setParams((prevParams: any) => ({
-  //     ...prevParams,
-  //     searchBy: row.id,
-  //     level: level + 1,
-  //   }));
-
-  //   if (level == 0) {
-  //     setSelectedDepartment(row);
-  //   }
-  //   if (level == 1) {
-  //     setSelectedCircunscripcion(row);
-  //   }
-
-  //   if (level < 3) {
-  //     setLevel(level + 1);
-  //   }
-  // };
-
-  // const onClickBack = () => {
-  //   switch (level) {
-  //     case 1:
-  //       setSelectedDepartment(null);
-  //       setParams({
-  //         searchBy: "",
-  //         level: level - 1,
-  //       });
-  //       break;
-  //     case 2:
-  //       setSelectedCircunscripcion(null);
-  //       setParams({
-  //         searchBy: selectedDepartment.id,
-  //         level: level - 1,
-  //       });
-  //       break;
-  //     default:
-  //       setParams((prevParams: any) => ({
-  //         ...prevParams,
-  //         searchBy: "",
-  //         level: level - 1,
-  //       }));
-
-  //       break;
-  //   }
-
-  //   if (level > 0) {
-  //     setLevel(level - 1);
-  //   }
-  // };
-  // console.log(params, "params");
-  // console.log(stads?.data);
   const histParam = useState([]);
-  const histTitulo: any = useState([]);
-  const onClick = (id: any) => {
-    const item: any = stads.data.tabla.find((d: any) => d.code == id);
+  const histTitulo: any = useState(["Mapa de Bolivia"]);
+
+  const dataFormatted = () => {
+    if (params.level === 4) return stads?.data?.tabla[0];
+    let data: any = [];
+    stads?.data?.tabla?.map((item: any) => {
+      stads?.data?.entidad?.map((entidad: any) => {
+        if (item.id == entidad.id) {
+          data.push({
+            ...item,
+            total: entidad.total,
+          });
+        }
+      });
+    });
+    return data;
+  };
+
+  const onClick = (code: any) => {
+    const item: any = stads.data.tabla.find((d: any) => d.code == code);
+
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
     const h: any = histParam[0];
     h.push(params);
     histParam[1](h);
-    setParams({ ...params, searchBy: item.id, level: (params.level || 0) + 1 });
-    console.log(
-      "id:",
-      id,
-      "item:",
-      item,
-      "histParam:",
-      histParam,
-      "histTitulo:",
-      histTitulo,
-      "params:",
-      params,
-      "setParams:",
-      setParams
-    );
+    setParams({
+      ...params,
+      searchBy: item?.id,
+      level: (params?.level || 0) + 1,
+      code: code.toString(),
+    });
   };
+
+  const onBack = (index: number) => {
+    let h: any = histParam[0];
+    let t: any = histTitulo[0];
+    const param = h[index];
+    h = h.slice(0, index + 1);
+    t = t.slice(0, index + 1);
+    if (index === 0) {
+      h = [];
+      t = ["Mapa de Bolivia"];
+    }
+    histParam[1](h);
+    histTitulo[1](t);
+    setParams(param);
+  };
+
+  const isLoading = () => {
+    if (stads?.data) {
+      return <div>Cargando...</div>;
+    }
+  };
+
   return (
-    <div className={styles["statistics"]}>
-      <div>
-        <WidgetTitulo
-          histParams={histParam}
-          params={[params, setParams]}
-          histTitulos={histTitulo}
-        />
-      </div>
-      <div style={{ display: "flex", gap: "var(--spM)" }}>
+    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+      <div className={styles["statistics"]}>
         <div>
-          <WidgetMapa
+          <WidgetTitulo
+            histParams={histParam}
             params={[params, setParams]}
-            onClick={onClick}
-            data={stads?.data.tabla}
+            histTitulos={histTitulo}
+            onBack={onBack}
           />
         </div>
         <div>
-          <WidgetResumen params={[params, setParams]} data={stads?.data} />
+          {params.level < 3 && (
+            <div>
+              <WidgetMapa
+                params={[params, setParams]}
+                onClick={onClick}
+                data={stads?.data.tabla}
+              />
+            </div>
+          )}
+          <div>
+            <WidgetResumen
+              params={[params, setParams]}
+              data={dataFormatted()}
+              dataExtra={stads?.data?.extras}
+              openModal={() => setOpenModal(true)}
+            />
+          </div>
         </div>
+        {params?.level < 4 && (
+          <div>
+            <WidgetTableStats
+              data={dataFormatted()}
+              onClick={onClick}
+              params={[params, setParams]}
+            />
+          </div>
+        )}
+        {params.level === 4 && (
+          <div>
+            <WidgetResumeWinnerParty
+              data={stads?.data?.extras?.winner?.slice(1)}
+              title={"Otros resultados"}
+            />
+          </div>
+        )}
+        <DataModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          buttonCancel=""
+          buttonText=""
+        >
+          <WidgetResumeWinnerParty
+            data={stads?.data?.extras?.winner?.slice(1)}
+            title={"Otros resultados"}
+          />
+        </DataModal>
       </div>
-      <div>
-        <WidgetTabla
-          params={[params, setParams]}
-          onClick={onClick}
-          data={stads?.data.tabla}
-        />
-      </div>
-    </div>
+    </LoadingScreen>
 
     // <div className={styles["statistics"]}>
     //   <h1>
@@ -257,25 +335,6 @@ const Statistics = () => {
     //     )}
     //   </section>
     //   <section>
-    //     {level < 3 && (
-    //       <WidgetTableStats
-    //         data={dataFormatted}
-    //         title={
-    //           level == 0
-    //             ? "Departamentos"
-    //             : level == 1
-    //             ? "Circunscripciones"
-    //             : level == 2
-    //             ? "Recintos electorales"
-    //             : "Mesas electorales"
-    //         }
-    //         level={level}
-    //         setLevel={setLevel}
-    //         onClickLevel={onClickLevel}
-    //         params={params}
-    //         setParams={setParams}
-    //       />
-    //     )}
     //     {level === 3 && (
     //       <div style={{ width: "100%", display: "flex" }}>
     //         <WidgetResumeWinnerParty
