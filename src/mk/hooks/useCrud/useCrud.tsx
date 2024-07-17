@@ -103,6 +103,7 @@ type UseCrudType = {
   List: React.FC<any>;
   extraData: any;
   findOptions: Function;
+  getExtraData: Function;
 };
 
 const useCrud = ({
@@ -1029,6 +1030,7 @@ const useCrud = ({
     List,
     extraData,
     findOptions,
+    getExtraData,
   };
 };
 

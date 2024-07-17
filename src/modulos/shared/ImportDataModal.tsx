@@ -12,6 +12,7 @@ const ImportDataModal = ({
   showToast,
   execute,
   reLoad,
+  getExtraData = null,
   opcionalCols = "",
   requiredCols = "",
 }: any) => {
@@ -25,6 +26,14 @@ const ImportDataModal = ({
       return;
     }
   }, [open]);
+
+  const _reLoad = async () => {
+    console.log("reLoad");
+    if (getExtraData) {
+      await getExtraData();
+    }
+    reLoad();
+  };
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [sentCount, setSentCount] = useState(0);
@@ -60,7 +69,7 @@ const ImportDataModal = ({
             if (data?.data?.total === 0) {
               // onClose(true);
               showToast("Se importaron todos los datos", "success");
-              reLoad();
+              _reLoad();
               break;
             } else {
               setErrorImport((old: any) => {
@@ -100,7 +109,7 @@ const ImportDataModal = ({
     }
     // setIsProcessing(false);
     showToast("Se importaron todos los datos", "success");
-    reLoad();
+    _reLoad();
   };
 
   const onImportFile = (e: any) => {
