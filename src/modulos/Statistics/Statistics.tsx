@@ -7,6 +7,8 @@ import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
+import SkeletonAdapterComponent from "@/mk/components/ui/LoadingScreen/SkeletonAdapter";
+import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
 const paramInitial: any = {
@@ -112,7 +114,7 @@ const Statistics = () => {
   //     },
   //   },
   // };
-  const stad2=[
+  const stad2 = [
     {
       name: "Comunidad Ciudadana",
       total_votos: 320,
@@ -135,25 +137,22 @@ const Statistics = () => {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
     },
     { name: "Juntos", total_votos: 29, color: "yellow" },
-  ]
-
-
-
+  ];
 
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
     });
   }, []);
-   useEffect(() => {
-     reLoad(params);
-   }, [params]);
+  useEffect(() => {
+    reLoad(params);
+  }, [params]);
 
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
   const dataFormatted = () => {
-    if(params.level === 4)return stads?.data?.tabla[0];
+    if (params.level === 4) return stads?.data?.tabla[0];
     let data: any = [];
     stads?.data?.tabla?.map((item: any) => {
       stads?.data?.entidad?.map((entidad: any) => {
@@ -169,7 +168,7 @@ const Statistics = () => {
   };
 
   const onClick = (code: any) => {
-    const item: any = stads?.data?.tabla?.find((d: any) => d.code == code);
+    const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
     const t = histTitulo[0];
     t.push(item?.name);
@@ -184,7 +183,7 @@ const Statistics = () => {
       code: code.toString(),
     });
   };
-  console.log(params);
+
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
@@ -199,66 +198,73 @@ const Statistics = () => {
     histTitulo[1](t);
     setParams(param);
   };
+
+  const isLoading = () => {
+    if (stads?.data) {
+      return <div>Cargando...</div>;
+    }
+  };
+
   return (
-    <div className={styles["statistics"]}>
-      <div>
-        <WidgetTitulo
-          histParams={histParam}
-          params={[params, setParams]}
-          histTitulos={histTitulo}
-          onBack={onBack}
-        />
-      </div>
-      <div>
-        {/* {params.level < 3 && (
+    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+      <div className={styles["statistics"]}>
+        <div>
+          <WidgetTitulo
+            histParams={histParam}
+            params={[params, setParams]}
+            histTitulos={histTitulo}
+            onBack={onBack}
+          />
+        </div>
+        <div>
+          {params.level < 3 && (
+            <div>
+              <WidgetMapa
+                params={[params, setParams]}
+                onClick={onClick}
+                data={stads?.data.tabla}
+              />
+            </div>
+          )}
           <div>
-            <WidgetMapa
+            <WidgetResumen
               params={[params, setParams]}
-              onClick={onClick}
-              data={stads?.data.tabla}
+              data={dataFormatted()}
+              dataExtra={stads?.data?.extras}
+              openModal={() => setOpenModal(true)}
             />
           </div>
-        )}  */}
-      <div>
-          <WidgetResumen
-            params={[params, setParams]}
-            data={dataFormatted()}
-            dataExtra={stads?.data?.extras}
-            extra={stads?.data?.extra}
-            openModal={() => setOpenModal(true)}
-          />
         </div>
-      </div>
-      {params?.level < 4 && (
-        <div>
-          <WidgetTableStats
-            data={dataFormatted()}
-            onClick={onClick}
-            params={[params, setParams]}
-          />
-        </div>
-      )}
-      {params.level === 4 && (
-        <div>
+        {params?.level < 4 && (
+          <div>
+            <WidgetTableStats
+              data={dataFormatted()}
+              onClick={onClick}
+              params={[params, setParams]}
+            />
+          </div>
+        )}
+        {params.level === 4 && (
+          <div>
+            <WidgetResumeWinnerParty
+              data={stads?.data?.extras?.winner?.slice(1)}
+              title={"Otros resultados"}
+            />
+          </div>
+        )}
+        <DataModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          buttonCancel=""
+          buttonText=""
+        >
           <WidgetResumeWinnerParty
             data={stads?.data?.extras?.winner?.slice(1)}
             title={"Otros resultados"}
           />
-        </div>
-      )}
-      <DataModal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        buttonCancel=""
-        buttonText=""
-      >
-            <WidgetResumeWinnerParty
-            data={stads?.data?.extras?.winner?.slice(1)}
-            title={"Otros resultados"}
-          />
-      </DataModal>
-
-    </div>
+        </DataModal>
+      </div>
+    </LoadingScreen>
 
     // <div className={styles["statistics"]}>
     //   <h1>
