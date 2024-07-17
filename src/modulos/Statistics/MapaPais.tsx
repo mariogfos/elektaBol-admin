@@ -74,10 +74,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
         path = pathsPais;
     }
   }
-  // if (param?.level == 2) {
-  //   const item = data.find((d: any) => d.id == param?.searchBy);
-  //   path = pathsPais;
-  // }
 
   const _onClick = (code: string | number) => {
     onClick(code);
