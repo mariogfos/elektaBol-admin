@@ -5,6 +5,20 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsC44,
+  pathsC45,
+  pathsC46,
+  pathsC47,
+  pathsC48,
+  pathsC49,
+  pathsC50,
+  pathsC51,
+  pathsC52,
+  pathsC53,
+  pathsC54,
+  pathsC55,
+  pathsC56,
+  pathsC57,
   pathsChuquisaca,
   pathsCochabamba,
   pathsLaPaz,
@@ -15,19 +29,6 @@ import {
   pathsSantaCruz,
   pathsTarija,
 } from "./pathMapas";
-import C44 from "@/components/Maps/Circunscripcion/C44";
-import C45 from "@/components/Maps/Circunscripcion/C45";
-import C46 from "@/components/Maps/Circunscripcion/C46";
-import C47 from "@/components/Maps/Circunscripcion/C47";
-import C49 from "@/components/Maps/Circunscripcion/C49";
-import C50 from "@/components/Maps/Circunscripcion/C50";
-import C51 from "@/components/Maps/Circunscripcion/C51";
-import C52 from "@/components/Maps/Circunscripcion/C52";
-import C53 from "@/components/Maps/Circunscripcion/C53";
-import C54 from "@/components/Maps/Circunscripcion/C54";
-import C55 from "@/components/Maps/Circunscripcion/C55";
-import C56 from "@/components/Maps/Circunscripcion/C56";
-import C57 from "@/components/Maps/Circunscripcion/C57";
 
 const viewBoxs = [
   "0 0 3994 4548",
@@ -87,41 +88,55 @@ const MapaPais = ({ onClick, data, param }: any) => {
         path = pathsPais;
     }
   }
-  // if (param?.level == 2) {
-  // }
-  const getCircunscripcion = () => {
+  if (param?.level == 2) {
     console.log(param?.code);
     switch (param?.code) {
       case "44":
-        return <C44 />;
+        path = pathsC44;
+        break;
       case "45":
-        return <C45 />;
+        path = pathsC45;
+        break;
       case "46":
-        return <C46 />;
+        path = pathsC46;
+        break;
       case "47":
-        return <C47 />;
+        path = pathsC47;
+        break;
+      case "48":
+        path = pathsC48;
+        break;
       case "49":
-        return <C49 />;
+        path = pathsC49;
+        break;
       case "50":
-        return <C50 />;
+        path = pathsC50;
+        break;
       case "51":
-        return <C51 />;
+        path = pathsC51;
+        break;
       case "52":
-        return <C52 />;
+        path = pathsC52;
+        break;
       case "53":
-        return <C53 />;
+        path = pathsC53;
+        break;
       case "54":
-        return <C54 />;
+        path = pathsC54;
+        break;
       case "55":
-        return <C55 />;
+        path = pathsC55;
+        break;
       case "56":
-        return <C56 />;
+        path = pathsC56;
+        break;
       case "57":
-        return <C57 />;
+        path = pathsC57;
+        break;
       default:
         return null;
     }
-  };
+  }
 
   const _onClick = (code: string | number) => {
     onClick(code);
@@ -150,43 +165,41 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  // let departmentValue: number = 0;
-  // if (param?.level == 1) departmentValue = param?.code;
-
-  const getStyle = () => {
-    switch (param?.code) {
-      case "3":
-        return styles.CochabambaMap;
-      case "2":
-        return styles.LaPazMap;
-      case "7":
-        return styles.SantaCruzMap;
-      case "9":
-        return styles.PandoMap;
-      case "8":
-        return styles.BeniMap;
-      case "4":
-        return styles.OruroMap;
-      case "5":
-        return styles.PotosiMap;
-      case "1":
-        return styles.ChuquisacaMap;
-      case "6":
-        return styles.TarijaMap;
-      default:
-        return styles.mapa;
-    }
-  };
+  // const getStyle = () => {
+  //   switch (param?.code) {
+  //     case "3":
+  //       return styles.CochabambaMap;
+  //     case "2":
+  //       return styles.LaPazMap;
+  //     case "7":
+  //       return styles.SantaCruzMap;
+  //     case "9":
+  //       return styles.PandoMap;
+  //     case "8":
+  //       return styles.BeniMap;
+  //     case "4":
+  //       return styles.OruroMap;
+  //     case "5":
+  //       return styles.PotosiMap;
+  //     case "1":
+  //       return styles.ChuquisacaMap;
+  //     case "6":
+  //       return styles.TarijaMap;
+  //     default:
+  //       return styles.mapa;
+  //   }
+  // };
 
   return (
     <div
-      className={
-        param?.level == 1
-          ? getStyle()
-          : param?.level == 2
-          ? styles.recinto
-          : styles.mapa
-      }
+      // className={
+      //   param?.level == 1
+      //     ? getStyle()
+      //     : param?.level == 2
+      //     ? styles.recinto
+      //     : styles.mapa
+      // }
+      className={styles.mapa}
     >
       <svg ref={svgRef} viewBox={path[0].vb}>
         {path.map((path: any, index: number) => {
