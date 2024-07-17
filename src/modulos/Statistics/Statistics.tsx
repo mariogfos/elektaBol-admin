@@ -7,6 +7,8 @@ import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
+import SkeletonAdapterComponent from "@/mk/components/ui/LoadingScreen/SkeletonAdapter";
+import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 
 const paramInitial: any = {
   searchBy: "",
@@ -169,75 +171,84 @@ const Statistics = () => {
     histTitulo[1](t);
     setParams(param);
   };
+
+  const isLoading = () => {
+    if (stads?.data) {
+      return <div>Cargando...</div>;
+    }
+  };
+
   return (
-    <div className={styles["statistics"]}>
-      <div>
-        <WidgetTitulo
-          histParams={histParam}
+    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+      <div className={styles["statistics"]}>
+        <div>
+          <WidgetTitulo
+            histParams={histParam}
+            params={[params, setParams]}
+            histTitulos={histTitulo}
+            onBack={onBack}
+          />
+        </div>
+        <div>
+          {params.level < 3 && (
+            <div>
+              <WidgetMapa
+                params={[params, setParams]}
+                onClick={onClick}
+                data={stads?.data.tabla}
+              />
+            </div>
+          )}
+          {/* <div>
+        <WidgetResumen
           params={[params, setParams]}
-          histTitulos={histTitulo}
-          onBack={onBack}
+          data={dataFormatted()}
+          dataExtra={stads?.data.extra}
         />
-      </div>
-      <div>
-        {params.level < 3 && (
+      </div> */}
+        </div>
+        {params?.level < 4 && (
           <div>
-            <WidgetMapa
-              params={[params, setParams]}
+            <WidgetTableStats
+              data={dataFormatted()}
               onClick={onClick}
-              data={stads?.data.tabla}
+              params={[params, setParams]}
             />
           </div>
         )}
-        {/* <div>
-          <WidgetResumen
-            params={[params, setParams]}
-            data={dataFormatted()}
-            dataExtra={stads?.data.extra}
-          />
-        </div> */}
+        {params.level === 4 && (
+          <div>
+            <WidgetResumeWinnerParty
+              data={[
+                {
+                  name: "Comunidad Ciudadana",
+                  total_votos: 320,
+                  color: "green",
+                  avatar:
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
+                },
+                {
+                  name: "MAS - IPSP",
+                  total_votos: 520,
+                  color: "blue",
+                  avatar:
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
+                },
+                {
+                  name: "PAN - BOL",
+                  total_votos: 560,
+                  color: "white",
+                  avatar:
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
+                },
+                { name: "Juntos", total_votos: 29, color: "yellow" },
+              ]}
+              title={"Otros resultados"}
+            />
+          </div>
+        )}
       </div>
-      {params?.level < 4 && (
-        <div>
-          <WidgetTableStats
-            data={dataFormatted()}
-            onClick={onClick}
-            params={[params, setParams]}
-          />
-        </div>
-      )}
-      {params.level === 4 && (
-        <div>
-          <WidgetResumeWinnerParty
-            data={[
-              {
-                name: "Comunidad Ciudadana",
-                total_votos: 320,
-                color: "green",
-                avatar:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
-              },
-              {
-                name: "MAS - IPSP",
-                total_votos: 520,
-                color: "blue",
-                avatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
-              },
-              {
-                name: "PAN - BOL",
-                total_votos: 560,
-                color: "white",
-                avatar:
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
-              },
-              { name: "Juntos", total_votos: 29, color: "yellow" },
-            ]}
-            title={"Otros resultados"}
-          />
-        </div>
-      )}
-    </div>
+    </LoadingScreen>
 
     // <div className={styles["statistics"]}>
     //   <h1>
