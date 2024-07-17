@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "./Statistics.module.css";
 import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
-import useAxios from "@/mk/hooks/useAxios";
-import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
-import WidgetResumeVotes from "@/modulos/Statistics/WidgetResumen/WidgetResumeVotes";
 import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
-import WidgetTabla from "./WidgetTabla";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 
 const paramInitial: any = {
