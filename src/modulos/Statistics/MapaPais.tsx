@@ -19,6 +19,10 @@ import {
   pathsC55,
   pathsC56,
   pathsC57,
+  pathsC58,
+  pathsC59,
+  pathsC60,
+  pathsC61,
   pathsChuquisaca,
   pathsCochabamba,
   pathsLaPaz,
@@ -132,6 +136,18 @@ const MapaPais = ({ onClick, data, param }: any) => {
         break;
       case "57":
         path = pathsC57;
+        break;
+      case "58":
+        path = pathsC58;
+        break;
+      case "59":
+        path = pathsC59;
+        break;
+      case "60":
+        path = pathsC60;
+        break;
+      case "61":
+        path = pathsC61;
         break;
       default:
         return null;
