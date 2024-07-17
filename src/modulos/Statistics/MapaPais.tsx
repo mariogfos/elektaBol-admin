@@ -107,27 +107,38 @@ const MapaPais = ({ onClick, data, param }: any) => {
     (d: any) => d.id == param?.searchBy
   )?.code;
 
+  const getStyle = (departmentValue: number) => {
+    switch (departmentValue) {
+      case 3:
+        return styles.CochabambaMap;
+      case 2:
+        return styles.LaPazMap;
+      case 7:
+        return styles.SantaCruzMap;
+      case 9:
+        return styles.PandoMap;
+      case 8:
+        return styles.BeniMap;
+      case 4:
+        return styles.OruroMap;
+      case 5:
+        return styles.PotosiMap;
+      case 1:
+        return styles.ChuquisacaMap;
+      case 6:
+        return styles.TarijaMap;
+      default:
+        return styles.mapa;
+    }
+  };
+
   return (
     <div
       className={
-        departmentValue === 3
-          ? styles.CochabambaMap
-          : departmentValue === 2
-          ? styles.LaPazMap
-          : departmentValue === 7
-          ? styles.SantaCruzMap
-          : departmentValue === 9
-          ? styles.PandoMap
-          : departmentValue === 8
-          ? styles.BeniMap
-          : departmentValue === 4
-          ? styles.OruroMap
-          : departmentValue === 5
-          ? styles.PotosiMap
-          : departmentValue === 1
-          ? styles.ChuquisacaMap
-          : departmentValue === 6
-          ? styles.TarijaMap
+        param?.level == 1
+          ? getStyle(departmentValue)
+          : param?.level == 2
+          ? styles.recinto
           : styles.mapa
       }
     >
@@ -157,7 +168,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
               key={path.id}
               href="#"
               onClick={() =>
-                path.title != "map" && path.title != "line"
+                path.title != "map" &&
+                path.title != "line" &&
+                path.title != "salar"
                   ? _onClick(path.id)
                   : {}
               }
