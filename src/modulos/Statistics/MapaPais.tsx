@@ -15,6 +15,19 @@ import {
   pathsSantaCruz,
   pathsTarija,
 } from "./pathMapas";
+import C44 from "@/components/Maps/Circunscripcion/C44";
+import C45 from "@/components/Maps/Circunscripcion/C45";
+import C46 from "@/components/Maps/Circunscripcion/C46";
+import C47 from "@/components/Maps/Circunscripcion/C47";
+import C49 from "@/components/Maps/Circunscripcion/C49";
+import C50 from "@/components/Maps/Circunscripcion/C50";
+import C51 from "@/components/Maps/Circunscripcion/C51";
+import C52 from "@/components/Maps/Circunscripcion/C52";
+import C53 from "@/components/Maps/Circunscripcion/C53";
+import C54 from "@/components/Maps/Circunscripcion/C54";
+import C55 from "@/components/Maps/Circunscripcion/C55";
+import C56 from "@/components/Maps/Circunscripcion/C56";
+import C57 from "@/components/Maps/Circunscripcion/C57";
 
 const viewBoxs = [
   "0 0 3994 4548",
@@ -75,9 +88,40 @@ const MapaPais = ({ onClick, data, param }: any) => {
     }
   }
   // if (param?.level == 2) {
-  //   const item = data.find((d: any) => d.id == param?.searchBy);
-  //   path = pathsPais;
   // }
+  const getCircunscripcion = () => {
+    console.log(param?.code);
+    switch (param?.code) {
+      case "44":
+        return <C44 />;
+      case "45":
+        return <C45 />;
+      case "46":
+        return <C46 />;
+      case "47":
+        return <C47 />;
+      case "49":
+        return <C49 />;
+      case "50":
+        return <C50 />;
+      case "51":
+        return <C51 />;
+      case "52":
+        return <C52 />;
+      case "53":
+        return <C53 />;
+      case "54":
+        return <C54 />;
+      case "55":
+        return <C55 />;
+      case "56":
+        return <C56 />;
+      case "57":
+        return <C57 />;
+      default:
+        return null;
+    }
+  };
 
   const _onClick = (code: string | number) => {
     onClick(code);
@@ -144,64 +188,69 @@ const MapaPais = ({ onClick, data, param }: any) => {
           : styles.mapa
       }
     >
-      <svg ref={svgRef} viewBox={path[0].vb}>
-        {path.map((path: any) => {
-          if (path.title == "rect") {
-            return (
-              <rect
-                x={path.x}
-                y={path.y}
-                width={path.width}
-                height={path.height}
-                rx={path.rx}
-                style={{ fill: "#fff" }}
-                key={path.id}
-              />
-            );
-          }
+      {param?.level <= 1 ? (
+        <svg ref={svgRef} viewBox={path[0].vb}>
+          {path.map((path: any) => {
+            if (path.title == "rect") {
+              return (
+                <rect
+                  x={path.x}
+                  y={path.y}
+                  width={path.width}
+                  height={path.height}
+                  rx={path.rx}
+                  style={{ fill: "#fff" }}
+                  key={path.id}
+                />
+              );
+            }
 
-          return (
-            <Link
-              key={path.id}
-              href="#"
-              onClick={() =>
-                path.title != "map" &&
-                path.title != "line" &&
-                path.title != "salar"
-                  ? _onClick(path.code)
-                  : {}
-              }
-              title={path.title}
-            >
-              <path
-                style={{
-                  fill:
-                    path.title == "map"
-                      ? "#F58220"
-                      : path.title == "salar"
-                      ? "#656F78"
-                      : "",
-                  stroke:
-                    path.title == "value"
-                      ? "#000"
-                      : path.title == "line"
-                      ? "#fff"
-                      : "",
-                  cursor:
-                    path.title == "map" ||
-                    path.title == "line" ||
-                    path.title == "salar"
-                      ? "default"
-                      : "pointer",
-                }}
-                d={path.d}
-                onMouseEnter={(e) => onTooltip(e, path.id)}
-                onMouseLeave={() => onTooltip(null, path.id, false)}
-              />
-            </Link>
-          );
-        })}
-      </svg>
+            return (
+              <Link
+                key={path.id}
+                href="#"
+                onClick={() =>
+                  path.title != "map" &&
+                  path.title != "line" &&
+                  path.title != "salar"
+                    ? _onClick(path.code)
+                    : {}
+                }
+                title={path.title}
+              >
+                <path
+                  style={{
+                    fill:
+                      path.title == "map"
+                        ? "#F58220"
+                        : path.title == "salar"
+                        ? "#656F78"
+                        : "",
+                    stroke:
+                      path.title == "value"
+                        ? "#000"
+                        : path.title == "line"
+                        ? "#fff"
+                        : "",
+                    cursor:
+                      path.title == "map" ||
+                      path.title == "line" ||
+                      path.title == "salar"
+                        ? "default"
+                        : "pointer",
+                  }}
+                  d={path.d}
+                  onMouseEnter={(e) => onTooltip(e, path.id)}
+                  onMouseLeave={() => onTooltip(null, path.id, false)}
+                />
+              </Link>
+            );
+          })}
+        </svg>
+      ) : (
+        <>{getCircunscripcion()}</>
+      )}
+
       {tooltip.visible && (
         <Tooltip
           x={tooltip.x}
