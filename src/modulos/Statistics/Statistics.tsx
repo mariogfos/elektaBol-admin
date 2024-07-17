@@ -109,7 +109,8 @@ const Statistics = () => {
         name: "Creemos",
         color: "red",
         total_votos: 200,
-        avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s'
+        avatar:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s",
       },
     },
   };
@@ -136,8 +137,6 @@ const Statistics = () => {
   const histTitulo: any = useState(["Mapa de Bolivia"]);
   const onClick = (id: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == id);
-    console.log("item: ", item);
-    console.log("id: ", id);
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
@@ -175,56 +174,59 @@ const Statistics = () => {
         />
       </div>
       <div>
-     {params.level < 3 &&   <div>
-          <WidgetMapa
-            params={[params, setParams]}
-            onClick={onClick}
-            data={stads?.data.tabla}
-          />
-        </div>}
+        {params.level < 3 && (
+          <div>
+            <WidgetMapa
+              params={[params, setParams]}
+              onClick={onClick}
+              data={stads?.data.tabla}
+            />
+          </div>
+        )}
         <div>
           <WidgetResumen params={[params, setParams]} data={stads} />
         </div>
       </div>
-     {params?.level < 4 &&<div>
-        <WidgetTableStats
-          data={stads?.data.tabla}
-          onClick={onClick}
-          params={[params, setParams]}
-        />
-      </div>}
+      {params?.level < 4 && (
+        <div>
+          <WidgetTableStats
+            data={stads?.data.tabla}
+            onClick={onClick}
+            params={[params, setParams]}
+          />
+        </div>
+      )}
       {params.level === 4 && (
-           <div >
-             <WidgetResumeWinnerParty
-               data={[
-                 {
-        
-                   name: "Comunidad Ciudadana",
-                   total_votos: 320,
-                   color: "green",
-                   avatar:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s'
-          
-                 },
-                 {
-       
-                   name: "MAS - IPSP",
-                   total_votos: 520,
-                   color: "blue",
-                   avatar:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png'
-                 },
-                 {
-                
-                   name: "PAN - BOL",
-                   total_votos: 560,
-                   color: "white",
-                   avatar:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png'
-                 },
-                 {  name: "Juntos", total_votos: 29, color: "yellow" },
-               ]}
-               title={"Otros resultados"}
-             />
-           </div>
-         )}
+        <div>
+          <WidgetResumeWinnerParty
+            data={[
+              {
+                name: "Comunidad Ciudadana",
+                total_votos: 320,
+                color: "green",
+                avatar:
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
+              },
+              {
+                name: "MAS - IPSP",
+                total_votos: 520,
+                color: "blue",
+                avatar:
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
+              },
+              {
+                name: "PAN - BOL",
+                total_votos: 560,
+                color: "white",
+                avatar:
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
+              },
+              { name: "Juntos", total_votos: 29, color: "yellow" },
+            ]}
+            title={"Otros resultados"}
+          />
+        </div>
+      )}
     </div>
 
     // <div className={styles["statistics"]}>
