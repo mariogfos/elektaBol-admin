@@ -5,6 +5,16 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsC10,
+  pathsC11,
+  pathsC12,
+  pathsC13,
+  pathsC14,
+  pathsC15,
+  pathsC16,
+  pathsC17,
+  pathsC18,
+  pathsC19,
   pathsC1,
   pathsC2,
   pathsC20,
@@ -48,10 +58,14 @@ import {
   pathsC57,
   pathsC58,
   pathsC59,
+  pathsC6,
   pathsC60,
   pathsC61,
   pathsC62,
   pathsC63,
+  pathsC7,
+  pathsC8,
+  pathsC9,
   pathsChuquisaca,
   pathsCochabamba,
   pathsLaPaz,
@@ -220,6 +234,48 @@ const MapaPais = ({ onClick, data, param }: any) => {
       case "25":
         path = pathsC25;
         break;
+      case "6":
+        path = pathsC6;
+        break;
+      case "7":
+        path = pathsC7;
+        break;
+      case "8":
+        path = pathsC8;
+        break;
+      case "9":
+        path = pathsC9;
+        break;
+      case "10":
+        path = pathsC10;
+        break;
+      case "11":
+        path = pathsC11;
+        break;
+      case "12":
+        path = pathsC12;
+        break;
+      case "13":
+        path = pathsC13;
+        break;
+      case "14":
+        path = pathsC14;
+        break;
+      case "15":
+        path = pathsC15;
+        break;
+      case "16":
+        path = pathsC16;
+        break;
+      case "17":
+        path = pathsC17;
+        break;
+      case "18":
+        path = pathsC18;
+        break;
+      case "19":
+        path = pathsC19;
+        break;
       case "32":
         path = pathsC32;
         break;
@@ -356,7 +412,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 path.title !== "map" &&
                 path.title !== "line" &&
                 path.title !== "salar" &&
-                param?.level != 2
+                param?.level != 2 &&
+                path.title !== "disabled"
                   ? _onClick(path.code)
                   : {}
               }
