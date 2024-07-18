@@ -237,41 +237,41 @@ const MapaPais = ({ onClick, data, param }: any) => {
     });
   };
 
-  // const getStyle = () => {
-  //   switch (param?.code) {
-  //     case "3":
-  //       return styles.CochabambaMap;
-  //     case "2":
-  //       return styles.LaPazMap;
-  //     case "7":
-  //       return styles.SantaCruzMap;
-  //     case "9":
-  //       return styles.PandoMap;
-  //     case "8":
-  //       return styles.BeniMap;
-  //     case "4":
-  //       return styles.OruroMap;
-  //     case "5":
-  //       return styles.PotosiMap;
-  //     case "1":
-  //       return styles.ChuquisacaMap;
-  //     case "6":
-  //       return styles.TarijaMap;
-  //     default:
-  //       return styles.mapa;
-  //   }
-  // };
+  const getStyle = () => {
+    switch (param?.code) {
+      case "3":
+        return styles.CochabambaMap;
+      case "2":
+        return styles.LaPazMap;
+      case "7":
+        return styles.SantaCruzMap;
+      case "9":
+        return styles.PandoMap;
+      case "8":
+        return styles.BeniMap;
+      case "4":
+        return styles.OruroMap;
+      case "5":
+        return styles.PotosiMap;
+      case "1":
+        return styles.ChuquisacaMap;
+      case "6":
+        return styles.TarijaMap;
+      default:
+        return styles.mapa;
+    }
+  };
 
   return (
     <div
-      // className={
-      //   param?.level == 1
-      //     ? getStyle()
-      //     : param?.level == 2
-      //     ? styles.recinto
-      //     : styles.mapa
-      // }
-      className={styles.mapa}
+      className={
+        param?.level == 1
+          ? getStyle()
+          : param?.level == 2
+          ? styles.recinto
+          : styles.mapa
+      }
+      // className={styles.mapa}
     >
       <svg ref={svgRef} viewBox={path[0].vb}>
         {path.map((path: any, index: number) => {
