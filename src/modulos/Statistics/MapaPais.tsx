@@ -5,6 +5,14 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsC20,
+  pathsC22,
+  pathsC23,
+  pathsC24,
+  pathsC25,
+  pathsC26,
+  pathsC27,
+  pathsC28,
   pathsC40,
   pathsC41,
   pathsC42,
@@ -172,6 +180,30 @@ const MapaPais = ({ onClick, data, param }: any) => {
         break;
       case "63":
         path = pathsC63;
+        break;
+      case "27":
+        path = pathsC27;
+        break;
+      case "28":
+        path = pathsC28;
+        break;
+      case "26":
+        path = pathsC26;
+        break;
+      case "22":
+        path = pathsC22;
+        break;
+      case "20":
+        path = pathsC20;
+        break;
+      case "23":
+        path = pathsC23;
+        break;
+      case "24":
+        path = pathsC24;
+        break;
+      case "25":
+        path = pathsC25;
         break;
       default:
         return null;
