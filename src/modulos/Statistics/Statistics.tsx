@@ -22,7 +22,7 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  console.log(stads, "stads");
+  // console.log(stads, "stads");
 
   useEffect(() => {
     setStore({
@@ -83,6 +83,8 @@ const Statistics = () => {
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
+    // eliminar los duplicados de h
+    h = h.filter((item: any, i: number) => h.indexOf(item) === i);
     const param = h[index];
     h = h.slice(0, index + 1);
     t = t.slice(0, index + 1);
@@ -90,8 +92,10 @@ const Statistics = () => {
       h = [];
       t = ["Mapa de Bolivia"];
     }
+    
     histParam[1](h);
     histTitulo[1](t);
+    console.log(param, "param");
     setParams(param);
   };
 
