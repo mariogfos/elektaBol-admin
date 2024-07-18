@@ -9,6 +9,7 @@ import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
 import SkeletonAdapterComponent from "@/mk/components/ui/LoadingScreen/SkeletonAdapter";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
+import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
 const paramInitial: any = {
   searchBy: "",
@@ -16,11 +17,12 @@ const paramInitial: any = {
 };
 const Statistics = () => {
   const { setStore } = useAuth();
+  const [openModal, setOpenModal] = useState(false);
   const [params, setParams] = useState(paramInitial);
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  // console.log(stads1?.data.tabla);
+  console.log(stads, "stads");
   // const stads = {
   //   data: {
   //     tabla: [
@@ -112,6 +114,30 @@ const Statistics = () => {
   //     },
   //   },
   // };
+  const stad2 = [
+    {
+      name: "Comunidad Ciudadana",
+      total_votos: 320,
+      color: "green",
+      avatar:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
+    },
+    {
+      name: "MAS - IPSP",
+      total_votos: 520,
+      color: "blue",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
+    },
+    {
+      name: "PAN - BOL",
+      total_votos: 560,
+      color: "white",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
+    },
+    { name: "Juntos", total_votos: 29, color: "yellow" },
+  ];
 
   useEffect(() => {
     setStore({
@@ -126,9 +152,10 @@ const Statistics = () => {
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
   const dataFormatted = () => {
+    if (params.level === 4) return stads?.data?.tabla[0];
     let data: any = [];
-    stads?.data.tabla.map((item: any) => {
-      stads?.data.entidad.map((entidad: any) => {
+    stads?.data?.tabla?.map((item: any) => {
+      stads?.data?.entidad?.map((entidad: any) => {
         if (item.id == entidad.id) {
           data.push({
             ...item,
@@ -142,7 +169,7 @@ const Statistics = () => {
 
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
-    console.log("item: ", item);
+
     const t = histTitulo[0];
     t.push(item?.name);
     histTitulo[1](t);
@@ -199,13 +226,14 @@ const Statistics = () => {
               />
             </div>
           )}
-          {/* <div>
-        <WidgetResumen
-          params={[params, setParams]}
-          data={dataFormatted()}
-          dataExtra={stads?.data.extra}
-        />
-      </div> */}
+          <div>
+            <WidgetResumen
+              params={[params, setParams]}
+              data={dataFormatted()}
+              dataExtra={stads?.data?.extras}
+              openModal={() => setOpenModal(true)}
+            />
+          </div>
         </div>
         {params?.level < 4 && (
           <div>
@@ -219,34 +247,22 @@ const Statistics = () => {
         {params.level === 4 && (
           <div>
             <WidgetResumeWinnerParty
-              data={[
-                {
-                  name: "Comunidad Ciudadana",
-                  total_votos: 320,
-                  color: "green",
-                  avatar:
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
-                },
-                {
-                  name: "MAS - IPSP",
-                  total_votos: 520,
-                  color: "blue",
-                  avatar:
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
-                },
-                {
-                  name: "PAN - BOL",
-                  total_votos: 560,
-                  color: "white",
-                  avatar:
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
-                },
-                { name: "Juntos", total_votos: 29, color: "yellow" },
-              ]}
+              data={stads?.data?.extras?.winner?.slice(1)}
               title={"Otros resultados"}
             />
           </div>
         )}
+        <DataModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          buttonCancel=""
+          buttonText=""
+        >
+          <WidgetResumeWinnerParty
+            data={stads?.data?.extras?.winner?.slice(1)}
+            title={"Otros resultados"}
+          />
+        </DataModal>
       </div>
     </LoadingScreen>
 

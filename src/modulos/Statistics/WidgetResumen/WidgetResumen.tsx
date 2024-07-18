@@ -1,20 +1,33 @@
-import { useEffect, useState } from "react";
 import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
 import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 
-const WidgetResumen = ({ data, params, dataExtra }: any) => {
+
+
+const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
   const [paramsValue, setParams] = params;
+ 
   const { level } = paramsValue;
 
   const calculateTotalHabilitados = () => {
+    if(level == 4)return data?.habilitados;
     let total = 0;
     data.forEach((item: any) => {
-      total += item?.total;
+      total += item?.habilitados * 1;
     });
 
-    return total;
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
+  const calculateTotalTotales = () => {
+    let total = 0;
+    data.forEach((item: any) => {
+      total += item?.total * 1;
+    });
+
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
+
+  console.log(dataExtra, "dataextra");
 
   const labels: any = [
     "Departamento", // 0
@@ -42,7 +55,7 @@ const WidgetResumen = ({ data, params, dataExtra }: any) => {
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 1]}</h2>
-                {data && <p>{calculateTotalHabilitados()}</p>}
+                {data && <p>{calculateTotalTotales()}</p>}
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
@@ -57,15 +70,16 @@ const WidgetResumen = ({ data, params, dataExtra }: any) => {
           <WidgetResumeVotes
             title={"Datos de las elecciones del 2020"}
             // subtitle={selectedCircunscripcion?.titulo}
-            data={data?.tabla}
+            data={level===4 ?[data?.tabla]:data?.tabla}
             extras={dataExtra}
             total={calculateTotalHabilitados()}
           />
           <WidgetResumeWinnerParty
-            data={[dataExtra.winner]}
+            data={[dataExtra?.winner[0]]}
             title={"Partido ganador"}
             //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
             total={calculateTotalHabilitados()}
+            onClick={level > 4 ? openModal : null}
           />
         </div>
       )}

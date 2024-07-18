@@ -21,9 +21,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     let col2 = 0;
     let col3 = 0;
     data?.forEach((item: any) => {
-      col1 += item.habitantes;
-      col2 += item.habilitados;
-      col3 += item.total;
+      col1 += item.habitantes * 1;
+      col2 += item.habilitados * 1;
+      col3 += item.total* 1;
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
