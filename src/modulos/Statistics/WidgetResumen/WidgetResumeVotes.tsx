@@ -13,7 +13,7 @@ type PropsType = {
 }
 
 const WidgetResumeVotes = ({title,subtitle,data,extras,total}:PropsType) => {
-    console.log('data16',extras);
+    // console.log('data16',extras);
     // const totalHabilitados = data?.reduce((acc: number, curr: any) => acc + Number(curr.habilitados), 0) || 0;
     const totalEmitidos = Number(extras?.nulos) + Number(extras?.blancos) + Number(extras?.validos)
 

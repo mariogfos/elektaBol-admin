@@ -4,20 +4,20 @@ import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 
 
 
-const WidgetResumen = ({ data, params, dataExtra,openModal,extra}: any) => {
+const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalHabilitados}: any) => {
   const [paramsValue, setParams] = params;
  
   const { level } = paramsValue;
 
-  const calculateTotalHabilitados = () => {
-    if(level == 4)return data?.habilitados;
-    let total = 0;
-    data.forEach((item: any) => {
-      total += item?.habilitados * 1;
-    });
+  // const calculateTotalHabilitados = () => {
+  //   if(level == 4)return data?.habilitados;
+  //   let total = 0;
+  //   data.forEach((item: any) => {
+  //     total += item?.habilitados * 1;
+  //   });
 
-    return total % 1 === 0 ? total : Number(total.toFixed(2));
-  };
+  //   return total % 1 === 0 ? total : Number(total.toFixed(2));
+  // };
   const calculateTotalTotales = () => {
     let total = 0;
     data.forEach((item: any) => {
@@ -79,7 +79,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra}: any) => {
             title={"Partido ganador"}
             //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
             total={calculateTotalHabilitados()}
-            onClick={level > 4 ? openModal : null}
+            onClick={level < 4 ? openModal : null}
           />
         </div>
       )}

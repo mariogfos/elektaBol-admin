@@ -23,121 +23,6 @@ const Statistics = () => {
     ...params,
   });
   console.log(stads, "stads");
-  // const stads = {
-  //   data: {
-  //     tabla: [
-  //       {
-  //         id: 1,
-  //         name: "Chuquisaca",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 1,
-  //       },
-  //       {
-  //         id: 9,
-  //         name: "Pando",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 9,
-  //       },
-  //       {
-  //         id: 8,
-  //         name: "Beni",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 8,
-  //       },
-  //       {
-  //         id: 2,
-  //         name: "La Paz",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 2,
-  //       },
-  //       {
-  //         id: 3,
-  //         name: "Cochabamba",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 3,
-  //       },
-  //       {
-  //         id: 4,
-  //         name: "Oruro",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 4,
-  //       },
-  //       {
-  //         id: 5,
-  //         name: "Potosí",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 5,
-  //       },
-  //       {
-  //         id: 6,
-  //         name: "Tarija",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 6,
-  //       },
-  //       {
-  //         id: 7,
-  //         name: "Santa Cruz",
-  //         total: 100,
-  //         habitantes: 100,
-  //         habilitados: 80,
-  //         code: 7,
-  //       },
-  //     ],
-  //   },
-  //   extras: {
-  //     validos: 100,
-  //     nulos: 50,
-  //     blancos: 20,
-  //     winner: {
-  //       id: 1,
-  //       name: "Creemos",
-  //       color: "red",
-  //       total_votos: 200,
-  //       avatar:
-  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROW_K5kRmUGYoWy0fPYqwsxN1pQcpMOFPvPA&s",
-  //     },
-  //   },
-  // };
-  const stad2 = [
-    {
-      name: "Comunidad Ciudadana",
-      total_votos: 320,
-      color: "green",
-      avatar:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRQubkybp_ojPb9q_B4wmRiFxw4JJyj7YYQ&s",
-    },
-    {
-      name: "MAS - IPSP",
-      total_votos: 520,
-      color: "blue",
-      avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/MAS-IPSP_lO.png/1200px-MAS-IPSP_lO.png",
-    },
-    {
-      name: "PAN - BOL",
-      total_votos: 560,
-      color: "white",
-      avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/PAN_logo_%28Mexico%29.svg/2048px-PAN_logo_%28Mexico%29.svg.png",
-    },
-    { name: "Juntos", total_votos: 29, color: "yellow" },
-  ];
 
   useEffect(() => {
     setStore({
@@ -167,6 +52,17 @@ const Statistics = () => {
     return data;
   };
 
+
+
+  const calculateTotalHabilitados = () => {
+    if(params.level == 4)return dataFormatted().habilitados;
+    let total = 0;
+    dataFormatted().forEach((item: any) => {
+      total += item?.habilitados * 1;
+    });
+
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -232,6 +128,7 @@ const Statistics = () => {
               data={dataFormatted()}
               dataExtra={stads?.data?.extras}
               openModal={() => setOpenModal(true)}
+              calculateTotalHabilitados={calculateTotalHabilitados}
               extra={stads?.data?.extra}
             />
           </div>
@@ -250,6 +147,7 @@ const Statistics = () => {
             <WidgetResumeWinnerParty
               data={stads?.data?.extras?.winner?.slice(1)}
               title={"Otros resultados"}
+              total={calculateTotalHabilitados()}
             />
           </div>
         )}
@@ -262,6 +160,7 @@ const Statistics = () => {
           <WidgetResumeWinnerParty
             data={stads?.data?.extras?.winner?.slice(1)}
             title={"Otros resultados"}
+            total={calculateTotalHabilitados()}
           />
         </DataModal>
       </div>
