@@ -4,7 +4,7 @@ import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 
 
 
-const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
+const WidgetResumen = ({ data, params, dataExtra,openModal,extra}: any) => {
   const [paramsValue, setParams] = params;
  
   const { level } = paramsValue;
@@ -59,7 +59,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
-                {typeof dataExtra == "number" && <p>{dataExtra}</p>}
+                {typeof extra == "number" && <p>{extra}</p>}
               </div>
             </div>
           </section>

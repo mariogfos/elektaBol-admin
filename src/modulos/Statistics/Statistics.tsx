@@ -232,6 +232,7 @@ const Statistics = () => {
               data={dataFormatted()}
               dataExtra={stads?.data?.extras}
               openModal={() => setOpenModal(true)}
+              extra={stads?.data?.extra}
             />
           </div>
         </div>
