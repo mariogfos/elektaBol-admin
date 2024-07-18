@@ -296,7 +296,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
               onClick={() =>
                 path.title !== "map" &&
                 path.title !== "line" &&
-                path.title !== "salar"
+                path.title !== "salar" &&
+                param?.level != 2
                   ? _onClick(path.code)
                   : {}
               }
@@ -320,7 +321,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
                   cursor:
                     path.title === "map" ||
                     path.title === "line" ||
-                    path.title === "salar"
+                    path.title === "salar" ||
+                    param?.level != 2
                       ? "default"
                       : "pointer",
                 }}
