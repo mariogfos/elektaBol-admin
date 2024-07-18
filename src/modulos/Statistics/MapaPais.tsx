@@ -5,6 +5,8 @@ import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
 import {
   pathsBeni,
+  pathsC1,
+  pathsC2,
   pathsC20,
   pathsC22,
   pathsC23,
@@ -13,6 +15,18 @@ import {
   pathsC26,
   pathsC27,
   pathsC28,
+  pathsC29,
+  pathsC3,
+  pathsC30,
+  pathsC31,
+  pathsC32,
+  pathsC34,
+  pathsC35,
+  pathsC36,
+  pathsC37,
+  pathsC38,
+  pathsC39,
+  pathsC4,
   pathsC40,
   pathsC41,
   pathsC42,
@@ -23,6 +37,7 @@ import {
   pathsC47,
   pathsC48,
   pathsC49,
+  pathsC5,
   pathsC50,
   pathsC51,
   pathsC52,
@@ -205,6 +220,51 @@ const MapaPais = ({ onClick, data, param }: any) => {
       case "25":
         path = pathsC25;
         break;
+      case "32":
+        path = pathsC32;
+        break;
+      case "31":
+        path = pathsC31;
+        break;
+      case "30":
+        path = pathsC30;
+        break;
+      case "29":
+        path = pathsC29;
+        break;
+      case "36":
+        path = pathsC36;
+        break;
+      case "37":
+        path = pathsC37;
+        break;
+      case "35":
+        path = pathsC35;
+        break;
+      case "34":
+        path = pathsC34;
+        break;
+      case "39":
+        path = pathsC39;
+        break;
+      case "38":
+        path = pathsC38;
+        break;
+      case "2":
+        path = pathsC2;
+        break;
+      case "1":
+        path = pathsC1;
+        break;
+      case "3":
+        path = pathsC3;
+        break;
+      case "4":
+        path = pathsC4;
+        break;
+      case "5":
+        path = pathsC5;
+        break;
       default:
         return null;
     }
@@ -271,7 +331,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
           ? styles.recinto
           : styles.mapa
       }
-      // className={styles.mapa}
     >
       <svg ref={svgRef} viewBox={path[0].vb}>
         {path.map((path: any, index: number) => {
