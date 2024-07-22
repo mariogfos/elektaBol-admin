@@ -21,7 +21,11 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-
+  console.log(stads, "stads");
+ const secondCardTitle:any = {
+  0:'recintos',
+  1:'mesas',
+ }
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
@@ -34,15 +38,15 @@ const Statistics = () => {
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
-  // const calculateTotalHabilitados = () => {
-  //   if (params.level == 4) return dataFormatted().habilitados;
-  //   let total = 0;
-  //   dataFormatted().forEach((item: any) => {
-  //     total += item?.habilitados * 1;
-  //   });
+   const calculateTotalHabilitados = () => {
+     if (params.level == 4) return stads?.data?.tabla?.habilitados;
+     let total = 0;
+     stads?.data?.tabla?.forEach((item: any) => {
+       total += item?.habilitados * 1;
+     });
 
-  //   return total % 1 === 0 ? total : Number(total.toFixed(2));
-  // };
+     return total % 1 === 0 ? total : Number(total.toFixed(2));
+   };
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -104,10 +108,10 @@ const Statistics = () => {
             <WidgetResumen
               params={[params, setParams]}
               data={stads?.data?.tabla}
-              dataExtra={stads?.data?.extras}
+              dataExtra={stads?.data?.extra}
               openModal={() => setOpenModal(true)}
-              // calculateTotalHabilitados={calculateTotalHabilitados}
-              extra={stads?.data?.extra.recintos}
+             calculateTotalHabilitados={calculateTotalHabilitados}
+              extra={stads?.data?.extra?.[secondCardTitle[params.level]]}
             />
           </div>
         </div>
@@ -123,9 +127,9 @@ const Statistics = () => {
         {params.level === 4 && (
           <div>
             <WidgetResumeWinnerParty
-              data={stads?.data?.extras?.winner?.slice(1)}
+              data={stads?.data?.extra?.winner?.slice(1)}
               title={"Otros resultados"}
-              // total={calculateTotalHabilitados()}
+             total={calculateTotalHabilitados()}
             />
           </div>
         )}
@@ -136,9 +140,9 @@ const Statistics = () => {
           buttonText=""
         >
           <WidgetResumeWinnerParty
-            data={stads?.data?.extras?.winner}
+            data={stads?.data?.extra?.winner}
             title={"Otros resultados"}
-            // total={calculateTotalHabilitados()}
+           total={calculateTotalHabilitados()}
           />
         </DataModal>
       </div>
