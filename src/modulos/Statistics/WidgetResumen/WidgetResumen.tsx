@@ -36,7 +36,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalH
     "Mesa", // 3
   ];
   return (
-    <div>
+    <div className={styles["topWidgets"]}>
       {level < 2 && (
         <div className={styles.container}>
           <section>

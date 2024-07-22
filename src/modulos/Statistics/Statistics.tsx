@@ -21,6 +21,7 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
+  console.log(stads, "stads");
 
   useEffect(() => {
     setStore({
@@ -120,7 +121,7 @@ const Statistics = () => {
             <WidgetResumen
               params={[params, setParams]}
               data={dataFormatted()}
-              dataExtra={stads?.data?.extras}
+              dataExtra={stads?.data?.extra}
               openModal={() => setOpenModal(true)}
               calculateTotalHabilitados={calculateTotalHabilitados}
               extra={stads?.data?.extra}
@@ -139,7 +140,7 @@ const Statistics = () => {
         {params.level === 4 && (
           <div>
             <WidgetResumeWinnerParty
-              data={stads?.data?.extras?.winner?.slice(1)}
+              data={stads?.data?.extra?.winner?.slice(1)}
               title={"Otros resultados"}
               total={calculateTotalHabilitados()}
             />
@@ -152,7 +153,7 @@ const Statistics = () => {
           buttonText=""
         >
           <WidgetResumeWinnerParty
-            data={stads?.data?.extras?.winner}
+            data={stads?.data?.extra?.winner}
             title={"Otros resultados"}
             total={calculateTotalHabilitados()}
           />
