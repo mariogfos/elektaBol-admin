@@ -8,6 +8,7 @@ import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresive
 import { useEffect } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
+import DashboardMap from "../ Widgets/DasboardMap/DashboardMap";
 
 const HomePage = () => {
   const { data: dashboard } = useAxios("/dashboard", "GET", {
@@ -36,16 +37,6 @@ const HomePage = () => {
     0
   );
 
-  let dataDpto = dashboard?.data?.dptos.map((dpto: any) => {
-    return {
-      id: dpto?.id,
-      titulo: dpto?.name,
-      habitantes: dpto?.habitantes,
-      habilitados: dpto?.habilitados,
-      afiliados: dpto?.affiliate_count,
-    };
-  });
-
   return (
     <div className={styles.container}>
       {dashboard?.data.countDown && (
@@ -53,7 +44,12 @@ const HomePage = () => {
       )}
       <section>
         <div>
-          <WidgetMapa data={dashboard?.data?.dptos} />
+          <DashboardMap
+            data={dashboard?.data?.dptos}
+            totalHabitanes={totalHabitantes}
+            totalHabilitados={totalHabilitados}
+            totalAfiliados={totalAfiliados}
+          />
         </div>
         <div>
           <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />

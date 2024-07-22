@@ -312,6 +312,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
     }
   }
 
+  console.log("data", data);
+
   const _onClick = (code: string | number) => {
     onClick(code);
   };

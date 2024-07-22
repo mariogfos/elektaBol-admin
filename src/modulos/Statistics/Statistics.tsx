@@ -89,9 +89,24 @@ const Statistics = () => {
 
   console.log("totalVotos", totalVotos);
 
-  // const dataFormated = (data: any) => {
-  //   const deparment = data?.map((item: any) => {});
-  // };
+  const dataFormated = (data: any) => {
+    if (!data?.tabla || !data?.extras?.winner) {
+      return [];
+    }
+
+    data.tabla.forEach((item: any) => {
+      const winner = data.extras.winner.find(
+        (p: any) => item.winner_id === p.id
+      );
+      item.partido = winner ? winner.name : null;
+      item.total_votos = winner ? winner.total_votos : 0;
+    });
+
+    return data.tabla;
+  };
+
+  const formattedData = dataFormated(stads?.data);
+  console.log("dataFormated", formattedData);
 
   return (
     <LoadingScreen skeletonType="LatestInvoicesSkeleton">
@@ -110,7 +125,7 @@ const Statistics = () => {
               <WidgetMapa
                 params={[params, setParams]}
                 onClick={onClick}
-                data={stads?.data.tabla}
+                data={dataFormated(stads?.data)}
               />
             </div>
           )}
