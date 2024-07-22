@@ -74,6 +74,8 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalH
             extras={dataExtra}
             total={calculateTotalHabilitados()}
           />
+            </div>
+      )}  
           <WidgetResumeWinnerParty
             data={[dataExtra?.winner[0]]}
             title={"Partido ganador"}
@@ -81,8 +83,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalH
             total={calculateTotalHabilitados()}
             onClick={level < 4 ? openModal : null}
           />
-        </div>
-      )}
+      
     </div>
   );
 };
