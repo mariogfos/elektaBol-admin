@@ -162,7 +162,7 @@ const Statistics = () => {
           buttonText=""
         >
           <WidgetResumeWinnerParty
-            data={stads?.data?.extras?.winner?.slice(1)}
+            data={stads?.data?.extras?.winner}
             title={"Otros resultados"}
             total={calculateTotalHabilitados()}
           />
