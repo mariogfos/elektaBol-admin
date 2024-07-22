@@ -316,6 +316,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
     onClick(code);
   };
 
+  let paramLevel = param?.level == undefined ? 0 : param?.level;
+
   const onTooltip = (event: any, id: string | number, show: boolean = true) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
@@ -328,11 +330,14 @@ const MapaPais = ({ onClick, data, param }: any) => {
       total: 0,
     };
 
+    console.log("item", item);
+    console.log("paramLevel", data);
+
     setTooltip({
       visible: true,
       x: rect.left - svgRect.left + rect.width / 2,
       y: rect.top - svgRect.top,
-      item: param?.level < 2 ? item : null,
+      item: paramLevel < 2 ? item : null,
     });
   };
 
@@ -363,7 +368,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   const Tooltip = ({ item }: any) => {
     return (
-      param?.level < 2 && (
+      paramLevel < 2 && (
         <div
           className={styles.tooltip}
           style={{

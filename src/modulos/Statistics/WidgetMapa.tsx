@@ -12,8 +12,7 @@ const WidgetMapa = ({
   params = [{}, () => {}],
 }: PropsType) => {
   const [param, setParam] = params;
-  const level = param?.level || 0;
-  const id = param?.searchBy || "";
+
   return (
     <div>
       <MapaPais onClick={onClick} data={data} param={param} />
