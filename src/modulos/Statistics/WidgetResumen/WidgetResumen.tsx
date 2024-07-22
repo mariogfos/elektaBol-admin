@@ -12,7 +12,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalH
   const calculateTotalTotales = () => {
     let total = 0;
     data.forEach((item: any) => {
-      total += item?.total * 1;
+      total += item?.entidad * 1;
     });
 
     return total % 1 === 0 ? total : Number(total.toFixed(2));
