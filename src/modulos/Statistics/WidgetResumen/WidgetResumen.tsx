@@ -9,15 +9,6 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalH
  
   const { level } = paramsValue;
 
-  // const calculateTotalHabilitados = () => {
-  //   if(level == 4)return data?.habilitados;
-  //   let total = 0;
-  //   data.forEach((item: any) => {
-  //     total += item?.habilitados * 1;
-  //   });
-
-  //   return total % 1 === 0 ? total : Number(total.toFixed(2));
-  // };
   const calculateTotalTotales = () => {
     let total = 0;
     data.forEach((item: any) => {
@@ -27,7 +18,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal,extra,calculateTotalH
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
 
-  // console.log(dataExtra, "dataextra");
+  console.log(data, "dataextra");
 
   const labels: any = [
     "Departamento", // 0

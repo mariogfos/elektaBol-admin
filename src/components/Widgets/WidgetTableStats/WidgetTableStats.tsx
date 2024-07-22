@@ -23,7 +23,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     data?.forEach((item: any) => {
       col1 += item.habitantes * 1;
       col2 += item.habilitados * 1;
-      col3 += item.total * 1;
+      col3 += item.entidad * 1;
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
@@ -60,7 +60,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
 
     {
-      key: "total",
+      key: "entidad",
       label: labels[level + 1],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },

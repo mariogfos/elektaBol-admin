@@ -22,7 +22,10 @@ const Statistics = () => {
     ...params,
   });
   console.log(stads, "stads");
-
+ const secondCardTitle:any = {
+  0:'recintos',
+  1:'mesas',
+ }
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
@@ -35,31 +38,15 @@ const Statistics = () => {
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
-  const dataFormatted = () => {
-    if (params.level === 4) return stads?.data?.tabla[0];
-    let data: any = [];
-    stads?.data?.tabla?.map((item: any) => {
-      stads?.data?.entidad?.map((entidad: any) => {
-        if (item.id == entidad.id) {
-          data.push({
-            ...item,
-            total: entidad.total,
-          });
-        }
-      });
-    });
-    return data;
-  };
+   const calculateTotalHabilitados = () => {
+     if (params.level == 4) return stads?.data?.tabla?.habilitados;
+     let total = 0;
+     stads?.data?.tabla?.forEach((item: any) => {
+       total += item?.habilitados * 1;
+     });
 
-  const calculateTotalHabilitados = () => {
-    if (params.level == 4) return dataFormatted().habilitados;
-    let total = 0;
-    dataFormatted().forEach((item: any) => {
-      total += item?.habilitados * 1;
-    });
-
-    return total % 1 === 0 ? total : Number(total.toFixed(2));
-  };
+     return total % 1 === 0 ? total : Number(total.toFixed(2));
+   };
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -113,25 +100,25 @@ const Statistics = () => {
               <WidgetMapa
                 params={[params, setParams]}
                 onClick={onClick}
-                data={stads?.data?.tabla}
+                data={stads?.data.tabla}
               />
             </div>
           )}
           <div>
             <WidgetResumen
               params={[params, setParams]}
-              data={dataFormatted()}
+              data={stads?.data?.tabla}
               dataExtra={stads?.data?.extra}
               openModal={() => setOpenModal(true)}
-              calculateTotalHabilitados={calculateTotalHabilitados}
-              extra={stads?.data?.extra}
+             calculateTotalHabilitados={calculateTotalHabilitados}
+              extra={stads?.data?.extra?.[secondCardTitle[params.level]]}
             />
           </div>
         </div>
         {params?.level < 4 && (
           <div>
             <WidgetTableStats
-              data={dataFormatted()}
+              data={stads?.data?.tabla}
               onClick={onClick}
               params={[params, setParams]}
             />
@@ -142,7 +129,7 @@ const Statistics = () => {
             <WidgetResumeWinnerParty
               data={stads?.data?.extra?.winner?.slice(1)}
               title={"Otros resultados"}
-              total={calculateTotalHabilitados()}
+             total={calculateTotalHabilitados()}
             />
           </div>
         )}
@@ -155,111 +142,11 @@ const Statistics = () => {
           <WidgetResumeWinnerParty
             data={stads?.data?.extra?.winner}
             title={"Otros resultados"}
-            total={calculateTotalHabilitados()}
+           total={calculateTotalHabilitados()}
           />
         </DataModal>
       </div>
     </LoadingScreen>
-
-    // <div className={styles["statistics"]}>
-    //   <h1>
-    //     {selectedDepartment ? null : "Datos electorales históricos de Bolivia"}
-    //   </h1>
-    //   <section
-    //     className={styles["topSection"]}
-    //     // style={{
-    //     //   display: "flex",
-    //     //   justifyContent: "center",
-    //     //   alignItems: "center",
-    //     //   gap: "64px",
-    //     //   marginTop: "32px",
-    //     //   marginBottom: "32px",
-    //     // }}
-    //   >
-    //     <div>
-    //       {/* {level == 0 && ( */}
-    //       <DepartmentsMaps
-    //         level={level}
-    //         setLevel={setLevel}
-    //         params={params}
-    //         setParams={setParams}
-    //         tooltipsData={dataFormatted}
-    //         isClicker={true}
-    //         onClickLevel={onClickLevel}
-    //         onClickBack={onClickBack}
-    //         selectedDepartment={selectedDepartment}
-    //         setSelectedDepartment={setSelectedDepartment}
-    //         selectedCircunscripcion={selectedCircunscripcion}
-    //         setSelectedCircunscripcion={setSelectedCircunscripcion}
-    //       />
-    //       {/* )} */}
-    //       {/* {level == 1 && (
-    //         <CircunscripcionesSczMaps tooltipsData={stads?.data.data} />
-    //       )} */}
-    //     </div>
-
-    //     {level < 2 && (
-    //       <div>
-    //         <WidgetResume
-    //           data={dataFormatted}
-    //           dataExtra={level <= 1 ? stads?.data?.total_entidad2 : null}
-    //           level={level}
-    //           setLevel={setLevel}
-    //           params={params}
-    //           setParams={setParams}
-    //         />
-    //       </div>
-    //     )}
-
-    //     {level >= 2 && (
-    //       <div className={styles["topWidgets"]}>
-    //         <WidgetResumeVotes
-    //           title={"Datos de las elecciones del 2020"}
-    //           subtitle={selectedCircunscripcion?.titulo}
-    //           dataCircunscripciones={stads?.data?.data}
-    //           total_entidad2={stads?.data?.total_entidad2}
-    //         />
-    //         <WidgetResumeWinnerParty
-    //           data={[
-    //             { name: "eliot", title: "Creemos", votes: 98, color: "red" },
-    //           ]}
-    //           title={"Partido ganador"}
-    //           subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
-    //         />
-    //       </div>
-    //     )}
-    //   </section>
-    //   <section>
-    //     {level === 3 && (
-    //       <div style={{ width: "100%", display: "flex" }}>
-    //         <WidgetResumeWinnerParty
-    //           data={[
-    //             {
-    //               name: "eliot",
-    //               title: "Comunidad Ciudadana",
-    //               votes: 32,
-    //               color: "green",
-    //             },
-    //             {
-    //               name: "eliot",
-    //               title: "MAS - IPSP",
-    //               votes: 52,
-    //               color: "blue",
-    //             },
-    //             {
-    //               name: "eliot",
-    //               title: "PAN - BOL",
-    //               votes: 56,
-    //               color: "white",
-    //             },
-    //             { name: "eliot", title: "Juntos", votes: 29, color: "yellow" },
-    //           ]}
-    //           title={"Otros resultados"}
-    //         />
-    //       </div>
-    //     )}
-    //   </section>
-    // </div>
   );
 };
 
