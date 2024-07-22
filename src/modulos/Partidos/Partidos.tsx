@@ -7,6 +7,8 @@ import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
+import { getUrlImages } from "@/mk/utils/string";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 
 const mod: ModCrudType = {
   modulo: "partidos",
@@ -23,6 +25,24 @@ const paramsInitial = {
 };
 
 const Partidos = () => {
+  const rigthAvatar = (data: {
+    key: string;
+    user?: Record<string, any>;
+    item: Record<string, any>;
+  }) => {
+    if (!data.item.ext) return null;
+    return (
+      <img
+        src={getUrlImages(
+          "/PAR-" + data.item.id + ".png" + "?" + data.item.updated_at
+        )}
+        alt={data.item.name}
+        width={100}
+        height={100}
+      />
+    );
+  };
+
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -48,6 +68,29 @@ const Partidos = () => {
         ),
         list: { width: "250px", label: "Color" },
         form: { type: "text", precarga: "#FFFFFF" },
+      },
+      avatar: {
+        rules: ["requiredFile*edit"],
+        api: "ae",
+        label: "Suba una Imagen",
+        list: {
+          width: "200px",
+          style: { textAlign: "center" },
+          label: "Imagen",
+          onRender: (item: any) => (
+            <Avatar
+              src={getUrlImages(
+                "/PAR-" + item.item.id + ".png" + "?" + item.updated_at
+              )}
+              name={item.item.name}
+            />
+          ),
+        },
+        form: {
+          type: "imageUpload",
+          onRigth: rigthAvatar,
+          style: { width: "100%" },
+        },
       },
     };
   }, []);
@@ -78,6 +121,7 @@ const Partidos = () => {
         <ItemList
           title={item?.name}
           subtitle={"Color: " + item?.color}
+          left={rigthAvatar({ key: "avatar", item })}
           variant="V1"
           active={selItem && selItem.id == item.id}
         />

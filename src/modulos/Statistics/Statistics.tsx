@@ -21,7 +21,6 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  console.log(stads, "stads");
 
   useEffect(() => {
     setStore({
@@ -51,6 +50,15 @@ const Statistics = () => {
     return data;
   };
 
+  const calculateTotalHabilitados = () => {
+    if (params.level == 4) return dataFormatted().habilitados;
+    let total = 0;
+    dataFormatted().forEach((item: any) => {
+      total += item?.habilitados * 1;
+    });
+
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -71,6 +79,8 @@ const Statistics = () => {
   const onBack = (index: number) => {
     let h: any = histParam[0];
     let t: any = histTitulo[0];
+    // eliminar los duplicados de h
+    h = h.filter((item: any, i: number) => h.indexOf(item) === i);
     const param = h[index];
     h = h.slice(0, index + 1);
     t = t.slice(0, index + 1);
@@ -78,8 +88,10 @@ const Statistics = () => {
       h = [];
       t = ["Mapa de Bolivia"];
     }
+
     histParam[1](h);
     histTitulo[1](t);
+    console.log(param, "param");
     setParams(param);
   };
 
@@ -110,6 +122,7 @@ const Statistics = () => {
               data={dataFormatted()}
               dataExtra={stads?.data?.extras}
               openModal={() => setOpenModal(true)}
+              calculateTotalHabilitados={calculateTotalHabilitados}
               extra={stads?.data?.extra}
             />
           </div>
@@ -128,6 +141,7 @@ const Statistics = () => {
             <WidgetResumeWinnerParty
               data={stads?.data?.extras?.winner?.slice(1)}
               title={"Otros resultados"}
+              total={calculateTotalHabilitados()}
             />
           </div>
         )}
@@ -140,6 +154,7 @@ const Statistics = () => {
           <WidgetResumeWinnerParty
             data={stads?.data?.extras?.winner?.slice(1)}
             title={"Otros resultados"}
+            total={calculateTotalHabilitados()}
           />
         </DataModal>
       </div>
