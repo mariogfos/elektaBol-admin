@@ -21,7 +21,6 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  // console.log(stads, "stads");
 
   useEffect(() => {
     setStore({
@@ -94,12 +93,6 @@ const Statistics = () => {
     histTitulo[1](t);
     console.log(param, "param");
     setParams(param);
-  };
-
-  const isLoading = () => {
-    if (stads?.data) {
-      return <div>Cargando...</div>;
-    }
   };
 
   return (

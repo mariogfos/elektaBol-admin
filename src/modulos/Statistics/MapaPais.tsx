@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-
 import styles from "./Mapa.module.css";
 import Link from "next/link";
 import { formatNumber } from "@/mk/utils/numbers";
@@ -77,18 +76,6 @@ import {
   pathsTarija,
 } from "./pathMapas";
 
-const viewBoxs = [
-  "0 0 3994 4548",
-  "0 0 612 570",
-  "0 0 890 917",
-  "0 0 632 668",
-  "0 0 684 354",
-  "0 0 596 750",
-  "0 0 4898 3123",
-  "0 0 6122 3709",
-  "0 0 1953 2022",
-  "0 0 4491 3047",
-];
 const MapaPais = ({ onClick, data, param }: any) => {
   const svgRef: any = useRef(null);
 
@@ -136,7 +123,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
     }
   }
   if (param?.level == 2) {
-    console.log(param?.code);
     switch (param?.code) {
       case "40":
         path = pathsC40;
@@ -330,21 +316,18 @@ const MapaPais = ({ onClick, data, param }: any) => {
     onClick(code);
   };
 
-  const onTooltip = (
-    event: any,
-    id: string | number,
-    show: boolean = false
-  ) => {
+  const onTooltip = (event: any, id: string | number, show: boolean = true) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
     const item = data.find((d: any) => d.code == id) || {
       id,
-      name: "No se encontro " + id,
-      habitates: 0,
+      name: "No se encontró " + id,
+      habitantes: 0,
       habilitados: 0,
       total: 0,
     };
+
     setTooltip({
       visible: true,
       x: rect.left - svgRect.left + rect.width / 2,
@@ -376,6 +359,63 @@ const MapaPais = ({ onClick, data, param }: any) => {
       default:
         return styles.mapa;
     }
+  };
+
+  const Tooltip = ({ item }: any) => {
+    return (
+      <div
+        className={styles.tooltip}
+        style={{
+          top: tooltip.y,
+          left: tooltip.x,
+          borderRadius: 4,
+          paddingTop: 8,
+          paddingBottom: 8,
+          paddingLeft: 12,
+          paddingRight: 12,
+        }}
+      >
+        <h3 style={{ fontSize: 16, color: "#101111", paddingBottom: 8 }}>
+          {item?.name}
+        </h3>
+        <div style={{ fontSize: 12 }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              color: "#656F78",
+            }}
+          >
+            <p>Habitantes: </p>
+            <p style={{ color: "#101111" }}>
+              {formatNumber(item.habitantes, 0)}
+            </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              color: "#656F78",
+            }}
+          >
+            <p>Habilitados: </p>
+            <p style={{ fontSize: 14 }}>{formatNumber(item.habilitados, 0)}</p>
+          </div>
+          {/* <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    color: "#656F78",
+                  }}
+                >
+                  <p>Circunscripciones: </p>
+                  <p style={{ color: "#101111" }}>
+                    {formatNumber(tooltip.data?.circuns_count, 0)}
+                  </p>
+                </div> */}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -443,8 +483,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
                       : "pointer",
                 }}
                 d={path.d}
-                onMouseEnter={(e) => onTooltip(e, path.id)}
-                onMouseLeave={() => onTooltip(null, path.id, false)}
+                onMouseEnter={(e) => onTooltip(e, path.code)}
+                onMouseLeave={() => onTooltip(null, path.code, false)}
               />
             </Link>
           );
@@ -464,60 +504,3 @@ const MapaPais = ({ onClick, data, param }: any) => {
 };
 
 export default MapaPais;
-
-const Tooltip = ({ x, y, item, param }: any) => {
-  let tit = "Curcunscripciones :";
-  if (param?.level == 1) tit: "Recintos: ";
-  return (
-    <div
-      className={styles.tooltip}
-      style={{
-        top: y,
-        left: x,
-        borderRadius: 4,
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 12,
-        paddingRight: 12,
-      }}
-    >
-      <h3 style={{ fontSize: 16, color: "#101111", paddingBottom: 8 }}>
-        {item?.name}
-      </h3>
-      <div style={{ fontSize: 12 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            color: "#656F78",
-          }}
-        >
-          <p>Habitantes: </p>
-          <p style={{ color: "#101111" }}>
-            {formatNumber(item?.habitantes, 0)}
-          </p>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            color: "#656F78",
-          }}
-        >
-          <p>Habilitados: </p>
-          <p style={{ fontSize: 14 }}>{formatNumber(item?.habilitados, 0)}</p>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            color: "#656F78",
-          }}
-        >
-          <p>{tit}</p>
-          <p style={{ color: "#101111" }}>{formatNumber(item?.total, 0)}</p>
-        </div>
-      </div>
-    </div>
-  );
-};

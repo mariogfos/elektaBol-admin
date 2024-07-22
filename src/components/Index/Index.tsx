@@ -4,10 +4,10 @@ import WidgetTime from "../Widgets/WidgetTime.tsx/WidgetTime";
 import WidgetAffiliatesRank from "../Widgets/WidgetAffiliatesRank/WidgetAffiliatesRank";
 import WidgetTable from "../Widgets/WidgetTable.tsx/WidgetTable";
 import styles from "./index.module.css";
-import WidgetMaps from "../ Widgets/WidgetMaps/WidgetMaps";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import { useEffect } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
+import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
 
 const HomePage = () => {
   const { data: dashboard } = useAxios("/dashboard", "GET", {
@@ -53,12 +53,7 @@ const HomePage = () => {
       )}
       <section>
         <div>
-          <WidgetMaps
-            tooltipsData={dataDpto}
-            totalHabitanes={totalHabitantes}
-            totalHabilitados={totalHabilitados}
-            totalAfiliados={totalAfiliados}
-          />
+          <WidgetMapa data={dashboard?.data?.dptos} />
         </div>
         <div>
           <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />
