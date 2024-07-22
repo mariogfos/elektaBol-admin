@@ -79,7 +79,6 @@ const Statistics = () => {
 
     histParam[1](h);
     histTitulo[1](t);
-    console.log(param, "param");
     setParams(param);
   };
 

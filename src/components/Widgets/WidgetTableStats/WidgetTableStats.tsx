@@ -4,6 +4,8 @@ import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumberCustom } from "@/mk/utils/date";
 import { formatNumber } from "@/mk/utils/numbers";
 import { useEffect, useState } from "react";
+import { getUrlImages } from "@/mk/utils/string";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 
 const WidgetTableStats = ({ data, params, onClick, title }: any) => {
   const [param, setParam] = params;
@@ -39,6 +41,12 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
+    },
+    {
+      key: "winner_id",
+      label: "Partido ganador",
+      responsive: "onlyDesktop",
+      style: { textAlign: "center" },
     },
     {
       key: "habitantes",
@@ -80,6 +88,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     if (item.key == "index") {
       return index;
     }
+    if (item.key == "winner_id") {
+      return <Avatar src={getUrlImages("/PAR-" + row.winner_id + ".png?d=")} />;
+    }
 
     const value = row[item.key];
     return typeof value === "number" ? formatNumberCustom(value) : value;
@@ -114,6 +125,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       />
       <section>
         <span style={{ width: "210px" }}></span>
+        <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
         {level == 0 && (
           <div>
