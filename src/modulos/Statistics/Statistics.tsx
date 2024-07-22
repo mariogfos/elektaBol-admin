@@ -22,10 +22,10 @@ const Statistics = () => {
     ...params,
   });
   console.log(stads, "stads");
- const secondCardTitle:any = {
-  0:'recintos',
-  1:'mesas',
- }
+  const secondCardTitle: any = {
+    0: "recintos",
+    1: "mesas",
+  };
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
@@ -38,15 +38,15 @@ const Statistics = () => {
   const histParam = useState([]);
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
-   const calculateTotalHabilitados = () => {
-     if (params.level == 4) return stads?.data?.tabla?.habilitados;
-     let total = 0;
-     stads?.data?.tabla?.forEach((item: any) => {
-       total += item?.habilitados * 1;
-     });
+  const calculateTotalHabilitados = () => {
+    if (params.level == 4) return stads?.data?.tabla?.habilitados;
+    let total = 0;
+    stads?.data?.tabla?.forEach((item: any) => {
+      total += item?.habilitados * 1;
+    });
 
-     return total % 1 === 0 ? total : Number(total.toFixed(2));
-   };
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -79,7 +79,6 @@ const Statistics = () => {
 
     histParam[1](h);
     histTitulo[1](t);
-    console.log(param, "param");
     setParams(param);
   };
 
@@ -110,7 +109,7 @@ const Statistics = () => {
               data={stads?.data?.tabla}
               dataExtra={stads?.data?.extra}
               openModal={() => setOpenModal(true)}
-             calculateTotalHabilitados={calculateTotalHabilitados}
+              calculateTotalHabilitados={calculateTotalHabilitados}
               extra={stads?.data?.extra?.[secondCardTitle[params.level]]}
             />
           </div>
@@ -129,7 +128,7 @@ const Statistics = () => {
             <WidgetResumeWinnerParty
               data={stads?.data?.extra?.winner?.slice(1)}
               title={"Otros resultados"}
-             total={calculateTotalHabilitados()}
+              total={calculateTotalHabilitados()}
             />
           </div>
         )}
@@ -142,7 +141,7 @@ const Statistics = () => {
           <WidgetResumeWinnerParty
             data={stads?.data?.extra?.winner}
             title={"Otros resultados"}
-           total={calculateTotalHabilitados()}
+            total={calculateTotalHabilitados()}
           />
         </DataModal>
       </div>
