@@ -11,6 +11,18 @@ const WidgetTitulo = ({ params, histParams, histTitulos, onBack }: any) => {
     // const ultHistParam = histParam.length - 1;
     title = "Departamento " + histTitulo[level - 1];
   }
+  if (level == 2) {
+ 
+    title = "Circunscripción " + histTitulo[level];
+  }
+  if (level == 3) {
+ 
+    title = "Recinto: " + histTitulo[level];
+  }
+  if (level == 4) {
+ 
+    title = "Mesa: " + histTitulo[level];
+  }
   return (
     <div className={styles["container"]}>
       {level >= 1 && <HistoryTitle histTitulo={histTitulo} onBack={onBack} />}

@@ -2,32 +2,26 @@ import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
 import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
 
-
-
-const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
+const WidgetResumen = ({
+  data,
+  params,
+  dataExtra,
+  openModal,
+  extra,
+  calculateTotalHabilitados,
+}: any) => {
   const [paramsValue, setParams] = params;
- 
+
   const { level } = paramsValue;
 
-  const calculateTotalHabilitados = () => {
-    if(level == 4)return data?.habilitados;
-    let total = 0;
-    data.forEach((item: any) => {
-      total += item?.habilitados * 1;
-    });
-
-    return total % 1 === 0 ? total : Number(total.toFixed(2));
-  };
   const calculateTotalTotales = () => {
     let total = 0;
     data.forEach((item: any) => {
-      total += item?.total * 1;
+      total += item?.entidad * 1;
     });
 
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
-
-  console.log(dataExtra, "dataextra");
 
   const labels: any = [
     "Departamento", // 0
@@ -36,7 +30,7 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
     "Mesa", // 3
   ];
   return (
-    <div>
+    <div className={styles["topWidgets"]}>
       {level < 2 && (
         <div className={styles.container}>
           <section>
@@ -59,30 +53,28 @@ const WidgetResumen = ({ data, params, dataExtra,openModal}: any) => {
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
-                {typeof dataExtra == "number" && <p>{dataExtra}</p>}
+                {typeof extra == "number" && <p>{extra}</p>}
               </div>
             </div>
           </section>
         </div>
       )}
       {level >= 2 && (
-        <div className={styles["topWidgets"]}>
-          <WidgetResumeVotes
-            title={"Datos de las elecciones del 2020"}
-            // subtitle={selectedCircunscripcion?.titulo}
-            data={level===4 ?[data?.tabla]:data?.tabla}
-            extras={dataExtra}
-            total={calculateTotalHabilitados()}
-          />
-          <WidgetResumeWinnerParty
-            data={[dataExtra?.winner[0]]}
-            title={"Partido ganador"}
-            //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
-            total={calculateTotalHabilitados()}
-            onClick={level > 4 ? openModal : null}
-          />
-        </div>
+        <WidgetResumeVotes
+          title={"Datos de las elecciones del 2020"}
+          // subtitle={selectedCircunscripcion?.titulo}
+          data={level === 4 ? [data?.tabla] : data?.tabla}
+          extras={dataExtra}
+          total={calculateTotalHabilitados()}
+        />
       )}
+      <WidgetResumeWinnerParty
+        data={[dataExtra?.winner[0]]}
+        title={"Partido ganador"}
+        //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
+        total={calculateTotalHabilitados()}
+        onClick={level < 4 ? openModal : null}
+      />
     </div>
   );
 };

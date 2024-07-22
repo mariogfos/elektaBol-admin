@@ -2,19 +2,20 @@ import React from "react";
 import { Card } from "@/mk/components/ui/Card/Card";
 import Image from "next/image";
 
-import styles from "./WidgetMaps.module.css";
+import styles from "./DashboardMap.module.css";
 import { formatNumber } from "../../../mk/utils/numbers";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
+import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
 
 type TypeProps = {
-  tooltipsData: any;
+  data: any;
   totalHabitanes: number;
   totalHabilitados: number;
   totalAfiliados: number;
 };
 
 export const WidgetMaps = ({
-  tooltipsData,
+  data,
   totalHabitanes,
   totalHabilitados,
   totalAfiliados,
@@ -36,12 +37,12 @@ export const WidgetMaps = ({
         </Card>
       </div>
 
-      <DepartmentsMaps tooltipsData={tooltipsData} />
+      <WidgetMapa data={data} />
       <div className={styles.footer}>
         <div className={styles.bolivia}>
           <Image
             src="/images/Bolivia.png"
-            alt="Uruguay"
+            alt="Bolivia"
             layout="fixed"
             width={190}
             height={50}

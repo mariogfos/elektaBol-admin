@@ -1,9 +1,18 @@
 import MapaPais from "./MapaPais";
 
-const WidgetMapa = ({ data, onClick, params }: any) => {
+type PropsType = {
+  data: any;
+  onClick?: any;
+  params?: any;
+};
+
+const WidgetMapa = ({
+  data,
+  onClick = () => {},
+  params = [{}, () => {}],
+}: PropsType) => {
   const [param, setParam] = params;
-  const level = param?.level || 0;
-  const id = param?.searchBy || "";
+
   return (
     <div>
       <MapaPais onClick={onClick} data={data} param={param} />

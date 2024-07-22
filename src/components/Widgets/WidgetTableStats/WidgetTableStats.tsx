@@ -4,6 +4,8 @@ import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumberCustom } from "@/mk/utils/date";
 import { formatNumber } from "@/mk/utils/numbers";
 import { useEffect, useState } from "react";
+import { getUrlImages } from "@/mk/utils/string";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 
 const WidgetTableStats = ({ data, params, onClick, title }: any) => {
   const [param, setParam] = params;
@@ -23,7 +25,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     data?.forEach((item: any) => {
       col1 += item.habitantes * 1;
       col2 += item.habilitados * 1;
-      col3 += item.total* 1;
+      col3 += item.entidad * 1;
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
@@ -41,6 +43,12 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       responsive: "onlyDesktop",
     },
     {
+      key: "winner_id",
+      label: "Partido ganador",
+      responsive: "onlyDesktop",
+      style: { textAlign: "center" },
+    },
+    {
       key: "habitantes",
       label: "Poblacion",
       responsive: "onlyDesktop",
@@ -51,7 +59,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
     {
       key: "habilitados",
-      label: "Empadronados",
+      label: "Padrón electoral",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
       onRender: (item: any) => {
@@ -60,7 +68,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
 
     {
-      key: "total",
+      key: "entidad",
       label: labels[level + 1],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
@@ -70,7 +78,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
   ];
   const headerFormatted = () => {
-    if (level == 1) {
+    if (level >= 1) {
       return header.filter((item) => item.key != "habitantes");
     }
     return header;
@@ -79,6 +87,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
   const render = (item: any, row: any, index: any) => {
     if (item.key == "index") {
       return index;
+    }
+    if (item.key == "winner_id") {
+      return <Avatar src={getUrlImages("/PAR-" + row.winner_id + ".png?d=")} />;
     }
 
     const value = row[item.key];
@@ -114,6 +125,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       />
       <section>
         <span style={{ width: "210px" }}></span>
+        <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
         {level == 0 && (
           <div>
