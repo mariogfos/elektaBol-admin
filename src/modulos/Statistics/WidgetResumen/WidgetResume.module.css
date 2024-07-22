@@ -41,7 +41,8 @@
 }
 
 .topWidgets {
-  display:flex; 
+  display:flex;
+  align-items: center; 
   gap: 24px;
   & > div{
    width: 50%;
@@ -86,7 +87,8 @@
 .widgetResumeVotes {
   min-width: 540px;
   width: 100%;
-
+  min-height: 359px;
+  
   &>div:nth-child(1) {
     font-size: var(--sXxl);
     font-weight: bold;

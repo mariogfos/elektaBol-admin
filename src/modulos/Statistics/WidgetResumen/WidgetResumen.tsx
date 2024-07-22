@@ -17,7 +17,7 @@ const WidgetResumen = ({
   const calculateTotalTotales = () => {
     let total = 0;
     data.forEach((item: any) => {
-      total += item?.total * 1;
+      total += item?.entidad * 1;
     });
 
     return total % 1 === 0 ? total : Number(total.toFixed(2));
@@ -60,15 +60,13 @@ const WidgetResumen = ({
         </div>
       )}
       {level >= 2 && (
-        <div className={styles["topWidgets"]}>
-          <WidgetResumeVotes
-            title={"Datos de las elecciones del 2020"}
-            // subtitle={selectedCircunscripcion?.titulo}
-            data={level === 4 ? [data?.tabla] : data?.tabla}
-            extras={dataExtra}
-            total={calculateTotalHabilitados()}
-          />
-        </div>
+        <WidgetResumeVotes
+          title={"Datos de las elecciones del 2020"}
+          // subtitle={selectedCircunscripcion?.titulo}
+          data={level === 4 ? [data?.tabla] : data?.tabla}
+          extras={dataExtra}
+          total={calculateTotalHabilitados()}
+        />
       )}
       <WidgetResumeWinnerParty
         data={[dataExtra?.winner[0]]}
