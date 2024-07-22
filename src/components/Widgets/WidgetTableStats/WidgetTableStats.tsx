@@ -23,7 +23,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     data?.forEach((item: any) => {
       col1 += item.habitantes * 1;
       col2 += item.habilitados * 1;
-      col3 += item.total* 1;
+      col3 += item.total * 1;
     });
     setTotal({ col1, col2, col3 });
   }, [data]);
@@ -51,7 +51,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
     {
       key: "habilitados",
-      label: "Empadronados",
+      label: "Padrón electoral",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
       onRender: (item: any) => {
@@ -70,7 +70,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
   ];
   const headerFormatted = () => {
-    if (level == 1) {
+    if (level >= 1) {
       return header.filter((item) => item.key != "habitantes");
     }
     return header;
