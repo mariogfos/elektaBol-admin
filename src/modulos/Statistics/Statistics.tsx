@@ -7,7 +7,6 @@ import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
-import SkeletonAdapterComponent from "@/mk/components/ui/LoadingScreen/SkeletonAdapter";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
