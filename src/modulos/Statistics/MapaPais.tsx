@@ -75,6 +75,8 @@ import {
   pathsSantaCruz,
   pathsTarija,
 } from "./pathMapas";
+import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
+import { getUrlImages } from "@/mk/utils/string";
 
 const MapaPais = ({ onClick, data, param }: any) => {
   const svgRef: any = useRef(null);
@@ -312,7 +314,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
     }
   }
 
-  console.log("data", data);
+  console.log("datasss:", data);
 
   const _onClick = (code: string | number) => {
     onClick(code);
@@ -331,9 +333,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
       habilitados: 0,
       total: 0,
     };
-
-    console.log("item", item);
-    console.log("paramLevel", data);
 
     setTooltip({
       visible: true,
@@ -411,18 +410,28 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 {formatNumber(item?.habilitados, 0)}
               </p>
             </div>
-            {/* <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    color: "#656F78",
-                  }}
-                >
-                  <p>Circunscripciones: </p>
-                  <p style={{ color: "#101111" }}>
-                    {formatNumber(tooltip.data?.circuns_count, 0)}
-                  </p>
-                </div> */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#656F78",
+              }}
+            >
+              <p
+                style={{
+                  alignSelf: "center",
+                  color: "#101111",
+                  fontWeight: "bold",
+                }}
+              >
+                Partido ganador:
+              </p>
+              <div style={{ alignSelf: "center" }}>
+                <Avatar
+                  src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )
