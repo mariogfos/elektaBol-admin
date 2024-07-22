@@ -21,6 +21,7 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
+
   const secondCardTitle: any = {
     0: "recintos",
     1: "mesas",
@@ -81,6 +82,32 @@ const Statistics = () => {
     setParams(param);
   };
 
+  let totalVotos = stads?.data?.extras?.winner?.reduce(
+    (acc: number, current: any) => acc + current.total_votos,
+    0
+  );
+
+  console.log("totalVotos", totalVotos);
+
+  const dataFormated = (data: any) => {
+    if (!data?.tabla || !data?.extras?.winner) {
+      return [];
+    }
+
+    data.tabla.forEach((item: any) => {
+      const winner = data.extras.winner.find(
+        (p: any) => item.winner_id === p.id
+      );
+      item.partido = winner ? winner.name : null;
+      item.total_votos = winner ? winner.total_votos : 0;
+    });
+
+    return data.tabla;
+  };
+
+  const formattedData = dataFormated(stads?.data);
+  console.log("dataFormated", formattedData);
+
   return (
     <LoadingScreen skeletonType="LatestInvoicesSkeleton">
       <div className={styles["statistics"]}>
@@ -98,7 +125,7 @@ const Statistics = () => {
               <WidgetMapa
                 params={[params, setParams]}
                 onClick={onClick}
-                data={stads?.data.tabla}
+                data={dataFormated(stads?.data)}
               />
             </div>
           )}
