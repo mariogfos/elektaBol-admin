@@ -13,7 +13,6 @@ import { useAuth } from "@/mk/contexts/AuthProvider";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 import Check from "@/mk/components/forms/Check/Check";
 import RenderView from "./RenderView";
-import { getDateTimeStrMes, getDateTimeStrMesShort } from "@/mk/utils/date";
 import style from "./Events.module.css";
 
 const paramsInitial = {
