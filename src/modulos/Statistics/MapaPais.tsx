@@ -332,7 +332,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
       visible: true,
       x: rect.left - svgRect.left + rect.width / 2,
       y: rect.top - svgRect.top,
-      item: item,
+      item: param?.level < 2 ? item : null,
     });
   };
 
@@ -363,45 +363,48 @@ const MapaPais = ({ onClick, data, param }: any) => {
 
   const Tooltip = ({ item }: any) => {
     return (
-      <div
-        className={styles.tooltip}
-        style={{
-          top: tooltip.y,
-          left: tooltip.x,
-          borderRadius: 4,
-          paddingTop: 8,
-          paddingBottom: 8,
-          paddingLeft: 12,
-          paddingRight: 12,
-        }}
-      >
-        <h3 style={{ fontSize: 16, color: "#101111", paddingBottom: 8 }}>
-          {item?.name}
-        </h3>
-        <div style={{ fontSize: 12 }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              color: "#656F78",
-            }}
-          >
-            <p>Habitantes: </p>
-            <p style={{ color: "#101111" }}>
-              {formatNumber(item.habitantes, 0)}
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              color: "#656F78",
-            }}
-          >
-            <p>Habilitados: </p>
-            <p style={{ fontSize: 14 }}>{formatNumber(item.habilitados, 0)}</p>
-          </div>
-          {/* <div
+      param?.level < 2 && (
+        <div
+          className={styles.tooltip}
+          style={{
+            top: tooltip.y,
+            left: tooltip.x,
+            borderRadius: 4,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 12,
+            paddingRight: 12,
+          }}
+        >
+          <h3 style={{ fontSize: 16, color: "#101111", paddingBottom: 8 }}>
+            {item?.name}
+          </h3>
+          <div style={{ fontSize: 12 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#656F78",
+              }}
+            >
+              <p>Habitantes: </p>
+              <p style={{ color: "#101111" }}>
+                {formatNumber(item?.habitantes, 0)}
+              </p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#656F78",
+              }}
+            >
+              <p>Habilitados: </p>
+              <p style={{ fontSize: 14 }}>
+                {formatNumber(item?.habilitados, 0)}
+              </p>
+            </div>
+            {/* <div
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -413,8 +416,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
                     {formatNumber(tooltip.data?.circuns_count, 0)}
                   </p>
                 </div> */}
+          </div>
         </div>
-      </div>
+      )
     );
   };
 
@@ -478,9 +482,9 @@ const MapaPais = ({ onClick, data, param }: any) => {
                     path.title === "map" ||
                     path.title === "line" ||
                     path.title === "salar" ||
-                    param?.level != 2
-                      ? "default"
-                      : "pointer",
+                    param?.level < 2
+                      ? "pointer"
+                      : "default",
                 }}
                 d={path.d}
                 onMouseEnter={(e) => onTooltip(e, path.code)}

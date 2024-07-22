@@ -100,7 +100,7 @@ const Statistics = () => {
               <WidgetMapa
                 params={[params, setParams]}
                 onClick={onClick}
-                data={stads?.data.tabla}
+                data={stads?.data?.tabla}
               />
             </div>
           )}
