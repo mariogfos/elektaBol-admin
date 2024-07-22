@@ -121,6 +121,7 @@ const Mesas = () => {
     showToast,
     execute,
     reLoad,
+    getExtraData,
   } = useCrud({
     paramsInitial,
     mod,
@@ -175,6 +176,7 @@ const Mesas = () => {
           showToast={showToast}
           reLoad={reLoad}
           execute={execute}
+          getExtraData={getExtraData}
           // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
         />
       )}

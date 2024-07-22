@@ -7,7 +7,6 @@ import WidgetTitulo from "./WidgetTitulo";
 import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
-import SkeletonAdapterComponent from "@/mk/components/ui/LoadingScreen/SkeletonAdapter";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 
@@ -22,7 +21,6 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  // console.log(stads, "stads");
 
   useEffect(() => {
     setStore({
@@ -52,10 +50,8 @@ const Statistics = () => {
     return data;
   };
 
-
-
   const calculateTotalHabilitados = () => {
-    if(params.level == 4)return dataFormatted().habilitados;
+    if (params.level == 4) return dataFormatted().habilitados;
     let total = 0;
     dataFormatted().forEach((item: any) => {
       total += item?.habilitados * 1;
@@ -92,17 +88,11 @@ const Statistics = () => {
       h = [];
       t = ["Mapa de Bolivia"];
     }
-    
+
     histParam[1](h);
     histTitulo[1](t);
     console.log(param, "param");
     setParams(param);
-  };
-
-  const isLoading = () => {
-    if (stads?.data) {
-      return <div>Cargando...</div>;
-    }
   };
 
   return (
@@ -122,7 +112,7 @@ const Statistics = () => {
               <WidgetMapa
                 params={[params, setParams]}
                 onClick={onClick}
-                data={stads?.data.tabla}
+                data={stads?.data?.tabla}
               />
             </div>
           )}

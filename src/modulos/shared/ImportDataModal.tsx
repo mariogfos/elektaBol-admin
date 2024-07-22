@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import ProgressBar from "./ProgresBar";
 
+const BATCH_SIZE = 200;
 const ImportDataModal = ({
   children = null,
   mod,
@@ -11,6 +12,7 @@ const ImportDataModal = ({
   showToast,
   execute,
   reLoad,
+  getExtraData = null,
   opcionalCols = "",
   requiredCols = "",
 }: any) => {
@@ -25,17 +27,25 @@ const ImportDataModal = ({
     }
   }, [open]);
 
+  const _reLoad = async () => {
+    console.log("reLoad");
+    if (getExtraData) {
+      await getExtraData();
+    }
+    reLoad();
+  };
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [sentCount, setSentCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
   const onImport = async () => {
     if (dataImport && dataImport.length > 0) {
       let remainingData = [...dataImport];
-      const batchSize = 500;
+
       setIsProcessing(true);
       while (remainingData.length > 0) {
-        const currentBatch = remainingData.slice(0, batchSize);
-        remainingData = remainingData.slice(batchSize);
+        const currentBatch = remainingData.slice(0, BATCH_SIZE);
+        remainingData = remainingData.slice(BATCH_SIZE);
 
         try {
           setPendingCount(currentBatch.length);
@@ -56,29 +66,30 @@ const ImportDataModal = ({
             );
             setPendingCount(0);
             setSentCount((prev) => prev + currentBatch.length * 1);
-            if (data.data?.total === 0) {
-              onClose(true);
+            if (data?.data?.total === 0) {
+              // onClose(true);
               showToast("Se importaron todos los datos", "success");
+              _reLoad();
               break;
             } else {
               setErrorImport((old: any) => {
                 if (Array.isArray(old)) {
                   return [...old, ...data.data?.error];
                 }
-                return data.data?.error;
+                return data?.data?.error;
               });
               showToast(
                 `Importado  ${currentBatch.length} registros, aun quedan ${remainingData.length} registros por enviar`,
                 "warning"
               );
             }
-            reLoad();
+            // reLoad();
           } else {
             setErrorImport((old: any) => {
               if (Array.isArray(old)) {
-                return [...old, ...data.data?.error];
+                return [...old, ...data?.data?.error];
               }
-              return data.data?.error;
+              return data?.data?.error;
             });
             setDataImport(null);
             showToast(`Error al importar: ${errors}`, "error");
@@ -92,12 +103,13 @@ const ImportDataModal = ({
         }
       }
 
-      setIsProcessing(false);
+      // setIsProcessing(false);
     } else {
       showToast("No disponible", "error");
     }
     // setIsProcessing(false);
     showToast("Se importaron todos los datos", "success");
+    _reLoad();
   };
 
   const onImportFile = (e: any) => {
@@ -149,6 +161,7 @@ const ImportDataModal = ({
               total={dataImport?.length}
               sent={sentCount}
               pending={pendingCount}
+              paquete={BATCH_SIZE}
             />
           )}
           {requiredCols && (
@@ -166,7 +179,7 @@ const ImportDataModal = ({
               {opcionalCols}
             </div>
           )}
-          {!errorImport && (
+          {!isProcessing && (
             <label htmlFor="file">
               <div className="btn-primary w-full ">
                 Seleccionar Archivo
@@ -179,41 +192,44 @@ const ImportDataModal = ({
               </div>
             </label>
           )}
-          {dataImport && dataImport.length > 0 && !errorImport && (
-            <>
-              <div className="overflow-auto max-h-[300px]">
-                <table>
-                  {" "}
-                  <thead>
-                    <tr>
-                      {Object.keys(dataImport[0]).map((item, index) => (
-                        <th
-                          key={"item-" + index}
-                          style={{ padding: "4px", textAlign: "left" }}
-                        >
-                          {item.toUpperCase()}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataImport &&
-                      dataImport.map((item: any, index: number) => (
-                        <tr key={"item" + index}>
-                          {Object.keys(item).map((col, i) => (
-                            <td key={"item-" + i} style={{ padding: "4px" }}>
-                              {item[col]}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
+          {dataImport &&
+            dataImport.length > 0 &&
+            !isProcessing &&
+            !errorImport && (
+              <>
+                <div className="overflow-auto max-h-[300px]">
+                  <table>
+                    {" "}
+                    <thead>
+                      <tr>
+                        {Object.keys(dataImport[0]).map((item, index) => (
+                          <th
+                            key={"item-" + index}
+                            style={{ padding: "4px", textAlign: "left" }}
+                          >
+                            {item.toUpperCase()}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataImport &&
+                        dataImport.map((item: any, index: number) => (
+                          <tr key={"item" + index}>
+                            {Object.keys(item).map((col, i) => (
+                              <td key={"item-" + i} style={{ padding: "4px" }}>
+                                {item[col]}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           <div className="overflow-auto max-h-[300px]">
-            {errorImport && (
+            {errorImport && errorImport.length > 0 && (
               <>
                 <div className="font-extrabold border-b  mt-2 ">Errores</div>
                 <div className="flex flex-col gap-x-2 w-full text-[8px]">
