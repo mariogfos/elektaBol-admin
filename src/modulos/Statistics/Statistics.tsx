@@ -21,7 +21,6 @@ const Statistics = () => {
   const { data: stads, reLoad } = useAxios("/estads", "POST", {
     ...params,
   });
-  console.log(stads, "stads");
   const secondCardTitle: any = {
     0: "recintos",
     1: "mesas",
