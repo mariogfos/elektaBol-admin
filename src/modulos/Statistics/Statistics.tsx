@@ -107,10 +107,10 @@ const Statistics = () => {
             <WidgetResumen
               params={[params, setParams]}
               data={stads?.data?.tabla}
-              dataExtra={stads?.data?.extra}
+              dataExtra={stads?.data?.extras}
               openModal={() => setOpenModal(true)}
               calculateTotalHabilitados={calculateTotalHabilitados}
-              extra={stads?.data?.extra?.[secondCardTitle[params.level]]}
+              extra={stads?.data?.extras?.[secondCardTitle[params.level]]}
             />
           </div>
         </div>
@@ -126,7 +126,7 @@ const Statistics = () => {
         {params.level === 4 && (
           <div>
             <WidgetResumeWinnerParty
-              data={stads?.data?.extra?.winner?.slice(1)}
+              data={stads?.data?.extras?.winner?.slice(1)}
               title={"Otros resultados"}
               total={calculateTotalHabilitados()}
             />
@@ -139,7 +139,7 @@ const Statistics = () => {
           buttonText=""
         >
           <WidgetResumeWinnerParty
-            data={stads?.data?.extra?.winner}
+            data={stads?.data?.extras?.winner}
             title={"Otros resultados"}
             total={calculateTotalHabilitados()}
           />
