@@ -82,13 +82,6 @@ const Statistics = () => {
     setParams(param);
   };
 
-  let totalVotos = stads?.data?.extras?.winner?.reduce(
-    (acc: number, current: any) => acc + current.total_votos,
-    0
-  );
-
-  console.log("totalVotos", totalVotos);
-
   const dataFormated = (data: any) => {
     if (!data?.tabla || !data?.extras?.winner) {
       return [];
@@ -104,9 +97,6 @@ const Statistics = () => {
 
     return data.tabla;
   };
-
-  const formattedData = dataFormated(stads?.data);
-  console.log("dataFormated", formattedData);
 
   return (
     <LoadingScreen skeletonType="LatestInvoicesSkeleton">
