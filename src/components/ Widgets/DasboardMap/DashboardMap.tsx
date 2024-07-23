@@ -27,7 +27,7 @@ export const WidgetMaps = ({
         <div className={styles.stats}>
           <Card style={{ textAlign: "right" }}>
             <p>{formatNumber(totalHabitanes, 0)}</p>
-            <p>Habitantes en base al censo del 2023</p>
+            <p>Habitantes en base al censo del 2012</p>
           </Card>
           <Card style={{ textAlign: "right" }}>
             <p>{formatNumber(totalHabilitados, 0)}</p>
