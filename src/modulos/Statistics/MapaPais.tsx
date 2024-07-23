@@ -326,13 +326,15 @@ const MapaPais = ({ onClick, data, param }: any) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
-    const item = data.find((d: any) => d.code == id) || {
+    const item = data?.find((d: any) => d.code == id) || {
       id,
       name: "No se encontró " + id,
       habitantes: 0,
       habilitados: 0,
       total: 0,
     };
+
+    console.log("item:", item);
 
     setTooltip({
       visible: true,
