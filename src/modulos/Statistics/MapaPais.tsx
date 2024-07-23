@@ -314,8 +314,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
     }
   }
 
-  console.log("datasss:", data);
-
   const _onClick = (code: string | number) => {
     onClick(code);
   };
@@ -334,10 +332,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
       total: 0,
     };
 
-    console.log("item:", item);
-
     setTooltip({
-      visible: true,
+      visible: id ? true : false,
       x: rect.left - svgRect.left + rect.width / 2,
       y: rect.top - svgRect.top,
       item: paramLevel < 2 ? item : null,
@@ -477,7 +473,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 path.title !== "line" &&
                 path.title !== "salar" &&
                 param?.level != 2 &&
-                path.title !== "disabled"
+                path.title !== "disabled" &&
+                path.code
                   ? _onClick(path.code)
                   : {}
               }

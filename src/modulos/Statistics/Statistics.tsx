@@ -60,7 +60,7 @@ const Statistics = () => {
       ...params,
       searchBy: item?.id,
       level: (params?.level || 0) + 1,
-      code: code.toString(),
+      code: code?.toString(),
     });
   };
 
