@@ -326,13 +326,15 @@ const MapaPais = ({ onClick, data, param }: any) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
-    const item = data.find((d: any) => d.code == id) || {
+    const item = data?.find((d: any) => d.code == id) || {
       id,
       name: "No se encontró " + id,
       habitantes: 0,
       habilitados: 0,
       total: 0,
     };
+
+    console.log("item:", item);
 
     setTooltip({
       visible: true,
@@ -410,28 +412,30 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 {formatNumber(item?.habilitados, 0)}
               </p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                color: "#656F78",
-              }}
-            >
-              <p
+            {item?.winner_id && (
+              <div
                 style={{
-                  alignSelf: "center",
-                  color: "#101111",
-                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  color: "#656F78",
                 }}
               >
-                Partido ganador:
-              </p>
-              <div style={{ alignSelf: "center" }}>
-                <Avatar
-                  src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
-                />
+                <p
+                  style={{
+                    alignSelf: "center",
+                    color: "#101111",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Partido ganador:
+                </p>
+                <div style={{ alignSelf: "center" }}>
+                  <Avatar
+                    src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )
