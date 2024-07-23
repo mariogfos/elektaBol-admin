@@ -10,7 +10,7 @@ interface PropsType {
 }
 
 const LoadingScreen = ({
-  type = "CardSkeleton",
+  skeletonType = "CircleLoading",
   className,
   children = null,
 }: PropsType) => {
