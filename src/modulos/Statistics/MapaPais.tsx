@@ -412,7 +412,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 {formatNumber(item?.habilitados, 0)}
               </p>
             </div>
-            {item?.winner && (
+            {item?.winner_id && (
               <div
                 style={{
                   display: "flex",
