@@ -1,10 +1,13 @@
-
 import useAxios from "@/mk/hooks/useAxios";
 import { ParamsType } from "@/mk/types/generics";
 import { getDateStrMes, getDateTimeStrMes } from "@/mk/utils/date";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { IconAlertNotification, IconPaymentCommitment, IconPreRegister } from "../layout/icons/IconsBiblioteca";
+import {
+  IconAlertNotification,
+  IconPaymentCommitment,
+  IconPreRegister,
+} from "../layout/icons/IconsBiblioteca";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import TabsButtons from "@/mk/components/ui/TabsButton/TabsButtons";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
@@ -24,7 +27,7 @@ const Notifications = () => {
   const getSearch = (search: string) => {
     setParams({ ...params, searchBy: search });
   };
- console.log(data,"data")
+  console.log(data, "data");
   const [id, setId] = useState(0);
 
   const [openComprobante, setOpenComprobante] = useState(false);
@@ -51,7 +54,6 @@ const Notifications = () => {
     if (!params) return;
     reLoad(params);
   }, [params?.filterBy, params?.searchBy]);
-
 
   const Footer = ({ item }: any) => {
     return (
@@ -162,7 +164,7 @@ const Notifications = () => {
         value={params?.searchBy || ""}
         label="Buscar"
       />
-      <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+      <LoadingScreen type="TableSkeleton">
         <List data={data?.data} renderItem={render} />
       </LoadingScreen>
 

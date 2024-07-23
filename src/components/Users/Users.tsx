@@ -161,7 +161,7 @@ const Users = () => {
             </Card>
           </div>
           {/* <div>{renderContent()}</div> */}
-          <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+          <LoadingScreen type="TableSkeleton">
             <div style={{ marginBottom: 16 }}>
               <div style={{ width: "100%" }}>
                 <LeadershipHierarchy

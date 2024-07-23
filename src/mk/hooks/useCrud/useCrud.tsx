@@ -17,7 +17,7 @@ import Button from "../../components/forms/Button/Button";
 import Input from "../../components/forms/Input/Input";
 import Select from "../../components/forms/Select/Select";
 import useScreenSize from "../useScreenSize";
-import styles from "./usecrud.module.css";
+import styles from "./styles.module.css";
 import FloatButton from "@/mk/components/forms/FloatButton/FloatButton";
 import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
@@ -40,6 +40,14 @@ export type ModCrudType = {
   import?: boolean;
 };
 
+export type TypeRenderForm = {
+  field: string;
+  item: any;
+  onChange?: (e: any) => void;
+  error?: any;
+  setItem?: Function;
+  extraData?: any;
+};
 type PropsType = {
   paramsInitial: any;
   mod: any;
@@ -742,6 +750,7 @@ const useCrud = ({
                 onChange: onChangeForm,
                 error: errorForm,
                 setItem: setFormStateForm,
+                extraData: extraData,
               })
             ) : (
               <FormElement
@@ -773,7 +782,7 @@ const useCrud = ({
   const AddButton = memo(({ onClick }: { onClick?: (e?: any) => void }) => {
     if (isTablet) return <FloatButton onClick={onClick || onAdd} />;
     return (
-      <div
+      <nav
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -792,6 +801,12 @@ const useCrud = ({
             />
           }
         </div>
+        {menuFilter || null}
+        {mod.import && (
+          <div style={{ marginTop: "12px" }} onClick={onImport}>
+            <IconImport />
+          </div>
+        )}
         <div>
           <Button onClick={onClick || onAdd}>
             {/* <Button onClick={onClick || onAdd} style={{ width: "50px" }}> */}
@@ -799,13 +814,7 @@ const useCrud = ({
             {/* <IconAdd size={24} /> */}
           </Button>
         </div>
-        {mod.import && (
-          <div style={{ marginTop: "12px" }} onClick={onImport}>
-            <IconImport />
-          </div>
-        )}
-        {menuFilter || null}
-      </div>
+      </nav>
     );
   });
   AddButton.displayName = "AddButton";
@@ -829,13 +838,12 @@ const useCrud = ({
 
   const onButtonActions = (item: Record<string, any>) => {
     return (
-      <nav style={{ display: "flex", gap: "var(--spM)" }}>
+      <nav className={styles.actions}>
         <IconEdit
           onClick={(e: MouseEvent) => {
             e.stopPropagation();
             onEdit(item);
           }}
-          color="var(--cWarning)"
           size={24}
         />
         <IconTrash
@@ -843,7 +851,6 @@ const useCrud = ({
             e.stopPropagation();
             onDel(item);
           }}
-          color="var(--cError)"
           size={24}
         />
       </nav>
@@ -924,17 +931,10 @@ const useCrud = ({
     }, [fields]);
 
     return (
-      <>
-        <div>
-          <AddButton />
-        </div>
-        <LoadingScreen skeletonType="LatestInvoicesSkeleton">
-          <div
-            style={{
-              height: "calc(100vh - 240px)",
-              overflowY: "auto",
-            }}
-          >
+      <div className={styles.useCrud}>
+        <AddButton />
+        <LoadingScreen type="TableSkeleton">
+          <section style={{}}>
             <Table
               data={data?.data}
               onRowClick={onView}
@@ -944,7 +944,7 @@ const useCrud = ({
               // actionsWidth={props.actionsWidth}
               actionsWidth={"170px"}
             />
-          </div>
+          </section>
           {openView && (
             <>
               {mod.renderView ? (
@@ -982,7 +982,7 @@ const useCrud = ({
             />
           )}
         </LoadingScreen>
-      </>
+      </div>
     );
   });
   List.displayName = "List";

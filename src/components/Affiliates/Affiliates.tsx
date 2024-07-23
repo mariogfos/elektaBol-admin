@@ -39,7 +39,12 @@ const Affiliates = () => {
           title={getFullName(row)}
           subtitle={"CI: " + row.ci}
           variant="V1"
-          left={<Avatar name={getFullName(row)}   src={getUrlImages('/AFF-' + row.id + '.png?d=' + row.updated_at)}/>}
+          left={
+            <Avatar
+              name={getFullName(row)}
+              src={getUrlImages("/AFF-" + row.id + ".png?d=" + row.updated_at)}
+            />
+          }
         />
       </div>
     );
@@ -51,14 +56,16 @@ const Affiliates = () => {
       <h2>Lista de Afiliados</h2>
       <div>
         {!isTablet ? (
-          <div  style={{
-            position: "relative",
-            paddingLeft: "16px",
-            paddingRight: "16px",
-            paddingBottom: "70px",
-          }}> 
-            <LoadingScreen skeletonType="LatestInvoicesSkeleton">
-               <Table
+          <div
+            style={{
+              position: "relative",
+              paddingLeft: "16px",
+              paddingRight: "16px",
+              paddingBottom: "70px",
+            }}
+          >
+            <LoadingScreen type="TableSkeleton">
+              <Table
                 data={admins?.data}
                 onRowClick={openDetailUsers}
                 header={[
@@ -94,7 +101,7 @@ const Affiliates = () => {
                   //   width: "20%",
                   // },
                 ]}
-              /> 
+              />
             </LoadingScreen>
           </div>
         ) : (
@@ -106,7 +113,7 @@ const Affiliates = () => {
               paddingBottom: "70px",
             }}
           >
-            <List data={admins?.data} renderItem={renderItem} /> 
+            <List data={admins?.data} renderItem={renderItem} />
           </div>
         )}
       </div>

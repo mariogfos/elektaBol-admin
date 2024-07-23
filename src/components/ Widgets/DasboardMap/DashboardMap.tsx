@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import styles from "./DashboardMap.module.css";
 import { formatNumber } from "../../../mk/utils/numbers";
-import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 
@@ -22,7 +21,7 @@ export const WidgetMaps = ({
   totalAfiliados,
 }: TypeProps) => {
   return (
-    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+    <LoadingScreen type="TableSkeleton">
       <div className={styles.WidgetMaps}>
         <div className={styles.stats}>
           <Card style={{ textAlign: "right" }}>

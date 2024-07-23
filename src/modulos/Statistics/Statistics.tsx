@@ -99,7 +99,7 @@ const Statistics = () => {
   };
 
   return (
-    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+    <LoadingScreen type="TableSkeleton">
       <div className={styles["statistics"]}>
         <div>
           <WidgetTitulo

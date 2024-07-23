@@ -14,60 +14,47 @@ const CardSkeleton = () => {
 };
 export default CardSkeleton;
 
+// export function RevenueChartSkeleton() {
+//   return (
+//     <div
+//       className={styles.revenueChartSkeleton}
+//     >
+//       <div />
+//       <div >
+//         <div/>
+//         <div>
+//           <div/>
+//           <div/>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
-
-
-
-
-export function RevenueChartSkeleton() {
+export function RowSkeleton() {
   return (
-    <div
-      className={styles.revenueChartSkeleton}
-    >
+    <div className={styles.rowSkeleton}>
+      <div>
+        <div />
+        <div>
+          <div />
+          <div />
+        </div>
+      </div>
       <div />
-      <div >
-        <div/>
-        <div>
-          <div/>
-          <div/>
-        </div>
-      </div>
     </div>
   );
 }
 
-export function InvoiceSkeleton() {
-  return (
-    <div className={styles.invoiceSkeleton}>
-      <div >
-        <div  />
-        <div>
-          <div  />
-          <div/>
-        </div>
-      </div>
-      <div/>
-    </div>
-  );
-}
-
-
-
-
-
-
-
-
-
-export function LatestInvoicesSkeleton() {
+export function TableSkeleton() {
   return (
     <>
-      <div className={styles.latestInvoicesSkeleton}>
+      <div className={styles.tableSkeleton}>
         <div>
-          <InvoiceSkeleton />
-          <InvoiceSkeleton />
-          <InvoiceSkeleton />
-          <InvoiceSkeleton />
+          <RowSkeleton />
+          <RowSkeleton />
+          <RowSkeleton />
+          <RowSkeleton />
         </div>
       </div>
     </>

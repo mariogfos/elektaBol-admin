@@ -1,15 +1,14 @@
-import CardSkeleton, { LatestInvoicesSkeleton } from "../Skeleton/Skeleton";
+import CardSkeleton, { TableSkeleton } from "../Skeleton/Skeleton";
 
 interface SkeletonAdapter {
   [key: string]: React.FC<any>;
 }
 
-export type SkeletonType = "CardSkeleton" | "LatestInvoicesSkeleton";
-
+export type SkeletonType = "CardSkeleton" | "TableSkeleton";
 
 const SkeletonComponents: SkeletonAdapter = {
   CardSkeleton: CardSkeleton,
-  LatestInvoicesSkeleton: LatestInvoicesSkeleton,
+  TableSkeleton: TableSkeleton,
 };
 
 const SkeletonAdapterComponent: React.FC<{ type: SkeletonType }> = ({
