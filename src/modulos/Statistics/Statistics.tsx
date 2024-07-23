@@ -39,7 +39,7 @@ const Statistics = () => {
   const histTitulo: any = useState(["Mapa de Bolivia"]);
 
   const calculateTotalHabilitados = () => {
-    if (params.level == 4) return stads?.data?.tabla?.habilitados;
+    if (params.level == 4) return stads?.data?.extras?.padron;
     let total = 0;
     stads?.data?.tabla?.forEach((item: any) => {
       total += item?.habilitados * 1;
