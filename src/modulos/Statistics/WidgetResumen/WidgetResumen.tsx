@@ -1,3 +1,4 @@
+import { formatNumber } from "@/mk/utils/numbers";
 import styles from "./WidgetResume.module.css";
 import WidgetResumeVotes from "./WidgetResumeVotes";
 import WidgetResumeWinnerParty from "./WidgetResumeWinnerParty";
@@ -49,11 +50,11 @@ const WidgetResumen = ({
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 1]}</h2>
-                {data && <p>{calculateTotalTotales()}</p>}
+                {data && <p>{formatNumber(calculateTotalTotales(),0)}</p>}
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
-                {typeof extra == "number" && <p>{extra}</p>}
+                {typeof extra == "number" && <p>{formatNumber(extra,0)}</p>}
               </div>
             </div>
           </section>
