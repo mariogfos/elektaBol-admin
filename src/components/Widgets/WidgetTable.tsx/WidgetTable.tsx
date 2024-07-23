@@ -31,6 +31,7 @@ const WidgetTable = ({ data }: any) => {
       key: "habilitados",
       label: "Habilitados totales",
       responsive: "onlyDesktop",
+      sumarize: true,
       style: { textAlign: "right" },
       onRender: (item: any) => {
         return formatNumber(item.value, 0);

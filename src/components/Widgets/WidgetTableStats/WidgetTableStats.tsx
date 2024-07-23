@@ -53,6 +53,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Votos emitidos",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      sumarize: true,
     },
     {
       key: "paticipacion",
@@ -151,6 +152,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         onRowClick={(row: any) => onClick(row.code)}
         header={headerFormatted()}
         className="striped"
+        // sumarize={true}
       />
       <section>
         <span style={{ width: "210px" }}></span>

@@ -1,6 +1,7 @@
-import { CSSProperties, Fragment, memo } from "react";
+import { CSSProperties, Fragment, memo, useState } from "react";
 import styles from "./table.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
+import { formatNumber } from "@/mk/utils/numbers";
 
 export type RenderColType = {
   value: any;
@@ -19,11 +20,15 @@ type PropsType = {
     className?: string;
     onRender?: Function;
     style?: any;
+    sumarize?: number | boolean;
+    sumDec?: number;
   }[];
   data: any;
   footer?: any;
+  sumarize?: boolean;
   renderBody?: null | ((item: any, row: any, i: number) => any);
   renderHead?: null | ((item: any, row: any) => any);
+  renderFoot?: null | ((item: any, row: any) => any);
   onRowClick?: (e: any) => void;
   onTabletRow?: (
     item: Record<string, any>,
@@ -40,8 +45,10 @@ const Table = ({
   header = [],
   data,
   footer,
+  sumarize = false,
   renderBody = null,
   renderHead = null,
+  renderFoot = null,
   onRowClick = (e) => {},
   onTabletRow,
   onButtonActions,
@@ -49,6 +56,7 @@ const Table = ({
   style = {},
   className = "",
 }: PropsType) => {
+  const [sumas, setSumas] = useState({});
   return (
     <div
       className={styles.table + " " + styles[className] + " " + className}
@@ -68,7 +76,17 @@ const Table = ({
         actionsWidth={actionsWidth}
         renderBody={renderBody}
         onButtonActions={onButtonActions}
+        setSumas={setSumas}
       />
+      {sumarize && (
+        <Sumarize
+          header={header}
+          actionsWidth={actionsWidth}
+          renderFoot={renderFoot}
+          onButtonActions={onButtonActions}
+          sumas={sumas}
+        />
+      )}
       {footer && <footer>{footer}</footer>}
     </div>
   );
@@ -110,6 +128,48 @@ const Head = memo(function Head({
   );
 });
 
+const Sumarize = memo(function Sumarize({
+  header,
+  actionsWidth = "100%",
+  renderFoot = false,
+  onButtonActions = false,
+  sumas,
+}: {
+  header: any;
+  actionsWidth?: any;
+  renderFoot?: any;
+  onButtonActions?: any;
+  sumas: any;
+}) {
+  return (
+    <header>
+      {header.map((item: any, index: number) => (
+        <div
+          key={"foot" + index}
+          className={styles[item.responsive] + " " + item.className}
+          style={{ ...item.style, width: item.width || "100%" }}
+          title={renderFoot ? renderFoot(item, index) : item.sumarize}
+        >
+          {renderFoot
+            ? renderFoot(item, index)
+            : item.sumarize
+            ? formatNumber(sumas[item.key], item.sumDec || 0) + " " + item.label
+            : " --"}
+        </div>
+      ))}
+
+      {onButtonActions && (
+        <div
+          className={styles.onlyDesktop}
+          style={{ width: actionsWidth || "auto" }}
+        >
+          {" "}
+        </div>
+      )}
+    </header>
+  );
+});
+
 const Body = memo(function Body({
   onTabletRow,
   onRowClick,
@@ -118,6 +178,7 @@ const Body = memo(function Body({
   actionsWidth,
   renderBody,
   onButtonActions,
+  setSumas,
 }: {
   onTabletRow: any;
   onRowClick: any;
@@ -126,8 +187,18 @@ const Body = memo(function Body({
   actionsWidth: any;
   renderBody: any;
   onButtonActions: any;
+  setSumas: Function;
 }) {
   const { isTablet } = useScreenSize();
+  const onSumarize = (item: any, row: any, i: number) => {
+    if (item.sumarize) {
+      setSumas((prev: any) => ({
+        ...prev,
+        [item.key]: (prev[item.key] || 0) + row[item.key] * 1,
+      }));
+    }
+    return true;
+  };
   return (
     <main>
       {data?.map((row: Record<string, any>, index: number) => (
@@ -143,6 +214,7 @@ const Body = memo(function Body({
                   style={{ ...item.style, width: item.width || "100%" }}
                 >
                   {item.onRender &&
+                    onSumarize(item, row, i) &&
                     item.onRender?.({
                       value: row[item.key],
                       key: item.key,
