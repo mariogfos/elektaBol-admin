@@ -43,6 +43,40 @@
       display: none;
     }
   }
+  & summary {
+    display: flex;
+    margin-top: 9px;
+
+    & > div {
+      border: 1px solid blue;
+      display: flex;
+      align-items: center;
+      gap: 0px;
+    }
+    & > div > div:first-of-type {
+      border-bottom-left-radius: var(--bRadiusS);
+    }
+    & > div > div:last-of-type {
+      border-bottom-right-radius: var(--bRadiusS);
+    }
+    /* width: 100%; */
+    & > div > div {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      /* width: auto; */
+      height: 38px;
+      margin-left: var(--spM);
+      background-color: var(--cWhiteV1);
+      border: 1px solid var(--cWhiteV1);
+      text-align: right;
+      font-size: 16px;
+      /* & > span {
+          padding-right: 15px;
+        } */
+    }
+  }
+
   & main {
     display: flex;
     flex-direction: column;

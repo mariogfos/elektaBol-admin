@@ -1,4 +1,4 @@
-import { CSSProperties, Fragment, memo, useState } from "react";
+import { CSSProperties, Fragment, memo, use, useEffect, useState } from "react";
 import styles from "./table.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { formatNumber } from "@/mk/utils/numbers";
@@ -56,7 +56,6 @@ const Table = ({
   style = {},
   className = "",
 }: PropsType) => {
-  const [sumas, setSumas] = useState({});
   return (
     <div
       className={styles.table + " " + styles[className] + " " + className}
@@ -76,17 +75,16 @@ const Table = ({
         actionsWidth={actionsWidth}
         renderBody={renderBody}
         onButtonActions={onButtonActions}
-        setSumas={setSumas}
       />
-      {/* {sumarize && (
+      {sumarize && (
         <Sumarize
           header={header}
+          data={data}
           actionsWidth={actionsWidth}
           renderFoot={renderFoot}
           onButtonActions={onButtonActions}
-          sumas={sumas}
         />
-      )} */}
+      )}
       {footer && <footer>{footer}</footer>}
     </div>
   );
@@ -128,47 +126,65 @@ const Head = memo(function Head({
   );
 });
 
-// const Sumarize = memo(function Sumarize({
-//   header,
-//   actionsWidth = "100%",
-//   renderFoot = false,
-//   onButtonActions = false,
-//   sumas,
-// }: {
-//   header: any;
-//   actionsWidth?: any;
-//   renderFoot?: any;
-//   onButtonActions?: any;
-//   sumas: any;
-// }) {
-//   return (
-//     <header>
-//       {header.map((item: any, index: number) => (
-//         <div
-//           key={"foot" + index}
-//           className={styles[item.responsive] + " " + item.className}
-//           style={{ ...item.style, width: item.width || "100%" }}
-//           title={renderFoot ? renderFoot(item, index) : item.sumarize}
-//         >
-//           {renderFoot
-//             ? renderFoot(item, index)
-//             : item.sumarize
-//             ? formatNumber(sumas[item.key], item.sumDec || 0) + " " + item.label
-//             : " --"}
-//         </div>
-//       ))}
+const Sumarize = memo(function Sumarize({
+  header,
+  data,
+  actionsWidth = "100%",
+  renderFoot = false,
+  onButtonActions = false,
+}: {
+  header: any;
+  data: any;
+  actionsWidth?: any;
+  renderFoot?: any;
+  onButtonActions?: any;
+}) {
+  const [sumas, setSumas]: any = useState({});
+  const onSumarize = (item: any, row: any, i: number) => {
+    if (item.sumarize) {
+      setSumas((prev: any) => ({
+        ...prev,
+        [item.key]: (prev[item.key] || 0) + row[item.key] * 1,
+      }));
+    }
+    return true;
+  };
+  useEffect(() => {
+    if (!data || !header) return;
+    data.map((item: any, i: number) => {
+      header.map((h: any) => onSumarize(h, item, i));
+    });
+  }, [data]);
 
-//       {onButtonActions && (
-//         <div
-//           className={styles.onlyDesktop}
-//           style={{ width: actionsWidth || "auto" }}
-//         >
-//           {" "}
-//         </div>
-//       )}
-//     </header>
-//   );
-// });
+  return (
+    <summary>
+      {header.map((item: any, index: number) => (
+        <div
+          key={"foot" + index}
+          className={styles[item.responsive] + " " + item.className}
+          style={{ ...item.style, width: item.width || "100%" }}
+        >
+          {renderFoot ? (
+            <span>{renderFoot(item, index)}</span>
+          ) : item.sumarize ? (
+            <div>{formatNumber(sumas[item.key], item.sumDec || 0)}</div>
+          ) : (
+            ""
+          )}
+        </div>
+      ))}
+
+      {onButtonActions && (
+        <div
+          className={styles.onlyDesktop}
+          style={{ width: actionsWidth || "auto" }}
+        >
+          {" "}
+        </div>
+      )}
+    </summary>
+  );
+});
 
 const Body = memo(function Body({
   onTabletRow,
@@ -178,7 +194,6 @@ const Body = memo(function Body({
   actionsWidth,
   renderBody,
   onButtonActions,
-  setSumas,
 }: {
   onTabletRow: any;
   onRowClick: any;
@@ -187,18 +202,9 @@ const Body = memo(function Body({
   actionsWidth: any;
   renderBody: any;
   onButtonActions: any;
-  setSumas: Function;
 }) {
   const { isTablet } = useScreenSize();
-  // const onSumarize = (item: any, row: any, i: number) => {
-  //   if (item.sumarize) {
-  //     setSumas((prev: any) => ({
-  //       ...prev,
-  //       [item.key]: (prev[item.key] || 0) + row[item.key] * 1,
-  //     }));
-  //   }
-  //   return true;
-  // };
+
   return (
     <main>
       {data?.map((row: Record<string, any>, index: number) => (

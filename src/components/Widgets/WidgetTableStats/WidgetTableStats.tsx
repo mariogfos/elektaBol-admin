@@ -56,6 +56,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
+      sumarize: true,
     },
     {
       key: "paticipacion",
@@ -154,7 +155,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         onRowClick={(row: any) => onClick(row.code)}
         header={headerFormatted()}
         className="striped"
-        // sumarize={true}
+        sumarize={true}
       />
       <section>
         <span style={{ width: "210px" }}></span>
