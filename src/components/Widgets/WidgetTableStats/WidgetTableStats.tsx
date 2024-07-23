@@ -53,6 +53,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Votos emitidos",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      onRender: (item: any) => {
+        return formatNumber(item.value, 0);
+      },
     },
     {
       key: "paticipacion",
