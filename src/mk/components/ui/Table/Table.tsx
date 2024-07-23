@@ -190,15 +190,15 @@ const Body = memo(function Body({
   setSumas: Function;
 }) {
   const { isTablet } = useScreenSize();
-  const onSumarize = (item: any, row: any, i: number) => {
-    if (item.sumarize) {
-      setSumas((prev: any) => ({
-        ...prev,
-        [item.key]: (prev[item.key] || 0) + row[item.key] * 1,
-      }));
-    }
-    return true;
-  };
+  // const onSumarize = (item: any, row: any, i: number) => {
+  //   if (item.sumarize) {
+  //     setSumas((prev: any) => ({
+  //       ...prev,
+  //       [item.key]: (prev[item.key] || 0) + row[item.key] * 1,
+  //     }));
+  //   }
+  //   return true;
+  // };
   return (
     <main>
       {data?.map((row: Record<string, any>, index: number) => (
@@ -214,7 +214,6 @@ const Body = memo(function Body({
                   style={{ ...item.style, width: item.width || "100%" }}
                 >
                   {item.onRender &&
-                    onSumarize(item, row, i) &&
                     item.onRender?.({
                       value: row[item.key],
                       key: item.key,
