@@ -38,15 +38,27 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       responsive: "onlyDesktop",
     },
     {
+      key: "winner_id",
+      label: "Partido ganador",
+      responsive: "onlyDesktop",
+      style: { textAlign: "center" },
+    },
+    {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
     },
     {
-      key: "winner_id",
-      label: "Partido ganador",
+      key: "emitidos",
+      label: "Votos emitidos",
       responsive: "onlyDesktop",
-      style: { textAlign: "center" },
+      style: { textAlign: "right" },
+    },
+    {
+      key: "paticipacion",
+      label: "Participación",
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
     },
     {
       key: "habitantes",
@@ -78,10 +90,24 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
   ];
   const headerFormatted = () => {
-    if (level >= 1) {
+    if (level > 1) {
       return header.filter((item) => item.key != "habitantes");
     }
+    // if (level >= 2) {
+    //   return header.filter(
+    //     (item) =>
+    //       item.key != "winner_id" &&
+    //       item.key != "emitidos" &&
+    //       item.key != "paticipacion"
+    //   );
+    // }
     return header;
+  };
+
+  const getPercentaje = (emitidos: number, habilitados: number) => {
+    return emitidos && habilitados
+      ? ((emitidos * 100) / habilitados).toFixed(2) + "%"
+      : "0%";
   };
 
   const render = (item: any, row: any, index: any) => {
@@ -90,6 +116,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     }
     if (item.key == "winner_id") {
       return <Avatar src={getUrlImages("/PAR-" + row.winner_id + ".png?d=")} />;
+    }
+    if (item.key == "paticipacion") {
+      return getPercentaje(row.emitidos, row.habilitados);
     }
 
     const value = row[item.key];
@@ -127,7 +156,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         <span style={{ width: "210px" }}></span>
         <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
-        {level == 0 && (
+        <span style={{ width: "100%" }}></span>
+        <span style={{ width: "100%" }}></span>
+        {level <= 1 && (
           <div>
             <span>{formatNumber(total?.col1, 0)}</span>
           </div>
