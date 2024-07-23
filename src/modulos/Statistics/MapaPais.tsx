@@ -412,28 +412,30 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 {formatNumber(item?.habilitados, 0)}
               </p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                color: "#656F78",
-              }}
-            >
-              <p
+            {item?.winner && (
+              <div
                 style={{
-                  alignSelf: "center",
-                  color: "#101111",
-                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  color: "#656F78",
                 }}
               >
-                Partido ganador:
-              </p>
-              <div style={{ alignSelf: "center" }}>
-                <Avatar
-                  src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
-                />
+                <p
+                  style={{
+                    alignSelf: "center",
+                    color: "#101111",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Partido ganador:
+                </p>
+                <div style={{ alignSelf: "center" }}>
+                  <Avatar
+                    src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )
