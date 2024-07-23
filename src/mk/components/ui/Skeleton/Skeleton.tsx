@@ -1,4 +1,4 @@
-import styles from "./skeleton.module.css";
+import styles from "./styles.module.css";
 const CardSkeleton = () => {
   return (
     <div className={styles.cardSkeleton}>
@@ -72,4 +72,12 @@ export function LatestInvoicesSkeleton() {
       </div>
     </>
   );
+}
+
+export function CircleLoading(){
+  return (
+    <div className={styles.loaderContainer}>
+      <div className={styles.loader}></div>
+    </div>
+  )
 }

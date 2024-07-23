@@ -22,6 +22,7 @@ import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import Pagination from "@/mk/components/ui/Pagination/Pagination";
 import TabsButtons from "@/mk/components/ui/TabsButton/TabsButtons";
+import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 
 const Damian = () => {
   // const [formState, setFormState] = React.useState({
@@ -99,6 +100,11 @@ const Damian = () => {
         optionValue={["Y", "N"]}
         error={{}}
       />
+       <LoadingScreen skeletonType="CardSkeleton">aaa
+
+
+
+
       {/* <InputImage placeholderMsg='una fotografía de tu cédula de identidad'/> */}
       <UploadFile
         name="file"
@@ -245,6 +251,7 @@ const Damian = () => {
         />
       </DataModal>
       <KeyValue title="Celular" value={"Sin registrar"} />
+      </LoadingScreen>
     </div>
   );
 };
