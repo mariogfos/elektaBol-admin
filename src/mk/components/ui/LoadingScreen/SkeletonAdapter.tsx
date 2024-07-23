@@ -7,7 +7,6 @@ interface SkeletonAdapter {
 export type SkeletonType = "CardSkeleton" | "TableSkeleton";
 
 const SkeletonComponents: SkeletonAdapter = {
-  CircleLoading: CircleLoading,
   CardSkeleton: CardSkeleton,
   TableSkeleton: TableSkeleton,
 };

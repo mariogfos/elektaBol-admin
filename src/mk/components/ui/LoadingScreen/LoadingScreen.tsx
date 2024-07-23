@@ -10,7 +10,7 @@ interface PropsType {
 }
 
 const LoadingScreen = ({
-  skeletonType = "CircleLoading",
+  type = "TableSkeleton",
   className,
   children = null,
 }: PropsType) => {
