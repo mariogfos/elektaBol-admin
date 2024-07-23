@@ -100,35 +100,32 @@ const Damian = () => {
         optionValue={["Y", "N"]}
         error={{}}
       />
-       <LoadingScreen skeletonType="CardSkeleton">aaa
-
-
-
-
-      {/* <InputImage placeholderMsg='una fotografía de tu cédula de identidad'/> */}
-      <UploadFile
-        name="file"
-        label="Archivo...."
-        ext={["pdf", "jpg", "png"]}
-        value={{ file: "", name: "" }}
-        onChange={() => {}}
-        error={{}}
-        setError={() => {}}
-        required={true}
-        placeholder="aaaaa"
-        img={true}
-      />
-      <TabsButtons
-        tabs={[
-          { value: "T", text: "Todo" },
-          { value: "R", text: "Por aprobar" },
-          { value: "A", text: "Aprobados" },
-          { value: "X", text: "Rechazados" },
-        ]}
-        sel={typeSearch}
-        setSel={setTypeSearch}
-      />
-      {/* <Select
+      <LoadingScreen type="CardSkeleton">
+        aaa
+        {/* <InputImage placeholderMsg='una fotografía de tu cédula de identidad'/> */}
+        <UploadFile
+          name="file"
+          label="Archivo...."
+          ext={["pdf", "jpg", "png"]}
+          value={{ file: "", name: "" }}
+          onChange={() => {}}
+          error={{}}
+          setError={() => {}}
+          required={true}
+          placeholder="aaaaa"
+          img={true}
+        />
+        <TabsButtons
+          tabs={[
+            { value: "T", text: "Todo" },
+            { value: "R", text: "Por aprobar" },
+            { value: "A", text: "Aprobados" },
+            { value: "X", text: "Rechazados" },
+          ]}
+          sel={typeSearch}
+          setSel={setTypeSearch}
+        />
+        {/* <Select
               value={filter?.status}
               onChange={(e: any) => {
                 setFilter({ ...filter, status: e.target.value });
@@ -138,119 +135,119 @@ const Damian = () => {
               options={lestado}
             />
 */}
-      <TextArea
-        label="Motivo del rechazo de cuenta"
-        placeholder="aaaaaaaaaaa"
-        name="obs"
-        required={true}
-        error={errors}
-        onChange={handleChangeInput}
-        value={formState.obs}
-      />
-      <Switch
-        name="switch"
-        optionValue={["Y", "N"]}
-        value={valueSwitch}
-        onChange={onSelItem}
-      />
-      <InputFullName
-        name="name"
-        value={formState}
-        errors={errors}
-        onChange={handleChange}
-        //disabled={true}
-        style={{ opacity: editProfile ? 0.4 : 1 }}
-      />
-      input probar kg
-      <Input
-        placeholder="flkkfk"
-        label="red"
-        value={formState["fl"]}
-        name="fl"
-        onChange={handleChangeInput}
-      />
-      <DataSearch
-        setSearch={getSearch}
-        name="search"
-        value={params?.searchBy || ""}
-        label="Buscar"
-      />
-      <InputCode
-        label=""
-        type="text"
-        name="code"
-        error={errors}
-        required={true}
-        value={formState.code}
-        setCode={setCode}
-        onChange={handleChangeInput}
-      ></InputCode>
-      aaaaaassss
-      <InputPassword
-        label="Contraseña"
-        required
-        name="password"
-        value={formState.password}
-        onChange={handleChange}
-        error={errors}
-      />
-      <Avatar name={"getFullName(item.guardia"} />
-      <Box
-        title="Alertas"
-        icon={
-          <Button onClick={() => setOpen(true)} small>
-            Ver todo
-          </Button>
-        }
-        className="widget-alert"
-      >
-        aa
-      </Box>
-      <Card>
-        Hola soy un card!
-        <IconArrowDown />
-      </Card>
-      <ItemList
-        variant="V2"
-        title={"aaaasfffd"}
-        left={<Avatar name={"aaaasfffd"} />}
-        subtitle={"sdsfdgfdf"}
-        //foot={"asasasasasassssssssss2"}
-      />
-      {/* <List data={lestado} renderItem={render} /> */}
-      <Pagination
-        currentPage={params.page}
-        onPageChange={onChangePage}
-        totalPages={10}
-        previousLabel=""
-        nextLabel=""
-      />
-      <DataModal
-        //id={mod.modulo + "View"}
-        onClose={() => {
-          setOpen(false);
-        }}
-        open={open}
-        buttonText={"Confirmar pago"}
-        buttonCancel={""}
-        onSave={() => console.log(true)}
-        buttonExtra={
-          <Button variant="secondary" onClick={() => console.log(true)}>
-            Rechazar pago
-          </Button>
-        }
-        className="confirm-payment"
-        title={"Detalle del Pago"}
-      >
+        <TextArea
+          label="Motivo del rechazo de cuenta"
+          placeholder="aaaaaaaaaaa"
+          name="obs"
+          required={true}
+          error={errors}
+          onChange={handleChangeInput}
+          value={formState.obs}
+        />
+        <Switch
+          name="switch"
+          optionValue={["Y", "N"]}
+          value={valueSwitch}
+          onChange={onSelItem}
+        />
+        <InputFullName
+          name="name"
+          value={formState}
+          errors={errors}
+          onChange={handleChange}
+          //disabled={true}
+          style={{ opacity: editProfile ? 0.4 : 1 }}
+        />
+        input probar kg
+        <Input
+          placeholder="flkkfk"
+          label="red"
+          value={formState["fl"]}
+          name="fl"
+          onChange={handleChangeInput}
+        />
+        <DataSearch
+          setSearch={getSearch}
+          name="search"
+          value={params?.searchBy || ""}
+          label="Buscar"
+        />
+        <InputCode
+          label=""
+          type="text"
+          name="code"
+          error={errors}
+          required={true}
+          value={formState.code}
+          setCode={setCode}
+          onChange={handleChangeInput}
+        ></InputCode>
+        aaaaaassss
+        <InputPassword
+          label="Contraseña"
+          required
+          name="password"
+          value={formState.password}
+          onChange={handleChange}
+          error={errors}
+        />
+        <Avatar name={"getFullName(item.guardia"} />
+        <Box
+          title="Alertas"
+          icon={
+            <Button onClick={() => setOpen(true)} small>
+              Ver todo
+            </Button>
+          }
+          className="widget-alert"
+        >
+          aa
+        </Box>
+        <Card>
+          Hola soy un card!
+          <IconArrowDown />
+        </Card>
         <ItemList
           variant="V2"
           title={"aaaasfffd"}
           left={<Avatar name={"aaaasfffd"} />}
           subtitle={"sdsfdgfdf"}
-          foot={"asasasasasassssssssss2"}
+          //foot={"asasasasasassssssssss2"}
         />
-      </DataModal>
-      <KeyValue title="Celular" value={"Sin registrar"} />
+        {/* <List data={lestado} renderItem={render} /> */}
+        <Pagination
+          currentPage={params.page}
+          onPageChange={onChangePage}
+          totalPages={10}
+          previousLabel=""
+          nextLabel=""
+        />
+        <DataModal
+          //id={mod.modulo + "View"}
+          onClose={() => {
+            setOpen(false);
+          }}
+          open={open}
+          buttonText={"Confirmar pago"}
+          buttonCancel={""}
+          onSave={() => console.log(true)}
+          buttonExtra={
+            <Button variant="secondary" onClick={() => console.log(true)}>
+              Rechazar pago
+            </Button>
+          }
+          className="confirm-payment"
+          title={"Detalle del Pago"}
+        >
+          <ItemList
+            variant="V2"
+            title={"aaaasfffd"}
+            left={<Avatar name={"aaaasfffd"} />}
+            subtitle={"sdsfdgfdf"}
+            foot={"asasasasasassssssssss2"}
+          />
+        </DataModal>
+        <KeyValue title="Celular" value={"Sin registrar"} />
       </LoadingScreen>
     </div>
   );
