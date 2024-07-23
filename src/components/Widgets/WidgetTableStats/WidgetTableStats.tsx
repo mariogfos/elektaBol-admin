@@ -38,15 +38,27 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       responsive: "onlyDesktop",
     },
     {
+      key: "winner_id",
+      label: "Partido ganador",
+      responsive: "onlyDesktop",
+      style: { textAlign: "center" },
+    },
+    {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
     },
     {
-      key: "winner_id",
-      label: "Partido ganador",
+      key: "emitidos",
+      label: "Votos emitidos",
       responsive: "onlyDesktop",
-      style: { textAlign: "center" },
+      style: { textAlign: "right" },
+    },
+    {
+      key: "paticipacion",
+      label: "Participación",
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
     },
     {
       key: "habitantes",
@@ -84,12 +96,21 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     return header;
   };
 
+  const getPercentaje = (emitidos: number, habilitados: number) => {
+    return emitidos && habilitados
+      ? ((emitidos * 100) / habilitados).toFixed(2) + "%"
+      : "0%";
+  };
+
   const render = (item: any, row: any, index: any) => {
     if (item.key == "index") {
       return index;
     }
     if (item.key == "winner_id") {
       return <Avatar src={getUrlImages("/PAR-" + row.winner_id + ".png?d=")} />;
+    }
+    if (item.key == "paticipacion") {
+      return getPercentaje(row.emitidos, row.habilitados);
     }
 
     const value = row[item.key];
@@ -125,6 +146,8 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       />
       <section>
         <span style={{ width: "210px" }}></span>
+        <span style={{ width: "100%" }}></span>
+        <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
         {level == 0 && (
