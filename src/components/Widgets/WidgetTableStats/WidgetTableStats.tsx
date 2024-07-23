@@ -53,6 +53,9 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Votos emitidos",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      onRender: (item: any) => {
+        return formatNumber(item.value, 0);
+      },
     },
     {
       key: "paticipacion",
@@ -90,9 +93,17 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
   ];
   const headerFormatted = () => {
-    if (level >= 1) {
+    if (level > 1) {
       return header.filter((item) => item.key != "habitantes");
     }
+    // if (level >= 2) {
+    //   return header.filter(
+    //     (item) =>
+    //       item.key != "winner_id" &&
+    //       item.key != "emitidos" &&
+    //       item.key != "paticipacion"
+    //   );
+    // }
     return header;
   };
 
@@ -150,7 +161,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
-        {level == 0 && (
+        {level <= 1 && (
           <div>
             <span>{formatNumber(total?.col1, 0)}</span>
           </div>
