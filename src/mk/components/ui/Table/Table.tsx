@@ -228,8 +228,9 @@ const Body = memo(function Body({
   const { isTablet } = useScreenSize();
   const divRef = useRef(null);
   const scrollbarWidth = useScrollbarWidth(divRef);
-  const { setStore } = useAuth();
+  const { setStore, store } = useAuth();
   useEffect(() => {
+    if (store?.scrollbarWidth === scrollbarWidth) return;
     setStore({ scrollbarWidth });
   }, [scrollbarWidth]);
   return (
