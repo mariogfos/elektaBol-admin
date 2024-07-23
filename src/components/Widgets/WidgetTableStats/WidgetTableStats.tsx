@@ -3,7 +3,6 @@ import style from "./WidgetTableStats.module.css";
 import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumberCustom } from "@/mk/utils/date";
 import { formatNumber } from "@/mk/utils/numbers";
-import { useEffect, useState } from "react";
 import { getUrlImages } from "@/mk/utils/string";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 
@@ -16,19 +15,6 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     "Recinto", // 2
     "Mesa", // 3
   ];
-  const [total, setTotal] = useState({ col1: 0, col2: 0, col3: 0 });
-
-  // useEffect(() => {
-  //   let col1 = 0;
-  //   let col2 = 0;
-  //   let col3 = 0;
-  //   data?.forEach((item: any) => {
-  //     col1 += item.habitantes * 1;
-  //     col2 += item.habilitados * 1;
-  //     col3 += item.entidad * 1;
-  //   });
-  //   setTotal({ col1, col2, col3 });
-  // }, [data]);
 
   const header = [
     {
@@ -47,22 +33,6 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
-    },
-    {
-      key: "emitidos",
-      label: "Votos emitidos",
-      responsive: "onlyDesktop",
-      style: { textAlign: "right" },
-      onRender: (item: any) => {
-        return formatNumber(item.value, 0);
-      },
-      sumarize: true,
-    },
-    {
-      key: "paticipacion",
-      label: "Participación",
-      responsive: "onlyDesktop",
-      style: { textAlign: "right" },
     },
     {
       key: "habitantes",
@@ -86,6 +56,22 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
 
     {
+      key: "emitidos",
+      label: "Votos emitidos",
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
+      onRender: (item: any) => {
+        return formatNumber(item.value, 0);
+      },
+      sumarize: true,
+    },
+    {
+      key: "paticipacion",
+      label: "Participación",
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
+    },
+    {
       key: "entidad",
       label: labels[level + 1],
       responsive: "onlyDesktop",
@@ -100,14 +86,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     if (level > 1) {
       return header.filter((item) => item.key != "habitantes");
     }
-    // if (level >= 2) {
-    //   return header.filter(
-    //     (item) =>
-    //       item.key != "winner_id" &&
-    //       item.key != "emitidos" &&
-    //       item.key != "paticipacion"
-    //   );
-    // }
+
     return header;
   };
 
