@@ -9,18 +9,15 @@ const WidgetTitulo = ({ params, histParams, histTitulos, onBack }: any) => {
   let title = "Datos electorales históricos de Bolivia";
   if (level == 1) {
     // const ultHistParam = histParam.length - 1;
-    title = "Departamento " + histTitulo[level - 1];
+    title = "Departamento " + histTitulo[level];
   }
   if (level == 2) {
- 
     title = "Circunscripción " + histTitulo[level];
   }
   if (level == 3) {
- 
     title = "Recinto: " + histTitulo[level];
   }
   if (level == 4) {
- 
     title = "Mesa: " + histTitulo[level];
   }
   return (
