@@ -18,17 +18,17 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
   ];
   const [total, setTotal] = useState({ col1: 0, col2: 0, col3: 0 });
 
-  useEffect(() => {
-    let col1 = 0;
-    let col2 = 0;
-    let col3 = 0;
-    data?.forEach((item: any) => {
-      col1 += item.habitantes * 1;
-      col2 += item.habilitados * 1;
-      col3 += item.entidad * 1;
-    });
-    setTotal({ col1, col2, col3 });
-  }, [data]);
+  // useEffect(() => {
+  //   let col1 = 0;
+  //   let col2 = 0;
+  //   let col3 = 0;
+  //   data?.forEach((item: any) => {
+  //     col1 += item.habitantes * 1;
+  //     col2 += item.habilitados * 1;
+  //     col3 += item.entidad * 1;
+  //   });
+  //   setTotal({ col1, col2, col3 });
+  // }, [data]);
 
   const header = [
     {
@@ -72,6 +72,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
+      sumarize: true,
     },
     {
       key: "habilitados",
@@ -81,6 +82,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
+      sumarize: true,
     },
 
     {
@@ -91,6 +93,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
+      sumarize: true,
     },
   ];
   const headerFormatted = () => {
@@ -144,20 +147,15 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         <IconExport color="var(--cWhiteV2)" />
       </section>
       <Table
-        style={{
-          border: "1px solid var(--cWhiteV1)",
-          borderRadius: "12px 12px 0px 10px",
-          maxHeight: "360px",
-          overflowY: "auto",
-        }}
         renderBody={render}
         data={data}
         onRowClick={(row: any) => onClick(row.code)}
         header={headerFormatted()}
         className="striped"
         sumarize={true}
+        height="460px"
       />
-      <section>
+      {/* <section>
         <span style={{ width: "210px" }}></span>
         <span style={{ width: "100%" }}></span>
         <span style={{ width: "100%" }}></span>
@@ -174,7 +172,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         <div>
           <span>{formatNumber(total?.col3, 0)}</span>
         </div>
-      </section>
+      </section> */}
 
       <div style={{ marginTop: 16, color: "var(--cBlackV2)" }}>
         Fuente: Instituto Nacional de Estadística (INE) y Órgano Electoral

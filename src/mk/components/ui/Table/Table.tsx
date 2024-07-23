@@ -1,7 +1,17 @@
-import { CSSProperties, Fragment, memo, use, useEffect, useState } from "react";
+import {
+  CSSProperties,
+  Fragment,
+  memo,
+  use,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "./table.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { formatNumber } from "@/mk/utils/numbers";
+import useScrollbarWidth from "@/mk/hooks/useScrollbarWidth";
+import { useAuth } from "@/mk/contexts/AuthProvider";
 
 export type RenderColType = {
   value: any;
@@ -39,6 +49,7 @@ type PropsType = {
   actionsWidth?: string;
   style?: CSSProperties;
   className?: string;
+  height?: string;
 };
 
 const Table = ({
@@ -55,18 +66,23 @@ const Table = ({
   actionsWidth,
   style = {},
   className = "",
+  height,
 }: PropsType) => {
+  const { isTablet } = useScreenSize();
   return (
     <div
       className={styles.table + " " + styles[className] + " " + className}
       style={style}
     >
-      <Head
-        header={header}
-        actionsWidth={actionsWidth}
-        renderHead={renderHead}
-        onButtonActions={onButtonActions}
-      />
+      {(!isTablet || !onTabletRow) && (
+        <Head
+          header={header}
+          actionsWidth={actionsWidth}
+          renderHead={renderHead}
+          onButtonActions={onButtonActions}
+        />
+      )}
+      {/* <div style={height ? { height: height, overflowY: "auto" } : {}}> */}
       <Body
         onTabletRow={onTabletRow}
         onRowClick={onRowClick}
@@ -75,7 +91,9 @@ const Table = ({
         actionsWidth={actionsWidth}
         renderBody={renderBody}
         onButtonActions={onButtonActions}
+        height={height}
       />
+      {/* </div> */}
       {sumarize && (
         <Sumarize
           header={header}
@@ -101,8 +119,9 @@ const Head = memo(function Head({
   renderHead: any;
   onButtonActions: any;
 }) {
+  const { store } = useAuth();
   return (
-    <header>
+    <header style={{ width: `calc(100% - ${store?.scrollbarWidth || 0}px)` }}>
       {header.map((item: any, index: number) => (
         <div
           key={"th" + index}
@@ -139,6 +158,7 @@ const Sumarize = memo(function Sumarize({
   renderFoot?: any;
   onButtonActions?: any;
 }) {
+  const { store } = useAuth();
   const [sumas, setSumas]: any = useState({});
   const onSumarize = (item: any, row: any, i: number) => {
     if (item.sumarize) {
@@ -157,7 +177,7 @@ const Sumarize = memo(function Sumarize({
   }, [data]);
 
   return (
-    <summary>
+    <summary style={{ width: `calc(100% - ${store?.scrollbarWidth || 0}px)` }}>
       {header.map((item: any, index: number) => (
         <div
           key={"foot" + index}
@@ -194,6 +214,7 @@ const Body = memo(function Body({
   actionsWidth,
   renderBody,
   onButtonActions,
+  height,
 }: {
   onTabletRow: any;
   onRowClick: any;
@@ -202,11 +223,20 @@ const Body = memo(function Body({
   actionsWidth: any;
   renderBody: any;
   onButtonActions: any;
+  height?: any;
 }) {
   const { isTablet } = useScreenSize();
-
+  const divRef = useRef(null);
+  const scrollbarWidth = useScrollbarWidth(divRef);
+  const { setStore } = useAuth();
+  useEffect(() => {
+    setStore({ scrollbarWidth });
+  }, [scrollbarWidth]);
   return (
-    <main>
+    <main
+      ref={divRef}
+      style={height ? { height: height, overflowY: "auto" } : {}}
+    >
       {data?.map((row: Record<string, any>, index: number) => (
         <Fragment key={"r_" + index}>
           {isTablet && onTabletRow ? (

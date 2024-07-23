@@ -4,13 +4,16 @@
   justify-content: flex-start;
   width: 100vw;
   background-color: var(--cBlack);
+  @media (width <= 1024px) {
+    padding-bottom: 85px;
+  }
 }
-.modalLogout{
+.modalLogout {
   padding: 20px;
-  color:var(--cBlackV2)
+  color: var(--cBlackV2);
 }
 
-.header{
+.header {
   position: fixed;
   transition: "margin-left 0.3s, width 0.3s";
 }
