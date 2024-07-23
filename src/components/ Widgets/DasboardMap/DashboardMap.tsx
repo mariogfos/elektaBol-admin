@@ -6,6 +6,7 @@ import styles from "./DashboardMap.module.css";
 import { formatNumber } from "../../../mk/utils/numbers";
 import { DepartmentsMaps } from "@/components/Maps/Country/DepartmentsMaps";
 import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
+import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 
 type TypeProps = {
   data: any;
@@ -21,35 +22,37 @@ export const WidgetMaps = ({
   totalAfiliados,
 }: TypeProps) => {
   return (
-    <div className={styles.WidgetMaps}>
-      <div className={styles.stats}>
-        <Card style={{ textAlign: "right" }}>
-          <p>{formatNumber(totalHabitanes, 0)}</p>
-          <p>Habitantes en base al censo del 2023</p>
-        </Card>
-        <Card style={{ textAlign: "right" }}>
-          <p>{formatNumber(totalHabilitados, 0)}</p>
-          <p>Total de habilitados en 2024</p>
-        </Card>
-        <Card style={{ textAlign: "right" }}>
-          <p>{formatNumber(totalAfiliados, 0)}</p>
-          <p>Total de afiliados en la red</p>
-        </Card>
-      </div>
+    <LoadingScreen skeletonType="LatestInvoicesSkeleton">
+      <div className={styles.WidgetMaps}>
+        <div className={styles.stats}>
+          <Card style={{ textAlign: "right" }}>
+            <p>{formatNumber(totalHabitanes, 0)}</p>
+            <p>Habitantes en base al censo del 2023</p>
+          </Card>
+          <Card style={{ textAlign: "right" }}>
+            <p>{formatNumber(totalHabilitados, 0)}</p>
+            <p>Total de habilitados en 2024</p>
+          </Card>
+          <Card style={{ textAlign: "right" }}>
+            <p>{formatNumber(totalAfiliados, 0)}</p>
+            <p>Total de afiliados en la red</p>
+          </Card>
+        </div>
 
-      <WidgetMapa data={data} />
-      <div className={styles.footer}>
-        <div className={styles.bolivia}>
-          <Image
-            src="/images/Bolivia.png"
-            alt="Bolivia"
-            layout="fixed"
-            width={190}
-            height={50}
-          />
+        <WidgetMapa data={data} />
+        <div className={styles.footer}>
+          <div className={styles.bolivia}>
+            <Image
+              src="/images/Bolivia.png"
+              alt="Bolivia"
+              layout="fixed"
+              width={190}
+              height={50}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </LoadingScreen>
   );
 };
 
