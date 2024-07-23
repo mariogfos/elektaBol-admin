@@ -314,8 +314,6 @@ const MapaPais = ({ onClick, data, param }: any) => {
     }
   }
 
-  console.log("datasss:", data);
-
   const _onClick = (code: string | number) => {
     onClick(code);
   };
@@ -326,7 +324,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
-    const item = data.find((d: any) => d.code == id) || {
+    const item = data?.find((d: any) => d.code == id) || {
       id,
       name: "No se encontró " + id,
       habitantes: 0,
@@ -335,7 +333,7 @@ const MapaPais = ({ onClick, data, param }: any) => {
     };
 
     setTooltip({
-      visible: true,
+      visible: id ? true : false,
       x: rect.left - svgRect.left + rect.width / 2,
       y: rect.top - svgRect.top,
       item: paramLevel < 2 ? item : null,
@@ -410,28 +408,30 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 {formatNumber(item?.habilitados, 0)}
               </p>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                color: "#656F78",
-              }}
-            >
-              <p
+            {item?.winner_id && (
+              <div
                 style={{
-                  alignSelf: "center",
-                  color: "#101111",
-                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  color: "#656F78",
                 }}
               >
-                Partido ganador:
-              </p>
-              <div style={{ alignSelf: "center" }}>
-                <Avatar
-                  src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
-                />
+                <p
+                  style={{
+                    alignSelf: "center",
+                    color: "#101111",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Partido ganador:
+                </p>
+                <div style={{ alignSelf: "center" }}>
+                  <Avatar
+                    src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )
@@ -473,7 +473,8 @@ const MapaPais = ({ onClick, data, param }: any) => {
                 path.title !== "line" &&
                 path.title !== "salar" &&
                 param?.level != 2 &&
-                path.title !== "disabled"
+                path.title !== "disabled" &&
+                path.code
                   ? _onClick(path.code)
                   : {}
               }
