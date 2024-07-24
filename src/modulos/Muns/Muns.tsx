@@ -39,7 +39,7 @@ const Muns = () => {
         rules: ["required"],
         api: "ae",
         label: "Dpto",
-        list: true,
+        list: { width: "300px" },
         form: { type: "select", optionsExtra: "dptos" },
       },
       prov_id: {
@@ -65,14 +65,6 @@ const Muns = () => {
         api: "ae",
         label: "Municipio",
         list: true,
-        form: { type: "text" },
-      },
-
-      code: {
-        rules: ["max:5", "noSpaces"],
-        api: "ae",
-        label: "Cód",
-        list: { width: "120px", style: { textAlign: "right" } },
         form: { type: "text" },
       },
       habitantes: {

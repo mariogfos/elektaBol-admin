@@ -2,7 +2,6 @@ import {
   CSSProperties,
   Fragment,
   memo,
-  use,
   useEffect,
   useRef,
   useState,
@@ -11,7 +10,6 @@ import styles from "./table.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { formatNumber } from "@/mk/utils/numbers";
 import useScrollbarWidth from "@/mk/hooks/useScrollbarWidth";
-import { useAuth } from "@/mk/contexts/AuthProvider";
 
 export type RenderColType = {
   value: any;
@@ -69,6 +67,7 @@ const Table = ({
   height,
 }: PropsType) => {
   const { isTablet } = useScreenSize();
+  const [scrollbarWidth, setScrollbarWidth] = useState();
   return (
     <div
       className={styles.table + " " + styles[className] + " " + className}
@@ -80,20 +79,22 @@ const Table = ({
           actionsWidth={actionsWidth}
           renderHead={renderHead}
           onButtonActions={onButtonActions}
+          scrollbarWidth={scrollbarWidth}
         />
       )}
-      {/* <div style={height ? { height: height, overflowY: "auto" } : {}}> */}
-      <Body
-        onTabletRow={onTabletRow}
-        onRowClick={onRowClick}
-        data={data}
-        header={header}
-        actionsWidth={actionsWidth}
-        renderBody={renderBody}
-        onButtonActions={onButtonActions}
-        height={height}
-      />
-      {/* </div> */}
+      <div style={height ? { height: height, overflowY: "auto" } : {}}>
+        <Body
+          onTabletRow={onTabletRow}
+          onRowClick={onRowClick}
+          data={data}
+          header={header}
+          actionsWidth={actionsWidth}
+          renderBody={renderBody}
+          onButtonActions={onButtonActions}
+          height={height}
+          setScrollbarWidth={setScrollbarWidth}
+        />
+      </div>
       {sumarize && (
         <Sumarize
           header={header}
@@ -101,6 +102,7 @@ const Table = ({
           actionsWidth={actionsWidth}
           renderFoot={renderFoot}
           onButtonActions={onButtonActions}
+          scrollbarWidth={scrollbarWidth}
         />
       )}
       {footer && <footer>{footer}</footer>}
@@ -113,20 +115,25 @@ const Head = memo(function Head({
   actionsWidth,
   renderHead,
   onButtonActions,
+  scrollbarWidth,
 }: {
   header: any;
   actionsWidth: any;
   renderHead: any;
   onButtonActions: any;
+  scrollbarWidth?: number;
 }) {
-  const { store } = useAuth();
+  // const { store } = useStore();
   return (
-    <header style={{ width: `calc(100% - ${store?.scrollbarWidth || 0}px)` }}>
+    <header style={{ width: `calc(100% - ${scrollbarWidth || 0}px)` }}>
       {header.map((item: any, index: number) => (
         <div
           key={"th" + index}
           className={styles[item.responsive] + " " + item.className}
-          style={{ ...item.style, width: item.width || "100%" }}
+          style={{
+            ...item.style,
+            ...(item.width ? { width: item.width } : {}),
+          }}
           title={renderHead ? renderHead(item, index) : item.label}
         >
           {renderHead ? renderHead(item, index) : item.label}
@@ -136,7 +143,7 @@ const Head = memo(function Head({
       {onButtonActions && (
         <div
           className={styles.onlyDesktop}
-          style={{ width: actionsWidth || "auto" }}
+          style={{ width: actionsWidth || "300px" }}
         >
           Acciones
         </div>
@@ -151,14 +158,16 @@ const Sumarize = memo(function Sumarize({
   actionsWidth = "100%",
   renderFoot = false,
   onButtonActions = false,
+  scrollbarWidth,
 }: {
   header: any;
   data: any;
   actionsWidth?: any;
   renderFoot?: any;
   onButtonActions?: any;
+  scrollbarWidth?: number;
 }) {
-  const { store } = useAuth();
+  // const { store } = useStore();
   const [sumas, setSumas]: any = useState({});
   const onSumarize = (item: any, row: any, i: number) => {
     if (item.sumarize) {
@@ -177,12 +186,15 @@ const Sumarize = memo(function Sumarize({
   }, [data]);
 
   return (
-    <summary style={{ width: `calc(100% - ${store?.scrollbarWidth || 0}px)` }}>
+    <summary style={{ width: `calc(100% - ${scrollbarWidth || 0}px)` }}>
       {header.map((item: any, index: number) => (
         <div
           key={"foot" + index}
           className={styles[item.responsive] + " " + item.className}
-          style={{ ...item.style, width: item.width || "100%" }}
+          style={{
+            ...item.style,
+            ...(item.width ? { width: item.width } : {}),
+          }}
         >
           {renderFoot ? (
             <span>{renderFoot(item, index)}</span>
@@ -197,7 +209,7 @@ const Sumarize = memo(function Sumarize({
       {onButtonActions && (
         <div
           className={styles.onlyDesktop}
-          style={{ width: actionsWidth || "auto" }}
+          style={{ width: actionsWidth || "300px" }}
         >
           {" "}
         </div>
@@ -215,6 +227,7 @@ const Body = memo(function Body({
   renderBody,
   onButtonActions,
   height,
+  setScrollbarWidth,
 }: {
   onTabletRow: any;
   onRowClick: any;
@@ -224,15 +237,14 @@ const Body = memo(function Body({
   renderBody: any;
   onButtonActions: any;
   height?: any;
+  setScrollbarWidth?: Function;
 }) {
   const { isTablet } = useScreenSize();
   const divRef = useRef(null);
-  const scrollbarWidth = useScrollbarWidth(divRef);
-  const { setStore, store } = useAuth();
+  const scrollWidth = useScrollbarWidth(divRef);
   useEffect(() => {
-    if (store?.scrollbarWidth === scrollbarWidth) return;
-    setStore({ scrollbarWidth });
-  }, [scrollbarWidth]);
+    if (setScrollbarWidth) setScrollbarWidth(scrollWidth);
+  }, [scrollWidth]);
   return (
     <main
       ref={divRef}
@@ -248,7 +260,10 @@ const Body = memo(function Body({
                 <span
                   key={item.key + i}
                   className={styles[item.responsive] + " " + item.className}
-                  style={{ ...item.style, width: item.width || "100%" }}
+                  style={{
+                    ...item.style,
+                    ...(item.width ? { width: item.width } : {}),
+                  }}
                 >
                   {item.onRender &&
                     item.onRender?.({
@@ -264,7 +279,7 @@ const Body = memo(function Body({
               {onButtonActions && (
                 <span
                   className={styles.onlyDesktop}
-                  style={{ width: actionsWidth || "auto" }}
+                  style={{ width: actionsWidth || "300px" }}
                 >
                   {onButtonActions(row)}
                 </span>

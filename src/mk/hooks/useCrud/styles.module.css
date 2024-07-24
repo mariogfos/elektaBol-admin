@@ -1,5 +1,6 @@
 .useCrud {
   gap: 1px;
+  width: 100%;
 }
 .formDelete {
   display: flex;
