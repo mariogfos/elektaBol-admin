@@ -12,7 +12,7 @@
     max-height: 250px; /* Ajusta la altura máxima inicial para pantallas pequeñas */
 
     @media (min-width: 768px) {
-      min-height: 400px; /* Aumenta la altura máxima para pantallas medianas */
+      min-height: 380px; /* Aumenta la altura máxima para pantallas medianas */
     }
 
     @media (min-width: 1600px) {

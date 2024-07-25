@@ -4,8 +4,8 @@ import Image from "next/image";
 
 import styles from "./DashboardMap.module.css";
 import { formatNumber } from "../../../mk/utils/numbers";
-import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
+import WidgetMapa from "@/modulos/Statistics/WidgetMapa/WidgetMapa";
 
 type TypeProps = {
   data: any;
@@ -38,6 +38,7 @@ export const WidgetMaps = ({
           </Card>
         </div>
 
+        {/* <WidgetMapa data={data} /> */}
         <WidgetMapa data={data} />
         <div className={styles.footer}>
           <div className={styles.bolivia}>
