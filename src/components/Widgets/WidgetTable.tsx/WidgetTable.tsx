@@ -26,6 +26,7 @@ const WidgetTable = ({ data }: any) => {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
+      sumarize: true,
     },
     {
       key: "habilitados",
@@ -45,6 +46,7 @@ const WidgetTable = ({ data }: any) => {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
+      sumarize: true,
     },
   ];
   const render = (item: any, row: any, index: any) => {
@@ -75,15 +77,17 @@ const WidgetTable = ({ data }: any) => {
         <IconExport color="var(--cWhiteV2)" />
       </section>
       <Table
-        style={{
-          border: "1px solid var(--cWhiteV1)",
-          maxHeight: "360px",
-          overflowY: "auto",
-        }}
+        // style={{
+        //   border: "1px solid var(--cWhiteV1)",
+        //   maxHeight: "360px",
+        //   overflowY: "auto",
+        // }}
         renderBody={render}
         data={data}
         header={header}
         className="striped"
+        sumarize={true}
+        height="340px"
       />
       <div
         style={{
