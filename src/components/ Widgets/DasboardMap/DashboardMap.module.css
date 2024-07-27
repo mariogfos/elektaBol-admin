@@ -49,6 +49,15 @@
 .bolivia {
   position: relative;
   width: 100%;
+  & div:nth-child(1) {
+    & div {
+      width: 200px;
+      & div {
+        position: relative;
+        width: auto;
+      }
+    }
+  }
   & div:nth-child(2) {
     position: absolute;
     top: 10%;

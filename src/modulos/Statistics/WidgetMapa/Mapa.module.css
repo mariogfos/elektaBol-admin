@@ -29,7 +29,7 @@
 
         &:hover {
           cursor: pointer;
-          stroke-width: 7px;
+          stroke-width: 15px;
         }
       }
     }
