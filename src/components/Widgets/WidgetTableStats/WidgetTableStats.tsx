@@ -22,12 +22,19 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Nro",
       width: "150px",
       responsive: "onlyDesktop",
+      onRender: (item: any) => {
+        return item.i;
+      },
     },
     {
       key: "winner_id",
       label: "Partido ganador",
       responsive: "onlyDesktop",
       style: { textAlign: "center" },
+      width: "350px",
+      onRender: (item: any) => {
+        return <Avatar src={getUrlImages("/PAR-" + item.value + ".png?d=")} />;
+      },
     },
     {
       key: "name",
@@ -39,6 +46,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Poblacion",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -49,6 +57,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Padrón electoral",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -60,6 +69,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Votos emitidos",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -70,12 +80,17 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Participación",
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      width: "600px",
+      onRender: (item: any) => {
+        return getPercentaje(item.item.emitidos, item.item.habilitados);
+      },
     },
     {
       key: "entidad",
       label: labels[level + 1],
       responsive: "onlyDesktop",
       style: { textAlign: "right" },
+      width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -96,20 +111,20 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       : "0%";
   };
 
-  const render = (item: any, row: any, index: any) => {
-    if (item.key == "index") {
-      return index;
-    }
-    if (item.key == "winner_id") {
-      return <Avatar src={getUrlImages("/PAR-" + row.winner_id + ".png?d=")} />;
-    }
-    if (item.key == "paticipacion") {
-      return getPercentaje(row.emitidos, row.habilitados);
-    }
+  // const render = (item: any, row: any, index: any) => {
+  //   if (item.key == "index") {
+  //     return index;
+  //   }
+  //   if (item.key == "winner_id") {
+  //     return <Avatar src={getUrlImages("/PAR-" + row.winner_id + ".png?d=")} />;
+  //   }
+  //   if (item.key == "paticipacion") {
+  //     return getPercentaje(row.emitidos, row.habilitados);
+  //   }
 
-    const value = row[item.key];
-    return typeof value === "number" ? formatNumberCustom(value) : value;
-  };
+  //   const value = row[item.key];
+  //   return typeof value === "number" ? formatNumberCustom(value) : value;
+  // };
 
   return (
     <div className={style.container}>
@@ -126,7 +141,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         <IconExport color="var(--cWhiteV2)" />
       </section>
       <Table
-        renderBody={render}
+        // renderBody={render}
         data={data}
         onRowClick={(row: any) => onClick(row.code)}
         header={headerFormatted()}

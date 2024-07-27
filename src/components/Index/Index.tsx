@@ -7,7 +7,6 @@ import styles from "./index.module.css";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import { useEffect } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import WidgetMapa from "@/modulos/Statistics/WidgetMapa";
 import DashboardMap from "../ Widgets/DasboardMap/DashboardMap";
 
 const HomePage = () => {
