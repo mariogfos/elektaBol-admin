@@ -89,7 +89,7 @@ const WidgetTable = ({ data }: any) => {
         sumarize={true}
         height="340px"
       />
-      <div
+      {/* <div
         style={{
           width: "100%",
           display: "flex",
@@ -144,7 +144,7 @@ const WidgetTable = ({ data }: any) => {
             {formatNumber(total?.col3, 0)}
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
