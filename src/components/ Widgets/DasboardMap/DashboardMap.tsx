@@ -39,9 +39,10 @@ export const WidgetMaps = ({
         </div>
 
         {/* <WidgetMapa data={data} /> */}
-        <WidgetMapa data={data} />
-        <div className={styles.footer}>
-          <div className={styles.bolivia}>
+
+        <div className={styles.bolivia}>
+          <WidgetMapa data={data} />
+          <div>
             <Image
               src="/images/Bolivia.png"
               alt="Bolivia"
