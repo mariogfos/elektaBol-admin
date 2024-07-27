@@ -39,9 +39,9 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      {dashboard?.data.countDown && (
+      {/* {dashboard?.data.countDown && (
         <WidgetTime data={dashboard?.data.countDown} />
-      )}
+      )} */}
       <section>
         <div>
           <DashboardMap
