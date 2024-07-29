@@ -1,7 +1,8 @@
 .table {
-  /* display: grid; */
+  display: grid;
   font-size: var(--sM);
   overflow: auto;
+
   border-radius: var(--bRadius);
   @media (width <= 1024px) {
     background-color: transparent;
@@ -15,13 +16,11 @@
     color: var(--cWhite);
     font-weight: var(--bSemiBold);
     margin-bottom: 1px;
-    overflow: auto;
+    overflow: hidden;
     background-color: var(--cTerciary);
     border-top-left-radius: var(--bRadius);
     border-top-right-radius: var(--bRadius);
     & > div {
-      text-overflow: ellipsis;
-      white-space: nowrap;
       overflow: hidden;
       border-left: 1px solid var(--cWhiteV2);
       padding: var(--spM);
@@ -111,9 +110,9 @@
       padding-bottom: var(--spS);
       height: 100%;
       align-items: center;
-      width: 100%;
     }
     & > div > div {
+      background-color: red;
       margin-right: -12px;
       margin-left: -12px;
       border: 1px solid var(--cWhiteV1);
@@ -125,7 +124,6 @@
       color: var(--cBlackV2);
       font-size: 16px;
       color: var(--cWhite);
-      /* width: 100%; */
     }
   } */
   & main {
@@ -134,14 +132,16 @@
     gap: 0px;
     border-bottom-left-radius: var(--bRadius);
     border-bottom-right-radius: var(--bRadius);
-    overflow: auto;
+    border: 1px solid var(--cWhiteV1);
+    /* overflow: hidden; */
+
     & > div {
       display: flex;
-      align-items: stretch;
+      align-items: center;
       gap: 0px;
       background-color: var(--cBlackV1);
       color: var(--cBlackV2);
-      overflow: hidden;
+      /* overflow: hidden; */
       cursor: pointer;
 
       @media (width <= 1024px) {
@@ -153,7 +153,7 @@
         overflow: hidden;
         padding: var(--spM);
         border: 1px solid var(--cWhiteV1);
-        /* height: 100%; */
+        height: 100%;
         width: 100%;
       }
     }
