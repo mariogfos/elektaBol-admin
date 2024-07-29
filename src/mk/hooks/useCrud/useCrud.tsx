@@ -942,7 +942,7 @@ const useCrud = ({
               onTabletRow={props.onTabletRow}
               onButtonActions={onButtonActions}
               // actionsWidth={props.actionsWidth}
-              actionsWidth={"170px"}
+              actionsWidth={"150px"}
             />
           </section>
           {openView && (

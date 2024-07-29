@@ -4,11 +4,12 @@ import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableS
 import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
-import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
+import MapaPais from "./WidgetMapa/WidgetMapa";
+import WidgetMapa from "./WidgetMapa/WidgetMapa";
 
 const paramInitial: any = {
   searchBy: "",
@@ -44,7 +45,6 @@ const Statistics = () => {
     stads?.data?.tabla?.forEach((item: any) => {
       total += item?.habilitados * 1;
     });
-
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
   const onClick = (code: any) => {

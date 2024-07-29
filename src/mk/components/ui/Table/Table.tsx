@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import styles from "./table.module.css";
+import styles from "./Table.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { formatNumber } from "@/mk/utils/numbers";
 import useScrollbarWidth from "@/mk/hooks/useScrollbarWidth";
@@ -34,9 +34,9 @@ type PropsType = {
   data: any;
   footer?: any;
   sumarize?: boolean;
-  renderBody?: null | ((item: any, row: any, i: number) => any);
-  renderHead?: null | ((item: any, row: any) => any);
-  renderFoot?: null | ((item: any, row: any) => any);
+  onRenderBody?: null | ((row: any, i: number) => any);
+  onRenderHead?: null | ((item: any, row: any) => any);
+  onRenderFoot?: null | ((item: any, row: any) => any);
   onRowClick?: (e: any) => void;
   onTabletRow?: (
     item: Record<string, any>,
@@ -55,9 +55,9 @@ const Table = ({
   data,
   footer,
   sumarize = false,
-  renderBody = null,
-  renderHead = null,
-  renderFoot = null,
+  onRenderBody = null,
+  onRenderHead = null,
+  onRenderFoot = null,
   onRowClick = (e) => {},
   onTabletRow,
   onButtonActions,
@@ -77,7 +77,7 @@ const Table = ({
         <Head
           header={header}
           actionsWidth={actionsWidth}
-          renderHead={renderHead}
+          onRenderHead={onRenderHead}
           onButtonActions={onButtonActions}
           scrollbarWidth={scrollbarWidth}
         />
@@ -89,10 +89,11 @@ const Table = ({
           data={data}
           header={header}
           actionsWidth={actionsWidth}
-          renderBody={renderBody}
+          renderBody={onRenderBody}
           onButtonActions={onButtonActions}
           height={height}
           setScrollbarWidth={setScrollbarWidth}
+          onRenderBody={onRenderBody}
         />
       </div>
       {sumarize && (
@@ -100,7 +101,7 @@ const Table = ({
           header={header}
           data={data}
           actionsWidth={actionsWidth}
-          renderFoot={renderFoot}
+          renderFoot={onRenderFoot}
           onButtonActions={onButtonActions}
           scrollbarWidth={scrollbarWidth}
         />
@@ -113,17 +114,18 @@ const Table = ({
 const Head = memo(function Head({
   header,
   actionsWidth,
-  renderHead,
+  onRenderHead,
   onButtonActions,
   scrollbarWidth,
 }: {
   header: any;
   actionsWidth: any;
-  renderHead: any;
+  onRenderHead?: any;
   onButtonActions: any;
   scrollbarWidth?: number;
 }) {
   // const { store } = useStore();
+  if (onRenderHead === false) return null;
   return (
     <header style={{ width: `calc(100% - ${scrollbarWidth || 0}px)` }}>
       {header.map((item: any, index: number) => (
@@ -134,16 +136,16 @@ const Head = memo(function Head({
             ...item.style,
             ...(item.width ? { width: item.width } : {}),
           }}
-          title={renderHead ? renderHead(item, index) : item.label}
+          title={onRenderHead ? onRenderHead(item, index) : item.label}
         >
-          {renderHead ? renderHead(item, index) : item.label}
+          {onRenderHead ? onRenderHead(item, index) : item.label}
         </div>
       ))}
 
       {onButtonActions && (
         <div
           className={styles.onlyDesktop}
-          style={{ width: actionsWidth || "300px" }}
+          style={{ width: actionsWidth || "150px" }}
         >
           Acciones
         </div>
@@ -228,6 +230,7 @@ const Body = memo(function Body({
   onButtonActions,
   height,
   setScrollbarWidth,
+  onRenderBody,
 }: {
   onTabletRow: any;
   onRowClick: any;
@@ -238,6 +241,7 @@ const Body = memo(function Body({
   onButtonActions: any;
   height?: any;
   setScrollbarWidth?: Function;
+  onRenderBody?: null | ((row: any, i: number) => any);
 }) {
   const { isTablet } = useScreenSize();
   const divRef = useRef(null);
@@ -254,6 +258,10 @@ const Body = memo(function Body({
         <Fragment key={"r_" + index}>
           {isTablet && onTabletRow ? (
             onTabletRow(row, index, onRowClick)
+          ) : onRenderBody ? (
+            <div key={"row" + index} onClick={(e) => onRowClick(row)}>
+              {renderBody?.(row, index + 1)}
+            </div>
           ) : (
             <div key={"row" + index} onClick={(e) => onRowClick(row)}>
               {header.map((item: any, i: number) => (
@@ -272,8 +280,7 @@ const Body = memo(function Body({
                       item: row,
                       i: index + 1,
                     })}
-                  {!item.onRender && renderBody?.(item, row, index + 1)}
-                  {!item.onRender && !renderBody && row[item.key]}
+                  {!item.onRender && row[item.key]}
                 </span>
               ))}
               {onButtonActions && (

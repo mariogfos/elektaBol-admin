@@ -7,7 +7,7 @@
     background-color: transparent;
     border: none;
   }
-  & header {
+  /* & header {
     width: 100%;
     display: flex;
     align-items: center;
@@ -28,7 +28,36 @@
       padding-bottom: var(--spS);
       height: 100%;
       align-items: center;
+    }
+    & > div:first-child {
+      border-left: 0;
+    }
+    
+  } */
+  & header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    color: var(--cWhite);
+    font-weight: var(--bSemiBold);
+    /* margin-bottom: var(--spS); */
+    overflow: auto;
+    /* border-bottom: 1px solid var(--cWhiteV2); */
+    background-color: var(--cTerciary);
+    border-top-left-radius: var(--bRadius);
+    border-top-right-radius: var(--bRadius);
+
+    & > div {
+      /* text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden; */
+      padding: var(--spM);
+      padding-bottom: var(--spS);
+      height: 100%;
+      align-items: center;
       width: 100%;
+      border-left: 1px solid var(--cWhiteV2);
     }
     & > div:first-child {
       border-left: 0;
@@ -44,7 +73,6 @@
     flex-direction: row;
     color: var(--cWhite);
     font-weight: var(--bSemiBold);
-    /* margin-top: -12px; */
     overflow: auto;
     & > div {
       overflow: visible;
@@ -69,6 +97,37 @@
       /* width: 100%; */
     }
   }
+  /* & summary {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    color: var(--cWhite);
+    font-weight: var(--bSemiBold);
+    overflow: hidden;
+    & > div {
+      overflow: visible;
+      padding: var(--spM);
+      padding-bottom: var(--spS);
+      height: 100%;
+      align-items: center;
+      width: 100%;
+    }
+    & > div > div {
+      margin-right: -12px;
+      margin-left: -12px;
+      border: 1px solid var(--cWhiteV1);
+      border-bottom-left-radius: var(--bRadius);
+      border-bottom-right-radius: var(--bRadius);
+      margin-top: -12px;
+      padding: 12px;
+      background-color: var(--cWhiteV1);
+      color: var(--cBlackV2);
+      font-size: 16px;
+      color: var(--cWhite);
+      /* width: 100%; */
+    }
+  } */
   & main {
     display: flex;
     flex-direction: column;
