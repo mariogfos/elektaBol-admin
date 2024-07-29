@@ -13,7 +13,7 @@ const WidgetTable = ({ data }: any) => {
       onRender: (item: any) => {
         return item.i;
       },
-      sumarize: true,
+      // sumarize: true,
     },
     {
       key: "name",

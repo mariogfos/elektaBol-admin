@@ -45,7 +45,6 @@ const Statistics = () => {
     stads?.data?.tabla?.forEach((item: any) => {
       total += item?.habilitados * 1;
     });
-
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
   const onClick = (code: any) => {

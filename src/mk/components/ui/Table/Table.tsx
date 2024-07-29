@@ -145,7 +145,7 @@ const Head = memo(function Head({
       {onButtonActions && (
         <div
           className={styles.onlyDesktop}
-          style={{ width: actionsWidth || "300px" }}
+          style={{ width: actionsWidth || "150px" }}
         >
           Acciones
         </div>
