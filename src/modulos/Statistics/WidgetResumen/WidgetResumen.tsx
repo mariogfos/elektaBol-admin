@@ -50,11 +50,11 @@ const WidgetResumen = ({
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 1]}</h2>
-                {data && <p>{formatNumber(calculateTotalTotales(),0)}</p>}
+                {data && <p>{formatNumber(calculateTotalTotales(), 0)}</p>}
               </div>
               <div className={styles["cardInfo"]}>
                 <h2>{labels[level + 2]}</h2>
-                {typeof extra == "number" && <p>{formatNumber(extra,0)}</p>}
+                {typeof extra == "number" && <p>{formatNumber(extra, 0)}</p>}
               </div>
             </div>
           </section>
