@@ -24,6 +24,14 @@ const WidgetResumen = ({
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
 
+  const calculateTotalVotos = () => {
+    let total = 0;
+    dataExtra?.winner.map((item: any) => {
+      total += item?.total_votos * 1;
+    });
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
+
   const labels: any = [
     "Departamento", // 0
     "Circunscripción", // 1
@@ -73,7 +81,7 @@ const WidgetResumen = ({
         data={[dataExtra?.winner[0]]}
         title={"Partido ganador"}
         //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
-        total={calculateTotalHabilitados()}
+        total={calculateTotalVotos()}
         onClick={level < 4 ? openModal : null}
       />
     </div>
