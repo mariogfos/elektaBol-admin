@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import styles from "./Table.module.css";
+import styles from "./styles.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { formatNumber } from "@/mk/utils/numbers";
 import useScrollbarWidth from "@/mk/hooks/useScrollbarWidth";
