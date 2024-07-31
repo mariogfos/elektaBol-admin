@@ -10,10 +10,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
   const [param, setParam] = params;
   const level = param?.level || 0;
   const labels: string[] = [
-    "Departamento", // 0
-    "Circunscripción", // 1
-    "Recinto", // 2
-    "Mesa", // 3
+    "Departamentos", // 0
+    "Circunscripciones", // 1
+    "Recintos", // 2
+    "Mesas", // 3
+    "Votos válidos", // 4
   ];
 
   const header = [
