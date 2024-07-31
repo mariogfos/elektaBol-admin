@@ -20,7 +20,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     {
       key: "index",
       label: "Nro",
-      width: "150px",
+      width: "200px",
       responsive: "onlyDesktop",
       onRender: (item: any) => {
         return item.i;
