@@ -45,9 +45,17 @@ const Statistics = () => {
     stads?.data?.tabla?.forEach((item: any) => {
       total += item?.habilitados * 1;
     });
-
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
+
+  const calculateTotalVotos = () => {
+    let total = 0;
+    stads?.data?.extras?.winner.map((item: any) => {
+      total += item?.total_votos * 1;
+    });
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
+
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -145,7 +153,7 @@ const Statistics = () => {
             <WidgetResumeWinnerParty
               data={stads?.data?.extras?.winner?.slice(1)}
               title={"Otros resultados"}
-              total={calculateTotalHabilitados()}
+              total={calculateTotalVotos()}
             />
           </div>
         )}
@@ -158,7 +166,7 @@ const Statistics = () => {
           <WidgetResumeWinnerParty
             data={stads?.data?.extras?.winner}
             title={"Otros resultados"}
-            total={calculateTotalHabilitados()}
+            total={calculateTotalVotos()}
           />
         </DataModal>
       </div>
