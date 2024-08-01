@@ -198,7 +198,9 @@ const useCrud = ({
         searchBy: item.id,
         ...mod.loadView,
       });
-      initOpen(setOpenView, view.data, "view");
+      const { data: d, ...rest } = view?.data ?? {};
+      initOpen(setOpenView, { ...rest, ...data }, "view");
+      // initOpen(setOpenView, view.data, "view");
       return;
     }
     initOpen(setOpenView, item, "view");
