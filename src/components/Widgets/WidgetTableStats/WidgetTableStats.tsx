@@ -32,7 +32,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Partido ganador",
       responsive: "onlyDesktop",
       style: { textAlign: "center" },
-      width: "350px",
+      width: "500px",
       onRender: (item: any) => {
         return <Avatar src={getUrlImages("/PAR-" + item.value + ".png?d=")} />;
       },
