@@ -45,6 +45,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
+      style: {
+        display: "flex",
+        justifyContent: "left",
+        alignItems: "center",
+      },
     },
     {
       key: "habitantes",
