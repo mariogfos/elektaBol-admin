@@ -18,7 +18,6 @@ const WidgetResumeWinnerParty = ({
     if (!totalVotes) return 0;
     return ((votes / totalVotes) * 100).toFixed(2);
   };
-
   return (
     <Card className={styles["widgetResumeWinner"]}>
       <section>
