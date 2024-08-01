@@ -436,8 +436,10 @@ const WidgetMapa = ({
                 >
                   Partido ganador:
                 </p>
-                <div style={{ alignSelf: "center" }}>
+                <div>
                   <Avatar
+                    h={40}
+                    w={40}
                     src={getUrlImages("/PAR-" + item?.winner_id + ".png?d=")}
                   />
                 </div>
