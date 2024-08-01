@@ -50,8 +50,11 @@ const Statistics = () => {
   const calculateTotalVotos = () => {
     let total = 0;
     // stads?.data?.extras?.winner.map((item: any) => {
-    total += parseFloat(stads?.data?.extras.validos) * 1;
-    // });
+    // total += parseFloat(stads?.data?.extras.validos) * 1;
+    // // });
+    stads?.data?.extras?.winner.map((item: any) => {
+      total += item?.total_votos * 1;
+    });
 
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };

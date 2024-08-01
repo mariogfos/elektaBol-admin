@@ -52,7 +52,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     },
     {
       key: "habitantes",
-      label: "Poblacion",
+      label: "Población",
       responsive: "onlyDesktop",
       style: {
         display: "flex",
