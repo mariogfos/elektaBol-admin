@@ -14,7 +14,6 @@ const WidgetResumeWinnerParty = ({
   total,
   onClick = null,
 }: any) => {
-  console.log(data, "data desde winnerparty");
   const calculatePercentage: any = (totalVotes: number, votes: number) => {
     if (!totalVotes) return 0;
     return ((votes / totalVotes) * 100).toFixed(2);
