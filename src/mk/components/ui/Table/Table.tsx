@@ -194,7 +194,7 @@ const Sumarize = memo(function Sumarize({
           key={"foot" + index}
           className={styles[item.responsive] + " " + item.className}
           style={{
-            ...item.style,
+            // ...item.style,
             ...(item.width ? { width: item.width } : {}),
           }}
         >

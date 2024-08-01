@@ -23,6 +23,10 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Nro",
       width: "200px",
       responsive: "onlyDesktop",
+      style: {
+        display: "flex",
+        alignItems: "center",
+      },
       onRender: (item: any) => {
         return item.i;
       },
@@ -46,7 +50,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "habitantes",
       label: "Poblacion",
       responsive: "onlyDesktop",
-      style: { textAlign: "right" },
+      style: {
+        display: "flex",
+        justifyContent: "right",
+        alignItems: "center",
+      },
       width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
@@ -57,7 +65,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "habilitados",
       label: "Padrón electoral",
       responsive: "onlyDesktop",
-      style: { textAlign: "right" },
+      style: {
+        display: "flex",
+        justifyContent: "right",
+        alignItems: "center",
+      },
       width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
@@ -69,7 +81,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "emitidos",
       label: "Votos emitidos",
       responsive: "onlyDesktop",
-      style: { textAlign: "right" },
+      style: {
+        display: "flex",
+        justifyContent: "right",
+        alignItems: "center",
+      },
       width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
@@ -80,7 +96,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "paticipacion",
       label: "Participación",
       responsive: "onlyDesktop",
-      style: { textAlign: "right" },
+      style: {
+        display: "flex",
+        justifyContent: "right",
+        alignItems: "center",
+      },
       width: "600px",
       onRender: (item: any) => {
         return getPercentaje(item.item.emitidos, item.item.habilitados);
@@ -90,7 +110,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "entidad",
       label: labels[level + 1],
       responsive: "onlyDesktop",
-      style: { textAlign: "right" },
+      style: {
+        display: "flex",
+        justifyContent: "right",
+        alignItems: "center",
+      },
       width: "600px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
