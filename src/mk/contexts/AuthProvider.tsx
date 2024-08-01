@@ -27,7 +27,6 @@ export interface AuthContextType {
   setWaiting: Function;
   splash: boolean;
   store: any;
-  storeRef: any;
   setStore: Function;
   getUser: Function;
 }
@@ -198,12 +197,11 @@ const AuthProvider = ({ children, noAuth = false }: any): any => {
       setWaiting,
       splash,
       store,
-      storeRef,
       setStore: _setStore,
       getUser: getUser,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user, error, loaded, waiting, splash, store, storeRef]
+    [user, error, loaded, waiting, splash, store]
   );
 
   useEffect(() => {
@@ -238,4 +236,9 @@ export default AuthProvider;
 export const useAuth = () => {
   const data: AuthContextType = useContext(AuthContext);
   return { ...data };
+};
+
+export const useStore = () => {
+  const { store, setStore } = useContext(AuthContext);
+  return { store, setStore };
 };

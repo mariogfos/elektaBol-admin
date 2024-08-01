@@ -39,25 +39,21 @@ const Muns = () => {
         rules: ["required"],
         api: "ae",
         label: "Dpto",
-        list: true,
+        list: { width: "300px" },
         form: { type: "select", optionsExtra: "dptos" },
       },
       prov_id: {
         rules: ["required"],
         api: "ae",
         label: "Provincia",
-        list: { width: "300px" },
+        // list: { width: "300px" },
         form: { type: "select", optionsExtra: "provs" },
       },
       circun_id: {
         rules: ["required"],
         api: "ae",
         label: "Circunscripción",
-        list: {
-          width: "250px",
-          label: "Circuns.",
-          style: { textAlign: "right" },
-        },
+
         form: { type: "select", optionsExtra: "circuns" },
       },
       name: {
@@ -67,20 +63,12 @@ const Muns = () => {
         list: true,
         form: { type: "text" },
       },
-
-      code: {
-        rules: ["max:5", "noSpaces"],
-        api: "ae",
-        label: "Cód",
-        list: { width: "120px", style: { textAlign: "right" } },
-        form: { type: "text" },
-      },
       habitantes: {
         rules: ["positive"],
         api: "ae",
         label: "Habitantes",
         list: {
-          width: "400px",
+          width: "300px",
           style: { textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
@@ -92,7 +80,7 @@ const Muns = () => {
         api: "ae",
         label: "Habilitados",
         list: {
-          width: "400px",
+          width: "300px",
           style: { textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },

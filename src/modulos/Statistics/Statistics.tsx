@@ -4,11 +4,11 @@ import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableS
 import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
-import WidgetMapa from "./WidgetMapa";
 import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
+import WidgetMapa from "./WidgetMapa/WidgetMapa";
 
 const paramInitial: any = {
   searchBy: "",
@@ -44,9 +44,17 @@ const Statistics = () => {
     stads?.data?.tabla?.forEach((item: any) => {
       total += item?.habilitados * 1;
     });
-
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
+
+  const calculateTotalVotos = () => {
+    let total = 0;
+    stads?.data?.extras?.winner.map((item: any) => {
+      total += item?.total_votos * 1;
+    });
+    return total % 1 === 0 ? total : Number(total.toFixed(2));
+  };
+
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 
@@ -144,7 +152,7 @@ const Statistics = () => {
             <WidgetResumeWinnerParty
               data={stads?.data?.extras?.winner?.slice(1)}
               title={"Otros resultados"}
-              total={calculateTotalHabilitados()}
+              total={calculateTotalVotos()}
             />
           </div>
         )}
@@ -157,7 +165,7 @@ const Statistics = () => {
           <WidgetResumeWinnerParty
             data={stads?.data?.extras?.winner}
             title={"Otros resultados"}
-            total={calculateTotalHabilitados()}
+            total={calculateTotalVotos()}
           />
         </DataModal>
       </div>

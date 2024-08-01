@@ -34,13 +34,6 @@ const Circuns = () => {
         // list: true,
         form: { type: "select", optionsExtra: "countries" },
       },
-      mun_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Municipio",
-        list: true,
-        form: { type: "select", optionsExtra: "muns" },
-      },
       dpto_id: {
         rules: ["required"],
         api: "ae",

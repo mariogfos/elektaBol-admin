@@ -78,8 +78,19 @@ import {
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import { getUrlImages } from "@/mk/utils/string";
 
-const MapaPais = ({ onClick, data, param }: any) => {
+type PropsType = {
+  data: any;
+  onClick?: any;
+  params?: any;
+};
+
+const WidgetMapa = ({
+  data,
+  onClick = () => {},
+  params = [{}, () => {}],
+}: PropsType) => {
   const svgRef: any = useRef(null);
+  const [param, setParam] = params;
 
   const [tooltip, setTooltip] = useState({
     visible: false,
@@ -524,4 +535,4 @@ const MapaPais = ({ onClick, data, param }: any) => {
   );
 };
 
-export default MapaPais;
+export default WidgetMapa;
