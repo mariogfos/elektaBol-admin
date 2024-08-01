@@ -1,7 +1,6 @@
 import Table from "@/mk/components/ui/Table/Table";
 import style from "./WidgetTableStats.module.css";
 import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
-import { formatNumberCustom } from "@/mk/utils/date";
 import { formatNumber } from "@/mk/utils/numbers";
 import { getUrlImages } from "@/mk/utils/string";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
