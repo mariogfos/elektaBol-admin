@@ -1,7 +1,6 @@
 import Table from "@/mk/components/ui/Table/Table";
 import style from "./WidgetTableStats.module.css";
 import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
-import { formatNumberCustom } from "@/mk/utils/date";
 import { formatNumber } from "@/mk/utils/numbers";
 import { getUrlImages } from "@/mk/utils/string";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
@@ -10,10 +9,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
   const [param, setParam] = params;
   const level = param?.level || 0;
   const labels: string[] = [
-    "Departamento", // 0
-    "Circunscripción", // 1
-    "Recinto", // 2
-    "Mesa", // 3
+    "Departamentos", // 0
+    "Circunscripciones", // 1
+    "Recintos", // 2
+    "Mesas", // 3
+    "Votos válidos", // 4
   ];
 
   const header = [

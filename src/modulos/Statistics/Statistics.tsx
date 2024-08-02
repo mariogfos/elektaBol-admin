@@ -8,7 +8,6 @@ import WidgetResumen from "./WidgetResumen/WidgetResumen";
 import useAxios from "@/mk/hooks/useAxios";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import MapaPais from "./WidgetMapa/WidgetMapa";
 import WidgetMapa from "./WidgetMapa/WidgetMapa";
 
 const paramInitial: any = {

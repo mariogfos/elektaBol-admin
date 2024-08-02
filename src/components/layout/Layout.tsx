@@ -82,9 +82,11 @@ const Layout = ({ children }: any) => {
         )}
         <main
           style={{
+            // overflowX: "hidden",
             marginTop: "95px",
             marginLeft: `${isDesktop ? (sideMenuOpen ? 80 : 256) : 0}px`,
             transition: "margin-left 0.3s",
+            padding: "0 20px",
           }}
         >
           {children}

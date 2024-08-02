@@ -55,26 +55,6 @@ const WidgetTable = ({ data }: any) => {
     },
   ];
 
-  //   if (item.key == "index") {
-  //     return index;
-  //   }
-
-  //   const value = row[item.key];
-  //   return typeof value === "number" ? formatNumberCustom(value) : value;
-  // };
-
-  // const [total, setTotal] = useState({ col1: 0, col2: 0, col3: 0 });
-  // useEffect(() => {
-  //   let col1 = 0;
-  //   let col2 = 0;
-  //   let col3 = 0;
-  //   data.forEach((item: any) => {
-  //     col1 += item.habitantes;
-  //     col2 += item.habilitados;
-  //     col3 += item.affiliate_count;
-  //   });
-  //   setTotal({ col1, col2, col3 });
-  // }, [data]);
   return (
     <div className={style.container}>
       <section>
