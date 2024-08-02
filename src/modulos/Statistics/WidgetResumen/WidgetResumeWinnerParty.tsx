@@ -18,6 +18,7 @@ const WidgetResumeWinnerParty = ({
     if (!totalVotes) return 0;
     return ((votes / totalVotes) * 100).toFixed(2);
   };
+
   return (
     <Card className={styles["widgetResumeWinner"]}>
       <section>
@@ -28,6 +29,7 @@ const WidgetResumeWinnerParty = ({
         {onClick && <div onClick={onClick}>Ver más</div>}
       </section>
       <section style={style}>
+        {data?.length === 0 && <span>No hay votos</span>}
         {data?.map((item: any, i: number) => (
           <div key={i}>
             <div>
@@ -38,13 +40,7 @@ const WidgetResumeWinnerParty = ({
                 name={item?.name}
               />
               <span>{item?.name}</span>
-              {data?.length === 0 ? (
-                <span>No hay votos</span>
-              ) : (
-                <span>
-                  {formatNumber(item?.total_votos, 0)} votos obtenidos
-                </span>
-              )}
+              <span>{formatNumber(item?.total_votos, 0)} votos obtenidos</span>
             </div>
             <div
               style={{

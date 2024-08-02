@@ -20,7 +20,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     {
       key: "index",
       label: "Nro",
-      width: "200px",
+      width: "120px",
       responsive: "onlyDesktop",
       style: {
         display: "flex",
@@ -37,7 +37,11 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       style: { textAlign: "center" },
       width: "500px",
       onRender: (item: any) => {
-        return <Avatar src={getUrlImages("/PAR-" + item.value + ".png?d=")} />;
+        return item?.item.emitidos == 0 ? (
+          "Sin ganador"
+        ) : (
+          <Avatar src={getUrlImages("/PAR-" + item.value + ".png?d=")} />
+        );
       },
     },
     {

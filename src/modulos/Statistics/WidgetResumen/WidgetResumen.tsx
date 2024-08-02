@@ -38,6 +38,7 @@ const WidgetResumen = ({
     "Recinto", // 2
     "Mesa", // 3
   ];
+  console.log(dataExtra);
   return (
     <div className={styles["topWidgets"]}>
       {level < 2 && (
@@ -78,7 +79,7 @@ const WidgetResumen = ({
         />
       )}
       <WidgetResumeWinnerParty
-        data={[dataExtra?.winner[0]]}
+        data={dataExtra?.validos == 0 ? [] : [dataExtra?.winner[0]]}
         title={"Partido ganador"}
         //subtitle={level === 2 ? selectedCircunscripcion?.titulo : ""}
         total={calculateTotalVotos()}
