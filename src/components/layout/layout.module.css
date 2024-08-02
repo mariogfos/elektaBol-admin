@@ -4,10 +4,12 @@
   justify-content: flex-start;
   width: 100vw;
   background-color: var(--cBlack);
-  @media (width <= 1024px) {
+
+  @media (width <=1024px) {
     padding-bottom: 85px;
   }
 }
+
 .modalLogout {
   padding: 20px;
   color: var(--cBlackV2);
