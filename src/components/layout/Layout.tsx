@@ -39,7 +39,7 @@ const Layout = ({ children }: any) => {
               isDesktop ? (sideMenuOpen ? 80 : 256) : 0
             }px)`,
             marginLeft: `${isDesktop ? (sideMenuOpen ? 80 : 256) : 0}px`,
-            zIndex: "100",
+            zIndex: "20",
           }}
           className={styles.header}
         >

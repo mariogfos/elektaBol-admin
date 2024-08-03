@@ -8,6 +8,7 @@
   bottom: 0;
   align-items: center;
   background-color: var(--cBlack);
+  z-index: 20;
 
   &>a {
     display: flex;
