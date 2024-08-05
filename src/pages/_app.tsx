@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: any) {
           content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/favicon.ico" />
         {/* <link rel="manifest" href="/manifest.json" /> */}
         <link rel="apple-touch-icon" href="/icon.png"></link>
         <meta name="theme-color" content="#00000" />
