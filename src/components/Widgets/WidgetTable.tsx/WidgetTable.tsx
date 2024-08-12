@@ -53,6 +53,17 @@ const WidgetTable = ({ data }: any) => {
       },
       sumarize: true,
     },
+    {
+      key: "percentage_hab",
+      label: "Porcentaje de afiliación",
+      responsive: "onlyDesktop",
+      style: { textAlign: "right" },
+      onRender: (item: any) => {
+        const percentage =
+          (item.item?.affiliate_count / item.item?.habilitados) * 100;
+        return `${formatNumber(percentage, 2)}%`;
+      },
+    },
   ];
 
   return (
