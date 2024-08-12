@@ -8,8 +8,8 @@ const WidgetTable = ({ data }: any) => {
     {
       key: "index",
       label: "nro",
-      width: "60px",
-      responsive: "onlyDesktop",
+      width: "200px",
+      responsive: "",
       onRender: (item: any) => {
         return item.i;
       },
@@ -18,25 +18,26 @@ const WidgetTable = ({ data }: any) => {
     {
       key: "name",
       label: "Departamento",
-      responsive: "onlyDesktop",
+      width: "700px",
+      responsive: "",
     },
     {
       key: "habitantes",
       label: "Poblacion total",
       responsive: "onlyDesktop",
-      width: "220px",
       style: { textAlign: "right" },
-      onRender: (item: any) => {
-        return formatNumber(item.value, 0);
+      list: {
+        onRender: (item: any) => {
+          return formatNumber(item.value, 0);
+        },
       },
       sumarize: true,
     },
     {
       key: "habilitados",
       label: "Habilitados totales",
-      responsive: "onlyDesktop",
+      responsive: "",
       sumarize: true,
-      width: "220px",
       style: { textAlign: "right" },
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
@@ -44,9 +45,8 @@ const WidgetTable = ({ data }: any) => {
     },
     {
       key: "affiliate_count",
-      width: "220px",
       label: "Afiliados totales",
-      responsive: "onlyDesktop",
+      responsive: "",
       style: { textAlign: "right" },
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
