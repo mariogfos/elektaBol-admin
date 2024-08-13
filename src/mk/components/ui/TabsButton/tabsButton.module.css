@@ -9,7 +9,7 @@
     background: transparent;
     cursor: pointer;
     transition: color 0.3s ease-in-out;
-    color: var(--cWhiteV3);
+    color: var(--cWhiteV1);
     &.selected {
       font-weight: var(--bBold);
       color: var(--cWhite);

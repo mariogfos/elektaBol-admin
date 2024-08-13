@@ -115,7 +115,7 @@
     justify-content: center;
     margin-bottom: var(--spM);
     & > div {
-        background-color: var(--cWhiteV3);
+        background-color: var(--cWhiteV1);
         border-radius: var(--bRadius);
     } 
     /* height: 100px; */
@@ -133,7 +133,7 @@
         }
         & > div:nth-child(1) {
      
-          border-bottom: var(--bWidth) solid var(--cWhiteV3);
+          border-bottom: var(--bWidth) solid var(--cWhiteV1);
         }
       }
 

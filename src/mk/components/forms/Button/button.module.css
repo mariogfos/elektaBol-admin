@@ -23,8 +23,8 @@
     background-color: var(--cPrimary);
   }
   &.secondary {
-    border: var(--bWidth) solid var(--cWhiteV3);
-    color: var(--cWhiteV3);
+    border: var(--bWidth) solid var(--cWhiteV1);
+    color: var(--cWhiteV1);
   }
 
   &.terciary {

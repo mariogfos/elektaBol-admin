@@ -20,7 +20,7 @@
     flex-shrink: 1;
     display: flex;
     align-items: center;
-    color: var(--cWhiteV3);
+    color: var(--cWhiteV1);
   }
   &>div {
     flex-grow: 1;
