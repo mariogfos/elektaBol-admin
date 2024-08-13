@@ -4,7 +4,7 @@
 }
 .formDelete {
   display: flex;
-  color: var(--cWhiteV3);
+  color: var(--cWhiteV1);
   font-size: var(--sM);
 }
 

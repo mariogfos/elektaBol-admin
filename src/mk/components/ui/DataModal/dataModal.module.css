@@ -49,7 +49,7 @@
     & > section {
       overflow-y: auto;
       flex-grow: 1;
-      color: var(--cWhiteV3);
+      color: var(--cWhiteV1);
       padding: var(--spM);
       padding-top: var(--spL);
     }

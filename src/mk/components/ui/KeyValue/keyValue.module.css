@@ -4,7 +4,7 @@
   margin-bottom: var(--spXs);
   gap: var(--spS);
   & > div:nth-child(1) {
-    color: var(--cWhiteV3);
+    color: var(--cWhiteV1);
     flex: 1;
     text-align: right;
   }

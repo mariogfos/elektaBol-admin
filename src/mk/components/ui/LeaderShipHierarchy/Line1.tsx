@@ -120,7 +120,7 @@ const Line1 = ({ line1, level, user, addClick, params }: Props) => {
         <div
           className={styles["carouselCards"]}
           style={{
-            borderLeft: "2px solid var(--cWhiteV3)",
+            borderLeft: "2px solid var(--cWhiteV1)",
             marginLeft: 8,
           }}
         >

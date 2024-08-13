@@ -250,13 +250,13 @@ h2 {
 
 .tSmall {
   font-size: var(--sS);
-  color: var(--cWhiteV3);
+  color: var(--cWhiteV1);
   font-weight: var(--bRegular);
 }
 
 .tXSmall {
   font-size: var(--sXs);
-  color: var(--cWhiteV3);
+  color: var(--cWhiteV1);
   font-weight: var(--bLight);
 }
 
