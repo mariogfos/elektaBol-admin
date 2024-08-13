@@ -50,7 +50,7 @@ const Footer = ({ isTablet }: PropsType) => {
           </>
         )}
         <Item href="/" label="Home" icon={<IconHome />} />
-        <Item href="/profile" label="Perfil" icon={<IconUser />} />
+        <Item href="/profile" label="Perfil" icon={<IconUser  reverse={true} />} />
         <Item href="/users" label="Usuarios" icon={<IconAdmin />} />
         <Item href="/affiliates" label="Afiliados" icon={<IconGroup />} />
       </div>

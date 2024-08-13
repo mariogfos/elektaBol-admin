@@ -80,7 +80,7 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
       </div>
       <div className={styles["menu-content"]}>
         <Item href="/" label="Panel de control" icon={<IconDashboard />} />
-        <Item href="/profile" label="Mi perfil" icon={<IconUser />} />
+        <Item href="/profile" label="Mi perfil" icon={<IconUser reverse={true} />} />
         <Item href="/users" label="Organización" icon={<IconNet />} />
         <Item
           href="/comunication"
