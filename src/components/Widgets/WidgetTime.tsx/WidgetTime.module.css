@@ -45,7 +45,7 @@
         display: flex;
         & > div {
           flex-grow: 1;
-          border-right: var(--bWidth) solid var(--cWhiteV1);
+          border-right: var(--bWidth) solid var(--cWhiteV3);
         }
       }
       & > span {

@@ -85,12 +85,12 @@
     & > div > div {
       margin-right: -12px;
       margin-left: -12px;
-      border: 1px solid var(--cWhiteV1);
+      border: 1px solid var(--cWhiteV3);
       border-bottom-left-radius: var(--bRadius);
       border-bottom-right-radius: var(--bRadius);
       margin-top: -12px;
       padding: 12px;
-      background-color: var(--cWhiteV1);
+      background-color: var(--cWhiteV3);
       color: var(--cBlackV2);
       font-size: 16px;
       color: var(--cWhite);
@@ -116,12 +116,12 @@
       background-color: red;
       margin-right: -12px;
       margin-left: -12px;
-      border: 1px solid var(--cWhiteV1);
+      border: 1px solid var(--cWhiteV3);
       border-bottom-left-radius: var(--bRadius);
       border-bottom-right-radius: var(--bRadius);
       margin-top: -12px;
       padding: 12px;
-      background-color: var(--cWhiteV1);
+      background-color: var(--cWhiteV3);
       color: var(--cBlackV2);
       font-size: 16px;
       color: var(--cWhite);
@@ -133,7 +133,7 @@
     gap: 0px;
     border-bottom-left-radius: var(--bRadius);
     border-bottom-right-radius: var(--bRadius);
-    border: 1px solid var(--cWhiteV1);
+    border: 1px solid var(--cWhiteV3);
     /* overflow: hidden; */
 
     & > div {
@@ -153,7 +153,7 @@
         white-space: nowrap;
         overflow: hidden;
         padding: var(--spM);
-        border: 1px solid var(--cWhiteV1);
+        border: 1px solid var(--cWhiteV3);
         height: 100%;
         width: 100%;
       }
@@ -184,7 +184,7 @@
 .table.striped {
   & main {
     & > div:nth-child(even) {
-      background-color: var(--cWhiteV1);
+      background-color: var(--cWhiteV3);
       color: var(--cBlackV2);
     }
     & > div:nth-child(odd) {
