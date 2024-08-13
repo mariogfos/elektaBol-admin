@@ -155,7 +155,7 @@ svg.circle {
   left: 28px;
   background-color: var(--cPrimary);
   border-radius: 9999px;
-  border: 2px solid var(--cWhiteV1);
+  border: 2px solid var(--cWhiteV3);
   width: 14px;
   height: 14px;
 }
