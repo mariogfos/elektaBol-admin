@@ -6,6 +6,7 @@ import { useUsers } from "./useUsers";
 import styles from "./users.module.css";
 import InputPassword from "@/mk/components/forms/InputPassword/InputPassword";
 import useAxios from "@/mk/hooks/useAxios";
+import NotAccess from "../auth/NotAccess/NotAccess";
 
 type PropsType = {
   open: any;
@@ -30,6 +31,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     inputBarr,
     waiting,
     validate,
+    userCan,
   } = useUsers({ onClose, precarga, reLoad });
 
   const { data: datos } = useAxios("/users", "GET", {
@@ -42,11 +44,11 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
   // const { data: dptos } = useAxios("/dptos", "GET", {});
   // const { data: barrios } = useAxios("/barrios", "GET", {});
 
-  const getLocals = () => {
+  const getParish = () => {
     let data: any = [];
-    if (listsApi?.data?.locals.length > 0) {
-      listsApi?.data.locals.find((item: any) => {
-        if (item.dpto_id == formState.dpto_id) {
+    if (listsApi?.data?.parishes.length > 0) {
+      listsApi?.data.parishes.find((item: any) => {
+        if (item.canton_id == formState.canton_id) {
           data.push(item);
         }
       });
@@ -64,46 +66,41 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     }
     return data;
   };
-  const getListas = () => {
+  const getCanton = () => {
     let data: any = [];
-    if (listsApi?.data?.listas.length > 0) {
-      listsApi?.data.listas.find((item: any) => {
-        if (item.sublema_id == formState.sublema_id) {
+    if (listsApi?.data?.cantons.length > 0) {
+      listsApi?.data.cantons.find((item: any) => {
+        console.log(item.prov_id == formState.prov_id);
+        if (item?.prov_id == formState?.prov_id) {
           data.push(item);
         }
       });
     }
     return data;
   };
-
+  console.log(formState.prov_id);
   const getDatos = (entidad: any) => {
-    if (entidad == "sublema") {
-      let item = datos?.data?.sublemas.find(
-        (item: any) => item.id == user.datos.sublema_id
+    if (entidad == "prov") {
+      let item = datos?.data?.provs.find(
+        (item: any) => item.id == user?.datos?.prov_id
       );
       return item?.name || "";
     }
-    if (entidad == "lista") {
-      let item = datos?.data?.listas.find(
-        (item: any) => item.id == user.datos.lista_id
+    if (entidad == "canton") {
+      let item = datos?.data?.cantons.find(
+        (item: any) => item.id == user?.datos?.canton_id
       );
       return item?.name || "";
     }
-    if (entidad == "dpto") {
-      let item = datos?.data?.dptos.find(
-        (item: any) => item.id == user.datos.dpto_id
-      );
-      return item?.name || "";
-    }
-    if (entidad == "local") {
-      let item = datos?.data?.locals.find(
-        (item: any) => item.id == user.datos.local_id
+    if (entidad == "parish") {
+      let item = datos?.data?.parishes.find(
+        (item: any) => item.id == user?.datos?.parish_id
       );
       return item?.name || "";
     }
     if (entidad == "barrio") {
       let item = datos?.data?.barrios.find(
-        (item: any) => item.id == user.datos.barrio_id
+        (item: any) => item.id == user?.datos?.barrio_id
       );
       return item?.name || "";
     }
@@ -124,207 +121,205 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       onClose={() => _onClose()}
       fullScreen={isTablet}
       onSave={onSave}
-      buttonText="Agregar miembro"
+      buttonText={userCan("users", "C") ? "Agregar" : ""}
       buttonCancel=""
       disabled={Object.keys(errorsUsers).length > 0}
     >
-      <div style={{ marginTop: 16 }}>
-        <h1>{`Registrar miembro  en mi red`}</h1>
-        {waiting > 0 ||
-          (user?.role?.level > 1 && (
-            <p className={styles["tSubtitle"]}>
-              Estas registrando en
-              <span>
-                {user?.role?.level > 1 && ` ${getDatos("sublema")}`}
-                {user?.role?.level > 2 && ` / ${getDatos("lista")}`}
-                {user?.role?.level > 3 && ` / ${getDatos("dpto")}`}
-                {user?.role?.level > 4 && ` / ${getDatos("local")}`}
-                {user?.role?.level > 5 && ` / ${getDatos("barrio")}`}
-              </span>
-            </p>
-          ))}
-        <Select
-          label="Rol "
-          name="role_id"
-          error={errorsUsers}
-          required={true}
-          disabled={precarga?.level}
-          value={formState["role_id"]}
-          onChange={handleChangeInput}
-          options={roles?.data || []}
-          optionLabel="description"
-          optionValue="id"
-          className="appearance-none"
-        />
-
-        {formState.role_id !== null && user?.role?.level <= 1 && level > 1 && (
+      {!userCan("users", "C") ? (
+        <NotAccess />
+      ) : (
+        <div style={{ marginTop: 16 }}>
+          <h1>{`Registrar nuevo integrante`}</h1>
+          {waiting > 0 ||
+            (user?.role?.level > 1 && (
+              <p className={styles["tSubtitle"]}>
+                Estas registrando en
+                <span>
+                  {user?.role?.level > 1 && ` ${getDatos("prov")}`}
+                  {user?.role?.level > 2 && ` / ${getDatos("canton")}`}
+                  {user?.role?.level > 3 && ` / ${getDatos("parish")}`}
+                  {user?.role?.level > 4 && ` / ${getDatos("barrio")}`}
+                  {/* {user?.role?.level > 5 && ` / ${getDatos("barrio")}`} */}
+                </span>
+              </p>
+            ))}
           <Select
-            label="Sublema"
-            name="sublema_id"
-            error={errorsUsers}
-            disabled={precarga?.sublema_id}
-            required={true}
-            value={formState["sublema_id"]}
-            onChange={handleChangeInput}
-            options={listsApi?.data?.sublemas}
-            className="appearance-none"
-          />
-        )}
-        {formState.role_id !== null && user?.role?.level <= 2 && level > 2 && (
-          <Select
-            label="Lista"
-            name="lista_id"
-            error={errorsUsers}
-            disabled={precarga?.lista_id}
-            required={true}
-            value={formState["lista_id"]}
-            onChange={handleChangeInput}
-            options={getListas() || []}
-            className="appearance-none"
-          />
-        )}
-        {formState.role_id !== null && user?.role?.level <= 3 && level > 3 && (
-          <Select
-            label="Departamento"
-            name="dpto_id"
-            disabled={precarga?.dpto_id}
+            label="Rol "
+            name="role_id"
             error={errorsUsers}
             required={true}
-            value={formState["dpto_id"]}
+            disabled={precarga?.level}
+            value={formState["role_id"]}
             onChange={handleChangeInput}
-            options={listsApi?.data?.dptos || []}
+            options={roles?.data || []}
+            optionLabel="description"
+            optionValue="id"
             className="appearance-none"
           />
-        )}
-        {formState.role_id !== null && user?.role?.level <= 4 && level > 4 && (
-          <Select
-            label="Localidad"
-            name="local_id"
-            disabled={precarga?.local_id}
-            error={errorsUsers}
-            required={level > 4}
-            value={formState["local_id"]}
-            onChange={handleChangeInput}
-            options={getLocals() || []}
-            className="appearance-none"
-          />
-        )}
 
-        {formState.role_id !== null && user?.role?.level <= 5 && level > 5 && (
-          <>
-            <Select
-              label="Barrios"
-              name="barrio_id"
-              error={errorsUsers}
-              disabled={precarga?.barrio_id}
-              required={level > 5}
-              value={formState["barrio_id"]}
-              onChange={handleChangeInput}
-              options={getBarrios() || []}
-              className="appearance-none"
-            />
-
-            {inputBarr && (
-              <Input
-                label="Barrio"
-                type="text"
-                name="barrio"
-                required={true}
+          {formState.role_id !== null &&
+            user?.role?.level <= 1 &&
+            level > 1 && (
+              <Select
+                label="Provincia"
+                name="prov_id"
                 error={errorsUsers}
-                value={formState["barrio"]}
-                // disabled={existCi}
+                disabled={precarga?.prov_id}
+                required={true}
+                value={formState["prov_id"]}
                 onChange={handleChangeInput}
+                options={listsApi?.data?.provs || []}
+                className="appearance-none"
               />
             )}
-          </>
-        )}
-        <Input
-          label="Cédula de identidad"
-          type="text"
-          name="ci"
-          className="mt-5"
-          error={errorsUsers}
-          required={true}
-          value={formState["ci"]}
-          onChange={handleChangeInput}
-          onBlur={() => {
-            _onExist("ci");
-            validate("ci");
-          }}
-        />
+          {formState.role_id !== null &&
+            user?.role?.level <= 2 &&
+            level > 2 && (
+              <Select
+                label="Cantón"
+                name="canton_id"
+                error={errorsUsers}
+                disabled={precarga?.canton_id}
+                required={true}
+                value={formState["canton_id"]}
+                onChange={handleChangeInput}
+                options={getCanton() || []}
+                className="appearance-none"
+              />
+            )}
+          {formState.role_id !== null &&
+            user?.role?.level <= 3 &&
+            level > 3 && (
+              <Select
+                label="Parroquias"
+                name="parish_id"
+                disabled={precarga?.parish_id}
+                error={errorsUsers}
+                required={true}
+                value={formState["parish_id"]}
+                onChange={handleChangeInput}
+                options={getParish() || []}
+                className="appearance-none"
+              />
+            )}
 
-        <div className="mb-2 ">
-          <InputPassword
-            label="Contraseña"
-            required={true}
-            name="password"
-            // disabled={existCi}
+          {formState.role_id !== null &&
+            user?.role?.level <= 4 &&
+            level > 4 && (
+              <>
+                <Select
+                  label="Barrios"
+                  name="barrio_id"
+                  error={errorsUsers}
+                  disabled={precarga?.barrio_id}
+                  required={level > 4}
+                  value={formState["barrio_id"]}
+                  onChange={handleChangeInput}
+                  options={getBarrios() || []}
+                  className="appearance-none"
+                />
+                {inputBarr && (
+                  <Input
+                    label="Barrio"
+                    type="text"
+                    name="barrio"
+                    required={true}
+                    error={errorsUsers}
+                    value={formState["barrio"]}
+                    // disabled={existCi}
+                    onChange={handleChangeInput}
+                  />
+                )}
+              </>
+            )}
+          <Input
+            label="Cédula de identidad"
+            type="text"
+            name="ci"
+            className="mt-5"
             error={errorsUsers}
-            value={formState.password}
-            onChange={handleChangeInput}
-            onBlur={() => validate("password")}
-          />
-        </div>
-        <div className="mb-2 ">
-          <InputPassword
-            label="Repetir contraseña"
             required={true}
-            name="repPassword"
-            // disabled={existCi}
-            error={errorsUsers}
-            value={formState.repPassword}
+            value={formState["ci"]}
             onChange={handleChangeInput}
-            onBlur={() => validate("repPassword")}
+            onBlur={() => {
+              _onExist("ci");
+              validate("ci");
+            }}
           />
-        </div>
-        <InputFullName
-          name="full_name"
-          errors={errorsUsers}
-          //disabled={existCi}
-          value={formState}
-          onChange={handleChangeInput}
-          onBlur={validate}
-        />
-        <Input
-          label="Correo electrónico"
-          type="email"
-          name="email"
-          required={true}
-          error={errorsUsers}
-          value={formState["email"]}
-          // disabled={existCi}
-          onChange={handleChangeInput}
-          onBlur={() => {
-            _onExist("email");
 
-            validate("email");
-          }}
-        />
-        <Input
-          label="Número de whatsApp"
-          type="number"
-          name="phone"
-          required={true}
-          error={errorsUsers}
-          value={formState["phone"]}
-          // disabled={existCi}
-          onChange={handleChangeInput}
-          onBlur={() => {
-            validate("phone");
-          }}
-        />
-        <div className={styles.addUsersText}>
-          <div>
-            Enviaremos un código PIN de acceso al correo proporcionado para que
-            pueda ingresar a la plataforma
+          <div className="mb-2 ">
+            <InputPassword
+              label="Contraseña"
+              required={true}
+              name="password"
+              // disabled={existCi}
+              error={errorsUsers}
+              value={formState.password}
+              onChange={handleChangeInput}
+              onBlur={() => validate("password")}
+            />
           </div>
-          <div>
-            Si no encuentras el código en tu buzón, revisa la carpeta de spam o
-            correos no deseados. Si el código no está allí, la dirección de
-            email podría ser incorrecta o no existir.
+          <div className="mb-2 ">
+            <InputPassword
+              label="Repetir contraseña"
+              required={true}
+              name="repPassword"
+              // disabled={existCi}
+              error={errorsUsers}
+              value={formState.repPassword}
+              onChange={handleChangeInput}
+              onBlur={() => validate("repPassword")}
+            />
+          </div>
+          <InputFullName
+            name="full_name"
+            errors={errorsUsers}
+            //disabled={existCi}
+            value={formState}
+            onChange={handleChangeInput}
+            onBlur={validate}
+          />
+          <Input
+            label="Correo electrónico"
+            type="email"
+            name="email"
+            required={true}
+            error={errorsUsers}
+            value={formState["email"]}
+            // disabled={existCi}
+            onChange={handleChangeInput}
+            onBlur={() => {
+              _onExist("email");
+
+              validate("email");
+            }}
+          />
+          <Input
+            label="Número de whatsApp"
+            type="number"
+            name="phone"
+            required={true}
+            error={errorsUsers}
+            value={formState["phone"]}
+            // disabled={existCi}
+            onChange={handleChangeInput}
+            onBlur={() => {
+              validate("phone");
+            }}
+          />
+          <div className={styles.addUsersText}>
+            {/* <div>
+              Enviaremos un código de acceso al correo proporcionado para que
+              pueda ingresar a la plataforma
+            </div>
+            <div>
+              Si no encuentras el código en tu buzón, revisa la carpeta de spam
+              o correos no deseados. Si el código no está allí, la dirección de
+              email podría ser incorrecta o no existir.
+            </div> */}
           </div>
         </div>
-      </div>
+      )}
     </DataModal>
   );
 };

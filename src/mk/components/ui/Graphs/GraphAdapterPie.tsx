@@ -5,7 +5,7 @@ const GraphAdapterPie = (data:any, options:any, oDef: any = {}) => {
   data.values.map((v:any) => {
     xLabels.push(v.name);
   });
-  console.log("xLabels", xLabels);
+  // console.log("xLabels", xLabels);
   const p = {
     plotOptions: {
       pie: {
@@ -60,7 +60,9 @@ const GraphAdapterPie = (data:any, options:any, oDef: any = {}) => {
   let totalRa = d.reduce((a:any, b:any) => a + b, 0);
   totalRadial = totalRa;
   d.map((v:any) => {
-    d1.push(Math.round((v / totalRadial) * 100));
+    // d1.push(Math.round((v / totalRadial) * 100));
+    d1.push(Number(((v / totalRadial) * 100).toFixed(1)));
+    // console.log('redondeo',v,totalRadial,v / totalRadial,(v / totalRadial) * 100,((v / totalRadial) * 100).toFixed(1));
   });
 
   return { options: p, data: d1 };

@@ -100,7 +100,7 @@ export const UploadFile = ({
             ? "var(--cError)"
             : props.value?.file || isDraggingFile
             ? "var(--cPrimary)"
-            : "var(--cWhiteV1)",
+            : "var(--cWhiteV3)",
         }}
         onDragOver={handleDragOver}
         onDrop={handleDrop}

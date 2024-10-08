@@ -12,7 +12,7 @@ const HistoryManager = ({
   const handleGoBack = () => {
     let newParamsHist = [...paramsHist];
     const ult = newParamsHist.pop();
-    setLevel((old: number) => old - 1);
+    setLevel(level - 1);
     setParamsHist(newParamsHist);
     setParams(ult);
     // console.log("newParamsHist", newParamsHist, level, ult);

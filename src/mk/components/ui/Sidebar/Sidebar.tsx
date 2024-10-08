@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { IconArrowLeft } from "../../../../components/layout/icons/IconsBiblioteca";
 import styles from "./sidebar.module.css";
+import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
 
 interface PropsType {
   open: boolean;

@@ -1,15 +1,26 @@
 .WidgetMaps {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
   box-sizing: border-box;
-  padding-top: 12px;
+  margin-top: 14px;
   position: relative;
+  border-radius: 16px;
+  background-color: var(--cBlackV1);
 
-  @media (min-width: 768px) {
-    flex-direction: row;
+  & > div {
+    color: white;
+    font-size: 20px;
+    padding-top: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
   }
+
+  /* @media (min-width: 768px) {
+    flex-direction: row;
+  } */
 
   @media (max-width: 1600px) {
     flex-direction: column;
@@ -17,22 +28,22 @@
 }
 
 .stats {
+  /* display: flex;
+  flex-direction: column; */
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 0;
+  flex-direction: row;
+  gap: 8px;
 
   & > div {
     margin-top: 0 !important;
 
     & > p:nth-child(1) {
-      color: white;
-      margin-bottom: 8px;
-      font-size: 16px;
+      color: #656f78;
     }
 
     & > p:nth-child(2) {
-      color: #656f78;
+      padding-top: 4px;
+      color: white;
     }
   }
 
@@ -44,14 +55,17 @@
 
   @media (max-width: 1441px) {
     width: 100%;
+    flex-direction: column;
   }
 }
-.bolivia {
+.uruguay {
   position: relative;
   width: 100%;
+  padding-bottom: 12px;
+  /* background-color: #f14; */
   & div:nth-child(1) {
     & div {
-      width: 200px;
+      /* width: 200px; */
       & div {
         position: relative;
         width: auto;
@@ -62,12 +76,16 @@
     position: absolute;
     top: 10%;
     right: 0;
-    width: 50%;
+    width: 40%;
+
     & > img {
+      /* margin-left: 45px; */
+      margin-top: -50px;
       width: 100%;
       height: auto;
       @media (max-width: 480px) {
-        width: 120px;
+        width: 100px;
+        margin-left: 0px;
       }
       @media (min-width: 768px) {
         width: 190px;

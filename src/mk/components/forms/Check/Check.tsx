@@ -16,11 +16,12 @@ const Check = ({
   className = "",
   ...props
 }: PropsType) => {
-  console.log("checked(", props.value, ")", optionValue, props.value);
-
   return (
     <div className={styles.check + " " + className}>
-      <label htmlFor={props.name}>
+      <label
+        htmlFor={props.name}
+        style={{ color: props.checked ? "var(--cSuccess)" : "var(--cBlackV2)" }}
+      >
         {props.label} {props.required ? "*" : null}
         <input
           type="checkbox"
@@ -36,9 +37,9 @@ const Check = ({
         />
         <span>
           {props.checked ? (
-            <IconCheckSquare color="#00e38c" />
+            <IconCheckSquare color="var(--cSuccess)" style={{ marginTop: 4 }} />
           ) : (
-            <IconCheckOff />
+            <IconCheckOff style={{ marginTop: 4 }} />
           )}
         </span>
         {!props.error ? null : (

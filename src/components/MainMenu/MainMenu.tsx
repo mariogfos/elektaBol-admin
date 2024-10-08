@@ -11,6 +11,9 @@ import {
   IconDashboard,
   IconSetting,
   IconLogoElekta,
+  IconRedffiliates,
+  IconRolesPermisos,
+  IconStatic,
 } from "../layout/icons/IconsBiblioteca";
 import styles from "./mainmenu.module.css";
 import { useRouter } from "next/router";
@@ -62,17 +65,21 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
       }`}
     >
       <div>
-        <IconLogoElekta size={collapsed ? 44 : 88} />
+        <IconLogoElekta
+          size={collapsed ? 44 : 168}
+          style={{ cursor: "pointer" }}
+          onClick={() => router.push("/")}
+        />
         <Avatar
           w={collapsed ? 64 : 127}
           h={collapsed ? 64 : 127}
           name={getFullName(user)}
-          src={getUrlImages(`/ADM-${user?.id}.png?d=${user?.updated_at}`)}
+          src={getUrlImages(`/ADM-${user?.id}.webp?d=${user?.updated_at}`)}
           onClick={() => router.push("/profile")}
         />
         {!collapsed && (
           <>
-            <p>{getFullName(user)}</p>
+            <p style={{ marginTop: "12px" }}>{getFullName(user)}</p>
             <p>{user?.role?.description}</p>
             <p>{user?.entidad?.name}</p>
           </>
@@ -80,21 +87,40 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
       </div>
       <div className={styles["menu-content"]}>
         <Item href="/" label="Panel de control" icon={<IconDashboard />} />
-        <Item href="/profile" label="Mi perfil" icon={<IconUser />} />
+        {/* <Item
+          href="/profile"
+          label="Mi perfil"
+          icon={<IconUser reverse={true} />}
+        /> */}
         <Item href="/users" label="Organización" icon={<IconNet />} />
+        <Item
+          href="/affiliates"
+          label="Red de afiliados"
+          icon={<IconRedffiliates />}
+        />
         <Item
           href="/comunication"
           label="Comunicación"
           icon={<IconComunication />}
         />
         <Item href="/statistics" label="Estadísticas" icon={<IconNet />} />
-        <Item href="/config" label="Configuracion" icon={<IconSetting />} />
+        <Item
+          href="/stats"
+          label="Estadísticas electorales"
+          icon={<IconStatic />}
+        />
+        <Item
+          href="/roles"
+          label="Roles y permisos"
+          icon={<IconRolesPermisos />}
+        />
+        <Item href="/config" label="Configuración" icon={<IconSetting />} />
       </div>
       <div className={styles["menu-bottom"]}>
         <Item
           href="#"
           onclick={() => setOnLogout(true)}
-          label="Cerrar Sesión"
+          label="Cerrar sesión"
           labelColor={"var(--cError)"}
           icon={<IconLogout color={"var(--cError)"} />}
         />

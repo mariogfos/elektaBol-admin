@@ -14,10 +14,12 @@ const GraphBase = ({
   data,
   options,
   background = "#333536",
+  downloadPdf = false,
 }: ProptypesBase) => {
   const [chartType, setChartType] = React.useState<ChartType>("bar");
   const [lChartType, setLChartType] = React.useState<LChartType[]>([
     { id: "bar", name: "Barra" },
+    { id: "donut", name: "Donut" },
   ]);
   const onChange = (e:any) => {
     setChartType(e.target.value);
@@ -36,6 +38,8 @@ const GraphBase = ({
               ? "Circular"
               : type == "pie"
               ? "Torta"
+              : type == "donut"
+              ? "Donut"
               : "Linea",
         });
       });
@@ -57,7 +61,7 @@ const GraphBase = ({
           required
         />
       )}
-      <GraphsAdapter data={data} chartType={chartType} options={options} />
+      <GraphsAdapter data={data} chartType={chartType} options={options} downloadPdf={downloadPdf} />
     </div>
   );
 };

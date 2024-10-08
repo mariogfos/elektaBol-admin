@@ -21,6 +21,10 @@ export const getDataNotif = (data: any, socket: boolean = false) => {
       </>
     );
   }
+  if (data.info?.act == "newEvent") {
+    type = "info";
+    msg = "El Residente " + data.info?.name + " ha creado un pago";
+  }
   if (data.info?.act == "newVoucher") {
     type = "warning";
     msg = "El Residente " + data.info?.name + " ha subido un comprobante ";

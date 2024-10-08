@@ -4,6 +4,7 @@ import styles from "./WidgetPercentage.module.css";
 import { getDateStrMes, getUTCNow } from "@/mk/utils/date";
 import Table from "@/mk/components/ui/Table/Table";
 import GraphBase from "@/mk/components/ui/Graphs/GraphBase";
+import { COLORS20 } from "@/mk/components/ui/Graphs/GraphsTypes";
 
 interface WidgetPercentageProps {
   data: any;
@@ -16,6 +17,7 @@ const WidgetPercentage = ({ data }: WidgetPercentageProps) => {
   // console.log(data,'data desde wid%')
   const [dataFormatted, setDataFormatted] = useState([]);
   const [graphData, setGraphData] = useState({ labels: [], values: [] });
+  const allAnswersCountZero = data?.answers?.every((item:any) => item.sanswers_count === 0);
 
   useEffect(() => {
     if (data?.answers) {
@@ -54,19 +56,26 @@ const WidgetPercentage = ({ data }: WidgetPercentageProps) => {
       setGraphData(newGraphData);
     }
   }, [data]);
-
+ 
   const calcPercentage = (total: any, valor: any) => {
+  
     if (total === 0) {
       return 0;
     }
     return (valor / total) * 100;
   };
-
+  
   return (
     <div className={styles["widgetPercentage"]}>
         {data?.answers && data.answers.length > 0 ? (
+        
       <div>
         <div className="tTitle" style={{marginBottom:16}}>{data?.data?.name}</div>
+       { allAnswersCountZero ? (
+            <div  style={{ padding: 16, textAlign: "center",minHeight:300 ,alignItems:'center',justifyContent:'center',display:'flex'}} className="tSubtitle">
+             Ningún afiliado contestó esta encuesta
+            </div>
+          ) :(
         <div className={styles["widgetPercentageContent"]}>
           
           <div style={{justifyContent:data?.answers?.length >=5 ?'':'center'}} className={styles["cardsInfoContainer"]}>
@@ -81,14 +90,15 @@ const WidgetPercentage = ({ data }: WidgetPercentageProps) => {
           <div className={styles["percentagePie"]}>
             <GraphBase
               data={graphData}
-              chartTypes={["pie"]}
+              chartTypes={["donut"]}
               options={{
                 height: 240,
-                colors: ['#F58220','#FFD700', '#00E38C', '#FF5B4D', '#4C98DF','#39ACEC','#F58220','#DA5D5D','#E1C151'],
+                colors:COLORS20,
               }}
+              // downloadPdf={true}
             />
           </div>
-        </div>
+        </div>)}
       </div>):<div style={{padding:16,textAlign:"center"}} className="tSubtitle">No hay datos para mostrar</div>}
     </div>
   );

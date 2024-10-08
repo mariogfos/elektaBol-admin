@@ -1,6 +1,7 @@
 .button {
   display: inline-block;
-  border-radius: var(--bRadius);
+  /* border-radius: var(--bRadius); */
+  border-radius: var(--bRadiusS);
   border-width: 0;
   cursor: pointer;
   transition: all 0.3s;
@@ -23,8 +24,8 @@
     background-color: var(--cPrimary);
   }
   &.secondary {
-    border: var(--bWidth) solid var(--cWhiteV3);
-    color: var(--cWhiteV3);
+    border: var(--bWidth) solid var(--cWhiteV1);
+    color: var(--cWhiteV1);
   }
 
   &.terciary {

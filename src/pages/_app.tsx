@@ -1,4 +1,3 @@
-import Layout from "../components/layout/Layout";
 import Head from "next/head";
 import "../styles/theme.css";
 import "../styles/utils.css";
@@ -6,6 +5,7 @@ import AxiosInstanceProvider from "@/mk/contexts/AxiosInstanceProvider";
 import axiosInterceptors from "@/mk/interceptors/axiosInterceptors";
 import AuthProvider from "@/mk/contexts/AuthProvider";
 import PusherContextProvider from "@/mk/contexts/PusherContext";
+import Layout from "@/components/layout/Layout";
 
 function MyApp({ Component, pageProps }: any) {
   return (

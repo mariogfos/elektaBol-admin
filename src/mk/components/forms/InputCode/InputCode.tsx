@@ -35,7 +35,7 @@ const InputCode = ({
     const code = inputRefs.current.map((input) => input.value).join("");
     setCode(code.trim());
   };
- let color =  Object.keys(error).length > 0 ? 'var(--cError)':'var(--cWhite)'
+  let color = error[name] ? "var(--cError)" : "var(--cWhite)";
   useEffect(() => {
     inputRefs.current.forEach((input, index) => {
       const handleKeyDown = (e: KeyboardEvent) => {
@@ -84,37 +84,35 @@ const InputCode = ({
       };
     });
   }, []);
-console.log(error,"errinputcode")
   return (
     <>
-     <ControlLabel name={name} value={value} label={!error?label:error[name]} style={{color:color,marginBottom:16}} >
-      <div>
-      
-       
-        <div className={styles.inputCodeContainer}>
-          {[...Array(4)].map((_, i) => (
-            
-            <input
-              key={i}
-              ref={(el:any) => (inputRefs.current[i] = el!)}
-              name={`code${i + 1}`}
-              id={`code${i + 1}`}
-              className={styles['inputCode']}
-              style={{color:color,borderColor:color}}
-              required={required}
-              placeholder={placeholder}
-              autoComplete="off"
-              value={value[i] || ""}
-              type={type}
-              onChange={onChange}
-              aria-label={`Pin ${i + 1}`}
-              
-            />
-         
-          ))}
+      <ControlLabel
+        name={name}
+        value={value}
+        label={!error ? label : error[name]}
+        style={{ color: color, marginBottom: 16 }}
+      >
+        <div>
+          <div className={styles.inputCodeContainer}>
+            {[...Array(4)].map((_, i) => (
+              <input
+                key={i}
+                ref={(el: any) => (inputRefs.current[i] = el!)}
+                name={`code${i + 1}`}
+                id={`code${i + 1}`}
+                className={styles["inputCode"]}
+                style={{ color: color, borderColor: color }}
+                required={required}
+                placeholder={placeholder}
+                autoComplete="off"
+                value={value[i] || ""}
+                type={type}
+                onChange={onChange}
+                aria-label={`Pin ${i + 1}`}
+              />
+            ))}
+          </div>
         </div>
-
-      </div>
       </ControlLabel>
     </>
   );

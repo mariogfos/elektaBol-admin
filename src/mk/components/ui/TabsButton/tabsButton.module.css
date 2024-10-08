@@ -9,10 +9,12 @@
     background: transparent;
     cursor: pointer;
     transition: color 0.3s ease-in-out;
-    color: var(--cWhiteV3);
+    padding-bottom: 8px;
+    color: var(--cWhiteV1);
     &.selected {
       font-weight: var(--bBold);
       color: var(--cWhite);
+      padding-bottom: var(--spS);
       border-bottom: var(--bWidth) solid var(--cAccent);
       transition: color 0.3s ease-in-out;
     }
@@ -28,11 +30,4 @@
       height: 13px;
     }
   }
-}
-
-.tabsButton.scrollable {
-  overflow-x: auto;
-  width: auto;
-  justify-content: flex-start;
-  gap: var(--spXl);
 }

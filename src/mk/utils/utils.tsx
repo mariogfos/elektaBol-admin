@@ -31,3 +31,25 @@ export const isProbablyReactComponent = (prop: any) => {
 export const isFunction = (prop: any) => {
   return typeof prop === "function" && !isProbablyReactComponent(prop);
 };
+
+export const RandomsColors = [
+  "var(--cRandom1)",
+  "var(--cRandom2)",
+  "var(--cRandom3)",
+  "var(--cRandom4)",
+  "var(--cRandom5)",
+  "var(--cRandom6)",
+  "var(--cRandom7)",
+  "var(--cRandom8)",
+  "var(--cRandom9)",
+  "var(--cRandom10)",
+  "var(--cRandom11)",
+  "var(--cRandom12)",
+  "var(--cRandom13)",
+  "var(--cRandom14)",
+  "var(--cRandom15)",
+  "var(--cRandom16)",
+  "var(--cRandom17)",
+  "var(--cRandom18)",
+  "var(--cRandom19)",
+];

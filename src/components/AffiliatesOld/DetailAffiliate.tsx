@@ -18,14 +18,16 @@ const DetailAffiliate = ({ open, close, item }: PropsDetailUsers) => {
       title="Detalle de Afiliado"
       buttonText=""
       buttonCancel=""
-      
     >
       <div className={styles.detailAffiliate}>
-      <Avatar name={getFullName(item)}  src={getUrlImages('/AFF-' + item.id + '.png?d=' + item.updated_at)}/>
-      <div>CI: {item.ci}</div>
-      <div>Nombre: {item.name}</div>
-      <div>Apellido: {item.last_name}</div>
-      {item.email && <div>Email: {item.email}</div>}
+        <Avatar
+          name={getFullName(item)}
+          src={getUrlImages("/AFF-" + item.id + ".webp?d=" + item.updated_at)}
+        />
+        <div>CI: {item.ci}</div>
+        <div>Nombre: {item.name}</div>
+        <div>Apellido: {item.last_name}</div>
+        {item.email && <div>Email: {item.email}</div>}
       </div>
     </DataModal>
   );

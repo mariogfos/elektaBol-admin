@@ -1,12 +1,13 @@
 .card {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: var(--sPs);
-  padding: var(--spM);
+  padding: var(--spS);
   border-radius: var(--bRadius);
   background-color: var(--cBlackV1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
   margin-top: 16px;
   margin-bottom: 16px;
-  
+  border: 1px solid var(--cBlackV3);
 }

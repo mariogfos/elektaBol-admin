@@ -46,19 +46,36 @@ const DataSearch = ({
     setOldSearch(value);
   }, [value]);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      onSearch();
+    }
+  };
+
   return (
     <Input
       name={name}
       className={styles.dataSearch + " " + className}
       required={false}
       label={label}
+      placeholder="Buscar"
+      onKeyDown={handleKeyDown}
       value={searchBy}
+      style={{ backgroundColor: "var(--cBlackV1" }}
       onChange={onChange}
       iconLeft={
         !value ? (
-          <IconSearch />
+          <IconSearch
+            size={16}
+            color={"var(--cBlackV2)"}
+            style={{ marginRight: "var(--spS)" }}
+          />
         ) : (
-          <IconX onClick={() => onSearch("")} className="error" />
+          <IconX
+            onClick={() => onSearch("")}
+            color={"var(--cBlackV2)"}
+            className="error"
+          />
         )
       }
       iconRight={

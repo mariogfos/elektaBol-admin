@@ -2,6 +2,10 @@
   margin-top: var(--spS);
   margin-bottom: var(--spS);
   position: relative;
+  & > p {
+    color: var(--cError);
+    font-size: 12px;
+  }
   & label {
     position: absolute;
     top: 0;

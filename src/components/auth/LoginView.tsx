@@ -32,62 +32,64 @@ const LoginView = ({
         height: "100vh",
       }}
     >
-      <div className={styles.loginView}>
-        <section>
-          <div>
+      <form>
+        <div className={styles.loginView}>
+          <section>
             <div>
-              <div className={styles["bgAdmin"]}>
-              
-              </div>
-              <div  style={{ display: 'flex', alignItems: 'center' }}>
-                <Image src={background} alt="" priority style={{ width: 501, height: 429 }} />
-              </div>
-
-            </div>
-            <div>
-              <div className="tTitle">
-                Bienvenido(a) a la plataforma para estar conectado con tu
-                movimiento.
-              </div>
-              <div className="tMedium">
-                Ingresa para recibir las últimas noticias y eventos sobre tu movimiento
+              <div>
+                <div className={styles["bgAdmin"]}></div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Image
+                    src={background}
+                    alt=""
+                    priority
+                    style={{ width: 501, height: 429 }}
+                  />
+                </div>
               </div>
               <div>
-                <Input
-                  label="Cédula de identidad"
-                  name="email"
-                  required
-                  value={formState.email}
-                  onChange={handleChange}
-                  error={errors}
-                />
-                <InputPassword
-                  label="Contraseña"
-                  required
-                  name="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                  error={errors}
-                />
-                <Button onClick={() => handleSubmit()}>Ingresar</Button>
+                <div
+                  className="tTitle"
+                  style={{ fontSize: 48, marginBottom: "var(--spL)" }}
+                >
+                  La plataforma para <br />
+                  gestión política
+                </div>
+
+                <div>
+                  <Input
+                    label="Cédula de identidad"
+                    name="email"
+                    required
+                    value={formState.email}
+                    onChange={handleChange}
+                    error={errors}
+                  />
+                  <InputPassword
+                    label="Contraseña"
+                    required
+                    name="password"
+                    value={formState.password}
+                    onChange={handleChange}
+                    error={errors}
+                  />
+                  <Button onClick={() => handleSubmit()}>Ingresar</Button>
+                </div>
+
+                <br />
+                <div className="link" onClick={() => setOpenModal(true)}>
+                  {" "}
+                  Olvidé mi contraseña
+                </div>
+
+                <br />
               </div>
-
-              <br />
-              <div className="link" onClick={() => setOpenModal(true)}>
-                {" "}
-                Olvidé mi contraseña
-              </div>
-
-              <br />
-            </div>  
-         
-          </div>
-          <div className={styles['elektaDescript']}>ELEKTA Plataforma digital de gestión política</div> 
-        </section>
-
-
-      </div>
-      <ForgotPass mod={"adm"} open={openModal} setOpen={setOpenModal} />
+            </div>
+            {/* <div className={styles['elektaDescript']}>ELEKTA Plataforma digital de gestión política</div>  */}
+          </section>
+        </div>
+        <ForgotPass mod={"adm"} open={openModal} setOpen={setOpenModal} />
+      </form>
     </div>
   );
 };

@@ -19,7 +19,6 @@ const Config = () => {
     <div>
       <div style={{ marginTop: 20 }}>
         <TabsButtons
-          variant="scrollable"
           tabs={[
             { value: "S", text: "Sublemas" },
             { value: "L", text: "Listas" },

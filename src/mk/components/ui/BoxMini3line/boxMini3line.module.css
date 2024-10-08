@@ -9,9 +9,9 @@
   padding-bottom: var(--spS);
   background-color: var(--cBlackV2);
   border-radius: var(--bRadius);
-  border: var(--bWidth) solid var(--cWhiteV3);
+  border: var(--bWidth) solid var(--cWhiteV1);
   font-size: var(--sS);
-  color: var(--cWhiteV3);
+  color: var(--cWhiteV1);
   @media (width > 768px) {
     padding-left: var(--spL);
     padding-right: var(--spL);
