@@ -47,7 +47,7 @@ const Stats = () => {
     fullType: "L",
     perPage: -1,
   });
-  const { data: cantons } = useAxios("/cantons", "GET", {
+  const { data: dptos } = useAxios("/dptos", "GET", {
     fullType: "L",
     perPage: -1,
   });
@@ -56,14 +56,14 @@ const Stats = () => {
     fullType: "L",
   });
 
-  const getCantons = () => {
-    if (filters.prov_id > 0) {
-      return cantons?.data.filter(
-        (item: any) => item.prov_id === filters.prov_id
-      );
-    } else {
-      return [];
-    }
+  const getProvs = () => {
+     if (filters.dpto_id > 0) {
+       return provs?.data.filter(
+         (item: any) => item.dpto_id === filters.dpto_id
+       );
+     } else {
+       return [];
+     }
   };
 
   const onFilter = async () => {
@@ -83,16 +83,16 @@ const Stats = () => {
     setFilterTags({});
   };
   const getNameEtiqueta = (item: any) => {
-    if (item === "prov_id") {
+    if (item === "dpto_id") {
       return (
         "Departamento: " +
-        provs?.data.find((prov: any) => prov.id === filters[item])?.name
+        dptos?.data.find((prov: any) => prov.id === filters[item])?.name
       );
     }
-    if (item === "canton_id") {
+    if (item === "prov_id") {
       return (
-        "cantonidad: " +
-        cantons?.data.find((canton: any) => canton.id === filters[item])?.name
+        "Provincia: " +
+        provs?.data.find((canton: any) => canton.id === filters[item])?.name
       );
     }
     if (item == "gender") {
@@ -205,8 +205,8 @@ const Stats = () => {
             ) : (
               <WidgetTableAffProv
                 widget={metrics?.data?.widget7}
-                data={cantons?.data}
-                type="canton"
+                data={provs?.data}
+                type="prov"
                 filters={filters}
               />
             )}
@@ -230,21 +230,29 @@ const Stats = () => {
           </Button>
         }
       >
+    <FilterTags
+          title="Departamentos"
+          data={dptos?.data}
+          msgEmpty="Selecciona un departamento para mostrar sus cantonidades."
+          filters={filters}
+          setFilters={setFilters}
+          type="dptos_id"
+        />
         <FilterTags
           title="Provincias"
-          data={provs?.data}
+          data={getProvs()}
           filters={filters}
           setFilters={setFilters}
           type="prov_id"
         />
-        <FilterTags
+        {/* <FilterTags
           title="Cantones"
           data={getCantons()}
           msgEmpty="Selecciona un departamento para mostrar sus cantonidades."
           filters={filters}
           setFilters={setFilters}
           type="canton_id"
-        />
+        /> */}
         <FilterTags
           title="Género"
           data={lGreader}
