@@ -234,7 +234,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                 label="Departamento"
                 name="dpto_id"
                 error={errorsUsers}
-                disabled={precarga?.prov_id}
+                disabled={precarga?.dpto_id}
                 required={true}
                 value={formState["dpto_id"]}
                 onChange={handleChangeInput}
