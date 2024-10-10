@@ -295,7 +295,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                   label="Distrito Municipal"
                   name="dmun_id"
                   error={errorsUsers}
-                  disabled={precarga?.mun_id}
+                  disabled={precarga?.dmun_id}
                   required={true}
                   value={formState["dmun_id"]}
                   onChange={handleChangeInput}
