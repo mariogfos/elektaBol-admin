@@ -78,7 +78,7 @@ const Countries = () => {
   const MenuFilter = () => {
     return (
       <div style={{ paddingTop: "12px" }}>
-        <IconStarProfile onClick={actDatos} />
+        {/* <IconStarProfile onClick={actDatos} /> */}
       </div>
     );
   };
