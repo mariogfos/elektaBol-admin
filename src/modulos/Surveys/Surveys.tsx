@@ -306,7 +306,7 @@ const Surveys = () => {
       </p>
     ),
     permiso: "surveys",
-    extraData: true,
+    // extraData: true,
     import: true,
     renderView: (props: {
       open: boolean;

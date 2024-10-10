@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Provs.module.css";
+import styles from "./Uvs.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
@@ -9,9 +9,9 @@ import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "provs",
-  singular: "provincia",
-  plural: "provincias",
+  modulo: "uvs",
+  singular: "Unidad vecinal",
+  plural: "Unidades vecinales",
   permiso: "",
   extraData: true,
 };
@@ -23,7 +23,7 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Provs = () => {
+const Uvs = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -36,14 +36,51 @@ const Provs = () => {
       dpto_id: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
-        list: { width: "250px" },
+        label: "Dpto",
         form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+        list: {
+          width: "250px",
+          label: "Circuns.",
+          style: { textAlign: "right" },
+        },
+        form: { type: "select", optionsExtra: "circuns" },
+      },
+      mun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Municipio",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "muns" },
+      },
+      dmun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Distrito municipal",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "dmuns" },
+      },
+      local_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Localidad",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "locals" },
       },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Provincia",
+        label: "Unidad vecinal",
         list: true,
         form: { type: "text" },
       },
@@ -78,12 +115,6 @@ const Provs = () => {
         },
         form: { type: "text" },
       },
-      escanos: {
-        rules: ["positive"],
-        api: "ae",
-        label: "Escaños asignados",
-        form: { type: "text" },
-      },
     };
   }, []);
 
@@ -114,11 +145,7 @@ const Provs = () => {
           title={item?.name}
           subtitle={
             "Habitantes: " +
-            (item?.habitantes +
-              " - Habilitados: " +
-              item?.habilitados +
-              " - Escaños: " +
-              item?.escanos)
+            (item?.habitantes + " - Habilitados: " + item?.habilitados)
           }
           variant="V1"
           active={selItem && selItem.id == item.id}
@@ -135,4 +162,4 @@ const Provs = () => {
   );
 };
 
-export default Provs;
+export default Uvs;
