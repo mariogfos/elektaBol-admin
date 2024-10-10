@@ -129,29 +129,36 @@ const Events = () => {
         list: { width: 120 },
         form: { type: "select", options: lDestinies, onLeft: leftDestiny },
       },
-      sublema_id: {
+      // sublema_id: {
+      //   rules: ["required"],
+      //   api: "ae",
+      //   label: "Sublema",
+      //   hide: isHide,
+      //   list: false,
+      //   form: {
+      //     type: "select",
+      //     optionsExtra: "sublemas",
+      //     precarga: user.datos?.sublema_id,
+      //   },
+      // },
+      // lista_id: {
+      //   rules: ["required"],
+      //   api: "ae",
+      //   label: "Lista",
+      //   hide: isHide,
+      //   list: false,
+      //   form: {
+      //     type: "select",
+      //     optionsExtra: "listas",
+      //     precarga: user.datos?.lista_id,
+      //   },
+      // },
+      candidate_id: {
         rules: ["required"],
         api: "ae",
-        label: "Sublema",
-        hide: isHide,
-        list: false,
-        form: {
-          type: "select",
-          optionsExtra: "sublemas",
-          precarga: user.datos?.sublema_id,
-        },
-      },
-      lista_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Lista",
-        hide: isHide,
-        list: false,
-        form: {
-          type: "select",
-          optionsExtra: "listas",
-          precarga: user.datos?.lista_id,
-        },
+        label: "Candidato",
+        list: { width: "200px" },
+        form: { type: "select", optionsExtra: "candidates" },
       },
       name: {
         rules: ["required"],
