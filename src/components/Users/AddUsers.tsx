@@ -281,7 +281,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                   name="mun_id"
                   error={errorsUsers}
                   disabled={precarga?.mun_id}
-                  required={level > 4}
+                  required={true}
                   value={formState["mun_id"]}
                   onChange={handleChangeInput}
                   options={getMuns() || []}
@@ -296,7 +296,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                   name="dmun_id"
                   error={errorsUsers}
                   disabled={precarga?.mun_id}
-                  required={level > 4}
+                  required={true}
                   value={formState["dmun_id"]}
                   onChange={handleChangeInput}
                   options={getDMuns() || []}
@@ -311,7 +311,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                   name="local_id"
                   error={errorsUsers}
                   disabled={precarga?.local_id}
-                  required={level > 4}
+                  required={true}
                   value={formState["local_id"]}
                   onChange={handleChangeInput}
                   options={getLocals() || []}
@@ -326,7 +326,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                   name="uv_id"
                   error={errorsUsers}
                   disabled={precarga?.uv_id}
-                  required={level > 4}
+                  required={true}
                   value={formState["uv_id"]}
                   onChange={handleChangeInput}
                   options={getUVS() || []}
@@ -342,7 +342,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                   name="barrio_id"
                   error={errorsUsers}
                   disabled={precarga?.barrio_id}
-                  required={level > 4}
+                  required={level > 8}
                   value={formState["barrio_id"]}
                   onChange={handleChangeInput}
                   options={getBarrios() || []}
