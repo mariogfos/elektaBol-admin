@@ -38,7 +38,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     fullType: "EXTRA",
     todos: 1,
   });
- console.log("precargs", precarga);
+  console.log("precargs", precarga);
 
   // const getParish = () => {
   //   let data: any = [];
@@ -55,7 +55,6 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     let data: any = [];
     if (listsApi?.data?.macroregions.length > 0) {
       listsApi?.data.macroregions.find((item: any) => {
-        console.log(item.dpto_id == formState.dpto_id);
         if (item?.dpto_id == formState?.dpto_id) {
           data.push(item);
         }
@@ -73,7 +72,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       });
     }
     return data;
-  }
+  };
   const getMuns = () => {
     let data: any = [];
     if (listsApi?.data?.muns.length > 0) {
@@ -106,7 +105,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       });
     }
     return data;
-  }
+  };
   const getUVS = () => {
     let data: any = [];
     if (listsApi?.data?.uvs.length > 0) {
@@ -117,7 +116,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       });
     }
     return data;
-  }
+  };
 
   const getBarrios = () => {
     let data: any = [{ id: -1, name: "Otro" }];
@@ -130,7 +129,6 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     }
     return data;
   };
-
 
   // console.log(formState.prov_id);
   const getDatos = (entidad: any) => {
@@ -183,8 +181,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       return item?.name || "";
     }
   };
-
-
+  console.log(precarga?.dpto_id);
   return (
     <DataModal
       open={open}
@@ -238,7 +235,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                 required={true}
                 value={formState["dpto_id"]}
                 onChange={handleChangeInput}
-                options={listsApi?.data?.provs || []}
+                options={listsApi?.data?.dptos || []}
                 className="appearance-none"
               />
             )}
@@ -276,64 +273,64 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
           {formState.role_id !== null &&
             user?.role?.level <= 4 &&
             level > 4 && (
-                <Select
-                  label="Municipio"
-                  name="mun_id"
-                  error={errorsUsers}
-                  disabled={precarga?.mun_id}
-                  required={true}
-                  value={formState["mun_id"]}
-                  onChange={handleChangeInput}
-                  options={getMuns() || []}
-                  className="appearance-none"
-                />
+              <Select
+                label="Municipio"
+                name="mun_id"
+                error={errorsUsers}
+                disabled={precarga?.mun_id}
+                required={true}
+                value={formState["mun_id"]}
+                onChange={handleChangeInput}
+                options={getMuns() || []}
+                className="appearance-none"
+              />
             )}
-           {formState.role_id !== null &&
+          {formState.role_id !== null &&
             user?.role?.level <= 5 &&
             level > 5 && (
-                <Select
-                  label="Distrito Municipal"
-                  name="dmun_id"
-                  error={errorsUsers}
-                  disabled={precarga?.dmun_id}
-                  required={true}
-                  value={formState["dmun_id"]}
-                  onChange={handleChangeInput}
-                  options={getDMuns() || []}
-                  className="appearance-none"
-                />
+              <Select
+                label="Distrito Municipal"
+                name="dmun_id"
+                error={errorsUsers}
+                disabled={precarga?.dmun_id}
+                required={true}
+                value={formState["dmun_id"]}
+                onChange={handleChangeInput}
+                options={getDMuns() || []}
+                className="appearance-none"
+              />
             )}
-            {formState.role_id !== null &&
+          {formState.role_id !== null &&
             user?.role?.level <= 6 &&
             level > 6 && (
-                <Select
-                  label="Local"
-                  name="local_id"
-                  error={errorsUsers}
-                  disabled={precarga?.local_id}
-                  required={true}
-                  value={formState["local_id"]}
-                  onChange={handleChangeInput}
-                  options={getLocals() || []}
-                  className="appearance-none"
-                />
+              <Select
+                label="Local"
+                name="local_id"
+                error={errorsUsers}
+                disabled={precarga?.local_id}
+                required={true}
+                value={formState["local_id"]}
+                onChange={handleChangeInput}
+                options={getLocals() || []}
+                className="appearance-none"
+              />
             )}
-            {formState.role_id !== null &&
+          {formState.role_id !== null &&
             user?.role?.level <= 7 &&
             level > 7 && (
-                <Select
-                  label="Unidad vecinal"
-                  name="uv_id"
-                  error={errorsUsers}
-                  disabled={precarga?.uv_id}
-                  required={true}
-                  value={formState["uv_id"]}
-                  onChange={handleChangeInput}
-                  options={getUVS() || []}
-                  className="appearance-none"
-                />
+              <Select
+                label="Unidad vecinal"
+                name="uv_id"
+                error={errorsUsers}
+                disabled={precarga?.uv_id}
+                required={true}
+                value={formState["uv_id"]}
+                onChange={handleChangeInput}
+                options={getUVS() || []}
+                className="appearance-none"
+              />
             )}
-         {formState.role_id !== null &&
+          {formState.role_id !== null &&
             user?.role?.level <= 8 &&
             level > 8 && (
               <>
@@ -362,7 +359,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
                 )}
               </>
             )}
-                  
+
           <Input
             label="Cédula de identidad"
             type="text"
