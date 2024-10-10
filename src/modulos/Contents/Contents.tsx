@@ -10,9 +10,11 @@ import RenderItem from "../shared/RenderItem";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import {
+  IconComment,
   IconDocs,
   IconDownload,
   IconImage,
+  IconLike,
   IconYoutube,
 } from "@/components/layout/icons/IconsBiblioteca";
 import { useAuth } from "@/mk/contexts/AuthProvider";
@@ -20,6 +22,8 @@ import DataModal from "@/mk/components/ui/DataModal/DataModal";
 import Check from "@/mk/components/forms/Check/Check";
 import RenderView from "./RenderView";
 import { getDateTimeStrMesShort } from "@/mk/utils/date";
+import ImportDataModal from "@/mk/components/data/ImportDataModal/ImportDataModal";
+import { formatNumber } from "@/mk/utils/numbers";
 
 const paramsInitial = {
   perPage: -1,
@@ -27,28 +31,26 @@ const paramsInitial = {
   fullType: "L",
   searchBy: "",
 };
-const isHide = (data: {
-  key: string;
-  user?: Record<string, any>;
-  item: Record<string, any>;
-}) => {
-  const level = data.user?.role.level;
-  // const level = 3;
-  if (data.key == "sublema_id") return level > 1;
-  if (data.key == "lista_id") return level > 2;
-  if (data.key == "dpto_id") return level > 4;
-  if (data.key == "local_id") return level > 5;
-  if (data.key == "barrio_id") return level > 6;
-  return false;
-};
+// const isHide = (data: {
+//   key: string;
+//   user?: Record<string, any>;
+//   item: Record<string, any>;
+// }) => {
+//   const level = data.user?.role.level;
+//   // const level = 3;
+//   if (data.key == "sublema_id") return level > 1;
+//   if (data.key == "lista_id") return level > 2;
+//   if (data.key == "dpto_id") return level > 4;
+//   if (data.key == "local_id") return level > 5;
+//   if (data.key == "barrio_id") return level > 6;
+//   return false;
+// };
 
 const isType = (data: {
   key: string;
   user?: Record<string, any>;
   item: Record<string, any>;
 }) => {
-  console.log("isType", data);
-
   if (data.key == "url" && data.item.type == "V") return false;
   if (data.key == "avatar" && data.item.type == "I") return false;
   if (data.key == "file" && data.item.type == "D") return false;
@@ -66,11 +68,7 @@ const lDestinies = (data: {
   user?: Record<string, any>;
   item: Record<string, any>;
 }) => {
-  const r = [
-    { id: 0, name: "Todos" },
-    { id: -1, name: "Administradores" },
-    { id: -2, name: "Afiliados" },
-  ];
+  const r = [{ id: 0, name: "Todos" }];
   const level = data.user?.role.level;
   // const level = 3;
   if (level <= 1) r.push({ id: 2, name: "Sublema" });
@@ -96,7 +94,7 @@ const leftDestiny = (data: {
         <Avatar
           name={getFullName(data.user)}
           src={getUrlImages(
-            "/ADM-" + data.user?.id + ".png?" + data.user?.updated_at
+            "/ADM-" + data.user?.id + ".webp?" + data.user?.updated_at
           )}
         />
       }
@@ -159,10 +157,16 @@ const Contents = () => {
   const { user } = useAuth();
   const mod: ModCrudType = {
     modulo: "contents",
-    singular: "Contenido multimedia",
+    singular: "publicación",
     plural: "Contenidos multimedia",
-    permiso: "",
+    permiso: "contents",
+    import: true,
     extraData: true,
+    saveMsg: {
+      add: "Publicación creada con éxito",
+      edit: "Publicación actualizada con éxito",
+      del: "Publicación eliminada con éxito",
+    },
     renderView: (props: {
       open: boolean;
       onClose: any;
@@ -180,31 +184,19 @@ const Contents = () => {
         api: "ae",
         label: "Destino",
         list: { width: "180px" },
-        form: { type: "select", options: lDestinies, onLeft: leftDestiny },
-      },
-      sublema_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Sublema",
-        hide: isHide,
-        list: false,
         form: {
           type: "select",
-          optionsExtra: "sublemas",
-          precarga: user.datos?.sublema_id,
+          options: lDestinies,
+          onLeft: leftDestiny,
+          precarga: 0,
         },
       },
-      lista_id: {
+      candidate_id: {
         rules: ["required"],
         api: "ae",
-        label: "Lista",
-        hide: isHide,
-        list: false,
-        form: {
-          type: "select",
-          optionsExtra: "listas",
-          precarga: user.datos?.lista_id,
-        },
+        label: "Candidato",
+        list: { width: "200px" },
+        form: { type: "select", optionsExtra: "candidates" },
       },
       type: {
         rules: ["required"],
@@ -216,24 +208,42 @@ const Contents = () => {
       description: {
         rules: ["required"],
         api: "ae",
-        label: "Que deseas publicar hoy?",
+        label: "¿Qué deseas publicar hoy?",
         list: true,
         form: { type: "textArea", lines: 5 },
+      },
+      reaction: {
+        api: "ae",
+        label: "Interacciones",
+        list: { width: "360px" },
+        onHide: isType,
+        form: {},
+        onRender: (item: any) => {
+          return (
+            <div
+              style={{ display: "flex", alignItems: "center", fontSize: 14 }}
+            >
+              <IconLike color={"var(--cInfo)"} size={24} />
+              {formatNumber(item?.item?.likes, 0)} <IconComment size={24} />
+              {formatNumber(item?.item?.comments_count, 0)}
+            </div>
+          );
+        },
       },
       url: {
         rules: ["requiredIf:type,V"],
         api: "a*e*",
         label: "Link del video",
         list: false,
-        hide: isType,
+        onHide: isType,
         form: { type: "text" },
       },
       avatar: {
-        rules: ["requiredFileIf:type,I"],
+        rules: ["requiredFileIf:type,I*add"],
         api: "a*e*",
-        label: "Suba una Imagen",
+        label: "Suba una imagen",
         list: false,
-        hide: isType,
+        onHide: isType,
         form: {
           type: "imageUpload",
           onRigth: rigthAvatar,
@@ -245,7 +255,7 @@ const Contents = () => {
         api: "a*e*",
         label: "Suba un Documento",
         list: false,
-        hide: isType,
+        onHide: isType,
         form: {
           type: "fileUpload",
           onRigth: rigthFile,
@@ -329,6 +339,20 @@ const Contents = () => {
           setShowExtraModal(null);
         }}
       >
+        <Check
+          key={"check0"}
+          name={"destiny_0"}
+          label="Todos"
+          checked={sel.length == 0}
+          onChange={(e: any) => {
+            const { name, checked } = e.target;
+            if (checked) {
+              setSel([]);
+            }
+          }}
+          value={0}
+          optionValue={["0", "N"]}
+        />
         {selDestinies.map((d: any, i: number) => (
           <Check
             key={"check" + i}
@@ -353,6 +377,10 @@ const Contents = () => {
     );
   };
 
+  const onImport = () => {
+    setOpenImport(true);
+  };
+
   const {
     userCan,
     List,
@@ -362,14 +390,18 @@ const Contents = () => {
     onEdit,
     onDel,
     extraData,
-    findOptions,
+    showToast,
+    execute,
+    reLoad,
+    getExtraData,
   } = useCrud({
     paramsInitial,
     mod,
     fields,
     _onChange,
+    _onImport: onImport,
   });
-  const { onLongPress, selItem } = useCrudUtils({
+  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -378,6 +410,11 @@ const Contents = () => {
     onDel,
     title: "Comunicación",
   });
+
+  const [openImport, setOpenImport] = useState(false);
+  useEffect(() => {
+    setOpenImport(searchState == 3);
+  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -407,11 +444,36 @@ const Contents = () => {
       </RenderItem>
     );
   };
-
+  const onResponse = async () => {
+    // const { data } = await execute("/optimizeImages", "POST", {});
+    const { data } = await execute("/contents-automatic", "POST", {});
+    if (data?.success) {
+      showToast("success", "Se han enviado las encuestas");
+      console.log("data", data);
+    } else {
+      showToast("error", "No se han podido enviar las encuestas");
+    }
+  };
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
   return (
-    <div className={styles.style}>
+    <div className={styles.roles}>
+      {/* <IconLike onClick={() => onResponse()} /> */}
       <List onTabletRow={renderItem} actionsWidth="140px" />
+      {openImport && (
+        <ImportDataModal
+          open={openImport}
+          onClose={() => {
+            setSearchState(0);
+            setOpenImport(false);
+          }}
+          mod={mod}
+          showToast={showToast}
+          reLoad={reLoad}
+          execute={execute}
+          getExtraData={getExtraData}
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+        />
+      )}
     </div>
   );
 };

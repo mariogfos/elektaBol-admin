@@ -6,13 +6,20 @@ import GraphAdapterRadialBar from "./GraphAdapterRadialbar";
 import GraphAdapterLine from "./GraphAdapterLine";
 import GraphAdapterPie from "./GraphAdapterPie";
 import { formatNumber } from "@/mk/utils/numbers";
+import GraphAdapterDonut from "./GraphAdapterDonut";
+import React from "react";
 
-const GraphsAdapter = ({ data, chartType, options }: ProptypesAdapter) => {
+const GraphsAdapter = ({
+  data,
+  chartType,
+  options,
+  downloadPdf,
+}: ProptypesAdapter) => {
   const [optionsChart, setOptionsChart]: any = useState(null);
   const [dataChart, setDataChart]: any = useState(null);
 
   const iconDownload = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M4 15.504V16.5C4 17.2956 4.31607 18.0587 4.87868 18.6213C5.44129 19.1839 6.20435 19.5 7 19.5H17C17.7956 19.5 18.5587 19.1839 19.1213 18.6213C19.6839 18.0587 20 17.2956 20 16.5V15.5M12 4V15M12 15L15.5 11.5M12 15L8.5 11.5" stroke="white" fill="transparent" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <path d="M4 15.504V16.5C4 17.2956 4.31607 18.0587 4.87868 18.6213C5.44129 19.1839 6.20435 19.5 7 19.5H17C17.7956 19.5 18.5587 19.1839 19.1213 18.6213C19.6839 18.0587 20 17.2956 20 16.5V15.5M12 4V15M12 15L15.5 11.5M12 15L8.5 11.5" stroke="white" fill="transparent" strokeWidth="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
   `;
   const colorWhite = "#A7A7A7";
@@ -39,7 +46,7 @@ const GraphsAdapter = ({ data, chartType, options }: ProptypesAdapter) => {
       },
       type: chartType || "bar",
       toolbar: {
-        show: true,
+        show: downloadPdf,
         tools: {
           download: iconDownload,
         },
@@ -62,13 +69,19 @@ const GraphsAdapter = ({ data, chartType, options }: ProptypesAdapter) => {
     stroke: {
       width: 0,
     },
+
     legend: {
       fontFamily: "Inter",
       labels: {
         colors: colorWhite,
       },
-      position: "right",
-      offsetY: 65,
+      position: "bottom",
+      offsetY: 8,
+      offsetX: 0,
+      // position: "bottom", // O 'top', 'left', 'right'
+      // horizontalAlign: "center",
+      // offsetX: 0, // Ajusta la posición horizontal del texto de la leyenda
+      // offsetY: 0, //
     },
     xaxis: {
       labels: {
@@ -91,7 +104,7 @@ const GraphsAdapter = ({ data, chartType, options }: ProptypesAdapter) => {
 
       y: {
         formatter: function (val: any) {
-          return formatNumber(val) + " Bs"; // Personaliza el modal cunado hacen hover
+          return options?.money ? formatNumber(val) + " Bs" : val; // Personaliza el modal cunado hacen hover
         },
       },
     },
@@ -103,7 +116,7 @@ const GraphsAdapter = ({ data, chartType, options }: ProptypesAdapter) => {
           fontFamily: "Inter, Arial,",
         },
         formatter: (value: any) => {
-          return formatNumber(value) + " Bs";
+          return options?.money ? formatNumber(value) + " Bs" : value;
         },
       },
     },
@@ -140,6 +153,9 @@ const GraphsAdapter = ({ data, chartType, options }: ProptypesAdapter) => {
         break;
       case "pie":
         datos = await GraphAdapterPie(data, options, o);
+        break;
+      case "donut": // Añadir este caso
+        datos = await GraphAdapterDonut(data, options, o);
         break;
 
       default:

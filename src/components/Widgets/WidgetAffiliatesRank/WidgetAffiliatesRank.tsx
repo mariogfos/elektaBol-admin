@@ -4,7 +4,7 @@ import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import List from "@/mk/components/ui/List/List";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
 import styles from "./WidgetAffiliatesRank.module.css";
-import { formatNumberCustom } from '../../../mk/utils/date';
+import { formatNumberCustom } from "../../../mk/utils/date";
 
 const WidgetAffiliatesRank = ({ data }: any) => {
   //  console.log(data,'rank');
@@ -21,7 +21,7 @@ const WidgetAffiliatesRank = ({ data }: any) => {
           left={
             <Avatar
               name={getFullName(row)}
-              src={getUrlImages("/AFF-" + row.id + ".png?d=" + row.updated_at)}
+              src={getUrlImages("/AFF-" + row.id + ".webp?d=" + row.updated_at)}
             />
           }
         />

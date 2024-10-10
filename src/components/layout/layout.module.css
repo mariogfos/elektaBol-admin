@@ -1,21 +1,54 @@
 .layout {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-areas:
+    "sidebar navbar"
+    "sidebar content";
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
   width: 100vw;
-  background-color: var(--cBlack);
+  overflow: hidden;
 
-  @media (width <=1024px) {
-    padding-bottom: 85px;
+  @media (width < 1024px) {
+    grid-template-areas:
+      "navbar"
+      "content"
+      "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
   }
-}
 
-.modalLogout {
-  padding: 20px;
-  color: var(--cBlackV2);
-}
+  &> :nth-child(1) {
+    grid-area: navbar;
+    width: 100%;
+  }
 
-.header {
-  position: fixed;
-  transition: "margin-left 0.3s, width 0.3s";
+  &> :nth-child(2) {
+    grid-area: sidebar;
+    height: 100%;
+
+    @media (width < 1024px) {
+      display: none;
+    }
+  }
+
+  &> :nth-child(3) {
+    grid-area: content;
+    overflow-y: auto;
+    padding: 24px;
+
+    @media (width < 1024px) {
+      padding: 16px;
+    }
+  }
+
+  &> :nth-child(4) {
+    grid-area: footer;
+    width: 100%;
+
+    @media (min-width: 1024px) {
+      display: none;
+    }
+  }
 }

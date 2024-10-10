@@ -101,7 +101,7 @@ const Table = ({
           header={header}
           data={data}
           actionsWidth={actionsWidth}
-          renderFoot={onRenderFoot}
+          onRenderFoot={onRenderFoot}
           onButtonActions={onButtonActions}
           scrollbarWidth={scrollbarWidth}
         />
@@ -158,14 +158,14 @@ const Sumarize = memo(function Sumarize({
   header,
   data,
   actionsWidth = "100%",
-  renderFoot = false,
+  onRenderFoot = null,
   onButtonActions = false,
   scrollbarWidth,
 }: {
   header: any;
   data: any;
   actionsWidth?: any;
-  renderFoot?: any;
+  onRenderFoot?: Function | null;
   onButtonActions?: any;
   scrollbarWidth?: number;
 }) {
@@ -182,6 +182,7 @@ const Sumarize = memo(function Sumarize({
   };
   useEffect(() => {
     if (!data || !header) return;
+    setSumas({});
     data.map((item: any, i: number) => {
       header.map((h: any) => onSumarize(h, item, i));
     });
@@ -194,12 +195,12 @@ const Sumarize = memo(function Sumarize({
           key={"foot" + index}
           className={styles[item.responsive] + " " + item.className}
           style={{
-            // ...item.style,
+            ...item.style,
             ...(item.width ? { width: item.width } : {}),
           }}
         >
-          {renderFoot ? (
-            <span>{renderFoot(item, index)}</span>
+          {item.onRenderFoot ? (
+            <span>{item.onRenderFoot(item, index, sumas)}</span>
           ) : item.sumarize ? (
             <div>{formatNumber(sumas[item.key], item.sumDec || 0)}</div>
           ) : (

@@ -59,9 +59,8 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Población",
       responsive: "onlyDesktop",
       style: {
-        display: "flex",
         justifyContent: "right",
-        alignItems: "center",
+        textAlign: "right",
       },
       width: "600px",
       onRender: (item: any) => {
@@ -74,9 +73,8 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Padrón electoral",
       responsive: "onlyDesktop",
       style: {
-        display: "flex",
         justifyContent: "right",
-        alignItems: "center",
+        textAlign: "right",
       },
       width: "600px",
       onRender: (item: any) => {
@@ -90,9 +88,8 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Votos emitidos",
       responsive: "onlyDesktop",
       style: {
-        display: "flex",
         justifyContent: "right",
-        alignItems: "center",
+        textAlign: "right",
       },
       width: "600px",
       onRender: (item: any) => {
@@ -105,9 +102,8 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Participación",
       responsive: "onlyDesktop",
       style: {
-        display: "flex",
         justifyContent: "right",
-        alignItems: "center",
+        textAlign: "right",
       },
       width: "600px",
       onRender: (item: any) => {
@@ -119,9 +115,8 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: labels[level + 1],
       responsive: "onlyDesktop",
       style: {
-        display: "flex",
         justifyContent: "right",
-        alignItems: "center",
+        textAlign: "right",
       },
       width: "600px",
       onRender: (item: any) => {

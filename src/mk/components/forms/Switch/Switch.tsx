@@ -65,8 +65,8 @@ const Switch = ({
               style={{
                 backgroundColor:
                   value === optionValue[0]
-                    ? "var(--cPrimary)"
-                    : "var(--cWhiteV3)",
+                    ? "var(--cSuccess)"
+                    : "var(--cBlackV2)",
                 height: height ? `${height}px` : "24px",
                 width: width ? `${width}px` : "44px",
               }}
@@ -77,18 +77,19 @@ const Switch = ({
                   ...(value === optionValue[0]
                     ? {
                         transform: "translateX(20px)",
-                        boxShadow:
-                          "0 4px 6px -1px rgb(0 0 0 / 0.1),  0 2px 4px -2px rgb(0 0 0 / 0.1)",
-                        backgroundColor: "var(--cWhiteV3)",
+                        // boxShadow:
+                        //   "0 4px 6px -1px rgb(0 0 0 / 0.1),  0 2px 4px -2px rgb(0 0 0 / 0.1)",
+                        backgroundColor: "var(--cBlackV1)",
                       }
                     : {
-                        transform: "translateX(0)",
-                        boxShadow:
-                          "0 4px 6px -1px rgb(0 0 0 / 0.3),  0 2px 4px -2px rgb(0 0 0 / 0.3)",
-                        backgroundColor: "var(--cWhiteV3)",
+                        transform: "translateX(4px)",
+                        // boxShadow:
+                        //   "0 4px 6px -1px rgb(0 0 0 / 0.3),  0 2px 4px -2px rgb(0 0 0 / 0.3)",
+                        backgroundColor: "var(--cBlackV1)",
                       }),
                   height: height ? `${height}px` : "20px",
                   width: width ? `${width}px` : "20px",
+                  marginTop: "2px",
                 }}
                 className={`${styles["rounded-full"]} ${
                   styles["container-effect"]

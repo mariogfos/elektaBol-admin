@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Statistics.module.css";
-import WidgetTableStats from "@/components/Widgets/WidgetTableStats/WidgetTableStats";
+
 import WidgetResumeWinnerParty from "@/modulos/Statistics/WidgetResumen/WidgetResumeWinnerParty";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetTitulo from "./WidgetTitulo";
@@ -9,6 +9,7 @@ import useAxios from "@/mk/hooks/useAxios";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 import WidgetMapa from "./WidgetMapa/WidgetMapa";
+import WidgetTableStats from "@/components/ Widgets/WidgetTableStats/WidgetTableStats";
 
 const paramInitial: any = {
   searchBy: "",

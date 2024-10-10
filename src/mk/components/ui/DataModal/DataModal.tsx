@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Button from "../../forms/Button/Button";
-import { IconX } from "../../../../components/layout/icons/IconsBiblioteca";
+
 import HeadTitle from "../../../../HeadTitle/HeadTitle";
 import styles from "./dataModal.module.css";
+import { IconX } from "@/components/layout/icons/IconsBiblioteca";
 
 type PropsType = {
   children: any;
@@ -63,7 +64,9 @@ const DataModal = ({
     >
       <main
         className={
-          (openModal ? styles["open"] : "") + "  " + (fullScreen ? styles["full"] : "")
+          (openModal ? styles["open"] : "") +
+          "  " +
+          (fullScreen ? styles["full"] : "")
         }
       >
         <HeadTitle

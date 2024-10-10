@@ -1,6 +1,7 @@
 .button {
   display: inline-block;
-  border-radius: var(--bRadius);
+  /* border-radius: var(--bRadius); */
+  border-radius: var(--bRadiusS);
   border-width: 0;
   cursor: pointer;
   transition: all 0.3s;

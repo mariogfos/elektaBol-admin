@@ -7,7 +7,7 @@ import styles from "./index.module.css";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import { useEffect } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import DashboardMap from "../ Widgets/DasboardMap/DashboardMap";
+import WidgetMaps from "../ Widgets/WidgetMaps/WidgetMaps";
 
 const HomePage = () => {
   const { data: dashboard } = useAxios("/dashboard", "GET", {
@@ -35,6 +35,15 @@ const HomePage = () => {
     (acc: number, current: any) => acc + current.affiliate_count,
     0
   );
+  let data = dashboard?.data?.dptos.map((dpto: any) => {
+    return {
+      id: dpto?.id,
+      titulo: dpto?.name,
+      habitantes: dpto?.habitantes,
+      habilitados: dpto?.habilitados,
+      afiliados: dpto?.affiliate_count,
+    };
+  });
 
   return (
     <div className={styles.container}>
@@ -43,11 +52,12 @@ const HomePage = () => {
       )} */}
       <section>
         <div>
-          <DashboardMap
-            data={dashboard?.data?.dptos}
+          <WidgetMaps
+            tooltipsData={data}
             totalHabitanes={totalHabitantes}
             totalHabilitados={totalHabilitados}
             totalAfiliados={totalAfiliados}
+            // totalPid={totalPid}
           />
         </div>
         <div>

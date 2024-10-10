@@ -1,10 +1,8 @@
 import { useState } from "react";
-import {
-  IconEye,
-  IconEyeOff,
-} from "../../../../components/layout/icons/IconsBiblioteca";
+
 import Input from "../Input/Input";
 import { PropsTypeInputBase } from "../ControlLabel";
+import { IconEye, IconEyeOff } from "@/components/layout/icons/IconsBiblioteca";
 
 interface PropsType extends PropsTypeInputBase {
   repeatPassword?: boolean;

@@ -12,7 +12,7 @@ export const Comunication = () => {
       <nav className={styles.tabsSection}>
         <TabsButtons
           tabs={[
-            { value: "C", text: "Mis publicaciones" },
+            { value: "C", text: "Publicaciones" },
             { value: "E", text: "Eventos" },
             { value: "S", text: "Encuestas" },
           ]}

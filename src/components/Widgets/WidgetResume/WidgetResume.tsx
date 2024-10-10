@@ -47,3 +47,4 @@ const WidgetResume = ({ data, dataExtra, level }: any) => {
 };
 
 export default WidgetResume;
+

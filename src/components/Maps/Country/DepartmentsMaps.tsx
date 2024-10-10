@@ -55,7 +55,7 @@ export const DepartmentsMaps = ({
     const svgRect = svgRef.current.getBoundingClientRect();
     setTooltip({
       visible: true,
-      x: rect.left - svgRect.left + rect.width / 2,
+      x: rect.left - svgRect.left + rect.width,
       y: rect.top - svgRect.top,
       data: data,
     });
@@ -181,6 +181,8 @@ export const DepartmentsMaps = ({
             <div
               className={styles.tooltip}
               style={{
+                position: "absolute",
+                width: "200px",
                 top: tooltip.y,
                 left: tooltip.x,
                 borderRadius: 4,

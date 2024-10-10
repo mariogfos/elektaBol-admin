@@ -1,15 +1,48 @@
 .useCrud {
   gap: 1px;
-  width: 100%;
+  & > section {
+    height: calc(100vh - 240px);
+    overflow-y: auto;
+  }
+  & > nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spL);
+    overflow: visible;
+    & > div:first-child {
+      flex-grow: 1;
+    }
+  }
+
+  & .actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: var(--spM);
+    color: var(--cWhiteV3);
+
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: var(--bRadius);
+      /* border: 1px solid var(--cWhiteV3); */
+      /* padding: 4px;
+      width: 40px;
+      height: 40px; */
+      overflow: hidden;
+    }
+    & div:first-child {
+      color: var(--cWarning);
+    }
+    & div:last-child {
+      color: var(--cError);
+    }
+  }
 }
 .formDelete {
   display: flex;
   color: var(--cWhiteV1);
   font-size: var(--sM);
-}
-
-.addButton {
-  padding: var(--spS);
-  cursor: pointer;
-  transition: background-color 0.3s;
 }

@@ -21,6 +21,7 @@ import styles from "./styles.module.css";
 import FloatButton from "@/mk/components/forms/FloatButton/FloatButton";
 import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
+  IconDownload,
   IconEdit,
   IconImport,
   IconTrash,
@@ -28,6 +29,7 @@ import {
 import TextArea from "@/mk/components/forms/TextArea/TextArea";
 import { UploadFile } from "@/mk/components/forms/UploadFile/UploadFile";
 import DataSearch from "@/mk/components/forms/DataSearch/DataSearch";
+import FormElement from "./FormElement";
 
 export type ModCrudType = {
   modulo: string;
@@ -38,6 +40,17 @@ export type ModCrudType = {
   renderView?: Function;
   loadView?: Record<string, any>;
   import?: boolean;
+  filter?: boolean;
+  sumarize?: boolean;
+  messageDel?: any;
+  hideActions?: {
+    add?: boolean;
+    edit?: boolean;
+    del?: boolean;
+    view?: boolean;
+  };
+  onHideActions?: Function;
+  saveMsg?: { add?: string; edit?: string; del?: string };
 };
 
 export type TypeRenderForm = {
@@ -65,6 +78,7 @@ type PropsDetail = {
   item: any;
   i?: number;
   onConfirm?: Function;
+  message?: any;
 };
 
 type UseCrudType = {
@@ -154,16 +168,29 @@ const useCrud = ({
     action: ActionType = "add"
   ) => {
     setAction(action);
+    let dataNew: any = {};
     if (action == "add") {
-      let dataNew: any = {};
       for (const key in fields) {
         if (fields[key].form?.precarga) {
-          dataNew[key] = fields[key].form?.precarga;
+          dataNew[key] =
+            typeof fields[key].form?.precarga == "function"
+              ? fields[key].form?.precarga({ key, data })
+              : fields[key].form?.precarga;
         }
       }
+      console.log(dataNew);
       setFormState(dataNew);
     } else {
-      setFormState(data);
+      dataNew = data;
+      for (const key in fields) {
+        if (fields[key].form?.edit?.precarga) {
+          dataNew[key] =
+            typeof fields[key].form?.edit?.precarga == "function"
+              ? fields[key].form?.edit.precarga({ key, data })
+              : fields[key].form?.edit.precarga;
+        }
+      }
+      setFormState({ ...dataNew, _initItem: dataNew });
     }
     setErrors({});
     setOpen(true);
@@ -198,9 +225,9 @@ const useCrud = ({
         searchBy: item.id,
         ...mod.loadView,
       });
-      const { data: d, ...rest } = view?.data ?? {};
-      initOpen(setOpenView, { ...rest, ...data }, "view");
-      // initOpen(setOpenView, view.data, "view");
+      // const { data: d, ...rest } = view?.data ?? {};
+      // initOpen(setOpenView, { ...d, ...rest }, "view");
+      initOpen(setOpenView, view?.data, "view");
       return;
     }
     initOpen(setOpenView, item, "view");
@@ -238,11 +265,11 @@ const useCrud = ({
   };
 
   const onSave = async (data: Record<string, any>, _setErrors?: Function) => {
-    if (!userCan(mod.permiso, action))
+    if (!userCan(mod.permiso, action == "del" ? "D" : action))
       return showToast("No tiene permisos para esta acción", "error");
 
     if (action != "del") {
-      const errors = checkRulesFields(fields, data);
+      const errors = checkRulesFields(fields, data, action);
       if (_setErrors) {
         _setErrors(errors);
       } else {
@@ -272,7 +299,7 @@ const useCrud = ({
       onCloseCrud();
       setOpenDel(false);
       reLoad();
-      showToast(response?.message, "success");
+      showToast(mod.saveMsg?.[action] || response?.message, "success");
     } else {
       showToast(response?.message, "error");
       logError("Error onSave:", err);
@@ -287,11 +314,17 @@ const useCrud = ({
     setParams({ ...params, ...searchBy });
     setOldSearch(searchBy);
   };
-  const [oldFilter, setOldFilter] = useState({});
+  const [oldFilter, setOldFilter]: any = useState({});
   const onFilter = (opt: string, value: string) => {
-    let filterBy = {};
+    let filterBy = { filterBy: { ...oldFilter.filterBy, [opt]: value } };
     if (getFilter) filterBy = getFilter(opt, value, oldFilter);
-    setParams({ ...params, ...filterBy });
+    //iterar filterBy para quitar los vacios
+    let fil: any = [];
+    for (const key in filterBy.filterBy) {
+      if (filterBy.filterBy[key]) fil.push(key + ":" + filterBy.filterBy[key]);
+    }
+    fil = fil.join("|");
+    setParams({ ...params, ...(fil ? { filterBy: fil } : {}) });
     setOldFilter(filterBy);
   };
 
@@ -384,8 +417,13 @@ const useCrud = ({
           key,
           responsive: "onlyDesktop",
           label: field.label,
+          onRenderView: field.onRenderView || null,
           onRender: _onRender(field),
+          onRenderLabel: field.onRenderLabel || null,
+          emptyHide: field.emptyHide || false,
           order: field.order || 1000,
+          hide: field.hide || null,
+          ...(field.view ? field.view : {}),
         };
         head.push(col);
       }
@@ -408,22 +446,63 @@ const useCrud = ({
         <div className={""}>
           {header.map((col: any, index: number) => (
             <Fragment key={col.key + index}>
-              {col.label && (
-                <div>
-                  <KeyValue
-                    title={col.label}
-                    value={
-                      col.onRender
-                        ? col.onRender({
+              {col.onRenderView ? (
+                col.onRenderView({
+                  item,
+                  key: col.key,
+                  user,
+                  field: col,
+                  extraData: extraData,
+                })
+              ) : (
+                <>
+                  {!col.hide && (!col.emptyHide || item[col.key]) && (
+                    <div>
+                      {col.onTop && (
+                        <div>
+                          {col.onTop({
                             value: item[col.key],
                             key: col.key,
                             item,
                             i,
-                          })
-                        : item[col.key]
-                    }
-                  />
-                </div>
+                          })}
+                        </div>
+                      )}
+                      <KeyValue
+                        title={
+                          col.onRenderLabel
+                            ? col.onRenderLabel({
+                                value: item[col.key],
+                                key: col.key,
+                                item,
+                                i,
+                              })
+                            : col.label
+                        }
+                        value={
+                          col.onRender
+                            ? col.onRender({
+                                value: item[col.key],
+                                key: col.key,
+                                item,
+                                i,
+                              })
+                            : item[col.key]
+                        }
+                      />
+                      {col.onBottom && (
+                        <div>
+                          {col.onBottom({
+                            value: item[col.key],
+                            key: col.key,
+                            item,
+                            i,
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </Fragment>
           ))}
@@ -432,238 +511,6 @@ const useCrud = ({
     );
   });
   Detail.displayName = "Detail";
-
-  const LeftRigthElement = memo(
-    ({
-      children,
-      field,
-      item,
-      error = {},
-    }: {
-      children: any;
-      field: any;
-      item: any;
-      error: any;
-    }) => {
-      if (!field.onLeft && !field.onRigth && !field.onTop && !field.onBottom)
-        return children;
-      return (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "var(--spM)",
-          }}
-        >
-          {field.onTop && field.onTop({ item, key: field.key, user })}
-          <div
-            style={{
-              display: "flex",
-              gap: "var(--spM)",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            {field.onLeft && field.onLeft({ item, key: field.key, user })}
-            {children}
-            {field.onRigth && field.onRigth({ item, key: field.key, user })}
-          </div>
-          {field.onBottom && field.onBottom({ item, key: field.key, user })}
-        </div>
-      );
-    }
-  );
-  LeftRigthElement.displayName = "LeftRigthElement";
-  const FormElement = memo(
-    ({
-      field,
-      item,
-      i,
-      onChange,
-      error,
-      setError,
-    }: {
-      field: any;
-      item: any;
-      i?: number;
-      onChange: (e: any) => void;
-      error: any;
-      setError: Function;
-    }) => {
-      const _field = { ...field, ...(field[action] ? field[action] : {}) };
-      if (_field.hide && _field.hide({ item, user, key: _field.key }))
-        return null;
-      switch (_field.type) {
-        case "text":
-          return (
-            <LeftRigthElement
-              key={_field.key}
-              field={_field}
-              item={item}
-              error={error}
-            >
-              <Input
-                type="text"
-                name={_field.key}
-                value={item[_field.key]}
-                onChange={onChange}
-                label={_field.label}
-                disabled={_field.disabled}
-                onBlur={_field.onBlur}
-                error={error}
-                onFocus={_field.onFocus}
-                iconLeft={_field.iconLeft}
-                iconRight={_field.iconRight}
-                placeholder={_field.placeholder}
-                className={_field.className}
-                style={_field.style}
-                readOnly={_field.readOnly}
-                required={_field.required}
-              />
-            </LeftRigthElement>
-          );
-        case "textArea":
-        case "textarea":
-          return (
-            <LeftRigthElement
-              key={_field.key}
-              field={_field}
-              item={item}
-              error={error}
-            >
-              <TextArea
-                name={_field.key}
-                value={item[_field.key]}
-                onChange={onChange}
-                label={_field.label}
-                disabled={_field.disabled}
-                onBlur={_field.onBlur}
-                error={error}
-                onFocus={_field.onFocus}
-                iconLeft={_field.iconLeft}
-                iconRight={_field.iconRight}
-                placeholder={_field.placeholder}
-                className={_field.className}
-                style={_field.style}
-                readOnly={_field.readOnly}
-                required={_field.required}
-                lines={_field.lines}
-              />
-            </LeftRigthElement>
-          );
-        case "imageUpload":
-          return (
-            <LeftRigthElement
-              key={_field.key}
-              field={_field}
-              item={item}
-              error={error}
-            >
-              <UploadFile
-                name={_field.key}
-                value={item[_field.key]}
-                onChange={onChange}
-                label={_field.label}
-                disabled={_field.disabled}
-                onBlur={_field.onBlur}
-                error={error}
-                onFocus={_field.onFocus}
-                iconLeft={_field.iconLeft}
-                iconRight={_field.iconRight}
-                placeholder={_field.placeholder}
-                className={_field.className}
-                style={_field.style}
-                readOnly={_field.readOnly}
-                required={_field.required}
-                ext={_field.ext || ["jpg", "png", "jpeg"]}
-                setError={setError}
-                img={true}
-              />
-            </LeftRigthElement>
-          );
-        case "fileUpload":
-          return (
-            <LeftRigthElement
-              key={_field.key}
-              field={_field}
-              item={item}
-              error={error}
-            >
-              <UploadFile
-                name={_field.key}
-                value={item[_field.key]}
-                onChange={onChange}
-                label={_field.label}
-                disabled={_field.disabled}
-                onBlur={_field.onBlur}
-                error={error}
-                onFocus={_field.onFocus}
-                iconLeft={_field.iconLeft}
-                iconRight={_field.iconRight}
-                placeholder={_field.placeholder}
-                className={_field.className}
-                style={_field.style}
-                readOnly={_field.readOnly}
-                required={_field.required}
-                ext={_field.ext || ["pdf", "doc", "docx", "xls", "xlsx"]}
-                setError={setError}
-              />
-            </LeftRigthElement>
-          );
-        case "select":
-          const options =
-            mod.extraData && _field.optionsExtra
-              ? extraData[_field.optionsExtra]
-              : _field.options;
-          return (
-            <LeftRigthElement
-              key={_field.key}
-              field={_field}
-              item={item}
-              error={error}
-            >
-              <Select
-                name={_field.key}
-                value={item[_field.key]}
-                onChange={onChange}
-                label={_field.label}
-                disabled={_field.disabled}
-                onBlur={_field.onBlur}
-                error={error}
-                onFocus={_field.onFocus}
-                iconLeft={_field.iconLeft}
-                iconRight={_field.iconRight}
-                placeholder={_field.placeholder}
-                className={_field.className}
-                style={_field.style}
-                readOnly={_field.readOnly}
-                required={_field.required}
-                options={options}
-                optionLabel={_field.optionLabel}
-                optionValue={_field.optionValue}
-                multiSelect={_field.multiSelect}
-                filter={_field.filter}
-              />
-            </LeftRigthElement>
-          );
-        default:
-          return (
-            <div>
-              {_field.label}:{" "}
-              {_field.onRender
-                ? _field.onRender({
-                    value: item[_field.key],
-                    key: _field.key,
-                    item,
-                    i,
-                  })
-                : item[_field.key]}
-            </div>
-          );
-      }
-    }
-  );
-  FormElement.displayName = "FormElement";
 
   const Form = memo(({ open, onClose, item, i, onConfirm }: PropsDetail) => {
     const getHeader = () => {
@@ -679,8 +526,12 @@ const useCrud = ({
           label: field.form.label || field.label,
           order: field.form.order || field.order || 1000,
           prepareData: field.form.prepareData || field.prepareData || null,
-          hide: field.form.hide || field.hide || null,
+          onHide: field.form.onHide || field.onHide || null,
+          action: action,
         };
+        if (typeof col.disabled == "function") {
+          col.disabled = col.disabled(item);
+        }
         if (
           field.form.type == "select" &&
           field.form.options &&
@@ -708,6 +559,10 @@ const useCrud = ({
 
     const onChangeForm = useCallback(
       (e: any) => {
+        if (!e.target) {
+          setFormStateForm((old: any) => ({ ...old, ...e }));
+          return;
+        }
         let value = e.target.value;
 
         if (_onChange) {
@@ -728,8 +583,9 @@ const useCrud = ({
       <DataModal
         open={open}
         onClose={() => onClose()}
-        title={(action == "add" ? "Nuevo " : "Editar ") + mod.singular}
-        buttonText={action == "add" ? "Guardar" : "Actualizar"}
+        title={(action == "add" ? "Crear " : "Editar ") + mod.singular}
+        buttonText={action == "add" ? "Crear " + mod.singular : "Actualizar"}
+        buttonCancel=""
         onSave={(e) =>
           onConfirm
             ? onConfirm(formStateForm, setErrorForm)
@@ -771,6 +627,7 @@ const useCrud = ({
                 onChange={onChangeForm}
                 error={errorForm}
                 setError={setErrorForm}
+                data={{ user, action, mod, extraData }}
               />
             )}
           </Fragment>
@@ -781,80 +638,126 @@ const useCrud = ({
   });
   Form.displayName = "Form";
 
-  const AddButton = memo(({ onClick }: { onClick?: (e?: any) => void }) => {
-    if (isTablet) return <FloatButton onClick={onClick || onAdd} />;
-    return (
-      <nav
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: "var(--spL)",
-          padding: "var(--spM)",
-          marginBottom: "-22px",
-        }}
-      >
-        <div style={{ flexGrow: 1 }}>
-          {
-            <DataSearch
-              value={searchs.searchBy || ""}
-              name={mod.modulo + "Search"}
-              setSearch={onSearch || setSearchs}
-            />
-          }
-        </div>
-        {menuFilter || null}
-        {mod.import && (
-          <div style={{ marginTop: "12px" }} onClick={onImport}>
-            <IconImport />
-          </div>
-        )}
-        <div>
-          <Button onClick={onClick || onAdd}>
-            {/* <Button onClick={onClick || onAdd} style={{ width: "50px" }}> */}
-            Agregar {mod.singular}
-            {/* <IconAdd size={24} /> */}
-          </Button>
-        </div>
-      </nav>
-    );
-  });
-  AddButton.displayName = "AddButton";
+  const AddMenu = memo(
+    ({ header, onClick }: { header?: any; onClick?: (e?: any) => void }) => {
+      if (isTablet) return <FloatButton onClick={onClick || onAdd} />;
+      // const [filters, setFilters] = useState({})
+      const onChange = (e: any) => {
+        // setFilters({...filters,[e.target.name]:e.target.value})
+        console.log("e.target", e);
+        onFilter(e.target.name, e.target.value);
+      };
 
-  const FormDelete = memo(({ open, onClose, item, onConfirm }: PropsDetail) => {
-    return (
-      <DataModal
-        id="Eliminar"
-        title="Confirmar la eliminación"
-        buttonText="Eliminar"
-        buttonCancel=""
-        onSave={(e) => (onConfirm ? onConfirm(item) : onSave(item))}
-        onClose={onClose}
-        open={open}
-      >
-        Seguro de Querer Eliminar al {mod.singular}: {item.name}
-      </DataModal>
-    );
-  });
+      return (
+        <nav>
+          <div>
+            {
+              <DataSearch
+                value={searchs.searchBy || ""}
+                name={mod.modulo + "Search"}
+                setSearch={onSearch || setSearchs}
+              />
+            }
+          </div>
+          {menuFilter || null}
+          {mod.filter && (
+            <>
+              {header.map((f: any, i: number) => (
+                <>
+                  {f.filter && (
+                    // JSON.stringify(
+                    //   f
+                    // )
+                    <Select
+                      key={f.key + i}
+                      name={f.key}
+                      onChange={onChange}
+                      options={f.filter.options || []}
+                      value={""}
+                    />
+                  )}
+                </>
+              ))}
+            </>
+          )}
+          {mod.import && (
+            <div style={{ marginTop: "12px" }} onClick={onImport}>
+              <IconImport />
+            </div>
+          )}
+          {mod.hideActions?.add ? null : (
+            <div>
+              <Button onClick={onClick || onAdd}>Crear {mod.singular}</Button>
+            </div>
+          )}
+        </nav>
+      );
+    }
+  );
+  AddMenu.displayName = "AddMenu";
+
+  const FormDelete = memo(
+    ({ open, onClose, item, onConfirm, message = "" }: PropsDetail) => {
+      return (
+        <DataModal
+          id="Eliminar"
+          title={"Eliminar " + mod.singular}
+          buttonText="Eliminar"
+          buttonCancel=""
+          onSave={(e) => (onConfirm ? onConfirm(item) : onSave(item))}
+          onClose={onClose}
+          open={open}
+        >
+          {message ? (
+            message
+          ) : (
+            <>
+              ¿Estás seguro de eliminar esta información?
+              <br />
+              {/* <br />
+              {item.name || item.description}
+              <br /> */}
+              Recuerda que al momento de eliminar ya no podrás recuperarla.
+            </>
+          )}
+        </DataModal>
+      );
+    }
+  );
   FormDelete.displayName = "FormDelete";
 
   const onButtonActions = (item: Record<string, any>) => {
+    let hideEdit = mod.hideActions?.edit;
+    let hideDel = mod.hideActions?.del;
+    if (mod?.onHideActions) {
+      const h = mod.onHideActions(item);
+      hideEdit = h?.hideEdit;
+      hideDel = h?.hideDel;
+    }
     return (
       <nav className={styles.actions}>
-        <IconEdit
-          onClick={(e: MouseEvent) => {
-            e.stopPropagation();
-            onEdit(item);
-          }}
-          size={24}
-        />
-        <IconTrash
-          onClick={(e: MouseEvent) => {
-            e.stopPropagation();
-            onDel(item);
-          }}
-          size={24}
-        />
+        {hideEdit ? null : (
+          <div>
+            <IconEdit
+              onClick={(e: MouseEvent) => {
+                e.stopPropagation();
+                onEdit(item);
+              }}
+              size={24}
+            />
+          </div>
+        )}
+        {hideDel ? null : (
+          <div>
+            <IconTrash
+              onClick={(e: MouseEvent) => {
+                e.stopPropagation();
+                onDel(item);
+              }}
+              size={24}
+            />
+          </div>
+        )}
       </nav>
     );
   };
@@ -870,9 +773,11 @@ const useCrud = ({
     if (r) return r[label];
     return "";
   };
-  const _onRender = (field: any) => {
-    const render = field.list?.onRender || field.onRender || null;
-    if (mod.extraData) {
+  const _onRender = (field: any, lista = false) => {
+    const render = lista
+      ? field.list?.onRender || field.onRender || null
+      : field.view?.onRender || field.onRender || null;
+    if (!render) {
       if (field.form?.type === "select" && field.form.optionsExtra)
         return (item: RenderColType) => {
           return findOptions(
@@ -893,11 +798,12 @@ const useCrud = ({
             field.form.optionLabel
           );
         };
-      if (render) {
-        return (item: RenderColType) => {
-          return render(item);
-        };
-      }
+      // if (render) {
+      //   return (item: RenderColType) => {
+      //     console.log("render3", field);
+      //     return render(item);
+      //   };
+      // }
     }
     return render;
   };
@@ -914,9 +820,13 @@ const useCrud = ({
           label: field.list.label || field.label,
           className: field.list.className || "",
           width: field.list.width,
-          onRender: _onRender(field),
+          onRender: _onRender(field, true),
           order: field.list.order || field.order || 1000,
           style: field.list.style || field.style || {},
+          sumarize: field.list.sumarize || field.sumarize || false,
+          filter: field.filter
+            ? { options: field.filter.options || field.form.options || [] }
+            : false,
         };
         head.push(col);
       }
@@ -934,17 +844,26 @@ const useCrud = ({
 
     return (
       <div className={styles.useCrud}>
-        <AddButton />
+        <AddMenu header={header} />
         <LoadingScreen type="TableSkeleton">
           <section style={{}}>
             <Table
               data={data?.data}
-              onRowClick={onView}
+              onRowClick={mod.hideActions?.view ? undefined : onView}
               header={header}
               onTabletRow={props.onTabletRow}
-              onButtonActions={onButtonActions}
+              onRenderBody={props.onRenderBody}
+              onRenderFoot={props.onRenderFoot}
+              onRenderHead={props.onRenderHead}
+              onButtonActions={
+                mod.hideActions?.edit && mod.hideActions?.del
+                  ? undefined
+                  : onButtonActions
+              }
+              className="striped"
               // actionsWidth={props.actionsWidth}
-              actionsWidth={"150px"}
+              actionsWidth={"170px"}
+              sumarize={props.sumarize}
             />
           </section>
           {openView && (
@@ -955,7 +874,11 @@ const useCrud = ({
                   onClose: onCloseView,
                   item: formState,
                   onConfirm: onSave,
+                  extraData,
                   execute,
+                  onEdit,
+                  onDel,
+                  onAdd,
                 })
               ) : (
                 <Detail
@@ -981,6 +904,7 @@ const useCrud = ({
               onClose={onCloseDel}
               item={formState}
               onConfirm={onSave}
+              message={mod.messageDel}
             />
           )}
         </LoadingScreen>

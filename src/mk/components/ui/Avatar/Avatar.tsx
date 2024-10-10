@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { initialsName } from "../../../utils/string";
 import styles from "./avatar.module.css";
 import { IconUser } from "@/components/layout/icons/IconsBiblioteca";
+
 type PropsType = {
   src?: string;
   name?: string;
@@ -34,7 +35,7 @@ export const Avatar = ({
           <img src={src} alt={name} onError={() => setImageError(true)} />
         ) : (
           // <div>{initialsName(name)}</div>
-          <IconUser size={ w - 8 } color={'var(--cBlackV2)'} reverse={false} />
+          <IconUser size={w - 8} color={"var(--cBlackV2)"} reverse={false} />
         )}
       </div>
       {pin && <span className="spin"></span>}

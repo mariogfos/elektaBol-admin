@@ -11,8 +11,9 @@ import { useRouter } from "next/router";
 import Login from "../components/auth/Login";
 import useToast, { ToastType } from "../hooks/useToast";
 import { logError } from "../utils/logs";
-import Splash from "../../components/req/Splash";
+
 import Toast from "../components/ui/Toast/Toast";
+import Splash from "@/components/req/Splash";
 import { IconLogoElekta } from "@/components/layout/icons/IconsBiblioteca";
 
 export interface AuthContextType {
@@ -27,6 +28,7 @@ export interface AuthContextType {
   setWaiting: Function;
   splash: boolean;
   store: any;
+  storeRef: any;
   setStore: Function;
   getUser: Function;
 }
@@ -121,10 +123,11 @@ const AuthProvider = ({ children, noAuth = false }: any): any => {
     if (_action == "edit") action = "U";
     if (_action == "delete") action = "D";
     if (_action == "view") action = "R";
-
+    if (action == "") action = _action;
+    // console.log("userCan", ability, action, user);
     if (!ability) return true;
     if (!user) return false;
-    if (user.role?.abilities == "**" + user.id + "**") return true;
+    if (user.role?.abilities == "**" + user.client_id + "**") return true;
     if (!user.role?.abilities?.includes(ability)) return false;
     const a = user?.role?.abilities?.indexOf(ability);
     const b = (user?.role?.abilities + "|").indexOf("|", a);
@@ -197,11 +200,12 @@ const AuthProvider = ({ children, noAuth = false }: any): any => {
       setWaiting,
       splash,
       store,
+      storeRef,
       setStore: _setStore,
       getUser: getUser,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user, error, loaded, waiting, splash, store]
+    [user, error, loaded, waiting, splash, store, storeRef]
   );
 
   useEffect(() => {
@@ -236,9 +240,4 @@ export default AuthProvider;
 export const useAuth = () => {
   const data: AuthContextType = useContext(AuthContext);
   return { ...data };
-};
-
-export const useStore = () => {
-  const { store, setStore } = useContext(AuthContext);
-  return { store, setStore };
 };

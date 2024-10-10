@@ -1,5 +1,5 @@
 .table {
-  display: grid;
+  /* display: grid; */
   font-size: var(--sM);
   overflow: auto;
 
@@ -8,62 +8,32 @@
     background-color: transparent;
     border: none;
   }
-  /* & header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    color: var(--cWhite);
-    font-weight: var(--bSemiBold);
-    margin-bottom: 1px;
-    overflow: hidden;
-    background-color: var(--cTerciary);
-    border-top-left-radius: var(--bRadius);
-    border-top-right-radius: var(--bRadius);
-    & > div {
-      overflow: hidden;
-      border-left: 1px solid var(--cWhiteV2);
-      padding: var(--spM);
-      padding-bottom: var(--spS);
-      height: 100%;
-      align-items: center;
-    }
-    & > div:first-child {
-      border-left: 0;
-    }
-    
-  } */
+
   & header {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: stretch; /* Asegura que todas las celdas tengan la misma altura */
     flex-direction: row;
     color: var(--cWhite);
     font-weight: var(--bSemiBold);
-    /* margin-bottom: var(--spS); */
     overflow: auto;
-    /* border-bottom: 1px solid var(--cWhiteV2); */
-    background-color: var(--cTerciary);
+    background-color: var(--cBlackV2);
     border-top-left-radius: var(--bRadius);
     border-top-right-radius: var(--bRadius);
-
     & > div {
-      /* text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden; */
       padding: var(--spM);
       padding-bottom: var(--spS);
-      height: 100%;
-      align-items: center;
       width: 100%;
-      border-left: 1px solid var(--cWhiteV2);
+      border-left: 1px solid var(--cBlackV1);
+      box-sizing: border-box;
+      display: flex;
+      align-items: center; /* Centra el contenido verticalmente */
+      justify-content: center; /* Centra el contenido horizontalmente */
+      text-align: center; /* Centra el texto */
     }
     & > div:first-child {
       border-left: 0;
     }
-    /* @media (width <= 1024px) {
-      display: none;
-    } */
   }
   & summary {
     width: 100%;
@@ -79,7 +49,6 @@
       padding-bottom: var(--spS);
       height: 100%;
       align-items: center;
-      text-align: right;
       width: 100%;
     }
     & > div > div {
@@ -94,7 +63,6 @@
       color: var(--cBlackV2);
       font-size: 16px;
       color: var(--cWhite);
-      /* width: 100%; */
     }
   }
   /* & summary {
@@ -134,28 +102,30 @@
     border-bottom-left-radius: var(--bRadius);
     border-bottom-right-radius: var(--bRadius);
     border: 1px solid var(--cWhiteV3);
-    /* overflow: hidden; */
-
     & > div {
       display: flex;
-      align-items: center;
+      align-items: stretch; /* Hace que todas las celdas tengan la misma altura */
       gap: 0px;
       background-color: var(--cBlackV1);
       color: var(--cBlackV2);
       /* overflow: hidden; */
+      /* height: 48px; */
       cursor: pointer;
-
       @media (width <= 1024px) {
         background-color: transparent;
       }
       & > span {
+        display: flex;
+        align-items: center;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         padding: var(--spM);
         border: 1px solid var(--cWhiteV3);
-        height: 100%;
         width: 100%;
+        display: flex; /* Permite la alineación del contenido interno */
+        align-items: center; /* Centra verticalmente el contenido */
+        box-sizing: border-box; /* Asegura que padding y border se incluyan en el tamaño total */
       }
     }
   }
@@ -186,10 +156,16 @@
     & > div:nth-child(even) {
       background-color: var(--cWhiteV3);
       color: var(--cBlackV2);
+      &:hover {
+        background-color: var(--cBlack);
+      }
     }
     & > div:nth-child(odd) {
       background-color: var(--cBlackV1);
       color: var(--cBlackV2);
+      &:hover {
+        background-color: var(--cBlack);
+      }
     }
   }
 }

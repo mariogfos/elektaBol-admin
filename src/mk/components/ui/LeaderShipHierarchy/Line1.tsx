@@ -15,8 +15,16 @@ interface Props {
   user: any;
   addClick: any;
   params: any;
+  userCan?: any;
 }
-const Line1 = ({ line1, level, user, addClick, params }: Props) => {
+const Line1 = ({
+  line1,
+  level,
+  user,
+  addClick,
+  params,
+  userCan = () => true,
+}: Props) => {
   const [mainLeader, setMainLeader]: any = useState(
     line1?.find((leader: any) => leader.main === "M")
   );
@@ -25,7 +33,7 @@ const Line1 = ({ line1, level, user, addClick, params }: Props) => {
     setMainLeader(line1?.find((leader: any) => leader.main === "M"));
     if (mainLeader != null) {
       setOtherLeaders(
-        line1?.filter((leader: any) => leader.id !== mainLeader.id)
+        line1?.filter((leader: any) => leader.ci !== mainLeader.ci)
       );
     }
   }, [line1]);
@@ -50,7 +58,10 @@ const Line1 = ({ line1, level, user, addClick, params }: Props) => {
                 <Avatar
                   name={getFullName(mainLeader)}
                   src={getUrlImages(
-                    "/ADM-" + mainLeader.id + ".png?d=" + mainLeader.updated_at
+                    "/ADM-" +
+                      mainLeader?.user_id +
+                      ".webp?d=" +
+                      mainLeader?.user_updated_at
                   )}
                 />
                 <div style={{ position: "relative", top: -50, left: 30 }}>
@@ -68,21 +79,23 @@ const Line1 = ({ line1, level, user, addClick, params }: Props) => {
                 CI: {mainLeader.ci}
               </div>
             </div>
-            {user?.role?.level === level && user?.id == mainLeader.id && (
-              <div
-                style={{
-                  border: "1px dashed var(--cWhiteV2)",
-                  padding: "var(--sM)",
-                }}
-              >
-                <div className={styles["addButton"]}>
-                  <IconAdd
-                    size={16}
-                    onClick={() => addClick({ id: params.searchBy }, 1)}
-                  />
+            {user?.role?.level === level &&
+              user?.ci == mainLeader.ci &&
+              userCan("users", "C") && (
+                <div
+                  style={{
+                    border: "1px dashed var(--cWhiteV2)",
+                    padding: "var(--sM)",
+                  }}
+                >
+                  <div className={styles["addButton"]}>
+                    <IconAdd
+                      size={16}
+                      onClick={() => addClick({ id: params.searchBy }, 1)}
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         ) : (
           <>
@@ -99,7 +112,7 @@ const Line1 = ({ line1, level, user, addClick, params }: Props) => {
             >
               Sin miembro registrado
             </div>
-            {user?.role?.level === level && user?.id == mainLeader?.id && (
+            {user?.role?.level === level && user?.ci == mainLeader?.ci && (
               <div
                 style={{
                   border: "1px dashed var(--cWhiteV2)",
@@ -130,7 +143,7 @@ const Line1 = ({ line1, level, user, addClick, params }: Props) => {
                 <Avatar
                   name={getFullName(leader)}
                   src={getUrlImages(
-                    "/ADM-" + leader.id + ".png?d=" + leader.updated_at
+                    "/ADM-" + leader.user_id + ".webp?d=" + leader.updated_at
                   )}
                 />
                 <div className="tTitle" style={{ fontSize: 16, marginTop: 8 }}>
