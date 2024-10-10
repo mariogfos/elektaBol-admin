@@ -1,19 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Provs.module.css";
+import styles from "./Dmuns.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
+import ImportDataModal from "../shared/ImportDataModal";
 
 const mod: ModCrudType = {
-  modulo: "provs",
-  singular: "provincia",
-  plural: "provincias",
+  modulo: "dmuns",
+  singular: "Distrito municipal",
+  plural: "Distritos municipales",
   permiso: "",
   extraData: true,
+  import: true,
 };
 
 const paramsInitial = {
@@ -23,7 +25,7 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Provs = () => {
+const Dmuns = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -36,23 +38,36 @@ const Provs = () => {
       dpto_id: {
         rules: ["required"],
         api: "ae",
-        label: "Departamento",
-        list: { width: "250px" },
+        label: "Dpto",
+        list: { width: "300px" },
         form: { type: "select", optionsExtra: "dptos" },
+      },
+      prov_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Provincia",
+        // list: { width: "300px" },
+        form: { type: "select", optionsExtra: "provs" },
+      },
+      circun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Circunscripción",
+
+        form: { type: "select", optionsExtra: "circuns" },
+      },
+      mun_id: {
+        rules: ["required"],
+        api: "ae",
+        label: "Municipio",
+
+        form: { type: "select", optionsExtra: "muns" },
       },
       name: {
         rules: ["required"],
         api: "ae",
-        label: "Provincia",
+        label: "Distrito municipal",
         list: true,
-        form: { type: "text" },
-      },
-
-      code: {
-        rules: ["max:5", "noSpaces"],
-        api: "ae",
-        label: "Cód",
-        list: { width: "120px", style: { textAlign: "right" } },
         form: { type: "text" },
       },
       habitantes: {
@@ -60,7 +75,7 @@ const Provs = () => {
         api: "ae",
         label: "Habitantes",
         list: {
-          width: "400px",
+          width: "300px",
           style: { textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
@@ -72,7 +87,7 @@ const Provs = () => {
         api: "ae",
         label: "Habilitados",
         list: {
-          width: "400px",
+          width: "300px",
           style: { textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
@@ -87,14 +102,28 @@ const Provs = () => {
     };
   }, []);
 
-  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
-    {
-      paramsInitial,
-      mod,
-      fields,
-    }
-  );
-  const { onLongPress, selItem } = useCrudUtils({
+  const onImport = () => {
+    setOpenImport(true);
+  };
+
+  const {
+    userCan,
+    List,
+    setStore,
+    onSearch,
+    searchs,
+    onEdit,
+    onDel,
+    showToast,
+    execute,
+    reLoad,
+  } = useCrud({
+    paramsInitial,
+    mod,
+    fields,
+    _onImport: onImport,
+  });
+  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -102,6 +131,11 @@ const Provs = () => {
     onEdit,
     onDel,
   });
+
+  const [openImport, setOpenImport] = useState(false);
+  useEffect(() => {
+    setOpenImport(searchState == 3);
+  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -131,8 +165,22 @@ const Provs = () => {
   return (
     <div className={styles.style}>
       <List onTabletRow={renderItem} />
+      {openImport && (
+        <ImportDataModal
+          open={openImport}
+          onClose={() => {
+            setSearchState(0);
+            setOpenImport(false);
+          }}
+          mod={mod}
+          showToast={showToast}
+          reLoad={reLoad}
+          execute={execute}
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+        />
+      )}
     </div>
   );
 };
 
-export default Provs;
+export default Dmuns;

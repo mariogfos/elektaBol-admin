@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
-import styles from "./Provs.module.css";
+import styles from "./Macroregions.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import RenderItem from "../shared/RenderItem";
+import ImportDataModal from "../shared/ImportDataModal";
 import { formatNumber } from "@/mk/utils/numbers";
 
 const mod: ModCrudType = {
-  modulo: "provs",
-  singular: "provincia",
-  plural: "provincias",
+  modulo: "macroregions",
+  singular: "Macroregión",
+  plural: "Macroregiones",
   permiso: "",
+  import: true,
   extraData: true,
 };
 
@@ -23,37 +25,23 @@ const paramsInitial = {
   searchBy: "",
 };
 
-const Provs = () => {
+const Macroregions = () => {
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
+      name: {
+        rules: ["required"],
+        api: "ae",
+        label: "Macroregión",
+        list: true,
+        form: { type: "text" },
+      },
       country_id: {
         rules: ["required"],
         api: "ae",
         label: "País",
-        form: { type: "select", optionsExtra: "countries" },
-      },
-      dpto_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Departamento",
         list: { width: "250px" },
-        form: { type: "select", optionsExtra: "dptos" },
-      },
-      name: {
-        rules: ["required"],
-        api: "ae",
-        label: "Provincia",
-        list: true,
-        form: { type: "text" },
-      },
-
-      code: {
-        rules: ["max:5", "noSpaces"],
-        api: "ae",
-        label: "Cód",
-        list: { width: "120px", style: { textAlign: "right" } },
-        form: { type: "text" },
+        form: { type: "select", optionsExtra: "countries" },
       },
       habitantes: {
         rules: ["positive"],
@@ -78,23 +66,33 @@ const Provs = () => {
         },
         form: { type: "text" },
       },
-      escanos: {
-        rules: ["positive"],
+      dpto_id: {
+        rules: ["required"],
         api: "ae",
-        label: "Escaños asignados",
-        form: { type: "text" },
+        label: "Departamento",
+        list: { width: "250px" },
+        form: { type: "select", optionsExtra: "dptos" },
       },
     };
   }, []);
 
-  const { userCan, List, setStore, onSearch, searchs, onEdit, onDel } = useCrud(
-    {
-      paramsInitial,
-      mod,
-      fields,
-    }
-  );
-  const { onLongPress, selItem } = useCrudUtils({
+  const {
+    userCan,
+    List,
+    setStore,
+    onSearch,
+    searchs,
+    onEdit,
+    onDel,
+    showToast,
+    execute,
+    reLoad,
+  } = useCrud({
+    paramsInitial,
+    mod,
+    fields,
+  });
+  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -102,6 +100,11 @@ const Provs = () => {
     onEdit,
     onDel,
   });
+
+  const [openImport, setOpenImport] = useState(false);
+  useEffect(() => {
+    setOpenImport(searchState == 3);
+  }, [searchState]);
 
   const renderItem = (
     item: Record<string, any>,
@@ -131,8 +134,21 @@ const Provs = () => {
   return (
     <div className={styles.style}>
       <List onTabletRow={renderItem} />
+      {openImport && (
+        <ImportDataModal
+          open={openImport}
+          onClose={() => {
+            setSearchState(0);
+          }}
+          mod={mod}
+          showToast={showToast}
+          reLoad={reLoad}
+          execute={execute}
+          requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+        />
+      )}
     </div>
   );
 };
 
-export default Provs;
+export default Macroregions;
