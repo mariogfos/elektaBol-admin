@@ -16,7 +16,7 @@ const WidgetVolunteers = ({ widget1 }: PropsType) => {
     >
       <h1>{widget1?.cant}</h1>
       <div></div>
-      <p>Ecuador</p>
+      <p>Bolivia</p>
     </WidgetBase>
   );
 };
