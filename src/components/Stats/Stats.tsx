@@ -12,7 +12,8 @@ import WidgetAge from "../ Widgets/WidgetAge/WidgetAge";
 import WidgetEducation from "../ Widgets/WidgetEducation/WidgetEducation";
 import WidgetVerifiedAccount from "../ Widgets/WidgetVerifiedAccount/WidgetVerifiedAccount";
 import { IconFilter } from "../layout/icons/IconsBiblioteca";
-import WidgetTableAffProv from "../ Widgets/WidgetTableAffProv/WidgetTableAffProv";
+import WidgetTableAffDpto from "../ Widgets/WidgetTableAffProv/WidgetTableAffDpto";
+
 let lGreader = [
   { id: "M", name: "Hombres" },
   { id: "F", name: "Mujeres" },
@@ -196,17 +197,17 @@ const Stats = () => {
         <section>
           <div>
             {!metrics?.data?.widget7 ? (
-              <WidgetTableAffProv
+              <WidgetTableAffDpto
                 widget={metrics?.data?.widget6}
-                data={provs?.data}
+                data={dptos?.data}
                 filters={filters}
-                type="prov"
+                type="dpto"
               />
             ) : (
-              <WidgetTableAffProv
+              <WidgetTableAffDpto
                 widget={metrics?.data?.widget7}
-                data={provs?.data}
-                type="prov"
+                data={dptos?.data}
+                type="dpto"
                 filters={filters}
               />
             )}

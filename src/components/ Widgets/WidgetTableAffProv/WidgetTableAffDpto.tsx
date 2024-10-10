@@ -6,7 +6,7 @@ import Select from "@/mk/components/forms/Select/Select";
 
 const colors = ["#F08080", "#F7B267", "#F8DDA4", "#A2D2BF", "#00AF90"];
 
-const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
+const WidgetTableAffDpto = ({ widget, data, type, filters }: any) => {
   const [orden, setOrden] = useState("name");
 
   // Formatear los datos de los departamentos
@@ -29,7 +29,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
     return newData;
   };
 
-  const dataFormattedLocal = () => {
+  const dataFormattedProv = () => {
     let locals = data?.filter(
       (item: any) => item?.prov_id === filters?.prov_idV
     );
@@ -51,11 +51,11 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
     return newData;
   };
   useEffect(() => {
-    if (type == "prov") {
+    if (type == "dpto") {
       dataFormattedDpto();
     }
-    if (type == "canton") {
-      dataFormattedLocal();
+    if (type == "prov") {
+      dataFormattedProv();
     }
   }, [orden]);
 
@@ -83,7 +83,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
     },
     {
       key: "name",
-      label: type == "prov" ? "Provincia" : "Canton",
+      label: type == "prov" ? "Provincia" : "Departamento",
     },
     {
       key: "afiliados",
@@ -124,7 +124,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
   ];
   return (
     <WidgetBase
-      title={`Afiliados por ${type == "prov" ? "provincia" : "canton"}`}
+      title={`Afiliados por ${type == "prov" ? "provincia" : "departamento"}`}
     >
       <div style={{ width: "200px", marginTop: 12 }}>
         <Select
@@ -140,7 +140,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
         />
       </div>
       <Table
-        data={type == "prov" ? dataFormattedDpto() : dataFormattedLocal()}
+        data={type == "dpto" ? dataFormattedDpto() : dataFormattedProv()}
         header={header}
         className="striped"
         sumarize={true}
@@ -150,4 +150,4 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
   );
 };
 
-export default WidgetTableAffProv;
+export default WidgetTableAffDpto;
