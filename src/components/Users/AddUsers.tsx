@@ -203,11 +203,14 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
               <p className={styles["tSubtitle"]}>
                 Estas registrando en
                 <span>
-                  {user?.role?.level > 1 && ` ${getDatos("dpto")}`}
-                  {/* {user?.role?.level > 2 && ` / ${getDatos("canton")}`}
-                  {user?.role?.level > 3 && ` / ${getDatos("parish")}`}
-                  {user?.role?.level > 4 && ` / ${getDatos("barrio")}`} */}
-                  {/* {user?.role?.level > 5 && ` / ${getDatos("barrio")}`} */}
+                  {user?.role?.level > 1 && ` ${getDatos("dpto")}`} 
+                  {user?.role?.level > 2 && ` | ${getDatos("macroregion")}`}
+                  {user?.role?.level > 3 && ` | ${getDatos("prov")}`}
+                  {user?.role?.level > 4 && ` | ${getDatos("mun")}`}
+                  {user?.role?.level > 5 && ` | ${getDatos("dmun")}`}
+                  {user?.role?.level > 6 && ` | ${getDatos("local")}`}
+                  {user?.role?.level > 7 && ` | ${getDatos("uv")}`}
+                  {user?.role?.level > 8 && ` | ${getDatos("barrio")}`}
                 </span>
               </p>
             ))}

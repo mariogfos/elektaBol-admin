@@ -10,7 +10,7 @@ import { formatNumber } from "@/mk/utils/numbers";
 import ImportDataModal from "../shared/ImportDataModal";
 
 const mod: ModCrudType = {
-  modulo: "dmuns",
+  modulo: "muns",
   singular: "",
   plural: "municipios",
   permiso: "",
