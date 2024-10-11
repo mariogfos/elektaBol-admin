@@ -53,12 +53,12 @@ const Partidos = () => {
         list: true,
         form: { type: "text" },
       },
-      description: {
-        rules: [],
-        api: "ae",
-        label: "Description",
-        form: { type: "textarea", lines: 5 },
-      },
+      // description: {
+      //   rules: [],
+      //   api: "ae",
+      //   label: "Description",
+      //   form: { type: "textarea", lines: 5 },
+      // },
       color: {
         rules: [],
         api: "ae",
