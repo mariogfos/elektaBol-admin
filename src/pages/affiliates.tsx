@@ -1,4 +1,4 @@
-import Affiliates from "@/components/AffiliatesOld/Affiliates";
+import Affiliates from "@/components/Affiliates/Affiliates";
 import React from "react";
 
 const affiliates = () => {
