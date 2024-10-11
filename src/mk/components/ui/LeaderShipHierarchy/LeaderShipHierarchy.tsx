@@ -47,7 +47,6 @@ const LeadershipHierarchy = ({
       ...params,
       level: props.level + 1,
       searchBy: props.entity.id,
-      lista_id: listaActual,
     });
   };
   const [line2, setLine2] = useState([]);
@@ -89,7 +88,7 @@ const LeadershipHierarchy = ({
           params={params}
           userCan={userCan}
         />
-        {level < 5 && (
+        {level < 9 && (
           <>
             <TagLabel
               label={lLevels[level + 1]}
@@ -231,7 +230,7 @@ const LeadershipHierarchy = ({
                   </Card>
                 </div>
               ))}
-              {level == 4 && user?.role?.level == 4 && (
+              {level == 8 && user?.role?.level == 8 && (
                 <Card className={styles.card}>
                   <div
                     style={{

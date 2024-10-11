@@ -38,7 +38,9 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     fullType: "EXTRA",
     todos: 1,
   });
-  console.log("precargs", precarga);
+  console.log("precargs", listsApi?.data?.macroregions);
+  console.log(formState?.dpto_id);
+  console.log(precarga);
 
   // const getParish = () => {
   //   let data: any = [];
@@ -181,7 +183,6 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       return item?.name || "";
     }
   };
-  console.log(precarga?.dpto_id);
   return (
     <DataModal
       open={open}

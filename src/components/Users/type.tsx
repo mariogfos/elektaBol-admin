@@ -1,6 +1,6 @@
 export const lLevels = [
   "FOS",
-  // "Partido",
+  "Partido",
   "Departamento",
   "Macroregion", //N
   "Provincia",
@@ -21,7 +21,7 @@ export const lLevels = [
 
 export const lEntity = [
   "client_id",
-  // "party_id",
+  // "partido_id",
   "dpto_id",
   "macroregion_id",
   "prov_id",

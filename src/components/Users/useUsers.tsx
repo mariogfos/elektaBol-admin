@@ -38,7 +38,7 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     page: 1,
     searchBy: "",
   });
-
+  console.log(user?.datos);
   const prechargeListsData = () => {
     let obj = {};
     if (precarga?.level) {
