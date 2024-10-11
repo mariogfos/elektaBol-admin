@@ -38,7 +38,7 @@ const Mesas = () => {
       dpto_id: {
         rules: ["required"],
         api: "ae",
-        label: "Dpto",
+        label: "Departamento",
         list: { width: "250px" },
         form: { type: "select", optionsExtra: "dptos" },
       },

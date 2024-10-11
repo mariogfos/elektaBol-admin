@@ -36,7 +36,7 @@ const Uvs = () => {
       dpto_id: {
         rules: ["required"],
         api: "ae",
-        label: "Dpto",
+        label: "Departamento",
         form: { type: "select", optionsExtra: "dptos" },
       },
       prov_id: {
