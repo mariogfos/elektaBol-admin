@@ -33,7 +33,7 @@ const WidgetTable = ({ data }: any) => {
     },
     {
       key: "name",
-      label: "Provincia",
+      label: "Departamento",
 
       responsive: "",
     },
@@ -82,7 +82,7 @@ const WidgetTable = ({ data }: any) => {
     // },
     {
       key: "pid",
-      label: "Votos PID 2023",
+      label: "Votos Creemos 2020",
       responsive: "",
       style: { justifyContent: "flex-end", textAlign: "right" },
       onRender: (item: any) => {
