@@ -43,8 +43,14 @@
   display: flex;
   align-items: center;
   gap: 24px;
+  /* background-color: aquamarine; */
   & > div {
     width: 50%;
+    min-width: 400px;
+  }
+  @media (max-width: 1529px) {
+    flex-direction: column;
+    gap: 24px;
   }
 }
 
