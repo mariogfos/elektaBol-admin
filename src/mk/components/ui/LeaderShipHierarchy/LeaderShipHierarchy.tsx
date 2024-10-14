@@ -55,7 +55,7 @@ const LeadershipHierarchy = ({
 
     if (line2orig) {
       let l = line2orig;
-      l.sort((a: any, b: any) => b.line3.total - a.line3.total);
+      l.sort((a: any, b: any) => b.line3?.total - a.line3?.total);
       setLine2(l);
     }
   }, [line2orig]);
@@ -64,13 +64,6 @@ const LeadershipHierarchy = ({
       setLevel(params?.level);
     }
   }, [params?.level]);
-  const charges: any = {
-    0: "Administrador de partido",
-    1: "Coordinador de provincia",
-    2: "Coordinador de cantón",
-    3: "Coordinador de parroquia",
-    4: "Líder de barrio",
-  };
 
   return (
     <>
