@@ -159,7 +159,7 @@ const Contents = () => {
     modulo: "contents",
     singular: "publicación",
     plural: "Contenidos multimedia",
-    permiso: "content",
+    permiso: "contents",
     import: true,
     extraData: true,
     saveMsg: {
