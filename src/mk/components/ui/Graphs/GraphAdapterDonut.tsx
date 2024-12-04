@@ -60,8 +60,8 @@ const GraphAdapterDonut = (data: any, options: any, oDef: any = {}) => {
 
   const d: any = [];
   const d1: any = [];
-  data.values.map((e: any) => {
-    let total = e.values.reduce((a: any, b: any) => a + b, 0);
+  data?.values?.map((e: any) => {
+    let total = e?.values?.reduce((a: any, b: any) => a + b, 0);
     d.push(total);
   });
 

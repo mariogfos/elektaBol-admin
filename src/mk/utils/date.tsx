@@ -292,21 +292,21 @@ export const differenceInDays = (begin_at: string, end_at: string): number => {
 
   // Ajustar la fecha de inicio a las 00:00:00 y la fecha de fin a las 23:59:59
   const beginDate: Date = new Date(localBeginDate.setHours(0, 0, 0, 0));
-  const endDate: Date = new Date(localEndDate.setHours(0,0,0,0));
- 
+  const endDate: Date = new Date(localEndDate.setHours(0, 0, 0, 0));
+
   // Calcular la diferencia en milisegundos y luego convertir a días
   const differenceInTime: number = endDate.getTime() - beginDate.getTime();
   const differenceInDays: number = differenceInTime / (1000 * 3600 * 24);
 
   //  console.log(
   //   // getUTCNow(),
-      // Math.round(differenceInDays),
+  // Math.round(differenceInDays),
   //   // 'differenceInTime',
   //   differenceInTime,
   //   'beginDate',
-    //  beginDate,
+  //  beginDate,
   //   'endDate',
-   //  endDate,
+  //  endDate,
   //   'localEndDate',
   //   localEndDate,
   // differenceInDays > 0 && differenceInDays < 1,
@@ -361,4 +361,59 @@ export const compareDate = (
   if (oper == "<") return d1 < d2;
   if (oper == ">=") return d1 >= d2;
   if (oper == "<=") return d1 <= d2;
+};
+
+export const getHourStr = (
+  dateStr: string | null = "",
+  utc: boolean = false
+): string => {
+  if (!dateStr || dateStr === "") return "";
+  let dateObj: Date | null;
+  if (esFormatoISO8601(dateStr) || utc) {
+    dateObj = convertirFechaUTCaLocal(dateStr);
+  } else {
+    dateObj = new Date(dateStr);
+  }
+  if (!dateObj) return "";
+
+  let hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes().toString().padStart(2, "0");
+  const ampm = hours >= 12 ? "p.m." : "a.m.";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // La hora '0' debe ser '12'
+
+  const hoursStr = hours.toString().padStart(2, "0");
+
+  return `${hoursStr}:${minutes} ${ampm}`;
+};
+
+export const getCurrentYearWeek = () => {
+  const now = new Date();
+  
+  // Copia de la fecha actual
+  const target = new Date(now.valueOf());
+  
+  // Ajustar el día al jueves de la semana actual
+  const dayNr = (now.getDay() + 6) % 7; // Convertir Sunday=0 a Sunday=6
+  target.setDate(target.getDate() - dayNr + 3);
+  
+  // Obtener el año ISO de la fecha ajustada
+  const firstThursday = target.getTime();
+  
+  // Configurar el primer día del año
+  target.setMonth(0, 1);
+  
+  // Ajustar al primer jueves del año
+  if (target.getDay() !== 4) {
+    target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+  }
+  
+  // Calcular la semana número
+  const weekNumber = 1 + Math.round((firstThursday - target.getTime()) / (7 * 24 * 60 * 60 * 1000));
+  
+  // Obtener el año ISO
+  const isoYear = target.getFullYear();
+  
+  // Formatear el resultado como 'YYYYWW'
+  return `${isoYear}${weekNumber.toString().padStart(2, '0')}`;
 };

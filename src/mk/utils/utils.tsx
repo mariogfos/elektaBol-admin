@@ -53,3 +53,20 @@ export const RandomsColors = [
   "var(--cRandom18)",
   "var(--cRandom19)",
 ];
+
+
+export let lGreader = [
+  { id: "M", name: "Hombres" },
+  { id: "F", name: "Mujeres" },
+  { id: "X", name: "Prefiero no decirlo" },
+];
+export let lAges = [
+  { id: "18-20", name: "18-20" },
+  { id: "21-30", name: "21-30" },
+  { id: "31-40", name: "31-40" },
+  { id: "41-50", name: "41-50" },
+  { id: "51-60", name: "51-60" },
+  { id: "61-70", name: "61-70" },
+  { id: "71-80", name: "71-80" },
+  { id: "81+", name: "81+" },
+];

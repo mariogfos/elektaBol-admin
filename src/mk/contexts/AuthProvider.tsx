@@ -11,9 +11,8 @@ import { useRouter } from "next/router";
 import Login from "../components/auth/Login";
 import useToast, { ToastType } from "../hooks/useToast";
 import { logError } from "../utils/logs";
-
+import Splash from "../../components/req/Splash";
 import Toast from "../components/ui/Toast/Toast";
-import Splash from "@/components/req/Splash";
 import { IconLogoElekta } from "@/components/layout/icons/IconsBiblioteca";
 
 export interface AuthContextType {

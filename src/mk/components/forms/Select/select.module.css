@@ -27,6 +27,7 @@
       }
     }
   } */
+
 }
 
 .selectOptions {
@@ -38,22 +39,31 @@
   width: calc(100% - var(--spS) * 2);
   padding: var(--spS);
   color: var(--cBlackV2);
-  & > ul {
+
+  &>ul {
     overflow-y: auto;
     max-height: 250px;
     padding: var(--spS) var(--spS);
+
     & li {
       list-style: none;
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       padding: var(--spS) var(--spS);
     }
+
     & li:hover,
     & li.selected {
       background-color: var(--cWhiteV3);
       color: var(--cWhite);
     }
+
+    & div {
+      display: flex;
+    }
+
   }
 }
 
@@ -99,14 +109,3 @@
   Reaccionar
   
   Responder */
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  

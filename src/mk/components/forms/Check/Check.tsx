@@ -1,3 +1,4 @@
+import { reverse } from "dns";
 import {
   IconCheckOff,
   IconCheckSquare,
@@ -9,11 +10,13 @@ interface PropsType extends PropsTypeInputBase {
   checked?: boolean;
   optionValue?: string[];
   message?: string;
+  reverse?: boolean;
 }
 
 const Check = ({
   optionValue = ["Y", "N"],
   className = "",
+  reverse = false,
   ...props
 }: PropsType) => {
   return (
@@ -22,7 +25,11 @@ const Check = ({
         htmlFor={props.name}
         style={{ color: props.checked ? "var(--cSuccess)" : "var(--cBlackV2)" }}
       >
-        {props.label} {props.required ? "*" : null}
+        {!reverse && (
+          <p>
+            {props.label} {props.required ? "*" : null}
+          </p>
+        )}
         <input
           type="checkbox"
           name={props.name}
@@ -42,6 +49,11 @@ const Check = ({
             <IconCheckOff style={{ marginTop: 4 }} />
           )}
         </span>
+        {reverse && (
+          <p>
+            {props.label} {props.required ? "*" : null}
+          </p>
+        )}
         {!props.error ? null : (
           <p className="error">{props.error[props.name]} &nbsp;</p>
         )}

@@ -1,19 +1,16 @@
 import { validators as loadedValidators } from "@/components/validators";
 export type ActionType = "add" | "edit" | "del" | "view" | "export";
-
 export type ValidFunctionType = (
   value: any,
   param: string[],
   field?: Record<string, any> | null
 ) => string;
-
 export type RulesColumnsType = {
   label: string;
   required?: boolean;
   rules?: string[];
   actions?: ActionType[];
 };
-
 export type RulesFieldsType = {
   [key: string]: {
     label?: string;
@@ -22,18 +19,17 @@ export type RulesFieldsType = {
     api?: string;
   };
 };
-
 export const validRule = (
   value: any = "",
   _rule: string = "",
   formState: Record<string, any> = {},
-  key?: string
+  key?: string,
+  execute?: Function
 ) => {
   if (!_rule) return "";
   const [rule, params] = (_rule + ":").split(":");
   const param = params ? params.split(",") : [];
-
-  const validations: Record<string, () => string> = {
+  const validations: Record<string, Function> = {
     validateIf: () => {
       return param[1] !== formState[param[0]] ? "validar hasta aqui" : "";
     },
@@ -49,12 +45,31 @@ export const validRule = (
     requiredFile: () => {
       return !value?.file ? "Este campo es requerido" : "";
     },
+    onExist: async () => {
+      // onExist:adm-exists,email,id"
+      if (!execute) return "no existe execute";
+      const { data: response } = await execute(param[0], "GET", {
+        searchBy: value,
+        type: param[1],
+        cols: param[2] || "id",
+      });
+      let r = "";
+      if (response?.data != null) {
+        r = "el valor ya existe";
+      }
+      return r;
+    },
     requiredFileIf: () => {
       if (param[1] !== formState[param[0]]) return "";
       if (value === 0 || value === "0") return "";
       return !value?.file ? "Este campo es requerido" : "";
     },
-    same: () => (value !== formState[param[0]] ? "Tienen que ser iguales" : ""),
+    same: () =>
+      value !== formState[param[0]] ? "Los campos deben ser iguales" : "",
+    minMax: () =>
+      Number(value) == Number(formState[param[0]])
+        ? "El campo debe ser menor"
+        : "",
     min: () => (value?.length < param[0] ? `min ${param[0]} caracteres` : ""),
     max: () => (value?.length > param[0] ? `max ${param[0]} caracteres` : ""),
     email: () => (!/\S+@\S+\.\S+/.test(value) ? "No es un correo válido" : ""),
@@ -72,12 +87,12 @@ export const validRule = (
     number: () => {
       // console.error("number", value, /^[0-9.,-]+$/.test(value));
       if (value === "" || value === null) return "";
-      return !/^[0-9.,-]+$/.test(value) ? "No es un numero valido" : "";
+      return !/^[0-9.,-]+$/.test(value) ? "No es un número valido" : "";
     },
     integer: () =>
-      !/^[0-9]+$/.test(value) ? "No es un numero entero valido" : "",
+      !/^[0-9]+$/.test(value) ? "No es un número entero valido" : "",
     positive: () => (value < 0 ? "Debe ser número positivo " : ""),
-    greater: () => (value <= param[0] ? `Debe ser mayor que ${param[0]}` : ""),
+    greater: () => (value <= param[0] ? `Debe ser mayor` : ""),
     less: () => (value >= param[0] ? `Debe ser menor que ${param[0]}` : ""),
     googleMapsLink: () => {
       const regex =
@@ -85,6 +100,22 @@ export const validRule = (
       return !regex.test(value)
         ? "Debe ser un enlace válido de Google Maps"
         : "";
+    },
+    facebook: () => {
+      const regex = /^https:\/\/(www\.)?(facebook\.com\/)/;
+      return !regex.test(value) ? "Debe ser un enlace válido de Facebook" : "";
+    },
+    instagram: () => {
+      const regex = /^https:\/\/(www\.)?(instagram\.com\/)/;
+      return !regex.test(value) ? "Debe ser un enlace válido de Instagram" : "";
+    },
+    twitter: () => {
+      const regex = /^https:\/\/(www\.)?(x\.com\/)/;
+      return !regex.test(value) ? "Debe ser un enlace válido de Twitter" : "";
+    },
+    linkedin: () => {
+      const regex = /^https:\/\/(www\.)?(linkedin\.com\/)/;
+      return !regex.test(value) ? "Debe ser un enlace válido de LinkedIn" : "";
     },
     between: () =>
       Number(value) < Number(param[0]) || Number(value) > Number(param[1])
@@ -100,23 +131,19 @@ export const validRule = (
       return acc;
     }, {} as Record<string, ValidFunctionType>),
   };
-
   return validations[rule]?.() || "";
 };
-
 export const checkRulesFields = (
   fields: RulesFieldsType = {},
   data: Record<string, any> = {},
-  action: ActionType = "add"
+  action: ActionType = "add",
+  execute?: Function
 ) => {
   let errors: Record<string, string> = {};
   let detener = false;
-
   for (const key in fields) {
     // if (!fields[key].rules || error != "" || (rule !== "required" && !value)) return;
-
     if (!fields[key].rules) continue;
-
     const value = data[key] || "";
     detener = false;
     (fields[key].rules || []).forEach((rule) => {
@@ -125,7 +152,7 @@ export const checkRulesFields = (
       // console.log("ruleName", ruleName, ruleActions, action);
       if (!ruleName || (ruleActions && !ruleActions.includes(action[0])))
         return;
-      const error = validRule(data[key], ruleName, data, key);
+      const error = validRule(data[key], ruleName, data, key, execute);
       const rName = (ruleName + ":").split(":")[0];
       // console.log("sssss:", rName, error, key);
       if (rName == "validateIf" && error) {
@@ -136,16 +163,15 @@ export const checkRulesFields = (
       if (error) errors[key] = error;
     });
   }
-
   return errors;
 };
-
 type CheckRulesType = {
   value: any;
   rules: string[];
   errors?: Record<string, string> | null;
   key?: string | null;
   data?: Record<string, any>;
+  execute?: Function;
 };
 export const checkRules = ({
   value = "",
@@ -153,12 +179,13 @@ export const checkRules = ({
   errors = null,
   key = null,
   data = {},
+  execute,
 }: CheckRulesType): string | Record<string, string> | null => {
   let error: string = "";
   if (!rules || rules.length == 0) return errors || error;
   rules.forEach((rule) => {
     if (!rule || error != "" || (rule !== "required" && !value)) return;
-    error = validRule(value, rule, data);
+    error = validRule(value, rule, data, undefined, execute);
   });
   return errors
     ? error
@@ -166,7 +193,6 @@ export const checkRules = ({
       : errors
     : error;
 };
-
 export const getParamFields = (
   data: Record<string, any> = {},
   fields: RulesFieldsType = {},
@@ -177,19 +203,15 @@ export const getParamFields = (
     if (apiIndex === -1) {
       return param;
     }
-
     const hasAsterisk = (el.api + "").charAt(apiIndex + 1) === "*";
     const isEmptyValue = !data[key] || (data[key] + "").trim() === "";
-
     if (hasAsterisk && isEmptyValue) {
       return param;
     }
-
     param[key] = data[key];
     return param;
   }, {});
 };
-
 export const hasErrors = (errors: Record<string, string>) => {
   return Object.keys(errors).length > 0;
 };

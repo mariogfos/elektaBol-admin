@@ -101,4 +101,9 @@
   & input[type="date"]::-webkit-datetime-edit-day-field {
     color: white;
   }
+  & input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    border-radius: 50%;
+    padding: 4px;
+  }
 }

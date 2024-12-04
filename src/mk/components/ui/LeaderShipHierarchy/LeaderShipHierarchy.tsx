@@ -9,6 +9,8 @@ import { formatNumber } from "@/mk/utils/numbers";
 import { IconAdd } from "@/components/layout/icons/IconsBiblioteca";
 import { lLevels } from "@/components/Users/type";
 import Line1 from "./Line1";
+import Tooltip from "../Tooltip/Tooltip";
+import DetailUsers from "@/components/Users/DetailUsers";
 
 interface Props {
   user: any;
@@ -47,15 +49,27 @@ const LeadershipHierarchy = ({
       ...params,
       level: props.level + 1,
       searchBy: props.entity.id,
+      lista_id: listaActual,
     });
   };
   const [line2, setLine2] = useState([]);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [activeTooltipIndex, setActiveTooltipIndex] = useState(null);
+  const [userId, setUserId]: any = useState(null);
+  const charges: any = {
+    0: "Administrador de partido",
+    1: "Coordinador de provincia",
+    2: "Coordinador de cantón",
+    3: "Coordinador de parroquia",
+    4: "Líder de barrio",
+  };
+
   useEffect(() => {
     //ordenar line2 por line2?.line3?.total en orden descendente
 
     if (line2orig) {
       let l = line2orig;
-      l.sort((a: any, b: any) => b.line3?.total - a.line3?.total);
+      l.sort((a: any, b: any) => b.line3.total - a.line3.total);
       setLine2(l);
     }
   }, [line2orig]);
@@ -65,11 +79,24 @@ const LeadershipHierarchy = ({
     }
   }, [params?.level]);
 
+  const handleMouseEnter = (index: any) => (event: any) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
+    setActiveTooltipIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveTooltipIndex(null);
+  };
+
   return (
     <>
       <TagLabel
         // label={"Nivel " + lLevels[level] + ": " + entidad}
-        label="Gabinete"
+        label={"Gabinete de " + lLevels[level]}
         styles={{ backgroundColor: "var(--cError)" }}
       />
       <div className={styles.leadershipHierarchy}>
@@ -81,10 +108,14 @@ const LeadershipHierarchy = ({
           params={params}
           userCan={userCan}
         />
-        {level < 9 && (
+        {level < 5 && (
           <>
             <TagLabel
-              label={lLevels[level + 1]}
+              label={
+                level + 1 === 3
+                  ? "Cantones"
+                  : lLevels[level + 1] + (level + 1 == 3 ? "es" : "s")
+              }
               styles={{ display: "flex", alignSelf: "flex-start" }}
             />
             <div className={styles["carouselCards"]}>
@@ -107,9 +138,25 @@ const LeadershipHierarchy = ({
                           display: "flex",
                         }}
                       >
-                        <div style={{ textWrap: "wrap", textAlign: "left" }}>
+                        <div
+                          style={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            textAlign: "left",
+                            cursor: "pointer",
+                          }}
+                          onMouseEnter={handleMouseEnter(index)}
+                          onMouseLeave={handleMouseLeave}
+                        >
                           {entity?.name}
+                          {activeTooltipIndex === index && (
+                            <Tooltip position={tooltipPosition}>
+                              {entity?.name}
+                            </Tooltip>
+                          )}
                         </div>
+
                         <div style={{ color: "var(--cSuccess)" }}>
                           {index + 1}/{line2.length}
                         </div>
@@ -143,8 +190,14 @@ const LeadershipHierarchy = ({
                                     ".webp?d=" +
                                     line3?.updated_at
                                 )}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  console.log("grin");
+                                  setUserId(line3?.user_id);
+                                }}
                                 w={32}
                                 h={32}
+                                style={{ cursor: "pointer" }}
                                 className={styles.avatarChildren}
                               />
                             </div>
@@ -223,7 +276,7 @@ const LeadershipHierarchy = ({
                   </Card>
                 </div>
               ))}
-              {level == 8 && user?.role?.level == 8 && (
+              {level == 4 && user?.role?.level == 4 && (
                 <Card className={styles.card}>
                   <div
                     style={{
@@ -276,7 +329,14 @@ const LeadershipHierarchy = ({
                       </div>
                     </div>
                     <br />
-                    Para un Barrio nuevo...
+                    <p
+                      style={{
+                        fontSize: "var(--sS)",
+                        marginTop: "8px",
+                      }}
+                    >
+                      Barrio y líder de barrio
+                    </p>
                   </div>
                 </Card>
               )}
@@ -284,6 +344,9 @@ const LeadershipHierarchy = ({
           </>
         )}
       </div>
+      {userId && (
+        <DetailUsers open={true} close={() => setUserId("")} id={userId} />
+      )}
     </>
   );
 };

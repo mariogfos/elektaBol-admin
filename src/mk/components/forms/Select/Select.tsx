@@ -4,11 +4,12 @@ import {
   IconCheckOff,
   IconCheckSquare,
 } from "@/components/layout/icons/IconsBiblioteca";
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import Input from "../Input/Input";
 import styles from "./select.module.css";
 import { PropsTypeInputBase } from "../ControlLabel";
 import { createPortal } from "react-dom";
+import { useOnClickOutside } from "@/mk/hooks/useOnClickOutside";
 
 interface PropsType extends PropsTypeInputBase {
   multiSelect?: boolean;
@@ -16,6 +17,9 @@ interface PropsType extends PropsTypeInputBase {
   options: any[];
   optionLabel?: string;
   optionValue?: string;
+  inputStyle?: any;
+  selectOptionsClassName?: string;
+  style?: CSSProperties;
 }
 
 const Select = ({
@@ -23,6 +27,7 @@ const Select = ({
   name,
   error = null,
   className = "",
+  selectOptionsClassName = "",
   multiSelect = false,
   filter = false,
   options = [],
@@ -33,6 +38,8 @@ const Select = ({
   required = false,
   placeholder = "",
   label = "",
+  inputStyle = {},
+  style = {},
   onBlur = () => {},
   onChange = (e: any) => {},
 }: PropsType) => {
@@ -91,11 +98,13 @@ const Select = ({
   }, [selectValue, options]);
 
   useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (selectRef.current && !selectRef.current.contains(e.target)) {
-        setOpenOptions(false);
-      }
-    };
+    // const handleClickOutside = (e: any) => {
+    //   console.log("click fuera", e.target, selectRef.current);
+    //   if (selectRef.current && !selectRef.current.contains(e.target)) {
+    //     console.log("cerrar fuera");
+    //     setOpenOptions(false);
+    //   }
+    // };
     const parentWithClass = findParentWithClass(
       selectRef.current,
       "contScrollable"
@@ -104,9 +113,9 @@ const Select = ({
       console.log("Scrollable encontrado");
       parentWithClass.addEventListener("scroll", calcPosition);
     }
-    document.addEventListener("click", handleClickOutside);
+    // document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      // document.removeEventListener("click", handleClickOutside);
       if (parentWithClass) {
         parentWithClass.removeEventListener("scroll", calcPosition);
       }
@@ -214,9 +223,12 @@ const Select = ({
   };
 
   const Section = () => {
+    const selectRef1 = useRef<HTMLDivElement>(null);
+    useOnClickOutside(selectRef1, () => setOpenOptions(false));
     return (
       <section
-        className={styles.selectOptions}
+        ref={selectRef1}
+        className={styles.selectOptions + " " + selectOptionsClassName}
         style={{
           // position: "fixed",
           top: (position?.top || 0) + "px",
@@ -298,6 +310,7 @@ const Select = ({
       className={styles.select + " " + className}
       // style={{ zIndex: top }}
       onClick={disabled ? () => {} : handleSelectClickIcon}
+      style={style}
     >
       <Input
         type={"text"}
@@ -324,6 +337,7 @@ const Select = ({
         onBlur={onBlur}
         disabled={disabled}
         error={error}
+        style={inputStyle}
       />
       {openOptions &&
         createPortal(

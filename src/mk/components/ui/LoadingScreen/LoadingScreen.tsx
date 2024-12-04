@@ -7,16 +7,23 @@ interface PropsType {
   type?: SkeletonType;
   className?: string;
   children?: any;
+  loaded?: any;
+  onlyLoading?: boolean;
 }
 
 const LoadingScreen = ({
   type = "TableSkeleton",
   className,
   children = null,
+  loaded,
 }: PropsType) => {
   const isSkeleton = !!type;
   const { waiting }: any = useContext(AxiosContext);
+
+  if (loaded) return children;
+
   if (waiting == 0) return children;
+
   if (isSkeleton) return <SkeletonAdapterComponent type={type} />;
   return (
     <div className={styles.loadingScreen + " " + className}>
