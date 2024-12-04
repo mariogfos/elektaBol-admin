@@ -108,21 +108,19 @@ const LeadershipHierarchy = ({
           params={params}
           userCan={userCan}
         />
-        {level < 5 && (
+        {level < 9 && (
           <>
             <TagLabel
-              label={
-                level + 1 === 3
-                  ? "Cantones"
-                  : lLevels[level + 1] + (level + 1 == 3 ? "es" : "s")
-              }
+              label={lLevels[level + 1]}
               styles={{ display: "flex", alignSelf: "flex-start" }}
             />
             <div className={styles["carouselCards"]}>
               {line2?.map((entity: any, index: any) => (
                 <div
                   key={index}
-                  onClick={() => handleButtonPress({ entity, level })}
+                  onClick={() =>
+                    level < 8 ? handleButtonPress({ entity, level }) : {}
+                  }
                 >
                   <Card className={styles.card}>
                     <div className={styles["entityContent"]}>
@@ -276,7 +274,7 @@ const LeadershipHierarchy = ({
                   </Card>
                 </div>
               ))}
-              {level == 4 && user?.role?.level == 4 && (
+              {level == 8 && user?.role?.level == 8 && (
                 <Card className={styles.card}>
                   <div
                     style={{
