@@ -13,7 +13,14 @@ import { useAuth } from "@/mk/contexts/AuthProvider";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 import Check from "@/mk/components/forms/Check/Check";
 import RenderView from "./RenderView";
-import style from "./Events.module.css";
+import ImportDataModal from "@/mk/components/data/ImportDataModal/ImportDataModal";
+import {
+  IconAlert,
+  IconComment,
+  IconConfirm,
+  IconLike,
+} from "@/components/layout/icons/IconsBiblioteca";
+import { formatNumber } from "@/mk/utils/numbers";
 
 const paramsInitial = {
   perPage: -1,
@@ -41,11 +48,7 @@ const lDestinies = (data: {
   user?: Record<string, any>;
   item: Record<string, any>;
 }) => {
-  const r = [
-    { id: 0, name: "Todos" },
-    { id: -1, name: "Administradores" },
-    { id: -2, name: "Afiliados" },
-  ];
+  const r = [{ id: 0, name: "Todos" }];
   const level = data.user?.role.level;
   // const level = 3;
   if (level <= 1) r.push({ id: 2, name: "Sublema" });
@@ -106,10 +109,11 @@ const Events = () => {
   const { user } = useAuth();
   const mod: ModCrudType = {
     modulo: "events",
-    singular: "Evento",
+    singular: "evento",
     plural: "Eventos",
-    permiso: "",
+    permiso: "events",
     extraData: true,
+    import: true,
     renderView: (props: {
       open: boolean;
       onClose: any;
@@ -117,6 +121,11 @@ const Events = () => {
       onConfirm?: Function;
     }) => <RenderView {...props} />,
     loadView: { fullType: "DET" },
+    saveMsg: {
+      add: "Evento creado con éxito",
+      edit: "Evento actualizado con éxito",
+      del: "Evento eliminado con éxito",
+    },
   };
 
   const fields = useMemo(
@@ -129,30 +138,43 @@ const Events = () => {
         list: { width: 120 },
         form: { type: "select", options: lDestinies, onLeft: leftDestiny },
       },
-      sublema_id: {
-        rules: ["required"],
+      // sublema_id: {
+      //   rules: ["required"],
+      //   api: "ae",
+      //   label: "Sublema",
+      //   onHide: isHide,
+      //   list: false,
+      //   form: {
+      //     type: "select",
+      //     addOptions: [{ id: 0, name: "Todos" }],
+      //     optionsExtra: "sublemas",
+      //     precarga: user.datos?.sublema_id,
+      //   },
+      // },
+      date_at: {
+        rules: ["required", "date"],
         api: "ae",
-        label: "Sublema",
-        hide: isHide,
+        label: "Fecha del evento",
+        // onHide: isHide,
         list: false,
         form: {
-          type: "select",
-          optionsExtra: "sublemas",
-          precarga: user.datos?.sublema_id,
+          type: "date",
         },
       },
-      lista_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Lista",
-        hide: isHide,
-        list: false,
-        form: {
-          type: "select",
-          optionsExtra: "listas",
-          precarga: user.datos?.lista_id,
-        },
-      },
+
+      // lista_id: {
+      //   rules: ["required"],
+      //   api: "ae",
+      //   label: "Lista",
+      //   onHide: isHide,
+      //   list: false,
+      //   form: {
+      //     type: "select",
+      //     optionsExtra: "listas",
+      //     addOptions: [{ id: 0, name: "Todos" }],
+      //     precarga: user.datos?.lista_id,
+      //   },
+      // },
       name: {
         rules: ["required"],
         api: "ae",
@@ -167,20 +189,48 @@ const Events = () => {
         list: false,
         form: { type: "textArea", lines: 5 },
       },
-      location: {
+      reaction: {
+        api: "ae",
+        label: "Interacciones",
+        list: { width: "450px" },
+        form: false,
+        onRender: (item: any) => {
+          return (
+            <div
+              style={{ display: "flex", alignItems: "center", fontSize: 14 }}
+            >
+              <IconConfirm color={"var(--cSuccess)"} />
+              {formatNumber(item?.item?.assists, 0)}{" "}
+              <IconLike size={24} color={"var(--cInfo)"} />
+              {formatNumber(item?.item?.likes, 0)} <IconComment size={24} />
+              {formatNumber(item?.item?.comments_count, 0)}
+            </div>
+          );
+        },
+      },
+      address: {
         rules: ["required"],
+        api: "ae",
+        label: "Lugar del evento",
+        list: false,
+        form: {
+          type: "text",
+          label: "Lugar del evento",
+        },
+      },
+      location: {
+        rules: ["required", "googleMapsLink"],
         api: "ae",
         label: "Link de ubicación",
         list: false,
         form: {
           type: "text",
-          label:
-            "Link de ubicación: (por ejemplo: https://www.google.com/maps/place/...)",
+          label: "Link de ubicación",
         },
       },
       avatar: {
-        rules: ["requiredFile"],
-        api: "ae",
+        rules: ["requiredFile*a"],
+        api: "a*e*",
         label: "Suba una Imagen",
         list: false,
         form: {
@@ -266,6 +316,20 @@ const Events = () => {
           setShowExtraModal(null);
         }}
       >
+        <Check
+          key={"check0"}
+          name={"destiny_0"}
+          label="Todos"
+          checked={sel.length == 0}
+          onChange={(e: any) => {
+            const { name, checked } = e.target;
+            if (checked) {
+              setSel([]);
+            }
+          }}
+          value={0}
+          optionValue={["0", "N"]}
+        />
         {selDestinies.map((d: any, i: number) => (
           <Check
             key={"check" + i}
@@ -290,6 +354,10 @@ const Events = () => {
     );
   };
 
+  const onImport = () => {
+    setOpenImport(true);
+  };
+
   const {
     userCan,
     List,
@@ -300,13 +368,18 @@ const Events = () => {
     onDel,
     extraData,
     findOptions,
+    showToast,
+    execute,
+    reLoad,
+    getExtraData,
   } = useCrud({
     paramsInitial,
     mod,
     fields,
     _onChange,
+    _onImport: onImport,
   });
-  const { onLongPress, selItem } = useCrudUtils({
+  const { onLongPress, selItem, searchState, setSearchState } = useCrudUtils({
     onSearch,
     searchs,
     setStore,
@@ -316,6 +389,11 @@ const Events = () => {
     title: "Comunicación",
   });
 
+  const [openImport, setOpenImport] = useState(false);
+  useEffect(() => {
+    setOpenImport(searchState == 3);
+  }, [searchState]);
+
   const renderItem = (
     item: Record<string, any>,
     i: number,
@@ -323,7 +401,7 @@ const Events = () => {
   ) => {
     return (
       <RenderItem item={item} onClick={onClick} onLongPress={onLongPress}>
-        <div className={style["cardEventContainer"]}>
+        <div className={styles["cardEventContainer"]}>
           <div>
             <img
               style={{ width: 156, height: 156, borderRadius: 8 }}
@@ -341,11 +419,34 @@ const Events = () => {
       </RenderItem>
     );
   };
-
+  const onResponse = async () => {
+    const { data } = await execute("/events-automatic", "POST", {});
+    if (data?.success) {
+      showToast("success", "Se han enviado las encuestas");
+    } else {
+      showToast("error", "No se han podido enviar las encuestas");
+    }
+  };
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
   return (
-    <div className={styles.style}>
-      <List onTabletRow={renderItem} />
+    <div className={styles.roles}>
+      {/* <IconLike onClick={() => onResponse()} /> */}
+      <List onTabletRow={renderItem} actionsWidth="300px" />
+      {openImport && (
+        <ImportDataModal
+          open={openImport}
+          onClose={() => {
+            setSearchState(0);
+            setOpenImport(false);
+          }}
+          mod={mod}
+          showToast={showToast}
+          reLoad={reLoad}
+          execute={execute}
+          getExtraData={getExtraData}
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+        />
+      )}
     </div>
   );
 };

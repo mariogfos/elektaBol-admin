@@ -11,7 +11,7 @@ import ImportDataModal from "../shared/ImportDataModal";
 
 const mod: ModCrudType = {
   modulo: "muns",
-  singular: "municipio",
+  singular: "",
   plural: "municipios",
   permiso: "",
   extraData: true,
@@ -38,7 +38,7 @@ const Muns = () => {
       dpto_id: {
         rules: ["required"],
         api: "ae",
-        label: "Dpto",
+        label: "Departamento",
         list: { width: "300px" },
         form: { type: "select", optionsExtra: "dptos" },
       },

@@ -19,6 +19,7 @@ export interface PropsTypeInputBase {
   iconLeft?: any;
   iconRight?: any;
   checked?: boolean;
+  onKeyDown?: (e: any) => void;
 }
 
 interface PropsType extends PropsTypeInputBase {

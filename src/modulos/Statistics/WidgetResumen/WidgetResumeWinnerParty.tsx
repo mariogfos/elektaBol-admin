@@ -2,9 +2,9 @@ import { Card } from "@/mk/components/ui/Card/Card";
 import GraphBase from "@/mk/components/ui/Graphs/GraphBase";
 import styles from "./WidgetResume.module.css";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
-import DonutChart from "@/mk/components/DonutChart/DonutChart";
 import { getUrlImages } from "@/mk/utils/string";
 import { formatNumber } from "@/mk/utils/numbers";
+import DonutChart from "@/components/DonutChart/DonutChart";
 
 const WidgetResumeWinnerParty = ({
   data,

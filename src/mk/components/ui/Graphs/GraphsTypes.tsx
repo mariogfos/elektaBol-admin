@@ -36,12 +36,14 @@ type optionsType = {
   height?: number | string;
   width?: number | string;
   offsetY?: number;
+  money?: boolean;
 };
 type commonTypes = {
   data: any;
   options?: optionsType;
   oDef?: any;
   background?: string;
+  downloadPdf?: boolean;
 };
 export interface ProptypesAdapter extends commonTypes {
   chartType: ChartType;

@@ -4,17 +4,16 @@ import { Avatar } from "../Avatar/Avatar";
 import { Card } from "../Card/Card";
 import styles from "./LLeaderShipHierarchy.module.css";
 import TagLabel from "../TagLabel/TagLabel";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatNumber } from "@/mk/utils/numbers";
 import { IconAdd } from "@/components/layout/icons/IconsBiblioteca";
 import { lLevels } from "@/components/Users/type";
 import Line1 from "./Line1";
-import { formatNumberCustom } from "@/mk/utils/date";
 
 interface Props {
   user: any;
   line1: any;
-  line2: any;
+  line2orig: any;
   params: any;
   setParams: Function;
   addClick?: any;
@@ -23,12 +22,14 @@ interface Props {
   setLevel: Function;
   setParamsHist: Function;
   entidad: string;
+  paramsHist: any;
+  userCan?: any;
 }
 
 const LeadershipHierarchy = ({
   user,
   line1,
-  line2,
+  line2orig,
   params,
   setParams,
   addClick,
@@ -36,18 +37,28 @@ const LeadershipHierarchy = ({
   level,
   setLevel,
   setParamsHist,
+  paramsHist,
   entidad,
+  userCan = () => false,
 }: Props) => {
   const handleButtonPress = (props: any) => {
-    setParamsHist((old: any) => [...old, params]);
+    setParamsHist([...paramsHist, params]);
     setParams({
       ...params,
       level: props.level + 1,
       searchBy: props.entity.id,
-      lista_id: listaActual,
     });
   };
+  const [line2, setLine2] = useState([]);
+  useEffect(() => {
+    //ordenar line2 por line2?.line3?.total en orden descendente
 
+    if (line2orig) {
+      let l = line2orig;
+      l.sort((a: any, b: any) => b.line3.total - a.line3.total);
+      setLine2(l);
+    }
+  }, [line2orig]);
   useEffect(() => {
     if (params?.level) {
       setLevel(params?.level);
@@ -55,11 +66,10 @@ const LeadershipHierarchy = ({
   }, [params?.level]);
   const charges: any = {
     0: "Administrador de partido",
-    1: "Administrador de sublema",
-    2: "Administrador de lista",
-    3: "Coordinador departamental",
-    4: "Delegados de localidad",
-    5: "Líder de barrio",
+    1: "Coordinador de provincia",
+    2: "Coordinador de cantón",
+    3: "Coordinador de parroquia",
+    4: "Líder de barrio",
   };
 
   return (
@@ -76,11 +86,12 @@ const LeadershipHierarchy = ({
           user={user}
           addClick={addClick}
           params={params}
+          userCan={userCan}
         />
-        {level < 6 && (
+        {level < 9 && (
           <>
             <TagLabel
-              label={lLevels[level + 1] + (level + 1 == 5 ? "es" : "s")}
+              label={lLevels[level + 1]}
               styles={{ display: "flex", alignSelf: "flex-start" }}
             />
             <div className={styles["carouselCards"]}>
@@ -135,8 +146,8 @@ const LeadershipHierarchy = ({
                                 name={getFullName(line3)}
                                 src={getUrlImages(
                                   "/ADM-" +
-                                    line3?.id +
-                                    ".png?d=" +
+                                    line3?.user_id +
+                                    ".webp?d=" +
                                     line3?.updated_at
                                 )}
                                 w={32}
@@ -157,7 +168,7 @@ const LeadershipHierarchy = ({
                           </div>
                         )}
                       </div>
-                    ) : user?.role?.level == level ? (
+                    ) : user?.role?.level == level && userCan("users", "C") ? (
                       <div
                         style={{
                           display: "flex",
@@ -217,109 +228,9 @@ const LeadershipHierarchy = ({
                       <div>{formatNumber(entity?.affiliates_count, 0)}</div>
                     </div>
                   </Card>
-                  {/* <div style={{ position: "relative" }}>
-                    {index === 0 && (
-                      <TagLabel
-                        label={"Gabinete de " + lLevels[level + 1] + "s"}
-                        styles={{
-                          position: "absolute",
-                          left: 0,
-                          top: 2,
-                          display: "flex",
-                          alignSelf: "flex-start",
-                          backgroundColor: "var(--cSuccess)",
-                        }}
-                      />
-                    )}
-                  </div>
-                  <Card className={styles.childrenCard}>
-                    <div> */}
-                  {/* {entity?.line3?.data?.length > 0 ? (
-                        <div
-                          onClick={() => handleButtonPress({ entity, level })}
-                        >
-                          {entity.line3.data
-                            .slice(0, 2)
-                            .map((line3: any, index2: number) => (
-                              <div key={index2}>
-                                <div key={index2 + "aa"}>
-                                  <Avatar
-                                    name={getFullName(line3)}
-                                    w={32}
-                                    h={32}
-                                    className={styles.avatarChildren}
-                                  />
-                                </div>
-                              </div>
-                            ))}
-                          {entity?.line3?.total > 2 && (
-                            <div
-                              style={{
-                                color: "var(--cBlackV2)",
-                                marginLeft: 4,
-                              }}
-                            >
-                              {"+" + (entity?.line3?.total - 2)}
-                            </div>
-                          )}
-                        </div>
-                      ) : user?.role?.level == level ? (
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            // marginBottom: -16,
-                            width: "60px",
-                            height: "60px",
-                            // backgroundColor: "red",
-                            border: "1px dashed var(--cBlackV3)",
-                            padding: "4px",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              backgroundColor: "var(--cBlackV3)",
-                              alignSelf: "center",
-                              alignItems: "center",
-                              cursor: "pointer",
-                              flexDirection: "row",
-                              padding: "8",
-                              borderRadius: "50%",
-                            }}
-                            onClick={() => addClick(entity, 2)}
-                            className={styles.addButton}
-                          >
-                            <IconAdd size={16} />
-                          </div>
-                          <div
-                            style={{
-                              fontSize: "var(--sS)",
-                              color: "var(--cWhite)",
-                            }}
-                          >
-                            Agregar
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            color: "var(--cError)",
-                            fontSize: "var(--spM)",
-                            maxWidth: 120,
-                          }}
-                        >
-                          Sin miembros registrados
-                        </div>
-                      )} */}
-                  {/* </div> */}
-                  {/* <div style={{ fontSize: 10, marginTop: 16 }}>
-                      {charges[level + 1]}
-                    </div> */}
-                  {/* </Card> */}
                 </div>
               ))}
-              {level == 5 && (
+              {level == 8 && user?.role?.level == 8 && (
                 <Card className={styles.card}>
                   <div
                     style={{

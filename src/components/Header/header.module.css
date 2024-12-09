@@ -3,10 +3,14 @@
   justify-content: space-around;
   align-items: center;
   background-color: var(--cBlack);
-  height: 95px;
-  padding: var(--spS);
+  height: 75px;
+  padding-top: var(--spS);
+  padding-bottom: var(--spS);
+  padding-right: 24px;
+  padding-left: 24px;
   gap: var(--spM);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
 
   & > div:nth-child(1) {
     flex-grow: 1;
@@ -14,11 +18,12 @@
     & > div {
       font-size: var(--sXxl);
       color: var(--cWhite);
+      font-weight: bolder;
     }
 
     & > span {
       font-size: var(--sL);
-      color: var(--cWhiteV3);
+      color: var(--cWhiteV1);
     }
   }
 
@@ -44,11 +49,4 @@
   & > p:nth-child(3) {
     color: var(--cWhiteV2);
   }
-}
-
-.profile-image {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #f10 !important;
 }

@@ -15,13 +15,12 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     sublema_id: null,
   });
   const [open, setOpen] = useState(false);
-  const { showToast, waiting, user } = useAuth();
+  const { showToast, waiting, user, userCan } = useAuth();
   const [errorsUsers, setErrorsUsers]: any = useState({});
   const [openDetail, setOpenDetail] = useState(false);
   const [item, setItem] = useState({} as any);
   const [level, setLevel] = useState(0);
   const [inputBarr, setInputBarr] = useState(false);
-  // const [roles, setRoles] = useState([]);
   const [barrios, setBarrios]: any = useState([]);
 
   const {
@@ -39,31 +38,47 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     page: 1,
     searchBy: "",
   });
+  console.log(user?.datos);
   const prechargeListsData = () => {
     let obj = {};
     if (precarga?.level) {
       obj = { ...obj, role_id: precarga?.level };
       setLevel(precarga?.level);
     }
-    if (precarga?.lista_id) {
-      obj = { ...obj, lista_id: precarga.lista_id };
-    } else {
-      obj = { ...obj, lista_id: user?.datos?.lista_id };
-    }
-    if (precarga?.sublema_id) {
-      obj = { ...obj, sublema_id: precarga.sublema_id };
-    } else {
-      obj = { ...obj, sublema_id: user?.datos?.sublema_id };
-    }
     if (precarga?.dpto_id) {
       obj = { ...obj, dpto_id: precarga.dpto_id };
     } else {
       obj = { ...obj, dpto_id: user?.datos?.dpto_id };
     }
+    if (precarga?.macroregion_id) {
+      obj = { ...obj, macroregion_id: precarga.macroregion_id };
+    } else {
+      obj = { ...obj, macroregion_id: user?.datos?.macroregion_id };
+    }
+    if (precarga?.prov_id) {
+      obj = { ...obj, prov_id: precarga.prov_id };
+    } else {
+      obj = { ...obj, prov_id: user?.datos?.prov_id };
+    }
+    if (precarga?.mun_id) {
+      obj = { ...obj, mun_id: precarga.mun_id };
+    } else {
+      obj = { ...obj, mun_id: user?.datos?.mun_id };
+    }
+    if (precarga?.dmun_id) {
+      obj = { ...obj, dmun_id: precarga.dmun_id };
+    } else {
+      obj = { ...obj, dmun_id: user?.datos?.dmun_id };
+    }
     if (precarga?.local_id) {
       obj = { ...obj, local_id: precarga.local_id };
     } else {
       obj = { ...obj, local_id: user?.datos?.local_id };
+    }
+    if (precarga?.uv_id) {
+      obj = { ...obj, uv_id: precarga.uv_id };
+    } else {
+      obj = { ...obj, uv_id: user?.datos?.uv_id };
     }
     if (precarga?.barrio_id) {
       obj = { ...obj, barrio_id: precarga.barrio_id };
@@ -109,7 +124,6 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     if (e.target.name) {
       delete errorsUsers[e.target.name];
     }
-    console.log(value);
     setFormState((prevState: any) => ({
       ...prevState,
       [e.target.name]: value,
@@ -228,7 +242,7 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     if (field == "" || field == "phone") {
       errors = checkRules({
         value: formState.phone,
-        rules: ["required", "number"],
+        rules: ["required", "number", "min:8"],
         key: "phone",
         errors,
       });
@@ -241,28 +255,51 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
         errors,
       });
     }
-
     if (level > 1) {
-      if ((field == "" || field == "sublema_id") && !formState.sublema_id) {
-        errors = { ...errors, sublema_id: "El campo es requerido" };
-      }
-    }
-    if (level > 2) {
-      if ((field == "" || field == "lista_id") && !formState.lista_id) {
-        errors = { ...errors, lista_id: "El campo es requerido" };
-      }
-    }
-    if (level > 3) {
       if ((field == "" || field == "dpto_id") && !formState.dpto_id) {
         errors = { ...errors, dpto_id: "El campo es requerido" };
       }
     }
+    if (level > 2) {
+      if (
+        (field == "" || field == "macroregion_id") &&
+        !formState.macroregion_id
+      ) {
+        errors = { ...errors, macroregion_id: "El campo es requerido" };
+      }
+    }
+
+    if (level > 3) {
+      if ((field == "" || field == "prov_id") && !formState.prov_id) {
+        errors = { ...errors, prov_id: "El campo es requerido" };
+      }
+    }
     if (level > 4) {
+      if ((field == "" || field == "mun_id") && !formState.mun_id) {
+        errors = { ...errors, mun_id: "El campo es requerido" };
+      }
+    }
+    if (level > 5) {
+      if ((field == "" || field == "dmun_id") && !formState.dmun_id) {
+        errors = { ...errors, dmun_id: "El campo es requerido" };
+      }
+    }
+    if (level > 6) {
       if ((field == "" || field == "local_id") && !formState.local_id) {
         errors = { ...errors, local_id: "El campo es requerido" };
       }
     }
-    if (level > 5) {
+    if (level > 7) {
+      if ((field == "" || field == "uv_id") && !formState.uv_id) {
+        errors = { ...errors, uv_id: "El campo es requerido" };
+      }
+    }
+    // if (level > 4) {
+    //   if ((field == "" || field == "barrio_id") && !formState.barrio_id) {
+    //     errors = { ...errors, barrio_id: "El campo es requerido" };
+    //   }
+    // }
+    if (level > 8) {
       if ((field == "" || field == "barrio_id") && !formState.barrio_id) {
         errors = { ...errors, barrio_id: "El campo es requerido" };
       }
@@ -275,10 +312,15 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
       }
     }
 
+    console.log(errors, "Errors");
     setErrorsUsers(errors);
     return errors;
   };
   const onSave = async () => {
+    if (userCan("users", "C") === false) {
+      showToast("No tiene permisos", "error");
+      return;
+    }
     if (hasErrors(validate())) return;
     const { data: response } = await execute("/users", "POST", {
       ...formState,
@@ -313,6 +355,7 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
 
   return {
     user,
+    userCan,
     formState,
     errorsUsers,
     open,

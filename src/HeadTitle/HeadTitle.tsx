@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { IconArrowLeft } from "../components/layout/icons/IconsBiblioteca";
 import { CSSProperties } from "react";
 import styles from "./headTitle.module.css";
+import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
 
 type PropsType = {
   title?: string | null;

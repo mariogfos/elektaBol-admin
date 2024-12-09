@@ -15,7 +15,6 @@ type PropsType = {
   total?: number | null;
 };
 
-
 const Pagination = ({
   className = "",
   currentPage = 1,

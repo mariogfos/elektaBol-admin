@@ -50,7 +50,8 @@ export function getFormattedDate() {
 }
 
 export const getDateStr = (dateStr: string | null): string =>
-  (dateStr + "T").split("T")[0];
+  (dateStr + "T ").split("T")[0].split(" ")[0];
+
 export const getUTCNow = (dias = 0) => {
   let d = new Date();
   if (dias != 0) d.setDate(d.getDate() + dias);
@@ -68,7 +69,6 @@ export const esFormatoISO8601 = (cadena: string | null) => {
 export const convertirFechaUTCaLocal = (fechaUTCString: string | null) => {
   if (!fechaUTCString || fechaUTCString == "") return null;
   const fechaUTC = new Date(fechaUTCString);
-  // console.log("fechaUTC", fechaUTC, fechaUTC.getTimezoneOffset());
 
   const offsetUTC = fechaUTC.getTimezoneOffset();
   const fechaLocal = new Date(fechaUTC.getTime() - offsetUTC * 60000);
@@ -261,4 +261,104 @@ export const formatNumberCustom = (number: any) => {
     return number.toString();
   }
   return number.toLocaleString("de-DE");
+};
+
+// export const differenceInDays = (begin_at: string, end_at: string): number => {
+//   const localBeginDate: Date | null = convertirFechaUTCaLocal(begin_at);
+//   const localEndDate: Date | null = convertirFechaUTCaLocal(end_at);
+//   if (!localBeginDate || !localEndDate) {
+//     throw new Error("Formato de fecha inválido");
+//   }
+//   // Asegurarse de que las fechas están en el formato adecuado
+//   const beginDate: Date = new Date(localBeginDate.setHours(23, 59,59 , 59));
+//   const endDate: Date = new Date(localEndDate.setHours(23, 59,59 , 59));
+//   // Calcular la diferencia en milisegundos y luego convertir a días
+//   const differenceInTime: number = endDate.getTime() - beginDate.getTime();
+//   const differenceInDays: number = differenceInTime / (1000 * 3600 * 24);
+//   console.log(getUTCNow(),Math.round(differenceInDays),differenceInTime,beginDate,'--',endDate,localEndDate,',differenceInDays')
+
+//   return Math.round(differenceInDays); // Redondear la diferencia a días completos
+// };
+
+export const differenceInDays = (begin_at: string, end_at: string): number => {
+  const localBeginDate: Date | null = convertirFechaUTCaLocal(begin_at);
+  const localEndDate: Date | null = convertirFechaUTCaLocal(end_at);
+
+  if (!localBeginDate || !localEndDate) {
+    // throw new Error("Formato de fecha inválido");
+    console.log("Formato de fecha inválido");
+    return -1;
+  }
+
+  // Ajustar la fecha de inicio a las 00:00:00 y la fecha de fin a las 23:59:59
+  const beginDate: Date = new Date(localBeginDate.setHours(0, 0, 0, 0));
+  const endDate: Date = new Date(localEndDate.setHours(0,0,0,0));
+ 
+  // Calcular la diferencia en milisegundos y luego convertir a días
+  const differenceInTime: number = endDate.getTime() - beginDate.getTime();
+  const differenceInDays: number = differenceInTime / (1000 * 3600 * 24);
+
+  //  console.log(
+  //   // getUTCNow(),
+      // Math.round(differenceInDays),
+  //   // 'differenceInTime',
+  //   differenceInTime,
+  //   'beginDate',
+    //  beginDate,
+  //   'endDate',
+   //  endDate,
+  //   'localEndDate',
+  //   localEndDate,
+  // differenceInDays > 0 && differenceInDays < 1,
+  //    ',differenceInDays'
+  // );
+  if (differenceInDays > 0 && differenceInDays < 1) {
+    return 1; // Si la diferencia es menor a un día pero mayor que 0, devolver 1 día
+  }
+  return Math.floor(differenceInDays); // Usar Math.floor para asegurarse de que no se cuente el día de inicio
+};
+
+export const getDateRemaining = (begin_at: string, end_at: string): string => {
+  if (!begin_at || !end_at) return "No hay fecha de inicio o fin";
+  const days = differenceInDays(begin_at, end_at);
+  if (days == null) return "Fecha inválida";
+  if (days < 0) return "Finalizada";
+  if (days == 0) return "Finaliza hoy";
+  if (days == 1) return "Finaliza mañana";
+  return `Finaliza en ${days} días`;
+};
+
+export const compareDate = (
+  date1: any = null,
+  date2: any = null,
+  oper: "=" | "<" | "<=" | ">" | ">=" = "="
+) => {
+  let d1: any = new Date(date1);
+  let d2: any = new Date(date2);
+
+  // if (typeof date1 == "string") {
+  //   let d: any = date1.split(" ")[0].split("-");
+  //   console.log("d", d, typeof d);
+  //   d1 = new Date(d[0], d[1] - 1, d[2]);
+  //   console.log("d1", d1);
+  // }
+
+  if (typeof date1 != "string") d1 = date1;
+  if (typeof date2 != "string") d2 = date2;
+
+  if (typeof date1 == null) d1 = new Date();
+  if (typeof date2 == null) d2 = new Date();
+
+  // d1.setHours(d1.getHours() + 4);
+  // d2.setHours(d2.getHours() + 4);
+  // console.log("date1:", date1);
+  console.log("compare", d1, d2, oper, typeof date1, typeof date2);
+
+  d1 = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
+  d2 = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
+  if (oper == "=") return d1 == d2;
+  if (oper == ">") return d1 > d2;
+  if (oper == "<") return d1 < d2;
+  if (oper == ">=") return d1 >= d2;
+  if (oper == "<=") return d1 <= d2;
 };

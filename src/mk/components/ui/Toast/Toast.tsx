@@ -1,24 +1,31 @@
-import {
-  IconAlert,
-  IconCheck,
-  IconX,
-} from "@/components/layout/icons/IconsBiblioteca";
 import { ToastType } from "@/mk/hooks/useToast";
 import { useEffect, useState } from "react";
 import styles from "./toast.module.css";
+import {
+  IconErrorToast,
+  IconInfoToast,
+  IconSuccessToast,
+  IconX,
+} from "@/components/layout/icons/IconsBiblioteca";
 
-const ToastMsg = {
-  success: "¡GENIAL!",
-  error: "¡ERROR!",
-  warning: "¡ALERTA!",
-  info: "¡INFO!",
-};
+// const ToastMsg = {
+//   success: "¡GENIAL!",
+//   error: "¡ERROR!",
+//   warning: "¡ALERTA!",
+//   info: "¡INFO!",
+// };
 
 const ToastIcon = {
-  success: <IconCheck size={24} />,
-  error: <IconX size={24} />,
-  warning: <IconAlert size={24} />,
-  info: <div>!</div>,
+  success: <IconSuccessToast size={24} color="var(--cSuccess)" />,
+  error: <IconErrorToast size={24} color="var(--cError)" />,
+  warning: (
+    <IconInfoToast
+      size={24}
+      color="var(--cWarning)"
+      style={{ transform: "scaleY(-1)" }}
+    />
+  ),
+  info: <IconInfoToast size={24} color="var(--cInfo)" />,
 };
 const Toast = ({
   toast,
@@ -60,9 +67,10 @@ const Toast = ({
       <div className={clase}>
         <div>{ToastIcon[toast?.type || "info"]}</div>
         <div>
-          <p>{ToastMsg[toast?.type || "info"]}</p>
+          {/* <p>{ToastMsg[toast?.type || "info"]}</p> */}
           <div>{toast?.msg}</div>
         </div>
+        auth
         <div className={styles.close} onClick={() => _close()}>
           <IconX size={14} />
         </div>

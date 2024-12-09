@@ -12,10 +12,13 @@ import RenderItem from "../shared/RenderItem";
 const lLevel = [
   "Fos",
   "Partido",
-  "Sub-Lema",
-  "Lista",
   "Departamento",
+  "Macroregión",
+  "Provincia",
+  "Municipio",
+  "Distrito municipal",
   "Localidad",
+  "Unidad vecinal",
   "Barrio",
 ];
 
@@ -77,7 +80,7 @@ const Roles = () => {
         api: "ae",
         label: "Código",
         list: { width: "20%" },
-        form: { type: "text", order: 1, edit: { disabled: true } },
+        form: { type: "text", order: 1, edit: {} },
       },
     };
   }, []);

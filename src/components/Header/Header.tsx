@@ -1,12 +1,14 @@
 import { getFullName, getUrlImages } from "@/mk/utils/string";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import HeadTitle from "@/HeadTitle/HeadTitle";
+import styles from "./header.module.css";
 import {
   IconEmail,
   IconMenu,
   IconNotification,
 } from "../layout/icons/IconsBiblioteca";
-import styles from "./header.module.css";
+import DataSearch from "@/mk/components/forms/DataSearch/DataSearch";
+import { getDateStrMes, getDateTimeStrMes } from "@/mk/utils/date";
 type PropsType = {
   isTablet: boolean;
   user: any;
@@ -42,7 +44,7 @@ const Header = ({
       <div className={styles["header-title"]}>
         <Avatar
           name={getFullName(user)}
-          src={getUrlImages("/ADM-" + user?.id + ".png?d=" + user?.updated_at)}
+          src={getUrlImages("/ADM-" + user?.id + ".webp?d=" + user?.updated_at)}
           onClick={() => {
             router.push("/profile");
           }}
@@ -91,37 +93,20 @@ const Header = ({
         /> */}
       </div>
       <div>
-        <IconEmail
-          circle
-          size={36}
-          style={{
-            backgroundColor: "#393C3F",
-            stroke: "#656F78",
-            borderColor: "#212529",
-          }}
-        />
+        <IconEmail />
       </div>
       <div>
-        <IconNotification
-          circle
-          size={36}
-          style={{
-            backgroundColor: "#393C3F",
-            stroke: "#656F78",
-            borderColor: "#212529",
+        <IconNotification />
+      </div>
+      <div style={{ cursor: "pointer" }}>
+        <Avatar
+          name={getFullName(user)}
+          src={getUrlImages("/ADM-" + user?.id + ".webp?d=" + user?.updated_at)}
+          onClick={() => {
+            router.push("/profile");
           }}
         />
       </div>
-      <Avatar
-        name={getFullName(user)}
-        w={36}
-        h={36}
-        src={getUrlImages("/ADM-" + user?.id + ".png?d=" + user?.updated_at)}
-        className={styles["profile-image"]}
-        onClick={() => {
-          router.push("/profile");
-        }}
-      />
     </div>
   );
 };

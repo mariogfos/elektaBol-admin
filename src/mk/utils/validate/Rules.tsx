@@ -34,13 +34,16 @@ export const validRule = (
   const param = params ? params.split(",") : [];
 
   const validations: Record<string, () => string> = {
+    validateIf: () => {
+      return param[1] !== formState[param[0]] ? "validar hasta aqui" : "";
+    },
     requiredIf: () => {
       if (param[1] !== formState[param[0]]) return "";
-      if (value === 0) return "";
+      if (value === 0 || value === "0") return "";
       return !value ? "Este campo es requerido" : "";
     },
     required: () => {
-      if (value === 0) return "";
+      if (value === 0 || value === "0") return "";
       return !value ? "Este campo es requerido" : "";
     },
     requiredFile: () => {
@@ -48,15 +51,24 @@ export const validRule = (
     },
     requiredFileIf: () => {
       if (param[1] !== formState[param[0]]) return "";
-      if (value === 0) return "";
+      if (value === 0 || value === "0") return "";
       return !value?.file ? "Este campo es requerido" : "";
     },
     same: () => (value !== formState[param[0]] ? "Tienen que ser iguales" : ""),
     min: () => (value?.length < param[0] ? `min ${param[0]} caracteres` : ""),
     max: () => (value?.length > param[0] ? `max ${param[0]} caracteres` : ""),
-    email: () => (!/\S+@\S+\.\S+/.test(value) ? "No es un email valido" : ""),
-    alpha: () => (!/^[a-zA-Z]+$/.test(value) ? "No es un texto valido" : ""),
+    email: () => (!/\S+@\S+\.\S+/.test(value) ? "No es un correo válido" : ""),
+    alpha: () =>
+      !/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+$/.test(value) ? "No es un texto válido" : "",
     noSpaces: () => (!/^\S+$/.test(value) ? "No debe tener espacios" : ""),
+    date: () => {
+      const [year, month, day] = value.split("-").map(Number);
+      const date = new Date(year, month - 1, day);
+      const now = new Date();
+      date.setHours(0, 0, 0, 0);
+      now.setHours(0, 0, 0, 0);
+      return date < now ? "Debe ser una fecha mayor a la actual" : "";
+    },
     number: () => {
       // console.error("number", value, /^[0-9.,-]+$/.test(value));
       if (value === "" || value === null) return "";
@@ -67,6 +79,13 @@ export const validRule = (
     positive: () => (value < 0 ? "Debe ser número positivo " : ""),
     greater: () => (value <= param[0] ? `Debe ser mayor que ${param[0]}` : ""),
     less: () => (value >= param[0] ? `Debe ser menor que ${param[0]}` : ""),
+    googleMapsLink: () => {
+      const regex =
+        /^https:\/\/(www\.)?(google\.(com|es|com\.mx|.*)\/maps\/(place|search|dir)\/|maps\.app\.goo\.gl\/)/;
+      return !regex.test(value)
+        ? "Debe ser un enlace válido de Google Maps"
+        : "";
+    },
     between: () =>
       Number(value) < Number(param[0]) || Number(value) > Number(param[1])
         ? `Debe estar entre ${param[0]} y ${param[1]}`
@@ -91,6 +110,7 @@ export const checkRulesFields = (
   action: ActionType = "add"
 ) => {
   let errors: Record<string, string> = {};
+  let detener = false;
 
   for (const key in fields) {
     // if (!fields[key].rules || error != "" || (rule !== "required" && !value)) return;
@@ -98,13 +118,21 @@ export const checkRulesFields = (
     if (!fields[key].rules) continue;
 
     const value = data[key] || "";
+    detener = false;
     (fields[key].rules || []).forEach((rule) => {
+      if (detener) return;
       const [ruleName, ruleActions] = rule.split("*");
-
+      // console.log("ruleName", ruleName, ruleActions, action);
       if (!ruleName || (ruleActions && !ruleActions.includes(action[0])))
         return;
-
       const error = validRule(data[key], ruleName, data, key);
+      const rName = (ruleName + ":").split(":")[0];
+      // console.log("sssss:", rName, error, key);
+      if (rName == "validateIf" && error) {
+        // console.log("retornarrrr");
+        detener = true;
+        return;
+      }
       if (error) errors[key] = error;
     });
   }

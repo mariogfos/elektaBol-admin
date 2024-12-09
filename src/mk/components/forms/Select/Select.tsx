@@ -45,7 +45,7 @@ const Select = ({
   const [_options, setOptions]: any = useState([]);
   const [search, setSearch] = useState("");
   const [position, setPosition]: any = useState(null);
-  const [top, setTop] = useState(10);
+  // const [top, setTop] = useState(10);
 
   const findParentWithClass = (element: any, className: string) => {
     while (element && element !== document) {
@@ -114,17 +114,17 @@ const Select = ({
   }, []);
 
   const calcPosition = () => {
-    let fec: any = new Date();
-    let f: any =
-      fec.getHours() +
-      "" +
-      fec.getMinutes() +
-      "" +
-      fec.getSeconds() +
-      fec.getMilliseconds();
-    fec = f * 1;
+    // let fec: any = new Date();
+    // let f: any =
+    //   fec.getHours() +
+    //   "" +
+    //   fec.getMinutes() +
+    //   "" +
+    //   fec.getSeconds() +
+    //   fec.getMilliseconds();
+    // fec = f * 1;
 
-    setTop(fec);
+    // setTop(fec);
 
     const select: any = selectRef.current;
     const child: any = select.querySelector("section");
@@ -296,7 +296,7 @@ const Select = ({
     <div
       ref={selectRef}
       className={styles.select + " " + className}
-      style={{ zIndex: top }}
+      // style={{ zIndex: top }}
       onClick={disabled ? () => {} : handleSelectClickIcon}
     >
       <Input

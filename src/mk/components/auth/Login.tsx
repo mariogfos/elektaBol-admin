@@ -2,8 +2,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { logError } from "../../utils/logs";
-import LoginView from "@/components/auth/LoginView";
+
 import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
+import LoginView from "@/components/auth/LoginView";
 
 const Login = () => {
   const { user, login } = useAuth();
@@ -46,13 +47,12 @@ const Login = () => {
       } else {
         if (data?.errors?.status == 500) {
           setErrors({
-            email:
-              "Problemas de conexion con el servidor... Intente mas tarde!",
-          }); 
+            email: "Problemas de conexión con el servidor. Intente más tarde!",
+          });
         } else {
           setErrors({
             /* ...data?.errors, */
-            email: "Datos incorrectos"
+            email: "Datos incorrectos",
           });
         }
         logError("====================================");

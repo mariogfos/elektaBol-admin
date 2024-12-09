@@ -3,11 +3,10 @@ type PropsType = {
   sel: string;
   tabs: { value: string; text: string; numero?: Number }[];
   setSel: Function;
-  variant?: string;
 };
-const TabsButtons = ({ sel, tabs, setSel, variant = "" }: PropsType) => {
+const TabsButtons = ({ sel, tabs, setSel }: PropsType) => {
   return (
-    <div className={styles.tabsButton + " " + styles[variant]}>
+    <div className={styles.tabsButton}>
       {tabs.map((tab: any) => (
         <button
           key={tab.value}

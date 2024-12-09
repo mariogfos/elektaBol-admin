@@ -12,13 +12,14 @@ import AddUsers from "./AddUsers";
 import { Card } from "@/mk/components/ui/Card/Card";
 import LeadershipHierarchy from "@/mk/components/ui/LeaderShipHierarchy/LeaderShipHierarchy";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import { formatNumberCustom, getDateStrMes, getUTCNow } from "@/mk/utils/date";
+import { getDateStrMes, getUTCNow } from "@/mk/utils/date";
 import { lEntity, lLevels } from "./type";
 import HistoryManager from "./HistoryManager";
 import { formatNumber } from "@/mk/utils/numbers";
+import NotAccess from "../auth/NotAccess/NotAccess";
 
 const Users = () => {
-  const { user, setStore } = useAuth();
+  const { user, setStore, userCan } = useAuth();
   const [currentList, setCurrentList] = useState(0);
   const [precarga, setPrecarga] = useState({});
   const [params, setParams]: any = useState({
@@ -27,9 +28,13 @@ const Users = () => {
     page: 1,
     searchBy: "",
   });
-  const [paramsHist, setParamsHist] = useState([params]);
-  const { data: dataUsers, reLoad } = useAxios("/users", "GET", params);
 
+  const [paramsHist, setParamsHist] = useState([]);
+  const {
+    data: dataUsers,
+    reLoad,
+    waiting,
+  } = useAxios("/users", "GET", params);
   const [level, setLevel] = useState(user?.role?.level);
   useEffect(() => {
     setStore({
@@ -73,24 +78,7 @@ const Users = () => {
 
     setOpen(true);
   };
-
-  const renderItem = (row: any) => {
-    return (
-      <div key={row.id} onClick={() => openDetailUsers(row)}>
-        <ItemList
-          title={getFullName(row)}
-          subtitle={"CI: " + row.ci}
-          left={
-            <Avatar
-              name={getFullName(row)}
-              src={getUrlImages("/ADM-" + row.id + ".png?d=" + row.updated_at)}
-            />
-          }
-        />
-      </div>
-    );
-  };
-
+  if (!userCan("users", "R")) return <NotAccess />;
   return (
     <div className={styles.users}>
       <div>
@@ -111,7 +99,9 @@ const Users = () => {
               <div className="tTitle">
                 Nivel{" "}
                 <span>
-                  {lLevels[level]}: {dataUsers?.data?.entidad}
+                  {level == 1
+                    ? lLevels[level]
+                    : lLevels[level] + " : " + dataUsers?.data?.entidad}
                 </span>
               </div>
               <div className="tSubtitle">Al {getDateStrMes(getUTCNow())}</div>
@@ -119,7 +109,12 @@ const Users = () => {
                 {dataUsers?.data?.resumen?.map((item: any, i: number) => (
                   <div key={i} className={styles["cardInfo"]}>
                     <div>
-                      {item.cant} / {item.total}
+                      {waiting > 0 ? (
+                        <p style={{ fontSize: 16 }}>Cargando...</p>
+                      ) : (
+                        item.cant + "/" + item.total
+                      )}
+                      {/* {item.cant} / {item.total} */}
                     </div>
                     <div> {item.title}</div>
                   </div>
@@ -136,24 +131,45 @@ const Users = () => {
               </div>
               <div className={styles["cardInfoContainer"]}>
                 <div className={styles["cardInfo"]}>
-                  <div>{dataUsers?.data?.demografico?.administrativos}</div>
+                  <div>
+                    {waiting > 0 ? (
+                      <p style={{ fontSize: 16 }}>Cargando...</p>
+                    ) : (
+                      dataUsers?.data?.demografico?.administrativos
+                    )}
+                    {/* {dataUsers?.data?.demografico?.administrativos} */}
+                  </div>
                   <div> Administrativos en la red</div>
                 </div>
 
                 <div className={styles["cardInfo"]}>
                   <div>
-                    {formatNumber(dataUsers?.data?.demografico?.afiliados, 0)}
+                    {waiting > 0 ? (
+                      <p style={{ fontSize: 16 }}>Cargando...</p>
+                    ) : (
+                      formatNumber(dataUsers?.data?.demografico?.afiliados, 0)
+                    )}
+                    {/* {formatNumber(dataUsers?.data?.demografico?.afiliados, 0)} */}
                   </div>
                   <div> Afiliados en la red</div>
                 </div>
 
                 <div className={styles["cardInfo"]}>
                   <div>
-                    {formatNumber(
+                    {waiting > 0 ? (
+                      <p style={{ fontSize: 16 }}>Cargando...</p>
+                    ) : (
+                      formatNumber(
+                        dataUsers?.data?.demografico?.administrativos +
+                          dataUsers?.data?.demografico?.afiliados,
+                        0
+                      )
+                    )}
+                    {/* {formatNumber(
                       dataUsers?.data?.demografico?.administrativos +
                         dataUsers?.data?.demografico?.afiliados,
                       0
-                    )}
+                    )} */}
                   </div>
                   <div>Total en la red </div>
                 </div>
@@ -167,15 +183,17 @@ const Users = () => {
                 <LeadershipHierarchy
                   user={user}
                   line1={dataUsers?.data?.line1}
-                  line2={dataUsers?.data?.line2}
+                  line2orig={dataUsers?.data?.line2}
                   setParams={setParams}
                   params={params}
                   addClick={addClick}
                   listaActual={currentList}
                   level={level}
+                  paramsHist={paramsHist}
                   setLevel={setLevel}
                   setParamsHist={setParamsHist}
                   entidad={dataUsers?.data?.entidad}
+                  userCan={userCan}
                 />
               </div>
               {/* <Button

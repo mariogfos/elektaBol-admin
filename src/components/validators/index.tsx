@@ -3,6 +3,8 @@ import {
   validPassword,
   validCi,
   validOptionsSurvey,
+  validDateGreater,
+  validDateLess,
 } from "./rulesApp";
 
 export const validators = {
@@ -10,5 +12,7 @@ export const validators = {
   password: validPassword,
   ci: validCi,
   optionSurvey: validOptionsSurvey,
+  greaterDate: validDateGreater,
+  lessDate: validDateLess,
   // Añadir otros validadores aquí
 };
