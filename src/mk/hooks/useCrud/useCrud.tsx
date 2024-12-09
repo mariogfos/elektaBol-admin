@@ -14,20 +14,16 @@ import LoadingScreen from "../../components/ui/LoadingScreen/LoadingScreen";
 import Table, { RenderColType } from "../../components/ui/Table/Table";
 import DataModal from "../../components/ui/DataModal/DataModal";
 import Button from "../../components/forms/Button/Button";
-import Input from "../../components/forms/Input/Input";
 import Select from "../../components/forms/Select/Select";
 import useScreenSize from "../useScreenSize";
 import styles from "./styles.module.css";
 import FloatButton from "@/mk/components/forms/FloatButton/FloatButton";
 import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
-  IconDownload,
   IconEdit,
   IconImport,
   IconTrash,
 } from "@/components/layout/icons/IconsBiblioteca";
-import TextArea from "@/mk/components/forms/TextArea/TextArea";
-import { UploadFile } from "@/mk/components/forms/UploadFile/UploadFile";
 import DataSearch from "@/mk/components/forms/DataSearch/DataSearch";
 import FormElement from "./FormElement";
 
@@ -38,6 +34,7 @@ export type ModCrudType = {
   permiso: string;
   extraData?: boolean;
   renderView?: Function;
+  renderForm?: Function;
   loadView?: Record<string, any>;
   import?: boolean;
   filter?: boolean;
@@ -178,7 +175,6 @@ const useCrud = ({
               : fields[key].form?.precarga;
         }
       }
-      console.log(dataNew);
       setFormState(dataNew);
     } else {
       dataNew = data;
@@ -269,7 +265,7 @@ const useCrud = ({
       return showToast("No tiene permisos para esta acción", "error");
 
     if (action != "del") {
-      const errors = checkRulesFields(fields, data, action);
+      const errors = checkRulesFields(fields, data, action, execute);
       if (_setErrors) {
         _setErrors(errors);
       } else {
@@ -537,7 +533,7 @@ const useCrud = ({
           field.form.options &&
           typeof field.form.options == "function"
         )
-          col.options = field.form.options({ item, user, key });
+          col.options = field.form.options({ item, user, key, extraData });
         head.push(col);
       }
       head.sort((a: any, b: any) => a.order - b.order);
@@ -579,6 +575,20 @@ const useCrud = ({
       },
       [formStateForm]
     );
+
+    const onBlurForm = useCallback(
+      (e: any) => {
+        if (fields[e.target?.name]?.form?.onBlur) {
+          fields[e.target?.name].form?.onBlur(e, {
+            item: formStateForm,
+            setItem: setFormStateForm,
+            error: errorForm,
+            setError: setErrorForm,
+          });
+        }
+      },
+      [formStateForm]
+    );
     return (
       <DataModal
         open={open}
@@ -606,6 +616,7 @@ const useCrud = ({
                     )
                   : formStateForm,
                 onChange: onChangeForm,
+                onBlur: onBlurForm,
                 error: errorForm,
                 setItem: setFormStateForm,
                 extraData: extraData,
@@ -625,6 +636,7 @@ const useCrud = ({
                 }
                 i={i}
                 onChange={onChangeForm}
+                onBlur={onBlurForm}
                 error={errorForm}
                 setError={setErrorForm}
                 data={{ user, action, mod, extraData }}
@@ -637,14 +649,13 @@ const useCrud = ({
     );
   });
   Form.displayName = "Form";
-
+  const [filterSel, setFilterSel]: any = useState({});
   const AddMenu = memo(
-    ({ header, onClick }: { header?: any; onClick?: (e?: any) => void }) => {
+    ({ filters, onClick }: { filters?: any; onClick?: (e?: any) => void }) => {
       if (isTablet) return <FloatButton onClick={onClick || onAdd} />;
-      // const [filters, setFilters] = useState({})
+
       const onChange = (e: any) => {
-        // setFilters({...filters,[e.target.name]:e.target.value})
-        console.log("e.target", e);
+        setFilterSel({ ...filterSel, [e.target.name]: e.target.value });
         onFilter(e.target.name, e.target.value);
       };
 
@@ -662,21 +673,16 @@ const useCrud = ({
           {menuFilter || null}
           {mod.filter && (
             <>
-              {header.map((f: any, i: number) => (
-                <>
-                  {f.filter && (
-                    // JSON.stringify(
-                    //   f
-                    // )
-                    <Select
-                      key={f.key + i}
-                      name={f.key}
-                      onChange={onChange}
-                      options={f.filter.options || []}
-                      value={""}
-                    />
-                  )}
-                </>
+              {filters.map((f: any, i: number) => (
+                <Select
+                  key={f.key + i}
+                  label={f.label}
+                  name={f.key}
+                  onChange={onChange}
+                  options={f.options || []}
+                  value={filterSel[f.key] || ""}
+                  style={{ width: f.width }}
+                />
               ))}
             </>
           )}
@@ -777,33 +783,35 @@ const useCrud = ({
     const render = lista
       ? field.list?.onRender || field.onRender || null
       : field.view?.onRender || field.onRender || null;
+
     if (!render) {
-      if (field.form?.type === "select" && field.form.optionsExtra)
+      const opt = {
+        type: field.list?.type ?? field.form?.type,
+        optionsExtra: field.list?.optionsExtra ?? field.form?.optionsExtra,
+        options: field.list?.options ?? field.form?.options,
+        optionValue: field.list?.optionValue ?? field.form?.optionValue,
+        optionLabel: field.list?.optionLabel ?? field.form?.optionLabel,
+      };
+      if (opt.type === "select" && opt.optionsExtra)
         return (item: RenderColType) => {
           return findOptions(
             item.value,
-            extraData[field.form.optionsExtra],
-            field.form.optionValue,
-            field.form.optionLabel
+            extraData[opt.optionsExtra],
+            opt.optionValue,
+            opt.optionLabel
           );
         };
-      if (field.form?.type === "select" && !field.form.optionsExtra)
+      if (opt.type === "select" && !opt.optionsExtra)
         return (item: RenderColType) => {
           return findOptions(
             item.value,
-            typeof field.form.options == "function"
-              ? field.form.options({ key: field.form.optionValue, item, user })
-              : field.form.options,
-            field.form.optionValue,
-            field.form.optionLabel
+            typeof opt.options == "function"
+              ? opt.options({ key: opt.optionValue, item, user, extraData })
+              : opt.options,
+            opt.optionValue,
+            opt.optionLabel
           );
         };
-      // if (render) {
-      //   return (item: RenderColType) => {
-      //     console.log("render3", field);
-      //     return render(item);
-      //   };
-      // }
     }
     return render;
   };
@@ -811,8 +819,24 @@ const useCrud = ({
   const List = memo((props: any) => {
     const getHeader = () => {
       const head: Object[] = [];
+      const lFilter: Object[] = [];
+
       for (const key in fields) {
         const field = fields[key];
+        if (field.filter) {
+          const colF: any = {
+            key,
+            label: field.filter?.label || field.list?.label || field.label,
+            width: field.filter?.width || field.list.width || "300px",
+            order:
+              field.filter?.order || field.list.order || field.order || 1000,
+            options: field.filter?.extraData
+              ? extraData[field.filter?.extraData]
+              : field.filter?.options(extraData) || field.form.options || [],
+          };
+          lFilter.push(colF);
+          lFilter.sort((a: any, b: any) => a.order - b.order);
+        }
         if (!field.list) continue;
         const col: any = {
           key,
@@ -824,32 +848,32 @@ const useCrud = ({
           order: field.list.order || field.order || 1000,
           style: field.list.style || field.style || {},
           sumarize: field.list.sumarize || field.sumarize || false,
-          filter: field.filter
-            ? { options: field.filter.options || field.form.options || [] }
-            : false,
+          // filter: field.filter
+          //   ? { options: field.filter.options || field.form.options || [] }
+          //   : false,
         };
         head.push(col);
       }
       head.sort((a: any, b: any) => a.order - b.order);
+      setLfilter(lFilter);
       return head;
     };
 
     const [header, setHeader]: any = useState([]);
+    const [lFilter, setLfilter]: any = useState([]);
     useEffect(() => {
       setHeader(getHeader());
-      console.log("ussefecct list");
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fields]);
 
     return (
       <div className={styles.useCrud}>
-        <AddMenu header={header} />
+        <AddMenu filters={lFilter} />
         <LoadingScreen type="TableSkeleton">
           <section style={{}}>
             <Table
               data={data?.data}
-              onRowClick={mod.hideActions?.view ? undefined : onView}
+              onRowClick={mod.hideActions?.view ? props.onRowClick : onView}
               header={header}
               onTabletRow={props.onTabletRow}
               onRenderBody={props.onRenderBody}
@@ -891,12 +915,33 @@ const useCrud = ({
             </>
           )}
           {open && (
-            <Form
-              open={open}
-              onClose={onCloseCrud}
-              item={formState}
-              onConfirm={onSave}
-            />
+            <>
+              {mod.renderForm ? (
+                mod.renderForm({
+                  open: open,
+                  onClose: onCloseCrud,
+                  item: formState,
+                  setItem: setFormState,
+                  onSave: onSave,
+                  extraData,
+                  execute,
+                  errors,
+                  setErrors,
+                  reLoad,
+                  user,
+                  onEdit,
+                  onDel,
+                  onAdd,
+                })
+              ) : (
+                <Form
+                  open={open}
+                  onClose={onCloseCrud}
+                  item={formState}
+                  onConfirm={onSave}
+                />
+              )}
+            </>
           )}
           {openDel && (
             <FormDelete

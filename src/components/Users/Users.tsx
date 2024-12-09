@@ -30,15 +30,18 @@ const Users = () => {
   });
 
   const [paramsHist, setParamsHist] = useState([]);
+
   const {
     data: dataUsers,
     reLoad,
     waiting,
+    loaded,
   } = useAxios("/users", "GET", params);
+
   const [level, setLevel] = useState(user?.role?.level);
   useEffect(() => {
     setStore({
-      title: "Organización",
+      title: "Estructura del partido",
     });
   }, []);
 
@@ -63,7 +66,7 @@ const Users = () => {
   const addClick = (entity: any, line: number = 1) => {
     if (line === 1) {
       setPrecarga({
-        level: level,
+        // level: level,
         [lEntity[level]]: entity.id,
         line,
         entidad: dataUsers?.data?.entidad,
@@ -154,7 +157,7 @@ const Users = () => {
                   <div> Afiliados en la red</div>
                 </div>
 
-                <div className={styles["cardInfo"]}>
+                {/* <div className={styles["cardInfo"]}>
                   <div>
                     {waiting > 0 ? (
                       <p style={{ fontSize: 16 }}>Cargando...</p>
@@ -165,19 +168,19 @@ const Users = () => {
                         0
                       )
                     )}
-                    {/* {formatNumber(
+                    {formatNumber(
                       dataUsers?.data?.demografico?.administrativos +
                         dataUsers?.data?.demografico?.afiliados,
                       0
-                    )} */}
+                    )}
                   </div>
                   <div>Total en la red </div>
-                </div>
+                </div> */}
               </div>
             </Card>
           </div>
           {/* <div>{renderContent()}</div> */}
-          <LoadingScreen type="TableSkeleton">
+          <LoadingScreen type="TableSkeleton" loaded={loaded}>
             <div style={{ marginBottom: 16 }}>
               <div style={{ width: "100%" }}>
                 <LeadershipHierarchy
@@ -216,11 +219,14 @@ const Users = () => {
           reLoad={reLoad}
         />
       )}
-      <DetailUsers
-        open={openDetail}
-        close={() => setOpenDetail(false)}
-        item={item}
-      />
+      {openDetail && (
+        <DetailUsers
+          open={openDetail}
+          close={() => setOpenDetail(false)}
+          item={item}
+          id={item?.id}
+        />
+      )}
     </div>
   );
 };

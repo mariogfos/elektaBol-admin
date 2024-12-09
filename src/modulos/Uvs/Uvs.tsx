@@ -7,6 +7,7 @@ import useCrudUtils from "../shared/useCrudUtils";
 import { useMemo } from "react";
 import RenderItem from "../shared/RenderItem";
 import { formatNumber } from "@/mk/utils/numbers";
+import { useAuth } from "@/mk/contexts/AuthProvider";
 
 const mod: ModCrudType = {
   modulo: "uvs",
@@ -24,6 +25,7 @@ const paramsInitial = {
 };
 
 const Uvs = () => {
+  const { user } = useAuth();
   const fields = useMemo(() => {
     return {
       id: { rules: [], api: "e" },
@@ -37,45 +39,65 @@ const Uvs = () => {
         rules: ["required"],
         api: "ae",
         label: "Departamento",
-        form: { type: "select", optionsExtra: "dptos" },
+        form: {
+          type: "select",
+          optionsExtra: "dptos",
+          precarga: user?.datos?.dpto_id,
+        },
       },
       prov_id: {
         rules: ["required"],
         api: "ae",
         label: "Provincia",
-        form: { type: "select", optionsExtra: "provs" },
-      },
-      circun_id: {
-        rules: ["required"],
-        api: "ae",
-        label: "Circunscripción",
-        list: {
-          width: "250px",
-          label: "Circuns.",
-          style: { textAlign: "right" },
+        form: {
+          type: "select",
+          optionsExtra: "provs",
+          precarga: user?.datos?.prov_id,
         },
-        form: { type: "select", optionsExtra: "circuns" },
       },
+      // circun_id: {
+      //   rules: ["required"],
+      //   api: "ae",
+      //   label: "Circunscripción",
+      //   list: {
+      //     width: "250px",
+      //     label: "Circuns.",
+      //     style: { textAlign: "right" },
+      //   },
+      //   form: { type: "select", optionsExtra: "circuns" },
+      // },
       mun_id: {
         rules: ["required"],
         api: "ae",
         label: "Municipio",
         list: { width: "250px" },
-        form: { type: "select", optionsExtra: "muns" },
+        form: {
+          type: "select",
+          optionsExtra: "muns",
+          precarga: user?.datos?.mun_id,
+        },
       },
       dmun_id: {
         rules: ["required"],
         api: "ae",
         label: "Distrito municipal",
         list: { width: "250px" },
-        form: { type: "select", optionsExtra: "dmuns" },
+        form: {
+          type: "select",
+          optionsExtra: "dmuns",
+          precarga: user?.datos?.dmun_id,
+        },
       },
       local_id: {
         rules: ["required"],
         api: "ae",
         label: "Localidad",
         list: { width: "250px" },
-        form: { type: "select", optionsExtra: "locals" },
+        form: {
+          type: "select",
+          optionsExtra: "locals",
+          precarga: user?.datos?.local_id,
+        },
       },
       name: {
         rules: ["required"],

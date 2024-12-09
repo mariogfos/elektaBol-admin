@@ -3,16 +3,19 @@ import Input from "@/mk/components/forms/Input/Input";
 import Select from "@/mk/components/forms/Select/Select";
 import TextArea from "@/mk/components/forms/TextArea/TextArea";
 import { UploadFile } from "@/mk/components/forms/UploadFile/UploadFile";
+import UploadFileMultiple from "@/mk/components/forms/UploadFile/UploadFileMultiple";
 import { getUrlImages } from "@/mk/utils/string";
 import { ActionType } from "@/mk/utils/validate/Rules";
 import { memo } from "react";
 
 export type FormFunctionRenderType = {
   item: Record<string, any>;
-  key: string;
+  key?: string;
+  _key?: string;
   user: Record<string, any>;
   onChange: (e: any) => void;
   error?: Record<string, any>;
+  extraData?: any;
 };
 
 const rigthFile = (data: {
@@ -20,6 +23,7 @@ const rigthFile = (data: {
   user?: Record<string, any>;
   item: Record<string, any>;
   field?: Record<string, any>;
+  extraData?: any;
 }) => {
   if (!data.item.ext) return null;
   return (
@@ -55,6 +59,7 @@ const LeftRigthElement = memo(
     error = {},
     user,
     onChange,
+    extraData,
   }: {
     children: any;
     field: any;
@@ -62,15 +67,17 @@ const LeftRigthElement = memo(
     error: any;
     user: any;
     onChange: (e: any) => void;
+    extraData?: any;
   }) => {
     if (!field.onLeft && !field.onRigth && !field.onTop && !field.onBottom)
       return children;
     const props: FormFunctionRenderType = {
       item,
-      key: field.key,
+      _key: field.key,
       user,
       onChange,
       error,
+      extraData,
     };
     return (
       <div
@@ -106,6 +113,7 @@ const FormElement = memo(
     item,
     i,
     onChange,
+    onBlur,
     error,
     setError,
     data,
@@ -114,6 +122,7 @@ const FormElement = memo(
     item: any;
     i?: number;
     onChange: (e: any) => void;
+    onBlur?: (e: any) => void;
     error: any;
     setError: Function;
     data: { user: any; action: ActionType; mod: any; extraData: any };
@@ -133,17 +142,19 @@ const FormElement = memo(
         : [...(_field.addOptions || []), ...(_field.options || [])];
 
     const props = {
-      key: _field.key,
+      _key: _field.key,
       field: _field,
       item: item,
       error: error,
       user: data?.user,
       onChange: onChange,
+      extraData: data?.extraData,
     };
     let val = item[_field.key] || "";
     switch (_field.type) {
       case "text":
       case "date":
+      case "datetime-local":
       case "number":
         if (_field.type == "date") {
           val = val.split(" ")[0];
@@ -166,7 +177,7 @@ const FormElement = memo(
               onChange={onChange}
               label={_field.label}
               disabled={_field.disabled}
-              onBlur={_field.onBlur}
+              onBlur={onBlur || _field.onBlur}
               error={error}
               onFocus={_field.onFocus}
               iconLeft={_field.iconLeft}
@@ -176,6 +187,7 @@ const FormElement = memo(
               style={_field.style}
               readOnly={_field.readOnly}
               required={_field.required}
+              maxLength={_field.maxLength}
             />
           </LeftRigthElement>
         );
@@ -188,7 +200,7 @@ const FormElement = memo(
               onChange={onChange}
               label={_field.label}
               disabled={_field.disabled}
-              onBlur={_field.onBlur}
+              onBlur={onBlur}
               error={error}
               onFocus={_field.onFocus}
               iconLeft={_field.iconLeft}
@@ -207,11 +219,23 @@ const FormElement = memo(
           <LeftRigthElement {...props}>
             <UploadFile
               name={_field.key}
-              value={item[_field.key]}
+              // value={item[_field.key]}
+              value={
+                item[_field.id || "id"]
+                  ? getUrlImages(
+                      "/" +
+                        _field.prefix +
+                        "-" +
+                        item[_field.id || "id"] +
+                        ".webp?" +
+                        item.updated_at
+                    )
+                  : ""
+              }
               onChange={onChange}
               label={_field.label}
               disabled={_field.disabled}
-              onBlur={_field.onBlur}
+              onBlur={onBlur}
               error={error}
               onFocus={_field.onFocus}
               iconLeft={_field.iconLeft}
@@ -224,6 +248,36 @@ const FormElement = memo(
               ext={_field.ext || ["jpg", "png", "jpeg"]}
               setError={setError}
               img={true}
+              item={item}
+            />
+          </LeftRigthElement>
+        );
+      case "imageUploadMultiple":
+        return (
+          <LeftRigthElement {...props}>
+            <UploadFileMultiple
+              name={_field.key}
+              value={item[_field.key]}
+              onChange={onChange}
+              label={_field.label}
+              disabled={_field.disabled}
+              onBlur={onBlur}
+              error={error}
+              onFocus={_field.onFocus}
+              iconLeft={_field.iconLeft}
+              iconRight={_field.iconRight}
+              placeholder={_field.placeholder}
+              className={_field.className}
+              style={_field.style}
+              readOnly={_field.readOnly}
+              required={_field.required}
+              ext={_field.ext || ["jpg", "png", "jpeg"]}
+              setError={setError}
+              img={true}
+              maxFiles={_field.maxFiles}
+              prefix={_field.prefix}
+              images={item[_field.images]}
+              item={item}
             />
           </LeftRigthElement>
         );
@@ -236,7 +290,7 @@ const FormElement = memo(
               onChange={onChange}
               label={_field.label}
               disabled={_field.disabled}
-              onBlur={_field.onBlur}
+              onBlur={onBlur}
               error={error}
               onFocus={_field.onFocus}
               iconLeft={_field.iconLeft}
@@ -260,7 +314,7 @@ const FormElement = memo(
               onChange={onChange}
               label={_field.label}
               disabled={_field.disabled}
-              onBlur={_field.onBlur}
+              onBlur={onBlur}
               error={error}
               onFocus={_field.onFocus}
               iconLeft={_field.iconLeft}

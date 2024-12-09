@@ -24,18 +24,18 @@ export const WidgetMaps = ({
 }: TypeProps) => {
   return (
     <div className={styles.WidgetMaps}>
-      <div>Resumen poblacional en Ecuador</div>
+      <div>Resumen poblacional en Bolivia</div>
       <div className={styles.stats}>
         <Card style={{ textAlign: "right", fontSize: 16 }}>
-          <p>Población Censo 2022</p>
+          <p>Proyecciones oficiales 2022</p>
           <p>{formatNumber(totalHabitanes, 0)}</p>
         </Card>
         <Card style={{ textAlign: "right", fontSize: 16 }}>
-          <p>Votantes habilitados 2024</p>
+          <p>Votantes habilitados 2020</p>
           <p>{formatNumber(totalHabilitados, 0)}</p>
         </Card>
         <Card style={{ textAlign: "right", fontSize: 16 }}>
-          <p>Votos obtenidos PID 2024</p>
+          <p>Votos Creemos 2020</p>
           <p>{formatNumber(totalPid, 0)}</p>
         </Card>
         <Card style={{ textAlign: "right", fontSize: 16 }}>

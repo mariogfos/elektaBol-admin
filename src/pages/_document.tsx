@@ -12,6 +12,7 @@ export default function Document() {
         />
       </Head>
       <body>
+        <div id="tooltip-root"></div>
         <Main />
         <NextScript />
       </body>

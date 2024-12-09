@@ -26,9 +26,9 @@
     & > input[type="file"] {
       display: none;
     }
-    & > span {
+    & > div > span {
       color: var(--cWhite);
-      font-size: var(--sS);
+      font-size: 8px;
     }
     & > div {
       display: flex;
@@ -36,9 +36,12 @@
       align-items: center;
       flex-direction: column;
       & > img {
-        max-width: 80px;
-        max-height: 80px;
-        margin-bottom: var(--spS);
+        max-width: 100%;
+        max-height: 100%;
+        /* margin-bottom: var(--spS); */
+      }
+      & > svg {
+        cursor: pointer;
       }
       & > p {
         color: var(--cError);
@@ -50,5 +53,35 @@
         }
       }
     }
+  }
+}
+
+.uploadFile.v2 {
+  & > div > section {
+    display: inline;
+    padding: 0;
+    border-style: none;
+    & > div > span {
+      color: var(--cPrimary);
+      font-size: 10px;
+    }
+  }
+}
+.uploadFileMultiple {
+  & > div > div {
+    display: "relative";
+    /* background-color: red; */
+  }
+
+  & > label {
+    position: absolute;
+    left: 8px;
+    top: -8px;
+    transition: all 0.3s;
+    font-size: var(--sS);
+    color: var(--cWhiteV2);
+    background-color: var(--cBlack);
+    padding-left: var(--spXs);
+    padding-right: var(--spXs);
   }
 }

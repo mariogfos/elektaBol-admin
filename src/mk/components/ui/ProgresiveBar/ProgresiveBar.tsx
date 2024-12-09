@@ -33,12 +33,11 @@ const ProgresiveBar = ({
     const percentage = (actualValue / total) * 100;
     return Math.round(percentage * 10) / 10;
   };
-  
+
   useEffect(() => {
     let percent = calcPercentage();
     setPercentage(percent);
   }, [total, actualValue]);
-    console.log(percentage,'%')
   return (
     <div style={{ position: "relative" }}>
       {topLabels && (

@@ -20,6 +20,7 @@ export interface PropsTypeInputBase {
   iconRight?: any;
   checked?: boolean;
   onKeyDown?: (e: any) => void;
+  maxLength?: number;
 }
 
 interface PropsType extends PropsTypeInputBase {
@@ -46,7 +47,7 @@ const ControlLabel = (props: PropsType) => {
       {props.iconLeft && <span>{props.iconLeft}</span>}
       <div>
         {props.children}
-        <label htmlFor={props.name}>{label}</label>
+        {props.label && <label htmlFor={props.name}>{label}</label>}
       </div>
       {props.iconRight && <span>{props.iconRight}</span>}
       {!props.error ? null : (

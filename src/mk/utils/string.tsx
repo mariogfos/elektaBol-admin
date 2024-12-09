@@ -92,3 +92,42 @@ export function takeScreenshot(cb: any) {
   //   }
   // });
 }
+export const PREFIX_COUNTRY = [
+  { id: "54", name: "🇦🇷 Argentina", label: "+54 Argentina" }, // Argentina
+  { id: "297", name: "🇦🇼 Aruba", label: "+297 Aruba" }, // Aruba
+  { id: "591", name: "🇧🇴 Bolivia", label: "+591 Bolivia" }, // Bolivia
+  { id: "55", name: "🇧🇷 Brasil", label: "+55 Brasil" }, // Brasil
+  // {id: '1', name: '🇧🇸 Bahamas'}, // Bahamas
+  // {id: '1', name: '🇧🇧 Barbados'}, // Barbados
+  // {id: '1', name: '🇧🇿 Belice'}, // Belice
+  // {id: '1', name: '🇧🇲 Bermudas'}, // Bermudas
+  // {id: '1', name: '🇨🇦 Canadá'}, // Canadá
+  { id: "56", name: "🇨🇱 Chile", label: "+56 Chile" }, // Chile
+  { id: "57", name: "🇨🇴 Colombia", label: "+57 Colombia" }, // Colombia
+  { id: "506", name: "🇨🇷 Costa Rica", label: "+506 Costa Rica" }, // Costa Rica
+  { id: "53", name: "🇨🇺 Cuba", label: "+53 Cuba" }, // Cuba
+  // {id: '1', name: '🇩🇲 Dominica'}, // Dominica
+  // {id: '1', name: '🇩🇴 República Dominicana'}, // República Dominicana
+  { id: "593", name: "🇪🇨 Ecuador", label: "+593 Ecuador" }, // Ecuador
+  { id: "503", name: "🇸🇻 El Salvador", label: "+503 El Salvador" }, // El Salvador
+  { id: "500", name: "🇫🇰 Islas Malvinas", label: "+500 Islas Malvinas" }, // Islas Malvinas (Falkland Islands)
+  // {id: '1', name: '🇬🇩 Granada'}, // Granada
+  { id: "502", name: "🇬🇹 Guatemala", label: "+502 Guatemala" }, // Guatemala
+  { id: "592", name: "🇬🇾 Guyana", label: "+592 Guyana" }, // Guyana
+  { id: "509", name: "🇭🇹 Haití", label: "+509 Haití" }, // Haití
+  { id: "504", name: "🇭🇳 Honduras", label: "+504 Honduras" }, // Honduras
+  { id: "52", name: "🇲🇽 México", label: "+52 México" }, // México
+  // {id: '1', name: '🇯🇲 Jamaica'}, // Jamaica
+  // {id: '1', name: '🇰🇳 San Cristóbal y Nieves'}, // San Cristóbal y Nieves
+  // {id: '1', name: '🇱🇨 Santa Lucía'}, // Santa Lucía
+  // {id: '1', name: '🇻🇨 San Vicente y las Granadinas'}, // San Vicente y las Granadinas
+  { id: "505", name: "🇳🇮 Nicaragua", label: "+505 Nicaragua" }, // Nicaragua
+  { id: "507", name: "🇵🇦 Panamá", label: "+507 Panamá" }, // Panamá
+  { id: "595", name: "🇵🇾 Paraguay", label: "+595 Paraguay" }, // Paraguay
+  { id: "51", name: "🇵🇪 Perú", label: "+51 Perú" }, // Perú
+  // {id: '1', name: '🇵🇷 Puerto Rico'}, // Puerto Rico
+  // {id: '1', name: '🇹🇹 Trinidad y Tobago'}, // Trinidad y Tobago
+  { id: "1", name: "🇺🇸 Estados Unidos", label: "+1 Estados Unidos" }, // Estados Unidos
+  { id: "598", name: "🇺🇾 Uruguay", label: "+598 Uruguay" }, // Uruguay
+  { id: "58", name: "🇻🇪 Venezuela", label: "+58 Venezuela" }, // Venezuela
+];
