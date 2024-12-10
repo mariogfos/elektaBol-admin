@@ -1,6 +1,6 @@
-import Listas from "@/modulos/Listas/Listas";
+// import Listas from "@/modulos/Listas/Listas";
 
-const listas = () => {
-  return <Listas />;
-};
-export default listas;
+// const listas = () => {
+//   return <Listas />;
+// };
+// export default listas;
