@@ -8,6 +8,8 @@ import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresive
 import DashboardMap from "../ Widgets/DashboardMap/DashboardMap";
 import styles from "./index.module.css";
 import HistoryTitle from "@/modulos/Statistics/HistoryTitle";
+import { WidgetSkeleton } from "@/mk/components/ui/Skeleton/Skeleton";
+import WidgetCandidates from "../ Widgets/WidgetCandidates/WidgetCandidates";
 
 const HomePage = () => {
   const { setStore, userCan } = useAuth();
