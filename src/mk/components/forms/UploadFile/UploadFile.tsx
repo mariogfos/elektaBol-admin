@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  IconArrowLeft,
   IconDocs,
+  IconEdit,
   IconImage,
   IconPDF,
+  IconTrash,
 } from "../../../../components/layout/icons/IconsBiblioteca";
-import Button from "../Button/Button";
 import styles from "./uploadFile.module.css";
 import ControlLabel, { PropsTypeInputBase } from "../ControlLabel";
 import { useAuth } from "@/mk/contexts/AuthProvider";
@@ -13,10 +15,14 @@ interface PropsType extends PropsTypeInputBase {
   ext: string[];
   setError: Function;
   img?: boolean;
+  item?: any;
 }
 export const UploadFile = ({
   className = "",
   onChange = (e: any) => {},
+  value = "",
+  item = {},
+  img = false,
   ...props
 }: PropsType) => {
   const [selectedFiles, setSelectedFiles]: any = useState({});
@@ -27,6 +33,12 @@ export const UploadFile = ({
   const onError = (err: any) => {
     console.log("reader error", err);
   };
+
+  useEffect(() => {
+    if (value == "" || item[props.name]?.file == "delete") {
+      // setSelectedFiles({});
+    }
+  }, [value, item]);
 
   const onChangeFile = (e: any) => {
     // props.setError({});
@@ -86,19 +98,57 @@ export const UploadFile = ({
     onChangeFile(e);
   };
 
+  const accept = () => {
+    let accept: any = [];
+    //   props.ext.map((ext) => {
+    //     accept.push(`application/${ext}`);
+    //   });
+    //   return accept.join(",");
+
+    props.ext.map((ext) => {
+      accept.push(`.${ext}`);
+    });
+    return accept.join(",");
+  };
+
+  const deleteImg = (del = true) => {
+    props.setError({ ...props.error, [props.name]: "" });
+
+    if (!selectedFiles?.name) {
+      onChange({
+        target: {
+          name: props.name,
+          value: { ext: "", file: del == false ? "" : "delete" },
+        },
+      });
+    }
+    setSelectedFiles({});
+    // onChange &&
+    //   onChange({
+    //     target: {
+    //       name: props.name,
+    //       value: { file: del == false ? "" : "delete", ext: "" },
+    //     },
+    //   });
+  };
+
   return (
-    <ControlLabel {...props} className={styles.uploadFile + " " + className}>
+    <ControlLabel
+      {...props}
+      value={value}
+      className={styles.uploadFile + " " + className}
+    >
       <section
-        onClick={() => {
-          const fileUpload = document.getElementById(props.name);
-          if (fileUpload) {
-            fileUpload.click();
-          }
-        }}
+        // onClick={() => {
+        //   const fileUpload = document.getElementById(props.name);
+        //   if (fileUpload) {
+        //     fileUpload.click();
+        //   }
+        // }}
         style={{
           borderColor: props.error[props.name]
             ? "var(--cError)"
-            : props.value?.file || isDraggingFile
+            : value?.file || isDraggingFile
             ? "var(--cPrimary)"
             : "var(--cWhiteV3)",
         }}
@@ -115,8 +165,8 @@ export const UploadFile = ({
           value=""
           required={props.required}
           disabled={props.disabled}
+          accept={accept()}
         />
-
         {
           // !selectedFiles?.name || selectedFiles?.name == "" && onlyImg?(
           //   <>
@@ -126,9 +176,17 @@ export const UploadFile = ({
           //   <span>{props.ext.join(", ")}</span>
           // </>
           // ):
-          !selectedFiles?.name || selectedFiles?.name == "" ? (
-            <>
-              {props.img ? (
+          (!selectedFiles?.name || selectedFiles?.name == "") &&
+          (!value || value == "") ? (
+            <div
+              onClick={() => {
+                const fileUpload = document.getElementById(props.name);
+                if (fileUpload) {
+                  fileUpload.click();
+                }
+              }}
+            >
+              {img ? (
                 <IconImage size={40} color={"var(--cWhite)"} />
               ) : (
                 <IconDocs size={40} color={"var(--cWhite)"} />
@@ -137,18 +195,29 @@ export const UploadFile = ({
                 {props.placeholder || "Cargar un archivo o arrastrar y soltar "}
               </span>
               <span>{props.ext.join(", ")}</span>
-            </>
+            </div>
           ) : (
-            <div>
-              {selectedFiles?.type.startsWith("image/") ? (
+            <div style={{ position: "relative" }}>
+              {(value || selectedFiles?.type?.startsWith("image/")) && img ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={URL.createObjectURL(selectedFiles)} alt="Preview" />
+                <img
+                  src={
+                    selectedFiles?.name
+                      ? URL.createObjectURL(selectedFiles)
+                      : value || ""
+                  }
+                  alt="Preview"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                  }}
+                />
               ) : selectedFiles.type === "application/pdf" ? (
                 <IconPDF size={80} color={"var(--cWhite)"} />
               ) : (
                 <IconDocs size={80} color={"var(--cWhite)"} />
               )}
-              <p>
+              {/* <p>
                 Archivo seleccionado: <span>{selectedFiles.name}</span>
               </p>
               <Button
@@ -161,7 +230,71 @@ export const UploadFile = ({
                 variant="terciary"
               >
                 Editar elemento
-              </Button>
+              </Button> */}
+              <IconEdit
+                size={20}
+                style={{
+                  position: "absolute",
+                  top: 2,
+                  right: 2,
+                  padding: 2,
+                  backgroundColor: "var(--cBlack)",
+                }}
+                color={"var(--cWarning)"}
+                circle
+                onClick={() => {
+                  const fileUpload = document.getElementById(props.name);
+                  if (fileUpload) {
+                    fileUpload.click();
+                  }
+                }}
+              />
+              {item[props.name]?.file == "delete" ? (
+                <>
+                  <IconTrash
+                    size={100}
+                    style={{
+                      cursor: "",
+                      padding: "2px",
+                      position: "absolute",
+                      color: "red",
+                      top: 0,
+                      left: 0,
+                    }}
+                  />
+                  <IconArrowLeft
+                    size={20}
+                    circle={true}
+                    color="var(--cSuccess)"
+                    style={{
+                      position: "absolute",
+                      top: 2,
+                      left: 2,
+                      padding: 2,
+                      backgroundColor: "var(--cBlack)",
+                    }}
+                    onClick={() => {
+                      deleteImg(false);
+                    }}
+                  />
+                </>
+              ) : (
+                <IconTrash
+                  size={20}
+                  style={{
+                    position: "absolute",
+                    top: 2,
+                    left: 2,
+                    padding: 2,
+                    backgroundColor: "var(--cBlack)",
+                  }}
+                  color={"var(--cError)"}
+                  circle
+                  onClick={() => {
+                    deleteImg();
+                  }}
+                />
+              )}
             </div>
           )
         }

@@ -2,9 +2,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthProvider";
 import { logError } from "../../utils/logs";
-
-import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
 import LoginView from "@/components/auth/LoginView";
+import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
 
 const Login = () => {
   const { user, login } = useAuth();
@@ -16,7 +15,12 @@ const Login = () => {
   });
 
   const onChange = ({ target: { name, value } }: any) => {
-    setFormState((prev) => ({ ...prev, [name]: value }));
+   if(name === "email"){
+    if (/^\d*$/.test(value)) { // evitar letras
+      setFormState((prev) => ({ ...prev, [name]: value }));
+    }}else{
+      setFormState((prev) => ({...prev, [name]: value }));
+    }
   };
 
   const validaciones = () => {

@@ -4,12 +4,29 @@ type PropsType = {
   value: any;
   colorKey?: string;
   colorValue?: string;
+  size?: string;
 };
-const KeyValue = ({ title, value, colorKey, colorValue }: PropsType) => {
+const KeyValue = ({ title, value, colorKey, colorValue, size }: PropsType) => {
   return (
     <div className={styles.keyValue}>
-      <div style={colorKey ? { color: colorKey } : {}}>{title}</div>
-      <div style={colorValue ? { color: colorValue } : {}}>{value}</div>
+      <div
+        style={
+          colorKey
+            ? { color: colorKey, fontSize: `${size}px` }
+            : { fontSize: `${size}px` }
+        }
+      >
+        {title}
+      </div>
+      <div
+        style={
+          colorKey
+            ? { color: colorKey, fontSize: `${size}px` }
+            : { fontSize: `${size}px` }
+        }
+      >
+        {value}
+      </div>
     </div>
   );
 };

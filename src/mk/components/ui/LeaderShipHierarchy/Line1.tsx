@@ -8,6 +8,8 @@ import {
   IconAdd,
   IconStarProfile,
 } from "@/components/layout/icons/IconsBiblioteca";
+import { useRouter } from "next/router";
+import DetailUsers from "@/components/Users/DetailUsers";
 
 interface Props {
   line1: any;
@@ -28,6 +30,8 @@ const Line1 = ({
   const [mainLeader, setMainLeader]: any = useState(
     line1?.find((leader: any) => leader.main === "M")
   );
+  const router = useRouter();
+  const [userId, setUserId]: any = useState(null);
   const [otherLeaders, setOtherLeaders] = useState([]);
   useEffect(() => {
     setMainLeader(line1?.find((leader: any) => leader.main === "M"));
@@ -63,6 +67,10 @@ const Line1 = ({
                       ".webp?d=" +
                       mainLeader?.user_updated_at
                   )}
+                  onClick={() => {
+                    setUserId(mainLeader.user_id);
+                  }}
+                  style={{ cursor: "pointer" }}
                 />
                 <div style={{ position: "relative", top: -50, left: 30 }}>
                   <IconStarProfile />
@@ -79,7 +87,7 @@ const Line1 = ({
                 CI: {mainLeader.ci}
               </div>
             </div>
-            {user?.role?.level === level &&
+            {/* {user?.role?.level === level &&
               user?.ci == mainLeader.ci &&
               userCan("users", "C") && (
                 <div
@@ -95,7 +103,7 @@ const Line1 = ({
                     />
                   </div>
                 </div>
-              )}
+              )} */}
           </div>
         ) : (
           <>
@@ -112,7 +120,7 @@ const Line1 = ({
             >
               Sin miembro registrado
             </div>
-            {user?.role?.level === level && user?.ci == mainLeader?.ci && (
+            {/* {user?.role?.level === level && user?.ci == mainLeader?.ci && (
               <div
                 style={{
                   border: "1px dashed var(--cWhiteV2)",
@@ -126,17 +134,41 @@ const Line1 = ({
                   />
                 </div>
               </div>
-            )}
+            )} */}
           </>
         )}
 
         <div
           className={styles["carouselCards"]}
           style={{
-            borderLeft: "2px solid var(--cWhiteV1)",
+            borderLeft: "2px solid var(--cWhiteV2)",
             marginLeft: 8,
+            display: "flex",
+            alignItems: "center",
           }}
         >
+          {user?.role?.level === level &&
+            user?.ci == mainLeader?.ci &&
+            userCan("users", "C") && (
+              <div
+                style={{
+                  border: "1px dashed var(--cWhiteV2)",
+                  padding: "var(--sM)",
+                  height: 80,
+                  width: 80,
+                  display: "flex",
+                  justifyContent: "center",
+                  marginLeft: 8,
+                }}
+              >
+                <div className={styles["addButton"]}>
+                  <IconAdd
+                    size={16}
+                    onClick={() => addClick({ id: params.searchBy }, 1)}
+                  />
+                </div>
+              </div>
+            )}
           {otherLeaders?.map((leader: any, index: number) => (
             <div key={index} className={styles["mainCardContainer"]}>
               <div className={styles["mainCard"]}>
@@ -145,6 +177,11 @@ const Line1 = ({
                   src={getUrlImages(
                     "/ADM-" + leader.user_id + ".webp?d=" + leader.updated_at
                   )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setUserId(leader.user_id);
+                  }}
+                  style={{ cursor: "pointer" }}
                 />
                 <div className="tTitle" style={{ fontSize: 16, marginTop: 8 }}>
                   {getFullName(leader)}
@@ -157,7 +194,11 @@ const Line1 = ({
           ))}
         </div>
       </div>
+      {userId && (
+        <DetailUsers open={true} close={() => setUserId(null)} id={userId} />
+      )}
     </Card>
+    // <div></div>
   );
 };
 

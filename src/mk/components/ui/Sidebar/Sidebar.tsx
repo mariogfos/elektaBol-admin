@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { IconArrowLeft } from "../../../../components/layout/icons/IconsBiblioteca";
 import styles from "./sidebar.module.css";
-import { IconArrowLeft } from "@/components/layout/icons/IconsBiblioteca";
 
 interface PropsType {
   open: boolean;
@@ -26,7 +26,10 @@ const Sidebar = ({ open, onClose, children, iconClose = true }: PropsType) => {
   return (
     open && (
       <div className={styles.sidebar} onClick={handleSidebarClose}>
-        <nav className={isSidebarOpen ? styles["open"] : ""}>
+        <nav
+          className={isSidebarOpen ? styles["open"] : ""}
+          onClick={(e) => e.stopPropagation()} 
+        >
           {iconClose && (
             <header>
               <IconArrowLeft onClick={handleSidebarClose} />

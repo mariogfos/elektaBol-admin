@@ -103,10 +103,10 @@ const Navbar = ({
           </div>
         </section>
         <a>
-          <Dropdown trigger={<IconArrowDown />}>
+          {/* <Dropdown trigger={<IconArrowDown />}>
             <p onClick={() => setOpenModal("profile")}>Mi perfil</p>
             <p onClick={handleLogout}>Cerrar sesión</p>
-          </Dropdown>
+          </Dropdown> */}
         </a>
       </header>
     </>

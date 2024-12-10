@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import Button from "../../forms/Button/Button";
-
+import { IconX } from "../../../../components/layout/icons/IconsBiblioteca";
 import HeadTitle from "../../../../HeadTitle/HeadTitle";
 import styles from "./dataModal.module.css";
-import { IconX } from "@/components/layout/icons/IconsBiblioteca";
 
 type PropsType = {
   children: any;
@@ -20,6 +19,7 @@ type PropsType = {
   fullScreen?: boolean;
   iconClose?: boolean;
   disabled?: boolean;
+  style?: CSSProperties;
 };
 
 const DataModal = ({
@@ -33,6 +33,7 @@ const DataModal = ({
   buttonCancel = "Cancelar",
   buttonExtra = null,
   id = "",
+  style = {},
   duration = 300,
   fullScreen = false,
   iconClose = true,
@@ -63,6 +64,7 @@ const DataModal = ({
       onClick={(e) => e.stopPropagation()}
     >
       <main
+        style={style}
         className={
           (openModal ? styles["open"] : "") +
           "  " +

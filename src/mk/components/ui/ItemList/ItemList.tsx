@@ -27,7 +27,6 @@ const ItemList = ({
 }: PropsType) => {
   return (
     <div
-     
       className={
         styles.itemList +
         " " +
@@ -35,11 +34,8 @@ const ItemList = ({
         " " +
         (active && styles.active)
       }
-     
       style={style}
-     
       key={key}
-    
     >
       <div>
         {icon && <span className={styles.icon}>{icon}</span>}

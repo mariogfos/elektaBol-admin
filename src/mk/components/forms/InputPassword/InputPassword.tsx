@@ -1,8 +1,10 @@
 import { useState } from "react";
-
+import {
+  IconEye,
+  IconEyeOff,
+} from "../../../../components/layout/icons/IconsBiblioteca";
 import Input from "../Input/Input";
 import { PropsTypeInputBase } from "../ControlLabel";
-import { IconEye, IconEyeOff } from "@/components/layout/icons/IconsBiblioteca";
 
 interface PropsType extends PropsTypeInputBase {
   repeatPassword?: boolean;
@@ -69,6 +71,7 @@ const InputPassword = ({
         readOnly={readOnly}
         iconRight={iconRight}
         error={error}
+        maxLength={10}
       />
       {repeatPassword && (
         <Input
@@ -82,6 +85,7 @@ const InputPassword = ({
           readOnly={readOnly}
           iconRight={iconRightRepeat}
           error={error}
+          maxLength={10}
         />
       )}
     </div>

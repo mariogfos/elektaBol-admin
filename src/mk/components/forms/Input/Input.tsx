@@ -1,17 +1,23 @@
 import { useEffect, useRef } from "react";
 import ControlLabel, { PropsTypeInputBase } from "../ControlLabel";
 import styles from "./input.module.css";
+// Nota: `kMaxLength` de 'buffer' no parece ser utilizado. Puedes eliminar esta importación si no es necesaria.
+// import { kMaxLength } from "buffer";
+
 interface PropsType extends PropsTypeInputBase {
   type?:
     | "text"
     | "email"
     | "password"
+    | "datetime-local"
     | "number"
     | "date"
     | "hidden"
     | "file"
     | "search"
     | "checkbox";
+  min?: number; // Añadido
+  max?: number; // Añadido
 }
 
 const Input = (props: PropsType) => {
@@ -30,8 +36,12 @@ const Input = (props: PropsType) => {
     onFocus = () => {},
     onKeyDown = () => {},
     checked = false,
+    maxLength,
+    min, // Añadido
+    max, // Añadido
   } = props;
   const inputRef: any = useRef(null);
+
   // CONTROLAR EL SCROLL DEL INPUT NUMBER
   useEffect(() => {
     const handleWheel = (e: any) => {
@@ -48,8 +58,9 @@ const Input = (props: PropsType) => {
       inputRef.current?.removeEventListener("wheel", handleWheel);
     };
   }, []);
+
   return (
-    <ControlLabel {...props} className={styles.input + " " + className}>
+    <ControlLabel {...props} className={`${styles.input} ${className}`}>
       <input
         id={name}
         type={type}
@@ -59,7 +70,7 @@ const Input = (props: PropsType) => {
         onFocus={onFocus}
         onBlur={onBlur}
         name={name}
-        value={value}
+        value={value || ""}
         onKeyDown={onKeyDown}
         readOnly={readOnly}
         disabled={disabled}
@@ -68,6 +79,9 @@ const Input = (props: PropsType) => {
         aria-autocomplete="none"
         autoComplete="new-password"
         checked={checked}
+        maxLength={maxLength || 255}
+        min={min} // Añadido
+        max={max} // Añadido
       />
     </ControlLabel>
   );

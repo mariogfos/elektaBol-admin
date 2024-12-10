@@ -48,6 +48,7 @@ type PropsType = {
   style?: CSSProperties;
   className?: string;
   height?: string;
+  showHeader?: boolean;
 };
 
 const Table = ({
@@ -65,6 +66,7 @@ const Table = ({
   style = {},
   className = "",
   height,
+  showHeader = true,
 }: PropsType) => {
   const { isTablet } = useScreenSize();
   const [scrollbarWidth, setScrollbarWidth] = useState();
@@ -73,7 +75,7 @@ const Table = ({
       className={styles.table + " " + styles[className] + " " + className}
       style={style}
     >
-      {(!isTablet || !onTabletRow) && (
+      {(!isTablet || !onTabletRow) && showHeader && (
         <Head
           header={header}
           actionsWidth={actionsWidth}

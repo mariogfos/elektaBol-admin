@@ -9,6 +9,7 @@ interface Props {
   height?: string | number;
   className?: string;
   goal?: number[];
+  goalColors?: string[]; // Nueva propiedad
 }
 
 const HorizontalProgresiveBar = ({
@@ -18,6 +19,7 @@ const HorizontalProgresiveBar = ({
   className,
   height,
   goal = [],
+  goalColors = [], // Asigna un arreglo vacío por defecto
 }: Props) => {
   const [percentage, setPercentage] = useState<number | null>(null);
   const [goalPercentages, setGoalPercentages] = useState<number[]>([]);
@@ -44,10 +46,13 @@ const HorizontalProgresiveBar = ({
       setGoalPercentages([]);
       setExceededGoals([]);
     }
-  }, [total, current]);
+  }, []);
 
   return (
-    <div className={`${styles.horizontalProgresiveBar} ${className}`} style={{ height: height, position: 'relative' }}>
+    <div
+      className={`${styles.horizontalProgresiveBar} ${className}`}
+      style={{ height: height, position: 'relative' }}
+    >
       <div style={{ width: '100%', backgroundColor: 'var(--cWhiteV3)', position: 'relative', overflow: 'visible' }}>
         {goalPercentages.map((g, index) => (
           <div
@@ -59,28 +64,32 @@ const HorizontalProgresiveBar = ({
               left: `${g}%`,
               height: '100%',
               width: '1px',
-              backgroundColor: exceededGoals[index] ? 'var(--cBlackV1)' : 'var(--cSuccess)',
+              backgroundColor: exceededGoals[index]
+                ? 'var(--cBlackV1)'
+                : goalColors[index] || 'var(--cSuccess)',
               zIndex: 1,
               cursor: 'pointer',
             }}
           >
             {hoveredGoal === index && (
-              <div style={{
-                position: 'absolute',
-                top: '-40px',
-                left: '50%',
-                minWidth: 'max-content',
-                transform: 'translateX(-50%)',
-                padding: '5px 10px',
-                backgroundColor: 'var(--cWhiteV1)',
-                color: 'var(--cBlackV2)',
-                borderRadius: '4px',
-                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
-                whiteSpace: 'nowrap',
-                zIndex: 10,
-                border: '1px solid var(--cBlackV2)',
-                overflow: 'visible'
-              }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-40px',
+                  left: '50%',
+                  minWidth: 'max-content',
+                  transform: 'translateX(-50%)',
+                  padding: '5px 10px',
+                  backgroundColor: 'var(--cWhiteV1)',
+                  color: 'var(--cBlackV2)',
+                  borderRadius: '4px',
+                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
+                  whiteSpace: 'nowrap',
+                  zIndex: 10,
+                  border: '1px solid var(--cBlackV2)',
+                  overflow: 'visible',
+                }}
+              >
                 Meta: {formatNumberWithComma(goal[index])}
               </div>
             )}

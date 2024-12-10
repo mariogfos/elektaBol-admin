@@ -3,9 +3,9 @@
   width: 100%;
   flex-direction: column;
   gap: var(--sPs);
-  padding: var(--spS);
+  padding: var(--spL);
   border-radius: var(--bRadius);
-  background-color: var(--cBlackV1);
+  background-color: var(--cHover);
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); */
   margin-top: 16px;
   margin-bottom: 16px;
