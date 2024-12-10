@@ -7,7 +7,7 @@ import styles from "./index.module.css";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import { useEffect } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import WidgetMaps from "../ Widgets/WidgetMaps/WidgetMaps";
+import WidgetMapa from "../../modulos/Statistics/WidgetMapa/WidgetMapa";
 
 const HomePage = () => {
   const { data: dashboard } = useAxios("/dashboard", "GET", {
@@ -21,11 +21,6 @@ const HomePage = () => {
     });
   }, []);
 
-  let totalHabitantes = dashboard?.data?.dptos.reduce(
-    (acc: number, current: any) => acc + current.habitantes,
-    0
-  );
-
   let totalHabilitados = dashboard?.data?.dptos.reduce(
     (acc: number, current: any) => acc + current.habilitados,
     0
@@ -35,30 +30,15 @@ const HomePage = () => {
     (acc: number, current: any) => acc + current.affiliate_count,
     0
   );
-  let data = dashboard?.data?.dptos.map((dpto: any) => {
-    return {
-      id: dpto?.id,
-      titulo: dpto?.name,
-      habitantes: dpto?.habitantes,
-      habilitados: dpto?.habilitados,
-      afiliados: dpto?.affiliate_count,
-    };
-  });
 
   return (
     <div className={styles.container}>
-      {/* {dashboard?.data.countDown && (
+      {dashboard?.data.countDown && (
         <WidgetTime data={dashboard?.data.countDown} />
-      )} */}
+      )}
       <section>
         <div>
-          <WidgetMaps
-            tooltipsData={data}
-            totalHabitanes={totalHabitantes}
-            totalHabilitados={totalHabilitados}
-            totalAfiliados={totalAfiliados}
-            // totalPid={totalPid}
-          />
+          <WidgetMapa data={dashboard?.data?.dptos} />
         </div>
         <div>
           <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />

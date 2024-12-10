@@ -82,12 +82,14 @@ type PropsType = {
   data: any;
   onClick?: any;
   params?: any;
+  itemSelected?: any;
 };
 
 const WidgetMapa = ({
   data,
   onClick = () => {},
   params = [{}, () => {}],
+  itemSelected,
 }: PropsType) => {
   const svgRef: any = useRef(null);
   const [param, setParam] = params;
@@ -331,17 +333,24 @@ const WidgetMapa = ({
 
   let paramLevel = param?.level == undefined ? 0 : param?.level;
 
+  console.log("paramLevel", paramLevel);
+  console.log("data grinhouse: ", data);
+  console.log("param level: ", paramLevel);
+
   const onTooltip = (event: any, id: string | number, show: boolean = true) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
     const item = data?.find((d: any) => d.code == id) || {
-      id,
-      name: "No se encontró " + id,
-      habitantes: 0,
-      habilitados: 0,
+      id: id || itemSelected?.id,
+      name: itemSelected?.name || "",
+      habitantes: itemSelected?.habitantes || 0,
+      habilitados: itemSelected?.habilitados || 0,
+      afiliados: itemSelected?.afiliados || 0,
       total: 0,
     };
+
+    console.log("item", item);
 
     setTooltip({
       visible: id ? true : false,
@@ -405,6 +414,18 @@ const WidgetMapa = ({
               <p>Habitantes: </p>
               <p style={{ color: "#101111" }}>
                 {formatNumber(item?.habitantes, 0)}
+              </p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#656F78",
+              }}
+            >
+              <p>Afiliados:</p>
+              <p style={{ fontSize: 14 }}>
+                {formatNumber(item?.affiliate_count, 0)}
               </p>
             </div>
             <div
