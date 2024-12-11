@@ -35,6 +35,7 @@ const HomePage = () => {
     (acc: number, current: any) => acc + current.affiliate_count,
     0
   );
+
   let data = dashboard?.data?.dptos.map((dpto: any) => {
     return {
       id: dpto?.id,
@@ -47,9 +48,9 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      {/* {dashboard?.data.countDown && (
+      {dashboard?.data.countDown && (
         <WidgetTime data={dashboard?.data.countDown} />
-      )} */}
+      )}
       <section>
         <div>
           <WidgetMaps
