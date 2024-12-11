@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import background from "@/../public/images/img_login.png";
 import ForgotPass from "./ForgotPass";
@@ -7,7 +7,6 @@ import Input from "@/mk/components/forms/Input/Input";
 import InputPassword from "@/mk/components/forms/InputPassword/InputPassword";
 import Button from "@/mk/components/forms/Button/Button";
 import styles from "./loginView.module.css";
-import { IconLogoElekta } from "../layout/icons/IconsBiblioteca";
 
 export interface PropsLogin {
   errors: any;
@@ -64,6 +63,7 @@ const LoginView = ({
                     value={formState.email}
                     onChange={handleChange}
                     error={errors}
+                    maxLength={11}
                   />
                   <InputPassword
                     label="Contraseña"
@@ -72,6 +72,7 @@ const LoginView = ({
                     value={formState.password}
                     onChange={handleChange}
                     error={errors}
+                    maxLength={10}
                   />
                   <Button onClick={() => handleSubmit()}>Ingresar</Button>
                 </div>
