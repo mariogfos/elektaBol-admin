@@ -38,7 +38,7 @@ const HomePage = () => {
       )}
       <section>
         <div>
-          <WidgetMapa data={dashboard?.data?.dptos} />
+          <WidgetMapa data={dashboard?.data?.dptos} isProv={true} />
         </div>
         <div>
           <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />

@@ -74,6 +74,7 @@ import {
   pathsPotosi,
   pathsSantaCruz,
   pathsTarija,
+  pathsSantaCruzProvincias,
 } from "./pathMapas";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import { getUrlImages } from "@/mk/utils/string";
@@ -83,6 +84,7 @@ type PropsType = {
   onClick?: any;
   params?: any;
   itemSelected?: any;
+  isProv?: boolean;
 };
 
 const WidgetMapa = ({
@@ -90,6 +92,7 @@ const WidgetMapa = ({
   onClick = () => {},
   params = [{}, () => {}],
   itemSelected,
+  isProv = false,
 }: PropsType) => {
   const svgRef: any = useRef(null);
   const [param, setParam] = params;
@@ -102,9 +105,14 @@ const WidgetMapa = ({
   });
 
   let path: any = [];
+  let paramLevel = param?.level == undefined ? 0 : param?.level;
+
+  console.log("isProv", isProv);
 
   if ((param?.level || 0) == 0) path = pathsPais;
-  if (param?.level == 1) {
+  if (param?.level == 1 && isProv) {
+    path = pathsSantaCruzProvincias;
+  } else {
     switch (param?.code) {
       case "9":
         path = pathsPando;
@@ -137,6 +145,7 @@ const WidgetMapa = ({
         path = pathsPais;
     }
   }
+
   if (param?.level == 2) {
     switch (param?.code) {
       case "40":
@@ -330,8 +339,6 @@ const WidgetMapa = ({
   const _onClick = (code: string | number) => {
     onClick(code);
   };
-
-  let paramLevel = param?.level == undefined ? 0 : param?.level;
 
   console.log("paramLevel", paramLevel);
   console.log("data grinhouse: ", data);
