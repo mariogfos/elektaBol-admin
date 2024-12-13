@@ -5,7 +5,7 @@ import WidgetAffiliatesRank from "../Widgets/WidgetAffiliatesRank/WidgetAffiliat
 import WidgetTable from "../Widgets/WidgetTable.tsx/WidgetTable";
 import styles from "./index.module.css";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import WidgetMaps from "../ Widgets/WidgetMaps/WidgetMaps";
 
@@ -20,7 +20,13 @@ const HomePage = () => {
       title: "Panel de control",
     });
   }, []);
-
+  const { user } = useAuth();
+  const paramInitial: any = {
+    level: user?.role?.level,
+    code: user?.entidad?.code?.toString(),
+    searchBy: user?.entidad?.id || "",
+  };
+  const [params, setParams] = useState(paramInitial);
   let totalHabitantes = dashboard?.data?.dptos.reduce(
     (acc: number, current: any) => acc + current.habitantes,
     0
@@ -61,8 +67,30 @@ const HomePage = () => {
           />
         </div>
         <div>
-          <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />
-          <WidgetPercentage data={dashboard?.data?.encuesta} />
+          {/* <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} /> */}
+         
+          <WidgetProgresiveBar
+            data={{
+              totalAfiliados:
+                user?.role?.level === params?.level
+                  ? user?.entidad?.affiliate_count
+                  : dashboard?.data?.entidad.reduce(
+                      (acc: number, current: any) =>
+                        acc + current.affiliate_count,
+                      0
+                    ),
+              totalHabilitados:
+                user?.role?.level === params?.level
+                  ? user?.entidad?.habilitados
+                  : dashboard?.data?.entidad.reduce(
+                      (acc: number, current: any) => acc + current.habilitados,
+                      0
+                    ),
+
+              level: params?.level,
+            }}
+          />
+           <WidgetPercentage data={dashboard?.data?.encuesta} /> 
         </div>
       </section>
       <section>
