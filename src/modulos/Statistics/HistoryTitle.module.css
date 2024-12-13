@@ -3,7 +3,6 @@
     align-items: center;
     font-size: 16px;
     color: #fff;
-    margin-bottom: 16px;
     margin-top: -16px;
     & > ol {
       display: flex;
@@ -20,9 +19,13 @@
         margin-left: 8px;
         cursor: pointer;
         color: var(--cBlackV2);
+        padding: 8px;
+        border-radius: 99px;
+
         &:hover {
-          color: var(--cAccent);
-          /* text-decoration: underline; */
+          color: var(--cWhite);
+          background-color: var(--cAccent);
+          font-weight: 500;
         }
         & > li {
           display: flex;

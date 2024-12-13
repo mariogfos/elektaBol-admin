@@ -12,6 +12,7 @@ type TypeProps = {
   onClick?: any;
   entidadData?: any;
   itemSelected?: any;
+  isProvince?: boolean;
 };
 
 export const DashboardMap = ({
@@ -20,6 +21,7 @@ export const DashboardMap = ({
   onClick,
   entidadData,
   itemSelected,
+  isProvince,
 }: TypeProps) => {
   const totalHabitantes = data?.entidad.reduce(
     (acc: number, current: any) => acc + current.habitantes,
@@ -44,11 +46,15 @@ export const DashboardMap = ({
       <>
         <div>
           Resumen poblacional en{" "}
-          {params[0]?.level === 1
-            ? "Ecuador"
+          {params[0]?.level === 0
+            ? "Bolivia"
+            : params[0]?.level === 1
+            ? "Departamento"
             : params[0]?.level === 2
             ? "Provincia"
-            : "Cantón"}
+            : params[0]?.level === 3
+            ? "Municipio"
+            : "Distrito municipal"}
         </div>
         <div className={styles.stats}>
           <Card style={{ textAlign: "right", fontSize: 16 }}>
@@ -87,8 +93,8 @@ export const DashboardMap = ({
         {params[0]?.level == 1 && (
           <div>
             <Image
-              src="/images/ecuador.png"
-              alt="Ecuador"
+              src="/images/Bolivia.png"
+              alt="Bolivia"
               width={190}
               height={40}
             />
