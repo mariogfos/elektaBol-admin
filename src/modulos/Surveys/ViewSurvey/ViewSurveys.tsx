@@ -15,10 +15,7 @@ import {
   IconTimer,
 } from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumber } from "@/mk/utils/numbers";
-import WidgetEducation from "@/components/ Widgets/WidgetEducation/WidgetEducation";
 import WidgetAge from "@/components/ Widgets/WidgetAge/WidgetAge";
-import WidgetDonut from "@/components/ Widgets/WidgetDonut/WidgetDonut";
-import WidgetBase from "@/components/ Widgets/WidgetBase/WidgetBase";
 import Select from "@/mk/components/forms/Select/Select";
 import useAxios from "@/mk/hooks/useAxios";
 import { lAges, lGreader, RandomsColors } from "@/mk/utils/utils";
@@ -26,6 +23,9 @@ import FiltersModal from "@/mk/components/forms/FiltersModal/FiltersModal";
 import Button from "@/mk/components/forms/Button/Button";
 import HorizontalProgresiveBar from "@/mk/components/ui/HorizontalProgresiveBar/HorizontalProgresiveBar";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
+import WidgetDonut from "@/components/Widgets/WidgetDonut/WidgetDonut";
+import WidgetBase from "@/components/ Widgets/WidgetBase/WidgetBase";
+import WidgetEducation from "@/components/ Widgets/WidgetEducation/WidgetEducation";
 
 interface GraphValue {
   name: string;
@@ -524,7 +524,7 @@ const ViewSurveys = ({
             <WidgetAge
               widget2={data?.metrics.age}
               title={"Estadística por edad"}
-            />
+              />
           </div>
         </div>
 

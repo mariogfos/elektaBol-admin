@@ -3,7 +3,7 @@ import styles from "./SurveyScaleChoice.module.css";
 import Input from "@/mk/components/forms/Input/Input";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
 import { checkRules, hasErrors } from "@/mk/utils/validate/Rules";
-import WidgetScale from "@/components/ Widgets/WidgetScale/WidgetScale";
+import WidgetScale from "@/components/Widgets/WidgetScale/WidgetScale";
 
 const SurveyScaleChoice = ({
   formState,

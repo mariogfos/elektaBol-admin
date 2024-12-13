@@ -14,7 +14,7 @@ import {
 } from "@/components/layout/icons/IconsBiblioteca";
 import TextArea from "@/mk/components/forms/TextArea/TextArea";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import WidgetScale from "@/components/ Widgets/WidgetScale/WidgetScale";
+import WidgetScale from "@/components/Widgets/WidgetScale/WidgetScale";
 
 // Reutilizamos la lógica para cada tipo de pregunta
 const DeleteConfirmationModal: React.FC<{

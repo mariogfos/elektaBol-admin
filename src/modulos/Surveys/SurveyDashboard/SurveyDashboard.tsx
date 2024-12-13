@@ -8,12 +8,12 @@ import WidgetStatusSummary from "@/components/Widgets/WidgetStatusSummary/Widget
 import styles from "./SurveyDashboard.module.css";
 import useAxios from "@/mk/hooks/useAxios";
 import WidgetBase from "@/components/ Widgets/WidgetBase/WidgetBase";
-import WidgetDonut from "@/components/ Widgets/WidgetDonut/WidgetDonut";
-import WidgetEducation from "@/components/ Widgets/WidgetEducation/WidgetEducation";
 import WidgetAge from "@/components/ Widgets/WidgetAge/WidgetAge";
 import TagLabel from "@/mk/components/ui/TagLabel/TagLabel";
 import InfoCard from "@/mk/components/ui/InfoCard/InfoCard";
 import { formatNumber } from "@/mk/utils/numbers";
+import WidgetDonut from "@/components/Widgets/WidgetDonut/WidgetDonut";
+import WidgetEducation from "@/components/ Widgets/WidgetEducation/WidgetEducation";
 
 const SurveyDashboard = () => {
   const [surveySummaryItems, setSurveyItems]:any = useState([
