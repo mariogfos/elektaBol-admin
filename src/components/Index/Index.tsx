@@ -71,7 +71,7 @@ const HomePage = () => {
       ...params,
       searchBy: item?.id,
       level: params?.level === 1 ? params?.level + 3 : params?.level + 1,
-      code: item?.code !== null ? item?.code.toString() : item?.id.toString(),
+      code: item?.code.toString(),
     });
   };
 
