@@ -13,22 +13,21 @@
 
     width: 100vw;
   }
-& > section {
-  display: flex;
- flex-direction: column;
-}
-  & >  section > div {
+  & > section {
+    display: flex;
+    flex-direction: column;
+  }
+  & > section > div {
     display: flex;
     border-radius: var(--bRadius);
     justify-content: center;
     flex-direction: column;
- 
 
     @media (width >= 768px) {
       flex-direction: row;
     }
 
-    &>div:nth-child(1) {
+    & > div:nth-child(1) {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -56,8 +55,6 @@
       height: 100%;
       border-radius: var(--bRadius);
       /* background-color: antiquewhite; */
-
-
     }
 
     & > div:nth-child(2) {
@@ -114,13 +111,9 @@
   & .elektaDescript {
     font-size: 24px;
     text-align: center;
-    color:var(--cBlackV3);
+    color: var(--cBlackV3);
     @media (width <= 768px) {
       display: none;
-
     }
-
   }
-
-
 }

@@ -8,13 +8,12 @@ const WidgetTime = ({ data }: any) => {
   const currentDay = today.getDate();
   const currentYear = today.getFullYear();
   const { isTablet } = useScreenSize();
-  data = { count_from: "2024-10-01", count_to: "2025-2-9" };
+  data = { count_from: "2024-12-01", count_to: "2025-8-17" };
   let d: any = data.count_from.split("-");
-  const countFrom = new Date(2024,10 - 1, 1);
+  const countFrom = new Date(2024, 12 - 1, 1);
   d = data.count_to.split("-");
-  console.log(currentYear + 1,'d')
-  const countTo = new Date(d[0], d[1] - 1, d[2]);
 
+  const countTo = new Date(d[0], d[1] - 1, d[2]);
 
   const daysInMonth = (mes: any, año: any) => {
     return new Date(año, mes, 0).getDate();
@@ -27,7 +26,11 @@ const WidgetTime = ({ data }: any) => {
     while (current <= end) {
       const month = current.getMonth();
       const year = current.getFullYear();
-      months.push({ mes: month + 1, dias: daysInMonth(month, year) });
+      months.push({
+        mes: month + 1,
+        anio: year,
+        dias: daysInMonth(month, year),
+      });
       current.setMonth(current.getMonth() + 1);
     }
 
@@ -56,29 +59,33 @@ const WidgetTime = ({ data }: any) => {
   return (
     <div className={styles.container}>
       <p>
-        Faltan <span>{getDaysFaltantes()}</span> Días para las elecciones del {getDateStrMes(data?.count_to)}
+        Faltan <span>{getDaysFaltantes()}</span> días para las elecciones del{" "}
+        {getDateStrMes(data?.count_to)}
       </p>
       <div>
-        {meses.map((item, index) => (
+        {meses?.map((item, index) => (
           <div
             key={index}
             style={{
               borderRight:
-                index < meses.length - 1   ? "1.5px solid var(--cWhite)" : "",
-              backgroundColor: currentMonth > item.mes && currentYear > currentYear + 1  ? "var(--cInfo)" : "",
+                index < meses.length - 1 ? "1.5px solid var(--cWhite)" : "",
+              backgroundColor:
+                currentMonth > item.mes && item.anio == currentYear
+                  ? "var(--cInfo)"
+                  : "",
               borderTopLeftRadius: index == 0 ? 8 : 0,
               borderBottomLeftRadius: index == 0 ? 8 : 0,
+              zIndex: 1,
             }}
           >
             <div
               style={{
                 width: `${getPercentage(item.mes, item.dias)}%`,
-
                 borderTopLeftRadius: index == 0 ? 8 : 0,
                 borderBottomLeftRadius: index == 0 ? 8 : 0,
               }}
             />
-            <div>
+            <div style={{ zIndex: 99 }}>
               <div />
               <div />
               <div />

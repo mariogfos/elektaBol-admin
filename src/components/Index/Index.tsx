@@ -27,7 +27,7 @@ const HomePage = () => {
     searchBy: user?.entidad?.id || "",
   };
   const [params, setParams] = useState(paramInitial);
-  let totalHabitantes = dashboard?.data?.dpto?.reduce(
+  let totalHabitantes = dashboard?.data?.dptos?.reduce(
     (acc: number, current: any) => acc + current.habitantes,
     0
   );
@@ -53,9 +53,9 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      {/* {dashboard?.data.countDown && (
+    {dashboard?.data.countDown && (
         <WidgetTime data={dashboard?.data.countDown} />
-      )} */}
+      )} 
       <section>
         <div>
           <WidgetMaps

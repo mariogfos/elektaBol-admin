@@ -7,6 +7,7 @@ import styles from "./users.module.css";
 import InputPassword from "@/mk/components/forms/InputPassword/InputPassword";
 import useAxios from "@/mk/hooks/useAxios";
 import NotAccess from "../auth/NotAccess/NotAccess";
+import { PREFIX_COUNTRY } from "@/mk/utils/string";
 
 type PropsType = {
   open: any;
@@ -38,9 +39,6 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
     fullType: "EXTRA",
     todos: 1,
   });
-  console.log("precargs", listsApi?.data?.macroregions);
-  console.log(formState?.dpto_id);
-  console.log(precarga);
 
   // const getParish = () => {
   //   let data: any = [];
@@ -183,6 +181,28 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
       return item?.name || "";
     }
   };
+
+  const isMac = navigator.platform.toUpperCase().includes("MAC");
+
+  const filterRoles = (type: any) => {
+    let rolesFil: any = [];
+    const userLevel = user?.role?.level;
+    if (userLevel) {
+      if (type == "A") {
+        rolesFil = roles?.data?.filter(
+          (item: any) =>
+            (item.level == userLevel || item.level == userLevel + 1) &&
+            item.is_fixed == 1
+        );
+      } else {
+        rolesFil = roles?.data?.filter((item: any) => item.level == userLevel);
+      }
+    } else {
+      console.log("El usuario no tiene nivel definido");
+    }
+
+    return rolesFil;
+  };
   return (
     <DataModal
       open={open}
@@ -203,7 +223,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
               <p className={styles["tSubtitle"]}>
                 Estas registrando en
                 <span>
-                  {user?.role?.level > 1 && ` ${getDatos("dpto")}`} 
+                  {user?.role?.level > 1 && ` ${getDatos("dpto")}`}
                   {user?.role?.level > 2 && ` | ${getDatos("macroregion")}`}
                   {user?.role?.level > 3 && ` | ${getDatos("prov")}`}
                   {user?.role?.level > 4 && ` | ${getDatos("mun")}`}
@@ -222,8 +242,8 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
             disabled={precarga?.level}
             value={formState["role_id"]}
             onChange={handleChangeInput}
-            options={roles?.data || []}
-            optionLabel="description"
+            options={filterRoles(precarga.line == 1 ? "G" : "A") || []}
+            optionLabel="name"
             optionValue="id"
             className="appearance-none"
           />
@@ -378,8 +398,19 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
               validate("ci");
             }}
           />
+          <Input
+            label="Repetir cédula de identidad"
+            name="reCi"
+            required={true}
+            error={errorsUsers}
+            value={formState["reCi"]}
+            // disabled={existCi}
+            onChange={handleChangeInput}
+            onBlur={() => validate("reCi")}
+            maxLength={11}
+          />
 
-          <div className="mb-2 ">
+          {/* <div className="mb-2 ">
             <InputPassword
               label="Contraseña"
               required={true}
@@ -402,7 +433,7 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
               onChange={handleChangeInput}
               onBlur={() => validate("repPassword")}
             />
-          </div>
+          </div> */}
           <InputFullName
             name="full_name"
             errors={errorsUsers}
@@ -427,18 +458,61 @@ const AddUsers = ({ open, onClose, precarga = null, reLoad }: PropsType) => {
             }}
           />
           <Input
-            label="Número de whatsApp"
-            type="number"
-            name="phone"
+            label="Repetir correo electrónico"
+            name="reEmail"
             required={true}
             error={errorsUsers}
-            value={formState["phone"]}
+            value={formState["reEmail"]}
             // disabled={existCi}
             onChange={handleChangeInput}
-            onBlur={() => {
-              validate("phone");
-            }}
+            onBlur={() => validate("reEmail")}
           />
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+            }}
+          >
+            <div
+              style={{
+                width: "35%",
+              }}
+            >
+              <Select
+                label="País"
+                name="prefix_phone"
+                error={errorsUsers}
+                required={true}
+                value={formState["prefix_phone"]}
+                options={PREFIX_COUNTRY}
+                onChange={handleChangeInput}
+                optionLabel={isMac ? "name" : "label"}
+                optionValue="id"
+                selectOptionsClassName={styles.selectOptions}
+              />
+            </div>
+            <div
+              style={{
+                width: "65%",
+              }}
+            >
+              <Input
+                label="Número de whatsApp"
+                type="number"
+                name="phone"
+                required={true}
+                error={errorsUsers}
+                value={formState["phone"]}
+                // disabled={existCi}
+                onChange={handleChangeInput}
+                // onFocus={() => setFocusDisabled(true)}
+                // onBlur={() => {
+                //   _onExist("phone");
+                //   validate("phone");
+                // }}
+              />
+            </div>
+          </div>
           <div className={styles.addUsersText}>
             {/* <div>
               Enviaremos un código de acceso al correo proporcionado para que
