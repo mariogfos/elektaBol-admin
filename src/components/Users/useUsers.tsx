@@ -86,7 +86,7 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
       obj = { ...obj, barrio_id: user?.datos?.barrio_id };
     }
 
-    setFormState({ ...formState, ...obj });
+    setFormState({ ...formState, ...obj, prefix_phone: "591" });
   };
 
   useEffect(() => {
@@ -173,23 +173,23 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
       errors = { ...errorsUsers };
       delete errors[field];
     }
-    if (field == "" || field === "password") {
-      errors = checkRules({
-        value: formState.password,
-        rules: ["required", "password"],
-        key: "password",
-        errors,
-      });
-    }
-    if (field == "" || field === "repPassword") {
-      errors = checkRules({
-        value: formState.repPassword,
-        rules: ["required", "same:password"],
-        key: "repPassword",
-        errors,
-        data: formState,
-      });
-    }
+    // if (field == "" || field === "password") {
+    //   errors = checkRules({
+    //     value: formState.password,
+    //     rules: ["required", "password"],
+    //     key: "password",
+    //     errors,
+    //   });
+    // }
+    // if (field == "" || field === "repPassword") {
+    //   errors = checkRules({
+    //     value: formState.repPassword,
+    //     rules: ["required", "same:password"],
+    //     key: "repPassword",
+    //     errors,
+    //     data: formState,
+    //   });
+    // }
 
     if (field == "" || field == "role_id") {
       errors = checkRules({
@@ -205,6 +205,15 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
         rules: ["required", "number", "ci"],
         key: "ci",
         errors,
+      });
+    }
+    if (field == "" || field === "reCi") {
+      errors = checkRules({
+        value: formState.reCi,
+        rules: ["required", "max:11", "same:ci"],
+        key: "reCi",
+        errors,
+        data: formState,
       });
     }
     if (field == "" || field == "name") {
@@ -239,10 +248,18 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
         errors,
       });
     }
+    // if (field == "" || field == "phone") {
+    //   errors = checkRules({
+    //     value: formState.phone,
+    //     rules: ["required", "number", "min:8"],
+    //     key: "phone",
+    //     errors,
+    //   });
+    // }
     if (field == "" || field == "phone") {
       errors = checkRules({
         value: formState.phone,
-        rules: ["required", "number", "min:8"],
+        rules: ["required"],
         key: "phone",
         errors,
       });
@@ -253,6 +270,15 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
         rules: ["required", "email"],
         key: "email",
         errors,
+      });
+    }
+    if (field == "" || field === "reEmail") {
+      errors = checkRules({
+        value: formState.reEmail,
+        rules: ["required", "same:email"],
+        key: "reEmail",
+        errors,
+        data: formState,
       });
     }
     if (level > 1) {

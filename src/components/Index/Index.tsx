@@ -21,22 +21,22 @@ const HomePage = () => {
     });
   }, []);
 
-  let totalHabitantes = dashboard?.data?.dptos.reduce(
+  let totalHabitantes = dashboard?.data?.dptos?.reduce(
     (acc: number, current: any) => acc + current.habitantes,
     0
   );
 
-  let totalHabilitados = dashboard?.data?.dptos.reduce(
+  let totalHabilitados = dashboard?.data?.dptos?.reduce(
     (acc: number, current: any) => acc + current.habilitados,
     0
   );
 
-  let totalAfiliados = dashboard?.data?.dptos.reduce(
+  let totalAfiliados = dashboard?.data?.dptos?.reduce(
     (acc: number, current: any) => acc + current.affiliate_count,
     0
   );
 
-  let data = dashboard?.data?.dptos.map((dpto: any) => {
+  let data = dashboard?.data?.dptos?.map((dpto: any) => {
     return {
       id: dpto?.id,
       titulo: dpto?.name,
