@@ -34,14 +34,25 @@ const Line1 = ({
   const [userId, setUserId]: any = useState(null);
   const [otherLeaders, setOtherLeaders] = useState([]);
   useEffect(() => {
-    setMainLeader(line1?.find((leader: any) => leader.main === "M"));
-    if (mainLeader != null) {
-      setOtherLeaders(
-        line1?.filter((leader: any) => leader.ci !== mainLeader.ci)
-      );
+    if (line1 && line1.length > 0) {
+      // Encontrar el primer líder con main === "M"
+      const main = line1.find((leader: any) => leader.main === "M");
+  
+      if (main) {
+        setMainLeader(main);
+        // Filtrar al resto de líderes excluyendo el mainLeader encontrado
+        setOtherLeaders(line1.filter((leader: any) => leader.ci !== main.ci));
+      } else {
+        // Si no hay mainLeader, todos los líderes se consideran otros líderes
+        setMainLeader(null);
+        setOtherLeaders(line1);
+      }
+    } else {
+      // Si line1 no tiene datos, resetea los estados
+      setMainLeader(null);
+      setOtherLeaders([]);
     }
   }, [line1]);
-
   return (
     <Card
       style={{
@@ -56,7 +67,9 @@ const Line1 = ({
     >
       <div style={{ width: "100%", display: "flex" }}>
         {mainLeader ? (
-          <div style={{ display: "flex", alignItems: "center", width: 370 }}>
+          <div style={{ display: "flex", alignItems: "center", width: 370 ,cursor:"pointer" }}  onClick={() => {
+            setUserId(mainLeader.user_id);
+          }}>
             <div className={styles["mainCard"]}>
               <div style={{ marginBottom: -25 }}>
                 <Avatar
@@ -67,9 +80,7 @@ const Line1 = ({
                       ".webp?d=" +
                       mainLeader?.user_updated_at
                   )}
-                  onClick={() => {
-                    setUserId(mainLeader.user_id);
-                  }}
+                 
                   style={{ cursor: "pointer" }}
                 />
                 <div style={{ position: "relative", top: -50, left: 30 }}>
@@ -170,7 +181,10 @@ const Line1 = ({
               </div>
             )}
           {otherLeaders?.map((leader: any, index: number) => (
-            <div key={index} className={styles["mainCardContainer"]}>
+            <div key={index} className={styles["mainCardContainer"]}  style={{ cursor: "pointer" }} onClick={(e) => {
+              e.preventDefault();
+              setUserId(leader.user_id);
+            }}>
               <div className={styles["mainCard"]}>
                 <Avatar
                   name={getFullName(leader)}
@@ -181,7 +195,7 @@ const Line1 = ({
                     e.preventDefault();
                     setUserId(leader.user_id);
                   }}
-                  style={{ cursor: "pointer" }}
+                 
                 />
                 <div className="tTitle" style={{ fontSize: 16, marginTop: 8 }}>
                   {getFullName(leader)}
