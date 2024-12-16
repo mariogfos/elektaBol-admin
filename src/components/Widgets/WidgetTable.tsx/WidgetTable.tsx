@@ -1,25 +1,125 @@
+import { useEffect, useState } from "react";
 import Table from "@/mk/components/ui/Table/Table";
 import style from "./WidgetTable.module.css";
-import { IconExport } from "@/components/layout/icons/IconsBiblioteca";
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconExport,
+} from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumber } from "@/mk/utils/numbers";
 import ProgresiveBar from "@/mk/components/ui/ProgresiveBar/ProgresiveBar";
 import HorizontalProgresiveBar from "@/mk/components/ui/HorizontalProgresiveBar/HorizontalProgresiveBar";
 import { RandomsColors } from "@/mk/utils/utils";
+import ColoredCircle from "@/mk/components/ui/ColoredCircle/ColoredCircle";
+import Select from "@/mk/components/forms/Select/Select";
+import Button from "@/mk/components/forms/Button/Button";
 
-const WidgetTable = ({ data }: any) => {
-  const dataWithPercentage = data.map((item: any) => {
+// let _goals = [
+//   { title: '', color: "var(--cSuccess)" },
+//   { title: '', color: "var(--cWarning)" },
+//   { title: ' ', color: "var(--cInfo)" },
+// ];
+const colorPalette = [
+  "var(--cSuccess)",
+  "var(--cWarning)",
+  "var(--cInfo)",
+  "#FFFF99",
+  "#00B3E6",
+  "#E6B333",
+  "#3366E6",
+  "#999966",
+  "#99FF99",
+  "#B34D4D",
+  "#80B300",
+  "#809900",
+  "#E6B3B3",
+  "#6680B3",
+  "#66991A",
+  "#FF99E6",
+  "#CCFF1A",
+  "#FF1A66",
+  "#E6331A",
+  "#33FFCC",
+  // Añade más colores si es necesario
+];
+
+const WidgetTable = ({ data, level, onClickLevel, title }: any) => {
+  // console.log(level,'lv')
+  const titleFirstColumnLabel =
+    level === 1 ? "Provincia" : level === 2 ? "Cantón" : "Parroquia";
+  const [goals, setGoals]: any = useState([]);
+  const [sortConfig, setSortConfig] = useState({
+    key: "percentage_hab",
+    direction: "descending",
+  });
+  let headGoal: any = [];
+  const dataWithPercentage = data?.map((item: any, i: number) => {
     const percentage_hab = (item.affiliate_count / item.habilitados) * 100;
+    let metas: any = {};
+    const goal_ids = Object.keys(item.goals);
+    let headGoal1: any = [];
+
+    goal_ids.map((goal, index) => {
+      if (headGoal.length === 0 && goal !== "") {
+        headGoal1.push({
+          key: goal,
+          label: goal,
+          responsive: "",
+          style: { justifyContent: "flex-end", textAlign: "right" },
+          onRender: (item: any) => {
+            return formatNumber(item.value, 0);
+          },
+          sumarize: true,
+        });
+      }
+      metas[goal] = item.goals[goal];
+    });
+    if (headGoal.length === 0) {
+      headGoal = headGoal1;
+    }
+
     return {
       ...item,
-      percentage_hab, // Agrega el porcentaje calculado
+      ...metas,
+      percentage_hab,
+      i, // Añade el índice aquí
     };
   });
 
-  // 2. Ordenar los datos por 'percentage_hab' de mayor a menor
-  const sortedData = dataWithPercentage.sort(
-    (a: any, b: any) => b.percentage_hab - a.percentage_hab
-  );
+  // useEffect(() => {
 
+  //   let g = _goals
+  //     _goals.map((goal,index) => {
+  //       // console.log(g[index].title,"TITLEEEEE")
+  //       g[index].title = headGoal[index]?.key
+  //     }
+  //     )
+  //     setGoals([...g]);
+  //     // console.log("GG",g)
+  //     }, [data]);
+
+  useEffect(() => {
+    if (headGoal.length > 0) {
+      const colorsForGoals = colorPalette.slice(0, headGoal.length);
+      const newGoals = headGoal.map((goalItem: any, index: number) => ({
+        title: goalItem.key,
+        color: colorsForGoals[index],
+      }));
+      setGoals(newGoals);
+    }
+  }, [data]);
+  const sortedData = dataWithPercentage?.sort((a: any, b: any) => {
+    const aValue = a[sortConfig.key];
+    const bValue = b[sortConfig.key];
+
+    if (aValue < bValue) {
+      return sortConfig.direction === "ascending" ? -1 : 1;
+    }
+    if (aValue > bValue) {
+      return sortConfig.direction === "ascending" ? 1 : -1;
+    }
+    return 0;
+  });
   const header = [
     {
       key: "index",
@@ -29,12 +129,10 @@ const WidgetTable = ({ data }: any) => {
       onRender: (item: any) => {
         return item.i;
       },
-      // sumarize: true,
     },
     {
       key: "name",
-      label: "Departamento",
-
+      label: titleFirstColumnLabel,
       responsive: "",
     },
     {
@@ -42,11 +140,9 @@ const WidgetTable = ({ data }: any) => {
       label: "Población total",
       responsive: "onlyDesktop",
       style: { justifyContent: "flex-end", textAlign: "right" },
-      // list: {
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
-      //},
       sumarize: true,
     },
     {
@@ -69,27 +165,18 @@ const WidgetTable = ({ data }: any) => {
       },
       sumarize: true,
     },
-    // {
-    //   key: "percentage_hab",
-    //   label: "Porcentaje de afiliación",
-    //   responsive: "onlyDesktop",
-    //   style: { justifyContent: "flex-end",textAlign:'right' },},
-    //   onRender: (item: any) => {
-    //     const percentage =
-    //       (item.item?.affiliate_count / item.item?.habilitados) * 100;
-    //     return `${formatNumber(percentage, 2)}%`;
-    //   },
-    // },
-    {
-      key: "pid",
-      label: "Votos Creemos 2020",
-      responsive: "",
-      style: { justifyContent: "flex-end", textAlign: "right" },
-      onRender: (item: any) => {
-        return formatNumber(item.value, 0);
-      },
-      sumarize: true,
-    },
+    //  {
+    //    key: "pid",
+    //    label: "Votos PID 2023",
+    //    responsive: "",
+    //    style: { justifyContent: "flex-end", textAlign: "right" },
+    //    onRender: (item: any) => {
+    //      return formatNumber(item.value, 0);
+    //    },
+    //    sumarize: true,
+    //  },
+    ...headGoal,
+
     {
       key: "percentage_hab",
       label: "Porcentaje de afiliación",
@@ -103,39 +190,102 @@ const WidgetTable = ({ data }: any) => {
             total={sumas?.habilitados}
             current={sumas?.affiliate_count}
             height={24}
-            // className={'V1'}
             color="var(--cAccent)"
             goal={[sumas.pid]}
           />
         );
       },
       onRender: (item: any) => {
+        // console.log(item?.item?.goals['META 1'],'item.item/goals')
         return (
           <HorizontalProgresiveBar
             total={item.item?.habilitados}
             current={item.item?.affiliate_count}
             height={24}
             color={RandomsColors[item.i]}
-            goal={[item.item?.pid]}
+            goal={Object.values(item.item?.goals)}
+            goalColors={goals.map((goal: any) => goal.color)}
           />
         );
       },
     },
   ];
 
+  const sortingOptions = [
+    { id: "name", name: titleFirstColumnLabel },
+    { id: "habilitados", name: "Habilitados totales" },
+    { id: "affiliate_count", name: "Afiliados totales" },
+    { id: "percentage_hab", name: "Porcentaje de afiliación" },
+  ];
+  const sortDirectionOptions = [
+    { id: "ascending", name: "Ascendente" },
+    { id: "descending", name: "Descendente" },
+  ];
+  const onClick = (row: any) => {
+    onClickLevel(row);
+  };
   return (
     <div className={style.container}>
       <section>
-        <p>Resumen general a nivel Nacional</p>
-        <IconExport color="var(--cWhiteV2)" />
+        <p>{title}</p>
+        <div className={style.sortControls}>
+          <label
+            style={{
+              display: "flex",
+              width: 260,
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            Ordenar por :
+          </label>
+
+          <Select
+            name="sortKey"
+            options={sortingOptions}
+            optionLabel="name"
+            optionValue="id"
+            value={sortConfig.key}
+            className={style.select}
+            inputStyle={{ marginBottom: 0, maxWidth: 200 }}
+            onChange={(e: any) =>
+              setSortConfig({ ...sortConfig, key: e.target.value })
+            }
+          />
+          <Select
+            name="sortDirection"
+            options={sortDirectionOptions}
+            optionLabel="name"
+            optionValue="id"
+            value={sortConfig.direction}
+            className={style.select}
+            inputStyle={{ marginBottom: 0, maxWidth: 200 }}
+            onChange={(e: any) =>
+              setSortConfig({ ...sortConfig, direction: e.target.value })
+            }
+          />
+        </div>
+        {/* <IconExport color="var(--cWhiteV2)" /> */}
       </section>
       <Table
         data={sortedData}
         header={header}
+        onRowClick={(row: any) => onClick(row)}
         className="striped"
         sumarize={true}
-        // height="340px"
       />
+      {goals.length > 0 && (
+        <div className={style.coloresSection}>
+          Metas
+          {goals.map((goal: any, index: number) => (
+            <ColoredCircle
+              key={index}
+              color={goal.color}
+              tooltipText={goal.title}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

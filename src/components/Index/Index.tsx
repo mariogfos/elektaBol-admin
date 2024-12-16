@@ -7,7 +7,6 @@ import styles from "./index.module.css";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import WidgetMapa from "../../modulos/Statistics/WidgetMapa/WidgetMapa";
 import HistoryTitle from "@/modulos/Statistics/HistoryTitle";
 import DashboardMap from "../DashboardMap/DashboardMap";
 
@@ -43,22 +42,23 @@ const HomePage = () => {
     reLoad(params);
   }, [params]);
 
-  let totalHabilitados = dashboard?.data?.dptos.reduce(
+  let totalHabilitados = dashboard?.data?.entidad.reduce(
     (acc: number, current: any) => acc + current.habilitados,
     0
   );
 
-  let totalAfiliados = dashboard?.data?.dptos.reduce(
+  let totalAfiliados = dashboard?.data?.entidad.reduce(
     (acc: number, current: any) => acc + current.affiliate_count,
     0
   );
 
-  console.log("dashboard", dashboard?.data);
-
   const onClick = (row: any) => {
-    if (params?.level === 3) {
+    console.log("row", row);
+    if (params?.level === 6) {
       return;
     }
+
+    console.log("params index", params);
 
     const item: any = dashboard?.data?.entidad.find((d: any) => d.id == row.id);
 
@@ -66,11 +66,12 @@ const HomePage = () => {
     setHistTitulos((prev) => [...prev, item?.name]);
 
     setItemSelected(item);
+    console.log("itemSelected", itemSelected);
     setParams({
       ...params,
       searchBy: item?.id,
-      level: (params?.level || 0) + 1,
-      code: item?.code.toString(),
+      level: params?.level === 1 ? params?.level + 3 : params?.level + 1,
+      code: item?.code !== null ? item?.code.toString() : item?.id.toString(),
     });
   };
 
@@ -117,13 +118,16 @@ const HomePage = () => {
         />
       )}
       <section>
-        <DashboardMap
-          data={dashboard?.data}
-          onClick={onClick}
-          params={[params, setParams]}
-          entidadData={user}
-          itemSelected={itemSelected}
-        />
+        {params?.level <= 6 && (
+          <DashboardMap
+            data={dashboard?.data}
+            onClick={onClick}
+            params={[params, setParams]}
+            entidadData={user}
+            itemSelected={itemSelected}
+            isProvince={true}
+          />
+        )}
 
         <div>
           <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />
@@ -132,8 +136,23 @@ const HomePage = () => {
       </section>
       <section>
         <div>
-          {dashboard?.data?.dptos && (
-            <WidgetTable data={dashboard?.data.dptos} />
+          {dashboard?.data?.entidad && (
+            <WidgetTable
+              data={dashboard?.data.entidad}
+              title={`Resumen general a nivel ${
+                params?.level === 1
+                  ? "Nacional"
+                  : params?.level === 4
+                  ? "Departamento"
+                  : params?.level === 5
+                  ? "Provincia"
+                  : params?.level === 6
+                  ? "Municipio"
+                  : "Distrito municipal"
+              }`}
+              level={params?.level}
+              onClickLevel={onClick}
+            />
           )}
         </div>
         <div>

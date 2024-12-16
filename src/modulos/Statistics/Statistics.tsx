@@ -62,6 +62,8 @@ const Statistics = () => {
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
 
+  console.log('data de stats: ', stads?.data)
+
   const onClick = (code: any) => {
     const item: any = stads.data.tabla.find((d: any) => d.code == code);
 

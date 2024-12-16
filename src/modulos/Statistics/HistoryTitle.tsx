@@ -1,21 +1,29 @@
+import { useState } from "react";
 import styles from "./HistoryTitle.module.css";
+import { useAuth } from "@/mk/contexts/AuthProvider";
 
-const HistoryTitle = ({ histTitulo, onBack }: any) => {
+const HistoryTitle = ({ histTitulos, onBack, param }: any) => {
+  const [params, setParams] = useState(param);
+  const { user } = useAuth();
   return (
     <div className={styles["container"]}>
       <nav>
         <ol>
-          {histTitulo.map((title: any, index: number) => (
+          {histTitulos?.map((title: any, index: number) => (
             <div
               key={index}
-              onClick={() =>
-                histTitulo.length - 1 > index ? onBack(index) : {}
-              }
+              onClick={() => {
+                if (index === histTitulos.length - 1) return;
+                onBack(index);
+              }}
             >
               <li className={styles.breadcrumbItem}>
-                {index > 0 && (
+                {/* {index > 0 && ( */}
+                {params[0]?.level > user?.role?.level && index > 0 && (
                   <span className={styles.breadcrumbSeparator}>&lt;</span>
                 )}
+
+                {/* )} */}
                 <span className={styles.breadcrumbCurrent}>{title}</span>
               </li>
             </div>
