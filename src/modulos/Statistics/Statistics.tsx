@@ -62,8 +62,11 @@ const Statistics = () => {
     return total % 1 === 0 ? total : Number(total.toFixed(2));
   };
 
-  const onClick = (code: any) => {
-    const item: any = stads.data.tabla.find((d: any) => d.code == code);
+  console.log('data de stats: ', stads?.data)
+
+  const onClick = (selectedItem: any) => {
+    console.log('code', selectedItem)
+    const item: any = stads.data.tabla.find((d: any) => d.code == selectedItem?.code);
 
     const t = histTitulo[0];
     t.push(item?.name);
@@ -75,7 +78,7 @@ const Statistics = () => {
       ...params,
       searchBy: item?.id,
       level: (params?.level || 0) + 1,
-      code: code?.toString(),
+      code: selectedItem?.code?.toString(),
     });
   };
 

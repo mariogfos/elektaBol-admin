@@ -46,19 +46,19 @@ export const DashboardMap = ({
       <>
         <div>
           Resumen poblacional en{" "}
-          {params[0]?.level === 0
+          {params[0]?.level === 1
             ? "Bolivia"
-            : params[0]?.level === 1
+            : params[0]?.level === 4
             ? "Departamento"
-            : params[0]?.level === 2
+            : params[0]?.level === 5
             ? "Provincia"
-            : params[0]?.level === 3
+            : params[0]?.level === 6
             ? "Municipio"
             : "Distrito municipal"}
         </div>
         <div className={styles.stats}>
           <Card style={{ textAlign: "right", fontSize: 16 }}>
-            <p>Población Censo 2022</p>
+            <p>Población Censo 2024</p>
             {params[0]?.level == entidadData?.role?.level ? (
               <p>{formatNumber(entidadData?.entidad?.habitantes)}</p>
             ) : (
@@ -73,14 +73,14 @@ export const DashboardMap = ({
               <p>{formatNumber(totalHabilitados)}</p>
             )}
           </Card>
-          <Card style={{ textAlign: "right", fontSize: 16 }}>
+          {/* <Card style={{ textAlign: "right", fontSize: 16 }}>
             <p>Votos obtenidos PID 2024</p>
             {params[0]?.level == entidadData?.role?.level ? (
               <p>{formatNumber(entidadData?.entidad?.pid)}</p>
             ) : (
               <p>{formatNumber(totalPid)}</p>
             )}
-          </Card>
+          </Card> */}
           <Card style={{ textAlign: "right", fontSize: 16 }}>
             <p>Afiliados en Elekta</p>
             <p>{formatNumber(totalAfiliados)}</p>
@@ -89,7 +89,13 @@ export const DashboardMap = ({
       </>
 
       <div className={styles.ecuador}>
-        <WidgetMapa data={data?.entidad} />
+        <WidgetMapa
+          data={data?.entidad}
+          isProvince={isProvince}
+          itemSelected={itemSelected}
+          onClick={onClick}
+          params={params}
+        />
         {params[0]?.level == 1 && (
           <div>
             <Image

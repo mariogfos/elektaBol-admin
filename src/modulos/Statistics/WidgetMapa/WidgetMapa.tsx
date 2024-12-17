@@ -75,6 +75,16 @@ import {
   pathsSantaCruz,
   pathsTarija,
   pathsSantaCruzProvincias,
+  pathsSantaCruzProvinciaVelasco,
+  pathsSantaCruzProvinciaIchilo,
+  pathsSantaCruzProvinciaCordillera,
+  pathsSantaCruzProvinciaSara,
+  pathsSantaCruzProvinciaObispoSantistevan,
+  pathsSantaCruzProvinciaWarnes,
+  pathsSantaCruzProvinciaManuelCaballero,
+  pathsSantaCruzProvinciaFlorida,
+  pathsSantaCruzProvinciaAndrez,
+  pathsSantaCruzProvinciaChiquito,
 } from "./pathMapas";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import { getUrlImages } from "@/mk/utils/string";
@@ -84,7 +94,7 @@ type PropsType = {
   onClick?: any;
   params?: any;
   itemSelected?: any;
-  isProv?: boolean;
+  isProvince?: boolean;
 };
 
 const WidgetMapa = ({
@@ -92,7 +102,7 @@ const WidgetMapa = ({
   onClick = () => {},
   params = [{}, () => {}],
   itemSelected,
-  isProv = false,
+  isProvince = false,
 }: PropsType) => {
   const svgRef: any = useRef(null);
   const [param, setParam] = params;
@@ -107,15 +117,44 @@ const WidgetMapa = ({
   let path: any = [];
   let paramLevel = param?.level == undefined ? 0 : param?.level;
 
-  console.log("isProv", isProv);
+  if ((param?.level || 1) == 1) path = pathsPais;
 
-  if ((param?.level || 0) == 0) path = pathsPais;
-
-  if (isProv) {
-    if (param?.level == 1) {
+  if (isProvince) {
+    if (param?.level == 4) {
       path = pathsSantaCruzProvincias;
     }
-    if (param?.level == 2) {
+    if (param?.level == 5) {
+      switch (param?.code) {
+        case "3":
+          path = pathsSantaCruzProvinciaVelasco;
+          break;
+        case "4":
+          path = pathsSantaCruzProvinciaIchilo;
+          break;
+        case "6":
+          path = pathsSantaCruzProvinciaSara;
+          break;
+        case "10":
+          path = pathsSantaCruzProvinciaObispoSantistevan;
+          break;
+        case "2":
+          path = pathsSantaCruzProvinciaWarnes;
+          break;
+        case "13":
+          path = pathsSantaCruzProvinciaManuelCaballero;
+          break;
+        case "9":
+          path = pathsSantaCruzProvinciaFlorida;
+          break;
+        case "1":
+          path = pathsSantaCruzProvinciaAndrez;
+          break;
+        case "5":
+          path = pathsSantaCruzProvinciaChiquito;
+          break;
+        default:
+          return null;
+      }
     }
   } else {
     if (param?.level == 1) {
@@ -344,18 +383,20 @@ const WidgetMapa = ({
   }
 
   const _onClick = (code: string | number) => {
-    onClick(code);
+    let row = data?.find((d: any) => d.code == code);
+    onClick(row);
   };
 
-  console.log("paramLevel", paramLevel);
+  console.log("param", param);
   console.log("data grinhouse: ", data);
-  console.log("param level: ", paramLevel);
 
   const onTooltip = (event: any, id: string | number, show: boolean = true) => {
     if (!show) return setTooltip({ visible: false, x: 0, y: 0, item: null });
     const rect = event.target.getBoundingClientRect();
     const svgRect = svgRef.current.getBoundingClientRect();
-    const item = data?.find((d: any) => d.code == id) || {
+    const item = data?.find((d: any) =>
+      param?.level >= 5 ? d.id == id : d.code == id
+    ) || {
       id: id || itemSelected?.id,
       name: itemSelected?.name || "",
       habitantes: itemSelected?.habitantes || 0,
@@ -364,13 +405,11 @@ const WidgetMapa = ({
       total: 0,
     };
 
-    console.log("item", item);
-
     setTooltip({
       visible: id ? true : false,
       x: rect.left - svgRect.left + rect.width / 2,
       y: rect.top - svgRect.top,
-      item: paramLevel < 2 ? item : null,
+      item: paramLevel <= 6 ? item : null,
     });
   };
 
@@ -401,7 +440,7 @@ const WidgetMapa = ({
 
   const Tooltip = ({ item }: any) => {
     return (
-      paramLevel < 2 && (
+      paramLevel <= 6 && (
         <div
           className={styles.tooltip}
           style={{
@@ -520,7 +559,7 @@ const WidgetMapa = ({
                 path.title !== "map" &&
                 path.title !== "line" &&
                 path.title !== "salar" &&
-                param?.level != 2 &&
+                param?.level != 7 &&
                 path.title !== "disabled" &&
                 path.code
                   ? _onClick(path.code)
@@ -547,7 +586,7 @@ const WidgetMapa = ({
                     path.title === "map" ||
                     path.title === "line" ||
                     path.title === "salar" ||
-                    param?.level < 2
+                    param?.level < 7
                       ? "pointer"
                       : "default",
                 }}
