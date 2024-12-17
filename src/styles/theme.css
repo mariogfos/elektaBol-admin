@@ -14,11 +14,38 @@
   --cBlackV1: #212529;
   --cBlackV2: #656f78;
   --cBlackV3: #393c3f;
+  --cHover: #ffffff0d;
+  --cHoverAccent:#F5822033;
+  --cHoverSuccess:#00AF9033;
+  --cHoverInfo:#39ACEC33;
+  --cHoverError:#DA5D5D33;
+  --cHoverWarning:#e1c15133;
   /* Paleta de los toast */
   --cError: #da5d5d;
   --cSuccess: #00af90;
   --cInfo: #39acec;
   --cWarning: #e1c151;
+  /* Paleta de colores Random */
+  --cRandom1: #a2d2bf;
+  --cRandom2: #a9cce3;
+  --cRandom3: #d8bfd8;
+  --cRandom4: #faedcb;
+  --cRandom5: #b382d9;
+  --cRandom6: #f0a8b2;
+  --cRandom7: #ffd9da;
+  --cRandom8: #a2faa3;
+  --cRandom9: #faff7f;
+  --cRandom10: #d3c4e3;
+  --cRandom11: #96bdc6;
+  --cRandom12: #f8dda4;
+  --cRandom13: #ffc6ff;
+  --cRandom14: #f08080;
+  --cRandom15: #bd4f91;
+  --cRandom16: #ff7f51;
+  --cRandom17: #fdf0d5;
+  --cRandom18: #f7b267;
+  --cRandom19: #b8c0ff;
+
   /* Tamaños de los textos fluido */
   --sXxl: 24px;
   --sXl: 20px;
@@ -155,7 +182,7 @@ svg.circle {
   left: 28px;
   background-color: var(--cPrimary);
   border-radius: 9999px;
-  border: 2px solid var(--cWhiteV3);
+  border: 2px solid var(--cWhiteV1);
   width: 14px;
   height: 14px;
 }
@@ -255,4 +282,30 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0px 1000px var(--cBlack) inset;
   -webkit-text-fill-color: var(--cWhite);
+}
+
+.apexcharts-xaxis-label,
+.apexcharts-yaxis-label {
+  background: transparent !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  margin-right: 4px;
+}
+.apexcharts-tooltip {
+  background: var(--cWhite);
+  color: var(--cBlack);
+}
+
+#SvgjsText8413 {
+  background-color: red !important;
+}
+
+.truncatedText {
+  /* background-color: #39acec; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:100%
 }

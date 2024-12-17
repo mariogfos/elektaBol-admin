@@ -6,9 +6,12 @@ import {
   IconEmail,
   IconMenu,
   IconNotification,
+  IconSetting,
 } from "../layout/icons/IconsBiblioteca";
 import DataSearch from "@/mk/components/forms/DataSearch/DataSearch";
-import { getDateStrMes, getDateTimeStrMes } from "@/mk/utils/date";
+import Tooltip from "../Tooltip/Tooltip";
+import Dropdown from "@/mk/components/ui/Dropdown/Dropdown";
+
 type PropsType = {
   isTablet: boolean;
   user: any;
@@ -38,7 +41,14 @@ const Header = ({
     return null;
   },
 }: PropsType) => {
-  const isHome = router.pathname === "/";
+  const isActive = (path: string) => router.pathname === path;
+  const menuItems = [
+    { name: "Territorio", route: "/config" },
+    { name: "Afiliados", route: "/educations" },
+    { name: "Metas", route: "/goals" },
+    { name: "Gamificación", route: "/gamification" },
+  ];
+
   const Title = () => {
     return (
       <div className={styles["header-title"]}>
@@ -54,6 +64,7 @@ const Header = ({
       </div>
     );
   };
+
   if (isTablet)
     return (
       <>
@@ -92,12 +103,13 @@ const Header = ({
           name="search"
         /> */}
       </div>
-      <div>
-        <IconEmail />
+      <div className={styles.tooltip}>
+        <Dropdown
+          trigger={<IconSetting style={{ cursor: "pointer" }} />}
+          items={menuItems}
+        />
       </div>
-      <div>
-        <IconNotification />
-      </div>
+
       <div style={{ cursor: "pointer" }}>
         <Avatar
           name={getFullName(user)}

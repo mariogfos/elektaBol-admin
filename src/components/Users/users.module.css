@@ -14,7 +14,7 @@
     @media (max-width: 897px) {
       display: flex;
       flex-direction: column;
-      gap:0;
+      gap: 0;
     }
     /* display: flex;
         width:540px; */
@@ -43,7 +43,6 @@
     flex-direction: row;
     justify-content: center;
     margin-top: var(--sL);
-    margin-bottom: var(--sL);
     gap: var(--spL);
   }
   .cardInfo {
@@ -121,4 +120,12 @@
 .tab:not(:last-child)::after {
   content: ">";
   margin: 0 8px;
+}
+
+.selectOptions {
+  & > ul {
+    & li {
+      padding: 8px 0px;
+    }
+  }
 }
