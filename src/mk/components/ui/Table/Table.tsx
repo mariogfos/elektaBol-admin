@@ -10,6 +10,7 @@ import styles from "./styles.module.css";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { formatNumber } from "@/mk/utils/numbers";
 import useScrollbarWidth from "@/mk/hooks/useScrollbarWidth";
+import { get } from "http";
 
 export type RenderColType = {
   value: any;
@@ -51,6 +52,15 @@ type PropsType = {
   showHeader?: boolean;
 };
 
+const getWidth = (width: any) => {
+  if (!width || width == "" || width == "100%") return { flex: "1" };
+  width = ("" + width).replace("px", "");
+  return {
+    flex: `0 0 ${width}px`,
+    width: `${width}px`,
+  };
+};
+
 const Table = ({
   header = [],
   data,
@@ -68,14 +78,14 @@ const Table = ({
   height,
   showHeader = true,
 }: PropsType) => {
-  const { isTablet } = useScreenSize();
+  const { isMobile } = useScreenSize();
   const [scrollbarWidth, setScrollbarWidth] = useState();
   return (
     <div
       className={styles.table + " " + styles[className] + " " + className}
       style={style}
     >
-      {(!isTablet || !onTabletRow) && showHeader && (
+      {(!isMobile || !onTabletRow) && showHeader && (
         <Head
           header={header}
           actionsWidth={actionsWidth}
@@ -136,7 +146,8 @@ const Head = memo(function Head({
           className={styles[item.responsive] + " " + item.className}
           style={{
             ...item.style,
-            ...(item.width ? { width: item.width } : {}),
+            overflow: "hidden",
+            ...getWidth(item.width),
           }}
           title={onRenderHead ? onRenderHead(item, index) : item.label}
         >
@@ -145,10 +156,7 @@ const Head = memo(function Head({
       ))}
 
       {onButtonActions && (
-        <div
-          className={styles.onlyDesktop}
-          style={{ width: actionsWidth || "150px" }}
-        >
+        <div className={styles.onlyDesktop} style={{ ...getWidth("100") }}>
           Acciones
         </div>
       )}
@@ -198,7 +206,7 @@ const Sumarize = memo(function Sumarize({
           className={styles[item.responsive] + " " + item.className}
           style={{
             ...item.style,
-            ...(item.width ? { width: item.width } : {}),
+            ...getWidth(item.width),
           }}
         >
           {item.onRenderFoot ? (
@@ -212,10 +220,7 @@ const Sumarize = memo(function Sumarize({
       ))}
 
       {onButtonActions && (
-        <div
-          className={styles.onlyDesktop}
-          style={{ width: actionsWidth || "300px" }}
-        >
+        <div className={styles.onlyDesktop} style={{ ...getWidth("100") }}>
           {" "}
         </div>
       )}
@@ -246,7 +251,7 @@ const Body = memo(function Body({
   setScrollbarWidth?: Function;
   onRenderBody?: null | ((row: any, i: number) => any);
 }) {
-  const { isTablet } = useScreenSize();
+  const { isMobile } = useScreenSize();
   const divRef = useRef(null);
   const scrollWidth = useScrollbarWidth(divRef);
   useEffect(() => {
@@ -259,7 +264,7 @@ const Body = memo(function Body({
     >
       {data?.map((row: Record<string, any>, index: number) => (
         <Fragment key={"r_" + index}>
-          {isTablet && onTabletRow ? (
+          {isMobile && onTabletRow ? (
             onTabletRow(row, index, onRowClick)
           ) : onRenderBody ? (
             <div key={"row" + index} onClick={(e) => onRowClick(row)}>
@@ -273,7 +278,7 @@ const Body = memo(function Body({
                   className={styles[item.responsive] + " " + item.className}
                   style={{
                     ...item.style,
-                    ...(item.width ? { width: item.width } : {}),
+                    ...getWidth(item.width),
                   }}
                 >
                   {item.onRender &&
@@ -289,7 +294,7 @@ const Body = memo(function Body({
               {onButtonActions && (
                 <span
                   className={styles.onlyDesktop}
-                  style={{ width: actionsWidth || "300px" }}
+                  style={{ ...getWidth("100") }}
                 >
                   {onButtonActions(row)}
                 </span>
@@ -301,4 +306,5 @@ const Body = memo(function Body({
     </main>
   );
 });
+
 export default Table;

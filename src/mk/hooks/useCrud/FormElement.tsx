@@ -278,6 +278,7 @@ const FormElement = memo(
               prefix={_field.prefix}
               images={item[_field.images]}
               item={item}
+              // autoOpen={data?.action == "add"}
             />
           </LeftRigthElement>
         );

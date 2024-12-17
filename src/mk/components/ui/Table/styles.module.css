@@ -20,6 +20,7 @@
     background-color: var(--cBlackV2);
     border-top-left-radius: var(--bRadius);
     border-top-right-radius: var(--bRadius);
+    overflow: hidden;
     & > div {
       padding: var(--spM);
       padding-bottom: var(--spS);
@@ -30,6 +31,7 @@
       align-items: center; /* Centra el contenido verticalmente */
       justify-content: center; /* Centra el contenido horizontalmente */
       text-align: center; /* Centra el texto */
+      /* white-space: nowrap; */
     }
     & > div:first-child {
       border-left: 0;
