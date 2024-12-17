@@ -8,7 +8,7 @@ First, run the development server:
 npm run devss
 # oras
 yarn dev
-# or
+# orasdad
 pnpm dev
 # or
 bun dev
