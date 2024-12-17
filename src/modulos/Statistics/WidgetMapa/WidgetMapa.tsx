@@ -85,6 +85,8 @@ import {
   pathsSantaCruzProvinciaFlorida,
   pathsSantaCruzProvinciaAndrez,
   pathsSantaCruzProvinciaChiquito,
+  pathsSantaCruzProvinciaSandoval,
+  pathsSantaCruzProvinciaVallegrande,
 } from "./pathMapas";
 import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import { getUrlImages } from "@/mk/utils/string";
@@ -151,6 +153,12 @@ const WidgetMapa = ({
           break;
         case "5":
           path = pathsSantaCruzProvinciaChiquito;
+          break;
+        case "12":
+          path = pathsSantaCruzProvinciaSandoval;
+          break;
+        case "8":
+          path = pathsSantaCruzProvinciaVallegrande;
           break;
         default:
           return null;
