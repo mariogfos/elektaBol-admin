@@ -19,9 +19,9 @@ const HomePage = () => {
     "Mapa de " + (user?.entidad?.name || "Bolivia"),
   ]);
   const paramInitial: any = {
-    level: user?.role?.level,
-    code: user?.entidad?.code?.toString(),
-    searchBy: user?.entidad?.id || "",
+    level: 1,
+    code: "",
+    searchBy: "",
   };
   const [params, setParams] = useState(paramInitial);
   const {
@@ -31,6 +31,8 @@ const HomePage = () => {
   } = useAxios("/dashboard", "GET", {
     ...params,
   });
+
+  console.log('user,', user);
 
   useEffect(() => {
     setStore({
