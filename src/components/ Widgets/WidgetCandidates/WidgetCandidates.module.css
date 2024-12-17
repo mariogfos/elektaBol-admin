@@ -1,0 +1,24 @@
+.widgetCandidates {
+    height: 508px;
+    border: none;
+
+    &>div:nth-child(2) {
+        height: 450px;
+        overflow-y: auto;
+
+        &>div {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-block: 16px;
+
+        }
+    }
+
+    &>p {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       margin-top: 169px;
+    }
+}

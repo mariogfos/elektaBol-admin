@@ -27,11 +27,13 @@ const Statistics = () => {
     0: "recintos",
     1: "mesas",
   };
+
   useEffect(() => {
     setStore({
       title: "Estadísticas electorales",
     });
   }, []);
+
   useEffect(() => {
     reLoad(params);
   }, [params]);

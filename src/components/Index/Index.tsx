@@ -7,30 +7,41 @@ import styles from "./index.module.css";
 import WidgetProgresiveBar from "../Widgets/WidgetProgresiveBar/WidgetProgresiveBar";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import WidgetMaps from "../ Widgets/WidgetMaps/WidgetMaps";
+import WidgetMapa from "../../modulos/Statistics/WidgetMapa/WidgetMapa";
+import HistoryTitle from "@/modulos/Statistics/HistoryTitle";
+import DashboardMap from "../DashboardMap/DashboardMap";
 
 const HomePage = () => {
-  const { data: dashboard } = useAxios("/dashboard", "GET", {
-    fullType: "L",
-    searchBy: "",
-  });
-  const { setStore } = useAuth();
-  useEffect(() => {
-    setStore({
-      title: "Panel de control",
-    });
-  }, []);
   const { user } = useAuth();
+  const [itemSelected, setItemSelected]: any = useState({});
+  const { setStore } = useAuth();
+  const [histParams, setHistParams] = useState<any[]>([]);
+  const [histTitulos, setHistTitulos] = useState<string[]>([
+    "Mapa de " + (user?.entidad?.name || "Bolivia"),
+  ]);
   const paramInitial: any = {
     level: user?.role?.level,
     code: user?.entidad?.code?.toString(),
     searchBy: user?.entidad?.id || "",
   };
   const [params, setParams] = useState(paramInitial);
-  let totalHabitantes = dashboard?.data?.dptos?.reduce(
-    (acc: number, current: any) => acc + current.habitantes,
-    0
-  );
+  const {
+    data: dashboard,
+    reLoad,
+    waiting,
+  } = useAxios("/dashboard", "GET", {
+    ...params,
+  });
+
+  useEffect(() => {
+    setStore({
+      title: "Panel de control",
+    });
+  }, []);
+
+  useEffect(() => {
+    reLoad(params);
+  }, [params]);
 
   let totalHabilitados = dashboard?.data?.dptos?.reduce(
     (acc: number, current: any) => acc + current.habilitados,
@@ -41,56 +52,82 @@ const HomePage = () => {
     (acc: number, current: any) => acc + current.affiliate_count,
     0
   );
-  let data = dashboard?.data?.dptos?.map((dpto: any) => {
-    return {
-      id: dpto?.id,
-      titulo: dpto?.name,
-      habitantes: dpto?.habitantes,
-      habilitados: dpto?.habilitados,
-      afiliados: dpto?.affiliate_count,
-    };
-  });
+
+  console.log("dashboard", dashboard?.data);
+
+  const onClick = (row: any) => {
+    if (params?.level === 3) {
+      return;
+    }
+
+    const item: any = dashboard?.data?.entidad.find((d: any) => d.id == row.id);
+
+    setHistParams((prev) => [...prev, params]);
+    setHistTitulos((prev) => [...prev, item?.name]);
+
+    setItemSelected(item);
+    setParams({
+      ...params,
+      searchBy: item?.id,
+      level: (params?.level || 0) + 1,
+      code: item?.code.toString(),
+    });
+  };
+
+  const onBack = (index: number) => {
+    // Recorta los parámetros e historial hasta el índice especificado
+    const newHistParams = histParams.slice(0, index + 1);
+    const newHistTitulos = histTitulos.slice(0, index + 1);
+
+    // Actualiza los estados de historial
+    setHistParams(newHistParams);
+    setHistTitulos(newHistTitulos);
+
+    if (index === 0) {
+      // Si es el nivel inicial, establece los parámetros iniciales
+      setParams(paramInitial);
+      setHistParams([]);
+      setHistTitulos(["Mapa de " + (user?.entidad?.name || "Bolivia")]);
+    } else {
+      // Obtiene el nivel anterior
+      const item = newHistParams[index];
+
+      if (item) {
+        setParams({
+          ...item,
+          // level: item?.level,
+          code: item?.code?.toString(), // Asegura que el código sea una cadena
+        });
+      } else {
+        // Si no hay datos en el historial, usa los parámetros iniciales
+        setParams(paramInitial);
+      }
+    }
+  };
 
   return (
     <div className={styles.container}>
-    {dashboard?.data.countDown && (
-        <WidgetTime data={dashboard?.data.countDown} />
-      )} 
+      {params?.level == 1 ? (
+        <WidgetTime data={dashboard?.data?.countDown} />
+      ) : (
+        <HistoryTitle
+          param={[params, setParams]}
+          histTitulos={histTitulos}
+          onBack={onBack}
+        />
+      )}
       <section>
-        <div>
-          <WidgetMaps
-            tooltipsData={data}
-            totalHabitanes={totalHabitantes}
-            totalHabilitados={totalHabilitados}
-            totalAfiliados={totalAfiliados}
-            // totalPid={totalPid}
-          />
-        </div>
-        <div>
-          {/* <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} /> */}
-         
-          <WidgetProgresiveBar
-            data={{
-              totalAfiliados:
-                user?.role?.level === params?.level
-                  ? user?.entidad?.affiliate_count
-                  : dashboard?.data?.entidad.reduce(
-                      (acc: number, current: any) =>
-                        acc + current.affiliate_count,
-                      0
-                    ),
-              totalHabilitados:
-                user?.role?.level === params?.level
-                  ? user?.entidad?.habilitados
-                  : dashboard?.data?.entidad.reduce(
-                      (acc: number, current: any) => acc + current.habilitados,
-                      0
-                    ),
+        <DashboardMap
+          data={dashboard?.data}
+          onClick={onClick}
+          params={[params, setParams]}
+          entidadData={user}
+          itemSelected={itemSelected}
+        />
 
-              level: params?.level,
-            }}
-          />
-           <WidgetPercentage data={dashboard?.data?.encuesta} /> 
+        <div>
+          <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />
+          <WidgetPercentage data={dashboard?.data?.encuesta} />
         </div>
       </section>
       <section>
