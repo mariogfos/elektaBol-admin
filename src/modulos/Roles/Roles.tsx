@@ -13,7 +13,19 @@ import { useAuth } from "@/mk/contexts/AuthProvider";
 import RenderItem from "../shared/RenderItem";
 import Permisos from "./Permisos";
 
-const lLevel = ["Fos", "Partido", "Provincia", "Canton", "Parroquia", "Barrio"];
+
+const lLevel = [
+  "Fos",
+  "Partido",
+  "Departamento",
+  "Macroregión",
+  "Provincia",
+  "Municipio",
+  "Distrito municipal",
+  "Localidad",
+  "Unidad vecinal",
+  "Barrio",
+];
 
 const mod: ModCrudType = {
   modulo: "roles",

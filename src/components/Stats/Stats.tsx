@@ -1,25 +1,29 @@
+// src/components/Stats/Stats.tsx
 import useAxios from "@/mk/hooks/useAxios";
 import { useEffect, useState } from "react";
-import WidgetVolunteers from "../ Widgets/WidgetVolunteers/WidgetVolunteers";
 import styles from "./Stats.module.css";
 import { useAuth } from "@/mk/contexts/AuthProvider";
-import WidgetIncrease from "../ Widgets/WidgetIncrease/WidgetIncrease";
+import { IconFilter } from "../layout/icons/IconsBiblioteca";
+import NotAccess from "../layout/NotAccess/NotAccess";
+import FiltersModal from "@/mk/components/forms/FiltersModal/FiltersModal";
 import Button from "@/mk/components/forms/Button/Button";
-import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import FilterTags from "../FilterTags/FilterTags";
+import WidgetVerifiedAccount from "../ Widgets/WidgetVerifiedAccount/WidgetVerifiedAccount";
+//  import WidgetTableAffProv from "../ Widgets/WidgetTableAffProv/WidgetTableAffProv";
+import WidgetEducation from "../ Widgets/WidgetEducation/WidgetEducation";
+import WidgetVolunteers from "../ Widgets/WidgetVolunteers/WidgetVolunteers";
+import WidgetIncrease from "../ Widgets/WidgetIncrease/WidgetIncrease";
 import WidgetSexo from "../ Widgets/WidgetSexo/WidgetSexo";
 import WidgetAge from "../ Widgets/WidgetAge/WidgetAge";
-import WidgetEducation from "../ Widgets/WidgetEducation/WidgetEducation";
-import WidgetVerifiedAccount from "../ Widgets/WidgetVerifiedAccount/WidgetVerifiedAccount";
-import { IconFilter } from "../layout/icons/IconsBiblioteca";
-import WidgetTableAffDpto from "../ Widgets/WidgetTableAffProv/WidgetTableAffDpto";
+import { WidgetSkeleton } from "@/mk/components/ui/Skeleton/Skeleton";
+import WidgetTableAffProv from "../ Widgets/WidgetTableAffProv copy/WidgetTableAffProv";
 
-let lGreader = [
+const lGreader = [
   { id: "M", name: "Hombres" },
   { id: "F", name: "Mujeres" },
   { id: "X", name: "Prefiero no decirlo" },
 ];
-let edad = [
+
+const edad = [
   { id: "18-20", name: "18-20" },
   { id: "21-30", name: "21-30" },
   { id: "31-40", name: "31-40" },
@@ -29,42 +33,57 @@ let edad = [
   { id: "71-80", name: "71-80" },
   { id: "81+", name: "81+" },
 ];
-let lCuentas = [
-  { id: "A", name: "Verificadas" },
-  { id: "X", name: "No verificadas" },
+
+const lCuentas = [
+  { id: "A", name: "Validadas" },
+  { id: "X", name: "Sin validar" },
 ];
-const Stats = () => {
-  const { setStore } = useAuth();
+
+const Stats: React.FC = () => {
+  const { setStore, userCan, waiting } = useAuth();
   const [openFilter, setOpenFilter] = useState(false);
-  const { data: metrics, reLoad } = useAxios("/metrics", "POST", {});
-  const [filters, setFilters]: any = useState({});
-  const [filterTags, setFilterTags]: any = useState({});
+  const { data: metrics, reLoad } = useAxios("/metrics", "POST", {
+    extraData: 1,
+  });
+  const [filters, setFilters] = useState<Record<string, any>>({});
+  const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [extraData, setExtraData]: any = useState(null);
+
   useEffect(() => {
     setStore({
-      title: "Métricas de campaña",
+      title: "Crecimiento y detalle de los afiliados",
     });
   }, []);
-  const { data: provs } = useAxios("/provs", "GET", {
-    fullType: "L",
-    perPage: -1,
-  });
-  const { data: dptos } = useAxios("/dptos", "GET", {
-    fullType: "L",
-    perPage: -1,
-  });
-  const { data: education } = useAxios("/educations", "GET", {
-    perPage: -1,
-    fullType: "L",
-  });
+  useEffect(() => {
+    if (!extraData) {
+      setExtraData(metrics?.data?.extraData);
+    }
+  }, [metrics]);
 
-  const getProvs = () => {
-     if (filters.dpto_id > 0) {
-       return provs?.data.filter(
-         (item: any) => item.dpto_id === filters.dpto_id
-       );
-     } else {
-       return [];
-     }
+  // const { data: provs } = useAxios("/provs", "GET", {
+  //   fullType: "L",
+  //   perPage: -1,
+  // });
+  // const { data: cantons } = useAxios("/cantons", "GET", {
+  //   fullType: "L",
+  //   perPage: -1,
+  // });
+  // const { data: education } = useAxios("/educations", "GET", {
+  //   perPage: -1,
+  //   fullType: "L",
+  // });
+
+  if (!userCan("metrics", "R")) return <NotAccess />;
+  if (waiting > 0) return <WidgetSkeleton />;
+
+  const getCantons = () => {
+    if (filters.prov_id > 0) {
+      return extraData?.cantons?.filter(
+        (item: any) => item.prov_id === filters.prov_id
+      );
+    } else {
+      return [];
+    }
   };
 
   const onFilter = async () => {
@@ -73,47 +92,47 @@ const Stats = () => {
     getFilterTags();
     setOpenFilter(false);
   };
-  if (!metrics) {
-    return null;
-  }
 
   const deleteFilter = async () => {
     await reLoad({});
     setFilters({});
     setOpenFilter(false);
-    setFilterTags({});
+    setFilterTags([]);
   };
-  const getNameEtiqueta = (item: any) => {
-    if (item === "dpto_id") {
-      return (
-        "Departamento: " +
-        dptos?.data.find((prov: any) => prov.id === filters[item])?.name
-      );
-    }
+
+  const getNameEtiqueta = (item: string) => {
     if (item === "prov_id") {
       return (
         "Provincia: " +
-        provs?.data.find((canton: any) => canton.id === filters[item])?.name
+        extraData?.provs?.find((prov: any) => prov.id === filters[item])?.name
       );
     }
-    if (item == "gender") {
+    if (item === "canton_id") {
+      return (
+        "Canton: " +
+        extraData?.cantons?.find((canton: any) => canton.id === filters[item])
+          ?.name
+      );
+    }
+    if (item === "gender") {
       return (
         "Sexo: " + lGreader.find((prov: any) => prov.id === filters[item])?.name
       );
     }
-    if (item == "ages") {
+    if (item === "ages") {
       return (
         "Edad: " + edad.find((prov: any) => prov.id === filters[item])?.name
       );
     }
-    if (item == "education") {
-      return education?.data.find((prov: any) => prov.id === filters[item])
-        ?.name;
+    if (item === "education") {
+      return extraData?.educations?.find(
+        (prov: any) => prov.id === filters[item]
+      )?.name;
     }
-    if (item == "is_verify") {
+    if (item === "is_verify") {
       return lCuentas.find((prov: any) => prov.id === filters[item])?.name;
     }
-    // return "";
+    return "";
   };
 
   const getFilterTags = () => {
@@ -126,8 +145,62 @@ const Stats = () => {
 
   const _onClose = () => {
     setOpenFilter(false);
+    // Puedes descomentar la siguiente línea si deseas limpiar los filtros al cerrar
     // setFilters({});
   };
+  console.log(metrics?.data?.extraData);
+
+  if (!metrics) {
+    return null;
+  }
+
+  // Definición de los filtros
+  const filtersList = [
+    {
+      title: "Provincias",
+      data: extraData?.provs || [],
+      filters: filters,
+      setFilters: setFilters,
+      type: "prov_id",
+    },
+    {
+      title: "Cantones",
+      data: getCantons(),
+      msgEmpty: "Selecciona un departamento para mostrar sus cantones.",
+      filters: filters,
+      setFilters: setFilters,
+      type: "canton_id",
+    },
+    {
+      title: "Género",
+      data: lGreader,
+      filters: filters,
+      setFilters: setFilters,
+      type: "gender",
+    },
+    {
+      title: "Edad",
+      data: edad,
+      filters: filters,
+      setFilters: setFilters,
+      type: "ages",
+    },
+    {
+      title: "Educación",
+      data: extraData?.educations || [],
+      filters: filters,
+      setFilters: setFilters,
+      type: "education",
+    },
+    {
+      title: "Cuentas",
+      data: lCuentas,
+      filters: filters,
+      setFilters: setFilters,
+      type: "is_verify",
+    },
+    // Puedes agregar más filtros aquí según sea necesario
+  ];
 
   return (
     <div className={styles.metrics}>
@@ -135,19 +208,27 @@ const Stats = () => {
         <div>
           <h1>Resumen general</h1>
           <p>
-            Plebiscito - Seguridad Social 2024 <span>Campaña activa</span>
+            Elecciones Nacionales Ecuador 2025
+            {/* <span>Campaña activa</span> */}
           </p>
         </div>
         <div>
-          <IconFilter
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 8,
+              cursor: "pointer",
+            }}
             onClick={() => setOpenFilter(true)}
-            color="var(--cInfo)"
-            style={{ cursor: "pointer" }}
-          />
-          <p>Filtros</p>
+          >
+            <IconFilter color="var(--cInfo)" />
+            <p>Filtros</p>
+          </div>
           {filterTags?.length > 0 && (
             <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-              {filterTags?.map((item: any) => (
+              {filterTags?.map((item: string) => (
                 <span
                   style={{
                     backgroundColor: "#39ACEC33",
@@ -191,23 +272,26 @@ const Stats = () => {
             <WidgetAge widget2={metrics?.data.widget2} />
           </div>
           <div>
-            <WidgetEducation widget4={metrics?.data.widget4} />
+            <WidgetEducation
+              widget4={metrics?.data.widget4}
+              educations={extraData?.educations}
+            />
           </div>
         </section>
         <section>
           <div>
             {!metrics?.data?.widget7 ? (
-              <WidgetTableAffDpto
+              <WidgetTableAffProv
                 widget={metrics?.data?.widget6}
-                data={dptos?.data}
+                data={extraData?.provs}
                 filters={filters}
-                type="dpto"
+                type="prov"
               />
             ) : (
-              <WidgetTableAffDpto
+              <WidgetTableAffProv
                 widget={metrics?.data?.widget7}
-                data={dptos?.data}
-                type="dpto"
+                data={extraData?.cantons}
+                type="canton"
                 filters={filters}
               />
             )}
@@ -218,10 +302,11 @@ const Stats = () => {
           </div>
         </section>
       </div>
-      <DataModal
+
+      <FiltersModal
         open={openFilter}
-        onClose={() => _onClose()}
-        onSave={() => onFilter()}
+        onClose={_onClose}
+        onSave={onFilter}
         title="Filtros"
         buttonCancel=""
         buttonText="Aplicar filtros"
@@ -230,60 +315,8 @@ const Stats = () => {
             Limpiar filtros
           </Button>
         }
-      >
-    <FilterTags
-          title="Departamentos"
-          data={dptos?.data}
-          msgEmpty="Selecciona un departamento para mostrar sus cantonidades."
-          filters={filters}
-          setFilters={setFilters}
-          type="dptos_id"
-        />
-        <FilterTags
-          title="Provincias"
-          data={getProvs()}
-          filters={filters}
-          setFilters={setFilters}
-          type="prov_id"
-        />
-        {/* <FilterTags
-          title="Cantones"
-          data={getCantons()}
-          msgEmpty="Selecciona un departamento para mostrar sus cantonidades."
-          filters={filters}
-          setFilters={setFilters}
-          type="canton_id"
-        /> */}
-        <FilterTags
-          title="Género"
-          data={lGreader}
-          filters={filters}
-          setFilters={setFilters}
-          type="gender"
-        />
-        <FilterTags
-          title="Edad"
-          data={edad}
-          filters={filters}
-          setFilters={setFilters}
-          type="ages"
-        />
-
-        <FilterTags
-          title="Educación"
-          data={education?.data}
-          filters={filters}
-          setFilters={setFilters}
-          type="education"
-        />
-        <FilterTags
-          title="Cuentas"
-          data={lCuentas}
-          filters={filters}
-          setFilters={setFilters}
-          type="is_verify"
-        />
-      </DataModal>
+        filtersList={filtersList}
+      />
     </div>
   );
 };
