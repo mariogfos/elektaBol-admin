@@ -137,7 +137,6 @@ const Users = () => {
                     ) : (
                       dataUsers?.data?.demografico?.administrativos
                     )}
-                    {/* {dataUsers?.data?.demografico?.administrativos} */}
                   </div>
                   <div> Administrativos en la red</div>
                 </div>
