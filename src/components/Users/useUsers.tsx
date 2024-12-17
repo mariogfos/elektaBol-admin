@@ -12,7 +12,7 @@ interface PropsType {
 export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
   const [formState, setFormState]: any = useState({
     role_id: null,
-    sublema_id: null,
+    // sublema_id: null,
   });
   const [open, setOpen] = useState(false);
   const { showToast, waiting, user, userCan } = useAuth();
@@ -116,9 +116,9 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
   const handleChangeInput = (e: any) => {
     let value = e.target.value;
 
-    if (e.target.name == "ci") {
+    if (e.target.name == "ci" || e.target.name == "reCi") {
       // quitar . y - del ci y solo permitir numeros
-      value = value.replace(/[.-]/g, "");
+      value = value.replace(/\D/g, "").slice(0, 11);
     }
 
     if (e.target.name) {
@@ -158,6 +158,10 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     if (response?.data != null) {
       if (type == "email") {
         setErrorsUsers({ ...errorsUsers, email: "El email ya existe" });
+        return;
+      } else if (type == "phone") {
+        setErrorsUsers({ ...errorsUsers, phone: "El teléfono ya existe" });
+
         return;
       } else {
         setErrorsUsers({ ...errorsUsers, ci: "El CI ya existe" });
@@ -343,13 +347,14 @@ export const useUsers = ({ onClose, precarga, reLoad }: PropsType) => {
     return errors;
   };
   const onSave = async () => {
+    const { reCi, reEmail, ...filteredFormState } = formState;
     if (userCan("users", "C") === false) {
       showToast("No tiene permisos", "error");
       return;
     }
     if (hasErrors(validate())) return;
     const { data: response } = await execute("/users", "POST", {
-      ...formState,
+      ...filteredFormState,
     });
     if (response?.success === true) {
       showToast("Usuario creado correctamente", "success");
