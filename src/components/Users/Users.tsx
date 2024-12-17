@@ -2,9 +2,6 @@
 import { useEffect, useState } from "react";
 import useAxios from "@/mk/hooks/useAxios";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
-import ItemList from "@/mk/components/ui/ItemList/ItemList";
-import { getFullName, getUrlImages } from "@/mk/utils/string";
-import { Avatar } from "@/mk/components/ui/Avatar/Avatar";
 import styles from "./users.module.css";
 import DetailUsers from "./DetailUsers";
 import { useUsers } from "./useUsers";
