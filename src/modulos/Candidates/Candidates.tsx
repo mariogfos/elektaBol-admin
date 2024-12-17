@@ -7,8 +7,8 @@ import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import NotAccess from "@/components/layout/NotAccess/NotAccess";
 import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
-import { getDateStrMes } from "../../mk/utils/date";
 import RenderView from "./RenderView";
+import { lIdeologies } from "@/mk/utils/utils";
 
 const mod: ModCrudType = {
   modulo: "candidates",
@@ -33,6 +33,12 @@ const paramsInitial = {
   searchBy: "",
 };
 
+let levelCand = [
+  { id: "0", name: "Partido" },
+  { id: "1", name: "Nacional - Asambleísta Nacional" },
+  { id: "2", name: "Provincial - Asambleísta Provincial" },
+];
+
 const Candidates = () => {
   const OnTop = ({ title, subtitle }: any) => {
     return (
@@ -48,25 +54,10 @@ const Candidates = () => {
     item: Record<string, any>;
   }) => {
     if (!data.item.id) return null;
-    let pff =
-      data.key == "avatar"
-        ? "/CAND-"
-        : data.key == "portada"
-        ? "/PCAND-"
-        : "/PLAN-";
-    return data.key != "plan" ? (
-      <img
-        src={getUrlImages(
-          pff + data.item.id + ".webp?d=" + data.item.updated_at
-        )}
-        alt={data.item.name}
-        width={100}
-        height={100}
-      />
-    ) : (
+    return (
       <iframe
         src={getUrlImages(
-          pff + data.item.id + ".pdf?d=" + data.item.updated_at
+          "/PLAN-" + data.item.id + ".pdf?d=" + data.item.updated_at
         )}
         width="100%"
         height="100%"
@@ -74,41 +65,16 @@ const Candidates = () => {
       ></iframe>
     );
   };
-  // const rigthPortada = (data: {
-  //   key: string;
-  //   user?: Record<string, any>;
-  //   item: Record<string, any>;
-  // }) => {
-  //   if (!data.item.id) return null;
-  //   console.log(data.key);
-  //   return (
-  //     <img
-  //       src={getUrlImages(
-  //         "/PCAND-" + data.item.id + ".webp?d=" + data.item.updated_at
-  //       )}
-  //       alt={data.item.name}
-  //       width={100}
-  //       height={100}
-  //     />
-  //   );
-  // };
-  // const rigthPlan = (data: {
-  //   key: string;
-  //   user?: Record<string, any>;
-  //   item: Record<string, any>;
-  // }) => {
-  //   if (!data.item.id) return null;
-  //   return (
-  //     <img
-  //       src={getUrlImages(
-  //         "/PLAN-" + data.item.id + ".webp?d=" + data.item.updated_at
-  //       )}
-  //       alt={data.item.name}
-  //       width={100}
-  //       height={100}
-  //     />
-  //   );
-  // };
+
+  const isType = (data: {
+    key: string;
+    user?: Record<string, any>;
+    item: Record<string, any>;
+  }) => {
+    if (data.item.level == "2") return false;
+
+    return true;
+  };
 
   const fields = useMemo(() => {
     return {
@@ -120,7 +86,7 @@ const Candidates = () => {
         list: false,
         form: {
           type: "imageUpload",
-          onRigth: rigth,
+          prefix: "CAND",
           onTop: () => {
             return (
               <OnTop
@@ -139,7 +105,8 @@ const Candidates = () => {
         list: false,
         form: {
           type: "imageUpload",
-          onRigth: rigth,
+          prefix: "PCAND",
+          // onRigth: rigth,
           onTop: () => {
             return (
               <OnTop
@@ -151,17 +118,55 @@ const Candidates = () => {
           style: { width: "100%" },
         },
       },
-      title: {
+      level: {
         rules: ["required"],
         api: "ae",
-        label: "Presentación",
+        label: "Nivel de candidatura",
         form: {
-          type: "text",
+          type: "select",
+          options: levelCand,
           onTop: () => {
             return (
               <OnTop
-                title="Presentación"
-                subtitle="Redacta una breve presentación del candidato/ Ej: Candidato a presidente de la república de “País”"
+                title="Nivel de candidatura"
+                subtitle="Escoge nivel de candidatura para el candidato"
+              />
+            );
+          },
+        },
+        list: { order: 2, width: "250" },
+      },
+      prov_id: {
+        rules: ["requiredIf:level,2"],
+        onHide: isType,
+        api: "ae",
+        label: "Provincia",
+        form: {
+          type: "select",
+          optionsExtra: "provs",
+          onTop: () => {
+            return (
+              <OnTop
+                title="Provincia"
+                subtitle="Selecciona la provincia a la que pertenece el candidato"
+              />
+            );
+          },
+        },
+        // style: { width: "300px" },
+        list: { order: 1, width: "80" },
+      },
+      position: {
+        rules: ["required"],
+        api: "ae",
+        label: "Posición en la lista",
+        form: {
+          type: "number",
+          onTop: () => {
+            return (
+              <OnTop
+                title="Posición en la lista"
+                subtitle="Indica la posición del candidato en la lista"
               />
             );
           },
@@ -176,7 +181,7 @@ const Candidates = () => {
         onRender: (item: any) => {
           return getFullName(item?.item);
         },
-        list: true,
+        list: { width: "300px" },
       },
       name: {
         rules: ["required"],
@@ -198,7 +203,7 @@ const Candidates = () => {
       middle_name: {
         rules: [""],
         api: "ae",
-        label: "Segundo nombre",
+        label: "Segundo nombre (opcional)",
         form: { type: "text" },
         list: false,
       },
@@ -212,10 +217,11 @@ const Candidates = () => {
       mother_last_name: {
         rules: [""],
         api: "ae",
-        label: "Apellido materno",
+        label: "Apellido materno (opcional)",
         form: { type: "text" },
         list: false,
       },
+
       typecand_id: {
         rules: ["required"],
         api: "ae",
@@ -224,7 +230,9 @@ const Candidates = () => {
           type: "select",
           optionsExtra: "typeCands",
         },
-        list: false,
+        list: {
+          width: "200px",
+        },
       },
       profession: {
         rules: ["required"],
@@ -238,6 +246,78 @@ const Candidates = () => {
         api: "ae",
         label: "Lugar de nacimiento",
         form: { type: "text" },
+        list: false,
+      },
+      facebook: {
+        rules: ["facebook"],
+        api: "ae",
+        label: "Facebook",
+        form: {
+          type: "text",
+          onTop: () => (
+            <OnTop
+              title="Redes sociales"
+              subtitle="Agrega los enlaces de las redes sociales del candidato para que sus seguidores puedan seguirlo
+          "
+            />
+          ),
+        },
+        list: false,
+      },
+      twitter: {
+        rules: ["twitter"],
+        api: "ae",
+        label: "Twitter",
+        form: { type: "text" },
+        list: false,
+      },
+      instagram: {
+        rules: ["instagram"],
+        api: "ae",
+        label: "Instagram",
+        form: { type: "text" },
+        list: false,
+      },
+      linkedin: {
+        rules: ["linkedin"],
+        api: "ae",
+        label: "Linkedin",
+        form: { type: "text" },
+        list: false,
+      },
+      title: {
+        rules: ["required"],
+        api: "ae",
+        label: "Presentación",
+        form: {
+          type: "text",
+          onTop: () => {
+            return (
+              <OnTop
+                title="Presentación"
+                subtitle="Redacta una breve presentación del candidato/ Ej: Candidato a presidente de la república de “País”"
+              />
+            );
+          },
+        },
+        list: false,
+      },
+      ideology: {
+        rules: ["required"],
+        api: "ae",
+        label: "Ideología Política",
+        form: {
+          type: "select",
+          options: lIdeologies,
+          onTop: () => {
+            return (
+              <OnTop
+                title="Ideología Política"
+                subtitle="Escoge la ideología más afín al candidato"
+              />
+            );
+          },
+        },
         list: false,
       },
       biography: {
@@ -272,14 +352,16 @@ const Candidates = () => {
             );
           },
         },
+
         list: false,
       },
       plan: {
-        rules: ["required"],
+        rules: ["required*add"],
         api: "ae",
         label: "Plan de gobierno",
         form: {
           type: "fileUpload",
+          ext: ["pdf"],
           onRigth: rigth,
           onTop: () => {
             return (
@@ -293,13 +375,21 @@ const Candidates = () => {
         },
         list: false,
       },
-      // status: {
-      //   rules: ["required"],
-      //   api: "ae",
-      //   label: "Status",
-      //   form: { type: "text" },
-      //   list: true,
-      // },
+      status: {
+        rules: [""],
+        api: "",
+        label: "Estado",
+        form: false,
+        list: false,
+        // list: {
+        //   width: "180px",
+        //   type: "select",
+        //   options: [
+        //     { id: "A", name: "Activo" },
+        //     { id: "X", name: "Inactivo" },
+        //   ],
+        // },
+      },
     };
   }, []);
 

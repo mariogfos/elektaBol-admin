@@ -7,8 +7,10 @@ import useAxios from "@/mk/hooks/useAxios";
 import {
   IconBorn,
   IconCandidates,
+  IconPDF,
   IconProfession,
 } from "@/components/layout/icons/IconsBiblioteca";
+import { lIdeologies } from "@/mk/utils/utils";
 
 const RenderView = (props: {
   open: boolean;
@@ -27,7 +29,7 @@ const RenderView = (props: {
     <DataModal
       open={props.open}
       onClose={props?.onClose}
-      title={"Detalle del Candidato"}
+      title={"Detalle del candidato"}
       buttonText=""
       buttonCancel=""
     >
@@ -118,6 +120,12 @@ const RenderView = (props: {
             </p>
           </div>
           <div>
+            <p className={styles.title}>Ideología política</p>
+            <p className={styles.subtitle} style={{ marginTop: 12 }}>
+              {lIdeologies[props?.item?.ideology]?.name}
+            </p>
+          </div>
+          <div>
             <p className={styles.title}>Experiencia política</p>
             <p className={styles.subtitle} style={{ marginTop: 12 }}>
               {props.item?.experience}
@@ -126,7 +134,27 @@ const RenderView = (props: {
           <div>
             <p className={styles.title}>Plan de gobierno</p>
             <p className={styles.subtitle} style={{ marginTop: 12 }}>
-              {props.item?.plan_goverment}
+              <a
+                href={getUrlImages(
+                  "/PLAN-" +
+                    props?.item?.id +
+                    ".pdf?d=" +
+                    props?.item?.updated_at
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  textDecoration: "none",
+                  color: "var(--cInfo)",
+                  borderBottom: "1px solid var(--cInfo)",
+                }}
+              >
+                <IconPDF />
+                <span style={{ marginLeft: 8 }}>Descargar PDF</span>
+              </a>
             </p>
           </div>
         </div>
