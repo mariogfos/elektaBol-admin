@@ -7,7 +7,7 @@ First, run the development server:
 ```bash
 npm run devss
 # oras
-yarn dev
+yarn devasd
 # orasdadasdas
 pnpm dev
 # or
