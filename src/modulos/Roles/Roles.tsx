@@ -1,26 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import useCrud, { ModCrudType } from "@/mk/hooks/useCrud/useCrud";
+import useCrud, {
+  ModCrudType,
+  TypeRenderForm,
+} from "@/mk/hooks/useCrud/useCrud";
 import NotAccess from "@/components/auth/NotAccess/NotAccess";
 import styles from "./Rol.module.css";
 import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import { RenderColType } from "@/mk/components/ui/Table/Table";
 import useCrudUtils from "../shared/useCrudUtils";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import RenderItem from "../shared/RenderItem";
+import Permisos from "./Permisos";
 
-const lLevel = [
-  "Fos",
-  "Partido",
-  "Departamento",
-  "Macroregión",
-  "Provincia",
-  "Municipio",
-  "Distrito municipal",
-  "Localidad",
-  "Unidad vecinal",
-  "Barrio",
-];
+const lLevel = ["Fos", "Partido", "Provincia", "Canton", "Parroquia", "Barrio"];
 
 const mod: ModCrudType = {
   modulo: "roles",
@@ -28,6 +21,13 @@ const mod: ModCrudType = {
   plural: "roles",
   permiso: "",
   extraData: true,
+  onHideActions: (item: any) => {
+    return {
+      hideEdit: item.is_fixed == "1",
+
+      hideDel: item.is_fixed == "1" || item.is_assigned == "1",
+    };
+  },
 };
 
 const levelRender = (item: RenderColType) => {
@@ -53,34 +53,63 @@ const paramsInitial = {
 const Roles = () => {
   const { user } = useAuth();
 
+  const renderPermisos = ({
+    field,
+    item,
+    setItem,
+    onChange,
+    error,
+    extraData,
+  }: TypeRenderForm) => {
+    console.log("renderPermisos", extraData);
+    return (
+      <Permisos
+        data={item}
+        options={extraData?.abilities || [{ id: 1, name: "CRUD" }]}
+        setItem={setItem}
+        error={error}
+      />
+    );
+  };
+
   const fields = useMemo(() => {
     return {
-      id: { rules: [], api: "e" },
-      description: {
+      id: { rules: [], api: "ae" },
+      name: {
         rules: ["required"],
         api: "ae",
         label: "Rol",
-        list: true,
+        list: { width: "250" },
         form: { type: "text", label: "Nombre del rol" },
+        hide: true,
+      },
+      description: {
+        rules: [""],
+        api: "ae",
+        label: "Descripción",
+        list: true,
+        form: { type: "text" },
       },
       level: {
         rules: ["required", "numeric"],
         api: "ae",
         label: "Nivel",
         onRender: levelRender,
-        list: { width: "20%" },
+        list: { width: "110" },
         form: {
           type: "select",
           order: 2,
           options: arrayToSelect(lLevel, user?.role?.level),
         },
       },
-      name: {
-        rules: ["required", "noSpaces"],
+
+      abilities: {
+        rules: [],
         api: "ae",
-        label: "Código",
-        list: { width: "20%" },
-        form: { type: "text", order: 1, edit: {} },
+        label: "Habilidades",
+        list: false,
+        form: { onRender: renderPermisos },
+        onRenderView: renderPermisos,
       },
     };
   }, []);
@@ -126,8 +155,8 @@ const Roles = () => {
 
   if (!userCan(mod.permiso, "R")) return <NotAccess />;
   return (
-    <div className={styles.style}>
-      <List onTabletRow={renderItem} />
+    <div className={styles.roles}>
+      <List onTabletRow={renderItem} actionsWidth="300px" />
     </div>
   );
 };
