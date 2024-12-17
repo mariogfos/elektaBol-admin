@@ -48,7 +48,6 @@ const Stats: React.FC = () => {
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [extraData, setExtraData]: any = useState(null);
-
   useEffect(() => {
     setStore({
       title: "Crecimiento y detalle de los afiliados",
@@ -60,26 +59,16 @@ const Stats: React.FC = () => {
     }
   }, [metrics]);
 
-  // const { data: provs } = useAxios("/provs", "GET", {
-  //   fullType: "L",
-  //   perPage: -1,
-  // });
-  // const { data: cantons } = useAxios("/cantons", "GET", {
-  //   fullType: "L",
-  //   perPage: -1,
-  // });
-  // const { data: education } = useAxios("/educations", "GET", {
-  //   perPage: -1,
-  //   fullType: "L",
-  // });
+
 
   if (!userCan("metrics", "R")) return <NotAccess />;
   if (waiting > 0) return <WidgetSkeleton />;
 
-  const getCantons = () => {
-    if (filters.prov_id > 0) {
-      return extraData?.cantons?.filter(
-        (item: any) => item.prov_id === filters.prov_id
+  const getProvs = () => {
+    if (filters.dpto_id > 0) {
+      
+      return extraData?.provs?.filter(
+        (item: any) => item.dpto_id === filters.dpto_id
       );
     } else {
       return [];
@@ -88,7 +77,7 @@ const Stats: React.FC = () => {
 
   const onFilter = async () => {
     await reLoad(filters);
-    setFilters({ ...filters, prov_idV: filters.prov_id });
+    setFilters({ ...filters, dpto_idV: filters.dpto_id });
     getFilterTags();
     setOpenFilter(false);
   };
@@ -101,17 +90,17 @@ const Stats: React.FC = () => {
   };
 
   const getNameEtiqueta = (item: string) => {
+    if (item === "dpto_id") {
+      return (
+        "Departamento: " +
+        extraData?.dptos?.find((dpto: any) => dpto.id === filters[item])
+          ?.name
+      );
+    }
     if (item === "prov_id") {
       return (
         "Provincia: " +
         extraData?.provs?.find((prov: any) => prov.id === filters[item])?.name
-      );
-    }
-    if (item === "canton_id") {
-      return (
-        "Canton: " +
-        extraData?.cantons?.find((canton: any) => canton.id === filters[item])
-          ?.name
       );
     }
     if (item === "gender") {
@@ -138,7 +127,7 @@ const Stats: React.FC = () => {
   const getFilterTags = () => {
     const filteredKeys = Object.keys(filters).filter(
       (key) =>
-        filters[key] !== null && filters[key] !== "" && key !== "prov_idV"
+        filters[key] !== null && filters[key] !== "" && key !== "dpto_idV"
     );
     setFilterTags(filteredKeys);
   };
@@ -148,7 +137,6 @@ const Stats: React.FC = () => {
     // Puedes descomentar la siguiente línea si deseas limpiar los filtros al cerrar
     // setFilters({});
   };
-  console.log(metrics?.data?.extraData);
 
   if (!metrics) {
     return null;
@@ -157,19 +145,19 @@ const Stats: React.FC = () => {
   // Definición de los filtros
   const filtersList = [
     {
+      title: "Departamentos",
+      data: extraData?.dptos || [],
+      filters: filters,
+      setFilters: setFilters,
+      type: "dpto_id",
+    },
+    {
       title: "Provincias",
-      data: extraData?.provs || [],
+      data: getProvs(),
+      msgEmpty: "Selecciona un departamento para mostrar sus provincias.",
       filters: filters,
       setFilters: setFilters,
       type: "prov_id",
-    },
-    {
-      title: "Cantones",
-      data: getCantons(),
-      msgEmpty: "Selecciona un departamento para mostrar sus cantones.",
-      filters: filters,
-      setFilters: setFilters,
-      type: "canton_id",
     },
     {
       title: "Género",
@@ -208,7 +196,7 @@ const Stats: React.FC = () => {
         <div>
           <h1>Resumen general</h1>
           <p>
-            Elecciones Nacionales Ecuador 2025
+            Elecciones Nacionales Bolivia 2025
             {/* <span>Campaña activa</span> */}
           </p>
         </div>
@@ -280,21 +268,21 @@ const Stats: React.FC = () => {
         </section>
         <section>
           <div>
-            {!metrics?.data?.widget7 ? (
+             {!metrics?.data?.widget7 ? (
               <WidgetTableAffProv
                 widget={metrics?.data?.widget6}
-                data={extraData?.provs}
+                data={extraData?.dptos}
                 filters={filters}
-                type="prov"
+                type="dpto"
               />
             ) : (
               <WidgetTableAffProv
                 widget={metrics?.data?.widget7}
-                data={extraData?.cantons}
-                type="canton"
+                data={extraData?.provs}
+                type="prov"
                 filters={filters}
               />
-            )}
+            )} 
           </div>
 
           <div>

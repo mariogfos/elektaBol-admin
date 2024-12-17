@@ -73,7 +73,7 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
     {!isMobile ? (
       <div>
         <MainmenuDropdown
-          label="Red Elekta"
+          label="Red Elekta" 
           icon={<IconRedffiliates />}
           items={[
             { href: "/", label: "Resumen" },
@@ -93,6 +93,20 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
           ]}
           collapsed={collapsed}
         />
+         {/* <MainmenuDropdown
+         
+          label="Estadísticas electorales"
+          icon={<IconStatic />}
+          items={[ { href:"/stats" , label: "Estadísticas" }]}
+
+        /> */}
+         <MainmenuDropdown
+            label="Estadísticas"
+            icon={<IconNetwork />}
+            items={[
+              { href: "/statistics", label: "Estadísticas" },
+            ]}
+            />
         <MainmenuDropdown
           label="Comunicación"
           icon={<IconComunication />}

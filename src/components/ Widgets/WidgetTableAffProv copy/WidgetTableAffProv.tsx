@@ -41,7 +41,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
 
   const dataFormattedLocal = () => {
     let locals = data?.filter(
-      (item: any) => item?.prov_id === filters?.prov_idV
+      (item: any) => item?.dpto_id === filters?.dpto_idV
     );
     let newData: any = [];
 
@@ -61,10 +61,10 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
     return newData;
   };
   useEffect(() => {
-    if (type == "prov") {
+    if (type == "dpto") {
       dataFormattedDpto();
     }
-    if (type == "canton") {
+    if (type == "prov") {
       dataFormattedLocal();
     }
   }, [orden]);
@@ -93,7 +93,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
     },
     {
       key: "name",
-      label: type == "prov" ? "Provincia" : "Canton",
+      label: type == "dpto" ? "Departamento" : "Provincia",
     },
     {
       key: "afiliados",
@@ -140,7 +140,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
   ];
   return (
     <WidgetBase
-      title={`Afiliados por ${type == "prov" ? "provincia" : "canton"}`}
+      title={`Afiliados por ${type == "dpto" ? "departamento" : "provincia"}`}
     >
       <div style={{ width: "200px", marginTop: 12 }}>
         <Select
@@ -156,7 +156,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
         />
       </div>
       <Table
-        data={type == "prov" ? dataFormattedDpto() : dataFormattedLocal()}
+        data={type == "dpto" ? dataFormattedDpto() : dataFormattedLocal()}
         header={header}
         className="striped"
         sumarize={true}
