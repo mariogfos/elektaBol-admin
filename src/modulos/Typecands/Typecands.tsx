@@ -35,15 +35,15 @@ const Typecands = () => {
         label: "Tipo de candidato",
 
         form: { type: "text" },
-        list: { width: "400px" },
-      },
-      description: {
-        rules: [""],
-        api: "ae",
-        label: "Descripción",
-        form: { type: "text" },
         list: true,
       },
+      // description: {
+      //   rules: [""],
+      //   api: "ae",
+      //   label: "Descripción",
+      //   form: { type: "text" },
+      //   list: true,
+      // },
       // status: {
       //   rules: ["required"],
       //   api: "ae",
