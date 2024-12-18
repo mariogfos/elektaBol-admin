@@ -20,12 +20,13 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
     {
       key: "index",
       label: "Nro",
-      width: "120px",
+      width: "40px",
       responsive: "onlyDesktop",
-      style: {
-        display: "flex",
-        alignItems: "center",
-      },
+      // list:{backgroundColor:'red'},
+      // style: {
+      //   display: "flex",
+      //   alignItems: "center",
+      // },
       onRender: (item: any) => {
         return item.i;
       },
@@ -35,7 +36,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Partido ganador",
       responsive: "onlyDesktop",
       style: { textAlign: "center" },
-      width: "500px",
+      width: "400px",
       onRender: (item: any) => {
         return item?.item.emitidos == 0 ? (
           "Sin ganador"
@@ -48,6 +49,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
+      width: "400px",
       style: {
         display: "flex",
         justifyContent: "left",
@@ -62,7 +64,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         justifyContent: "right",
         textAlign: "right",
       },
-      width: "600px",
+      width: "200px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -76,7 +78,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         justifyContent: "right",
         textAlign: "right",
       },
-      width: "600px",
+      width: "200px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -91,7 +93,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         justifyContent: "right",
         textAlign: "right",
       },
-      width: "600px",
+      width: "200px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -105,7 +107,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         justifyContent: "right",
         textAlign: "right",
       },
-      width: "600px",
+      width: "200px",
       onRender: (item: any) => {
         return getPercentaje(item.item.emitidos, item.item.habilitados);
       },
@@ -118,7 +120,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         justifyContent: "right",
         textAlign: "right",
       },
-      width: "600px",
+      // width: "200px",
       onRender: (item: any) => {
         return formatNumber(item.value, 0);
       },
@@ -175,7 +177,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
         header={headerFormatted()}
         className="striped"
         sumarize={true}
-        height="460px"
+        // height="460px"
       />
       {/* <section>
         <span style={{ width: "210px" }}></span>
