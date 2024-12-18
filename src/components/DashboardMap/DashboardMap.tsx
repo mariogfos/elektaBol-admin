@@ -62,7 +62,7 @@ export const DashboardMap = ({
             {params[0]?.level == entidadData?.role?.level ? (
               <p>{formatNumber(entidadData?.entidad?.habitantes)}</p>
             ) : (
-              <p>{formatNumber(totalHabitantes)}</p>
+              <p>{formatNumber(totalHabitantes,0)}</p>
             )}
           </Card>
           <Card style={{ textAlign: "right", fontSize: 16 }}>
@@ -70,7 +70,7 @@ export const DashboardMap = ({
             {params[0]?.level == entidadData?.role?.level ? (
               <p>{formatNumber(entidadData?.entidad?.habilitados)}</p>
             ) : (
-              <p>{formatNumber(totalHabilitados)}</p>
+              <p>{formatNumber(totalHabilitados,0)}</p>
             )}
           </Card>
           {/* <Card style={{ textAlign: "right", fontSize: 16 }}>
@@ -83,7 +83,7 @@ export const DashboardMap = ({
           </Card> */}
           <Card style={{ textAlign: "right", fontSize: 16 }}>
             <p>Afiliados en Elekta</p>
-            <p>{formatNumber(totalAfiliados)}</p>
+            <p>{formatNumber(totalAfiliados,0)}</p>
           </Card>
         </div>
       </>
