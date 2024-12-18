@@ -50,7 +50,7 @@ const Stats: React.FC = () => {
   const [extraData, setExtraData]: any = useState(null);
   useEffect(() => {
     setStore({
-      title: "Crecimiento y detalle de los afiliados",
+      title: "Crecimiento de los afiliados",
     });
   }, []);
   useEffect(() => {

@@ -66,7 +66,7 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
           icon={<IconRedffiliates />}
           items={[
             { href: "/", label: "Resumen" },
-            { href: "/stats", label: "Crecimiento y detalle del afiliado" },
+            { href: "/stats", label: "Crecimiento de los afiliados" },
             { href: "/directAffiliates", label: "Red de afiliados" },
             { href: "/ranking", label: "Ranking" },
           ]}
