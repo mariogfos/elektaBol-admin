@@ -78,7 +78,7 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
           items={[
             { href: "/", label: "Resumen" },
             { href: "/stats", label: "Crecimiento y detalle del afiliado" },
-            { href: "/affiliates", label: "Red de afiliados" },
+            { href: "/directAffiliates", label: "Red de afiliados" },
             { href: "/ranking", label: "Ranking" },
           ]}
           collapsed={collapsed}
