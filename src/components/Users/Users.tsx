@@ -27,6 +27,7 @@ const Users = () => {
   });
 
   const [paramsHist, setParamsHist] = useState([]);
+  
 
   const {
     data: dataUsers,
@@ -60,7 +61,11 @@ const Users = () => {
     isTablet,
   } = useUsers({ onClose: () => {} });
 
+
+  // console.log(level ===  2 ,'leveeeel')
+  // console.log(dataUsers?.data?.line2,'l2')
   const addClick = (entity: any, line: number = 1) => {
+   
     if (line === 1) {
       setPrecarga({
         // level: level,
@@ -70,7 +75,7 @@ const Users = () => {
       });
     } else {
       setPrecarga({
-        level: level + 1,
+        level: level === 2 ? level + 2 : level + 1,
         [lEntity[level]]: entity.id,
         line,
       });

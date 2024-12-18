@@ -44,10 +44,11 @@ const LeadershipHierarchy = ({
   userCan = () => false,
 }: Props) => {
   const handleButtonPress = (props: any) => {
+    const nextLevel = props.level === 2 ? props.level + 2 : props.level + 1;
     setParamsHist([...paramsHist, params]);
     setParams({
       ...params,
-      level: props.level + 1,
+      level: nextLevel,
       searchBy: props.entity.id,
       lista_id: listaActual,
     });
@@ -64,6 +65,7 @@ const LeadershipHierarchy = ({
     4: "Líder de barrio",
   };
 
+  console.log(line2,'line22')
   useEffect(() => {
     //ordenar line2 por line2?.line3?.total en orden descendente
 

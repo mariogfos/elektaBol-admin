@@ -56,7 +56,7 @@ const HomePage = () => {
 
   const onClick = (row: any) => {
     console.log("row", row);
-    if (params?.level === 6) {
+    if (params?.level === 5) {
       return;
     }
 
