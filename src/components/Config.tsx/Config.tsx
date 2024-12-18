@@ -23,16 +23,16 @@ const Config = () => {
           tabs={[
             // { value: "S", text: "Sublemas" },
             // { value: "L", text: "Listas" },
-            { value: "P", text: "Paises" },
-            { value: "1", text: "Partidos" },
+            // { value: "P", text: "Paises" },
+            // { value: "1", text: "Partidos" },
             { value: "2", text: "Departamentos" },
-            { value: "3", text: "Macroregiones" },
+            // { value: "3", text: "Macroregiones" },
             { value: "4", text: "Provincias" },
             { value: "5", text: "Municipios" },
             { value: "6", text: "Distritos municipales" },
-            { value: "7", text: "Localidades" },
-            { value: "8", text: "Unidad vecinal" },
-            { value: "9", text: "Barrios" },
+            // { value: "7", text: "Localidades" },
+            // { value: "8", text: "Unidad vecinal" },
+            // { value: "9", text: "Barrios" },
 
             { value: "R", text: "Recintos" },
             { value: "M", text: "Mesas" },
@@ -44,16 +44,16 @@ const Config = () => {
       </div>
       {/* {typeSearch === "S" && <Sublemas />} */}
       {/* {typeSearch === "L" && <Listas />} */}
-      {typeSearch === "P" && <Countries />}
-      {typeSearch === "1" && <Partidos />}
+      {/* {typeSearch === "P" && <Countries />}
+      {typeSearch === "1" && <Partidos />} */}
       {typeSearch === "2" && <Dptos />}
-      {typeSearch == "3" && <Macroregions />}
+      {/* {typeSearch == "3" && <Macroregions />} */}
       {typeSearch === "4" && <Provs />}
       {typeSearch === "5" && <Muns />}
       {typeSearch === "6" && <Dmuns />}
-      {typeSearch === "7" && <Locals />}
-      {typeSearch === "8" && <Uvs />}
-      {typeSearch === "9" && <Barrios />}
+      {/* {typeSearch === "7" && <Locals />} */}
+      {/* {typeSearch === "8" && <Uvs />} */}
+      {/* {typeSearch === "9" && <Barrios />} */}
 
       {typeSearch === "R" && <Recintos />}
       {typeSearch === "CI" && <Circuns />}
