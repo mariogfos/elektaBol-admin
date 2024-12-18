@@ -62,9 +62,11 @@ const lDestinies = (data: {
   const r = [{ id: 0, name: "Todos" }];
   const level = data.user?.role.level;
   // const level = 3;
-  if (level <= 1) r.push({ id: 2, name: "Provincia" });
-  if (level <= 2) r.push({ id: 3, name: "Cantón" });
-  if (level <= 3) r.push({ id: 4, name: "Parroquia" });
+  if (level <= 1) r.push({ id: 2, name: "Departamento" });
+  if (level <= 3) r.push({ id: 3, name: "Provincia" });
+  if (level <= 4) r.push({ id: 4, name: "Municipios" });
+  if (level <= 5) r.push({ id: 4, name: "Distrito Municipal" });
+  // if (level <= 3) r.push({ id: 4, name: "" });
   // if (level <= 5) r.push({ id: 5, name: "Barrio" });
   return r;
 };

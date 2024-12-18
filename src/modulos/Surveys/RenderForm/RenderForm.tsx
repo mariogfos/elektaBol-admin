@@ -91,18 +91,19 @@ const RenderForm = ({
         };
   const lDestinies = () => {
     const level = user?.role.level;
+    console.log(level,'levelvlelfhjgfjdsfk')
     const r = [];
     if (level == 1 || level == 0) {
       r.push({ id: 0, name: "Todos" });
     }
-    if (level == 2) r.push({ id: 0, name: "Mi provincia" });
-    if (level == 3) r.push({ id: 0, name: "Mi cantón" });
-    if (level == 4) r.push({ id: 0, name: "Mi parroquia" });
-    if (level == 5) r.push({ id: 0, name: "Mi barrio" });
+    if (level == 2) r.push({ id: 0, name: "Mi departamento" });
+    if (level == 4) r.push({ id: 0, name: "Mi provincia" });
+    if (level == 5) r.push({ id: 0, name: "Mi municipio" });
+    if (level == 6) r.push({ id: 0, name: "Mi distrito municipal" });
 
-    if (level <= 1) r.push({ id: 2, name: "Provincia" });
-    if (level <= 2) r.push({ id: 3, name: "Cantón" });
-    if (level <= 3) r.push({ id: 4, name: "Parroquia" });
+    if (level <= 1) r.push({ id: 2, name: "Departamento" });
+    if (level <= 3) r.push({ id: 3, name: "Provincia" });
+    if (level <= 3) r.push({ id: 4, name: "Municipio" });
     // if (level <= 5) r.push({ id: 5, name: "Barrio" });
     return r;
   };
@@ -141,10 +142,10 @@ const RenderForm = ({
   };
   const selDestinies = (value: any) => {
     let selDestinies = [];
-    if (value == 2) selDestinies = extraData.provs;
-    if (value == 3) selDestinies = extraData.cantons;
-    if (value == 4) selDestinies = extraData.parishes;
-    if (value == 5) selDestinies = extraData.barrios;
+    if (value == 2) selDestinies = extraData.dptos;
+    if (value == 3) selDestinies = extraData.provs;
+    if (value == 4) selDestinies = extraData.muns;
+    if (value == 5) selDestinies = extraData.dmuns;
 
     return selDestinies;
   };
