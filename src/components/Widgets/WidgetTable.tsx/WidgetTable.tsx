@@ -44,9 +44,9 @@ const colorPalette = [
 ];
 
 const WidgetTable = ({ data, level, onClickLevel, title }: any) => {
-  // console.log(level,'lv')
+   //console.log(level,'lv')
   const titleFirstColumnLabel =
-    level === 1 ? "Provincia" : level === 2 ? "Cantón" : "Parroquia";
+    level === 1 ? "Departamento" : (level === 4 || level === 2) ? "Provincia" : "Distrito Municipal";
   const [goals, setGoals]: any = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: "percentage_hab",
@@ -124,7 +124,7 @@ const WidgetTable = ({ data, level, onClickLevel, title }: any) => {
     {
       key: "index",
       label: "Nº",
-      width: "170px",
+      width: "50px",
       responsive: "",
       onRender: (item: any) => {
         return item.i;
