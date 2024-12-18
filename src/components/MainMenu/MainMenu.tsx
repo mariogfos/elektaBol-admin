@@ -1,20 +1,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Avatar } from "../../mk/components/ui/Avatar/Avatar";
-import { getFullName, getUrlImages } from "@/mk/utils/string";
 import {
-  IconHome,
-  IconUser,
   IconLogout,
-  IconComunication,
-  IconDashboard,
-  IconSetting,
-  IconLogoElekta,
-  IconRedffiliates,
-  IconRolesPermisos,
-  IconStatic,
-  IconNetwork,
-  IconCandidates,
+  IconComunication, IconRedffiliates, IconNetwork,
+  IconCandidates
 } from "../layout/icons/IconsBiblioteca";
 import styles from "./mainmenu.module.css";
 import { useRouter } from "next/router";
