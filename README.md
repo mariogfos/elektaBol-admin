@@ -9,7 +9,7 @@ npm run devss
 # oras
 yarn devasdss
 # orasdadasdassdsdds
-pnpm dev
+pnpm devsdd
 # or
 bun dev
 ```
