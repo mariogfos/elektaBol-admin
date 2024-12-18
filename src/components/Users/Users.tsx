@@ -148,7 +148,6 @@ const Users = () => {
                     ) : (
                       formatNumber(dataUsers?.data?.demografico?.afiliados, 0)
                     )}
-                    {/* {formatNumber(dataUsers?.data?.demografico?.afiliados, 0)} */}
                   </div>
                   <div> Afiliados en la red</div>
                 </div>
