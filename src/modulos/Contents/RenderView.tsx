@@ -4,92 +4,339 @@ import ItemList from "@/mk/components/ui/ItemList/ItemList";
 import { getFullName, getUrlImages } from "@/mk/utils/string";
 import styles from "./Contents.module.css";
 import {
-  IconDocs,
-  IconDownload,
+  IconArrowLeft,
+  IconArrowRight,
+  IconComment,
+  IconLike,
 } from "@/components/layout/icons/IconsBiblioteca";
 import { getDateStrMes } from "@/mk/utils/date";
+import List from "@/mk/components/ui/List/List";
+import ReactPlayer from "react-player";
+import { useState } from "react";
+import DetailAffiliate from "@/components/AffiliatesOld/DetailAffiliate";
+import { useAuth } from "@/mk/contexts/AuthProvider";
 
 const RenderView = (props: {
   open: boolean;
   onClose: any;
   item: Record<string, any>;
   onConfirm?: Function;
+  extraData?: any;
 }) => {
   const { data } = props?.item;
-  console.log(data, "dat");
+  const extraData = props?.extraData;
+  const [idOpenAff, setIdOpenAff]: any = useState({ open: false, id: "" });
+  const entidad = ["", "", "Provincia", "Cantón", "Parroquia", "Barrio"];
+  const { user } = useAuth();
+console.log(data,'data renderview contents')
+  const commentList = (item: any) => {
+    if (item?.affiliate == null) {
+      return;
+    }
+    return (
+      <ItemList
+        title={getFullName(item.affiliate)}
+        subtitle={item?.comment}
+        left={
+          <Avatar
+            onClick={() => setIdOpenAff({ open: true, id: item.affiliate.id })}
+            name={getFullName(item.affiliate)}
+            src={getUrlImages(
+              "/AFF-" +
+                item?.affiliate?.id +
+                ".webp?d=" +
+                item?.affiliate?.updated_at
+            )}
+          />
+        }
+      />
+    );
+  };
+
+  const [indexVisible, setIndexVisible] = useState(0);
+  const nextIndex = () => {
+    setIndexVisible((prevIndex) => (prevIndex + 1) % data?.images?.length);
+  };
+  const prevIndex = () => {
+    setIndexVisible((prevIndex) =>
+      prevIndex === 0 ? data?.images?.length - 1 : prevIndex - 1
+    );
+  };
+  const getDestinys = () => {
+    let lEntidad: any = [];
+    data.cdestinies.map((item: any, index: number) => {
+      if (data.destiny == 2) {
+        lEntidad.push({
+          id: item.prov_id,
+          name: extraData.provs.find((prov: any) => prov.id == item.prov_id)
+            ?.name,
+        });
+      }
+      if (data.destiny == 3) {
+        lEntidad.push({
+          id: item.canton_id,
+          name: extraData.cantons.find(
+            (canton: any) => canton.id == item.canton_id
+          )?.name,
+        });
+      }
+      if (data.destiny == 4) {
+        lEntidad.push({
+          id: item.parish_id,
+          name: extraData.parishes.find(
+            (parish: any) => parish.id == item.parish_id
+          )?.name,
+        });
+      }
+      if (data.destiny == 5) {
+        lEntidad.push({
+          id: item.barrio_id,
+          name: extraData.barrios.find(
+            (barrio: any) => barrio.id == item.barrio_id
+          )?.name,
+        });
+      }
+    });
+    return lEntidad;
+  };
+  console.log(user?.role.level, data?.destiny);
   return (
-    <DataModal
-      open={props.open}
-      onClose={props?.onClose}
-      title={"Detalle del Contenido"}
-      buttonText=""
-      buttonCancel=""
-    >
-      <div style={{ marginTop: 16 }}>
-        <ItemList
-          title={getFullName(props?.item?.data?.user)}
-          subtitle={
-            <>
-              <div>{data?.user?.role1[0]?.description}</div>
-              <div>{getDateStrMes(props?.item?.data?.created_at)}</div>
-            </>
-          }
-          left={
-            <Avatar
-              name={getFullName(props?.item?.data?.user)}
-              src={props?.item?.data?.user}
+    <>
+      <DataModal
+        open={props.open}
+        onClose={props?.onClose}
+        title={"Detalle de la noticia"}
+        buttonText=""
+        buttonCancel=""
+      >
+        <div className={styles.container}>
+          <div className={styles.content}>
+            {data?.destiny != 0 && user?.role.level != data?.destiny && (
+              <p style={{ marginBottom: 12, color: "var(--cInfo)" }}>
+                Destino:{" "}
+                {entidad[data.destiny] +
+                  `${
+                    getDestinys().length > 1
+                      ? data.destiny == 3
+                        ? "es"
+                        : "s"
+                      : ""
+                  }`}{" "}
+                {getDestinys()
+                  .map((e: any) => e.name)
+                  .join(", ")}
+              </p>
+            )}
+            <ItemList
+              title={getFullName(data.candidate)}
+              subtitle={
+                <>
+                  <div>{data?.user?.role1[0]?.name}</div>
+                  <div>{getDateStrMes(props?.item?.data?.created_at)}</div>
+                </>
+              }
+              left={
+                <Avatar
+                  name={getFullName(data.candidate)}
+                  src={getUrlImages(
+                    "/CAND-" +
+                      data?.candidate.id +
+                      ".webp?d=" +
+                      data?.candidate.updated_at
+                  )}
+                />
+              }
             />
-          }
-        />
-        <div className={styles["renderViewDescription"]}>
-          {props?.item?.data?.description}
-          <div className={styles["renderViewImage"]} style={{}}>
-            {props?.item?.data?.type == "I" && (
-              <img
-                alt=""
-                width={698}
-                height={298}
-                style={{ resize: "inherit", objectFit: "contain" }}
-                src={getUrlImages(
-                  "/CONT-" +
-                    data?.id +
-                    "." +
-                    data?.url +
-                    "?d=" +
-                    data?.updated_at
-                )}
-              />
-            )}
-            {props?.item?.data?.type == "D" && (
-              <a
-                style={{ color: "white" }}
-                target="_blank"
-                href={getUrlImages(
-                  "/CONT-" +
-                    data?.id +
-                    "." +
-                    data?.url +
-                    "?d=" +
-                    data?.updated_at
-                )}
-              >
-                <IconDocs size={64} />
-              </a>
-            )}
-            {props?.item?.data?.type == "V" && (
-              <a style={{ color: "white" }} target="_blank" href={data?.url}>
-                <IconDownload size={64} />
-              </a>
-            )}
+            {props?.item?.data?.description}
+            <section className={styles["renderViewImage"]}>
+              {props?.item?.data?.type == "I" && (
+                <>
+                  {data?.images?.length > 1 && (
+                    <div
+                      style={{
+                        display: "flex",
+                        position: "absolute",
+                        justifyContent: "space-between",
+                        padding: "0px 16px",
+                        alignItems: "center",
+                        width: "100%",
+                        gap: 24,
+                      }}
+                    >
+                      <div
+                        style={{
+                          backgroundColor: "#11111166",
+                          padding: "6px",
+                          borderRadius: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={prevIndex}
+                      >
+                        <IconArrowLeft />
+                      </div>
+                      <div
+                        style={{
+                          backgroundColor: "#11111166",
+                          padding: "6px",
+                          borderRadius: "100%",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={nextIndex}
+                      >
+                        <IconArrowRight />
+                      </div>
+                    </div>
+                  )}
+
+                  <img
+                    alt=""
+                    style={{
+                      resize: "inherit",
+                      objectFit: "contain",
+                      display: "block",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    src={getUrlImages(
+                      "/CONT-" +
+                        data?.id +
+                        "-" +
+                        data?.images[indexVisible]?.id +
+                        ".webp" +
+                        "?" +
+                        data?.updated_at
+                    )}
+                  />
+                </>
+              )}
+
+              {props?.item?.data?.type == "D" && (
+                <>
+                  <iframe
+                    src={getUrlImages(
+                      "/CONT-" +
+                        data?.id +
+                        "." +
+                        data?.url +
+                        "?d=" +
+                        data?.updated_at
+                    )}
+                    width="500"
+                    height="500"
+                  ></iframe>
+                  {/* <a
+                  style={{ color: "white" }}
+                  target="_blank"
+                  href={getUrlImages(
+                    "/CONT-" +
+                      data?.id +
+                      "." +
+                      data?.url +
+                      "?d=" +
+                      data?.updated_at
+                  )}
+                >
+                  <IconDocs size={64} />
+                </a> */}
+                </>
+              )}
+              {props?.item?.data?.type == "V" && (
+                // <a style={{ color: "white" }} target="_blank" href={data?.url}>
+                //   <IconDownload size={64} />
+                // </a>
+                <ReactPlayer
+                  url={data?.url}
+                  width="100%"
+                  height={480}
+                  controls
+                  // config={{
+                  //   youtube: {
+                  //     playerVars: { showinfo: 1 },
+                  //   },
+                  //   facebook: {
+                  //     appId: "12345",
+                  //   },
+                  // }}
+                />
+              )}
+            </section>
           </div>
+          <section className={styles["reactionsSection"]}>
+            {/* <div>
+            <p>Apoyos</p>
+            <div>
+              <IconLike size={40} color="var(--cInfo)" />
+              {props?.item?.data?.likes}
+            </div>
+          </div>
+
+          <div>
+            <p>Comentarios</p>
+            <div>
+              {data?.comments.map((item: any, index: number) => (
+                <div key={index}>
+                  <ItemList
+                    key={index}
+                    style={{ marginLeft: -8 }}
+                    title={getFullName(item.affiliate)}
+                    subtitle={getDateStrMes(item?.created_at)}
+                    left={
+                      <Avatar
+                        name={getFullName(item.affiliate)}
+                        src={getUrlImages(
+                          "/AFF-" +
+                            item?.affiliate.id +
+                            ".webp?d=" +
+                            item?.affiliate.updated_at
+                        )}
+                      />
+                    }
+                  />
+                  <p>{item?.comment}</p>
+                </div>
+              ))}
+            </div>
+          </div> */}
+            <div>
+              <div>
+                <p>Apoyos</p>
+                <p>
+                  <IconLike color="var(--cInfo)" />
+                  {props?.item?.data?.likes}
+                </p>
+              </div>
+              <div>
+                <p>Comentarios</p>
+                <p>
+                  <IconComment />
+                  {props?.item?.data?.comments?.length}
+                </p>
+              </div>
+            </div>
+            {props?.item?.data?.comments?.length > 0 && (
+              <>
+                <h2>Comentarios:</h2>
+                <List
+                  data={props?.item?.data?.comments}
+                  renderItem={commentList}
+                />
+              </>
+            )}
+          </section>
         </div>
-        <div>
-          {props.item.data.comments?.map((o: any, i: number) => (
-            <p key={i}>{o.name}</p>
-          ))}
-        </div>
-      </div>
-    </DataModal>
+      </DataModal>
+      {idOpenAff.open && (
+        <DetailAffiliate
+          open={idOpenAff.open}
+          close={() => setIdOpenAff({ open: false, id: 0 })}
+          id={idOpenAff.id}
+        />
+      )}
+    </>
   );
 };
 

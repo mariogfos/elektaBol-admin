@@ -223,20 +223,89 @@ const Contents = () => {
         rules: ["required"],
         api: "ae",
         label: "Destino",
-        list: { width: "180px" },
+        // list: { width: "180px" },
+        list: {
+          width: "100px",
+          onRender: (item: any) => {
+            let destinys = ["", "", "Departamento", "Provincia", "Municipio"];
+            if (item?.item?.destiny == 0 || item?.item?.destiny == 1) {
+              return "Todos";
+            }
+            if (user?.role.level == 2 && item?.item?.destiny == 2) {
+              return "Mi departamento";
+            }
+            if (user?.role.level == 4 && item?.item?.destiny == 4) {
+              return "Mi provincia";
+            }
+            if (user?.role.level == 5 && item?.item?.destiny == 5) {
+              return "Mi municipio";
+            }
+            if (user?.role.level == 6 && item?.item?.destiny == 6) {
+              return "Mi distrito municipal";
+            }
+            return destinys[item?.item?.destiny];
+          },
+        },
         form: {
           type: "select",
           options: lDestinies,
-          onLeft: leftDestiny,
+          // onLeft: leftDestiny,
+          onTop:onTop,
           precarga: 0,
         },
+      },
+      lDestiny: {
+        rules: [],
+        api: "ae",
+        label: "",
+        list: false,
+        form: false,
       },
       candidate_id: {
         rules: ["required"],
         api: "ae",
         label: "Candidato",
-        list: { width: "200px" },
-        form: { type: "select", optionsExtra: "candidates" },
+        // list: { width: "200px" },
+        // form: { type: "select", optionsExtra: "candidates" },
+        list: {
+          width: "250px",
+          // optionsExtra: "candidates",
+          options: ({ extraData }: any) => {
+            let data: any = [];
+            extraData?.candidates?.map((c: any) => {
+              data.push({
+                id: c.id,
+                name: getFullName(c),
+              });
+            });
+            return data;
+          },
+          // options: ({ extraData }: any) => {
+          //   console.log(extraData);
+          // },
+        },
+        form: {
+          type: "select",
+          filter: true,
+          options: ({ extraData }: any) => {
+            let data: any = [];
+            extraData?.candidates.map((c: any) => {
+              if (c.status == "A") {
+                data.push({
+                  id: c.id,
+                  name:
+                    getFullName(c) +
+                    " - " +
+                    extraData?.typeCands.find((t: any) => t.id == c.typecand_id)
+                      ?.name,
+                });
+              }
+            });
+            return data;
+          },
+        },
+
+
       },
       type: {
         rules: ["required"],
@@ -255,7 +324,7 @@ const Contents = () => {
       reaction: {
         api: "ae",
         label: "Interacciones",
-        list: { width: "360px" },
+        list: { width: "120px" },
         onHide: isType,
         form: {},
         onRender: (item: any) => {
@@ -279,14 +348,17 @@ const Contents = () => {
         form: { type: "text" },
       },
       avatar: {
-        rules: ["requiredFileIf:type,I*add"],
+        // rules: ["requiredFileIf:type,I*add"],
         api: "a*e*",
         label: "Suba una imagen",
         list: false,
         onHide: isType,
         form: {
-          type: "imageUpload",
-          onRigth: rigthAvatar,
+          type: "imageUploadMultiple",
+          prefix: "CONT",
+          maxFiles: 10,
+          images: "images",
+          // onRigth: rigthAvatar,
           style: { width: "100%" },
         },
       },
@@ -448,7 +520,7 @@ const Contents = () => {
     mod,
     onEdit,
     onDel,
-    title: "Comunicación",
+    title: "Noticias",
   });
 
   const [openImport, setOpenImport] = useState(false);
@@ -511,7 +583,7 @@ const Contents = () => {
           reLoad={reLoad}
           execute={execute}
           getExtraData={getExtraData}
-          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE"
+          // requiredCols="DEPARTAMENTO, HABITANTES, HABILITADOS, ESCANOS, CODE e"
         />
       )}
     </div>
