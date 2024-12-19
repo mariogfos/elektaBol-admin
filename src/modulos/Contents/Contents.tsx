@@ -81,8 +81,8 @@ const lDestinies = (data: {
 
   // const level = 3;
   if (level <= 1) r.push({ id: 2, name: "Departamento" });
-  if (level <= 2) r.push({ id: 4, name: "Provincia" });
-  if (level <= 3) r.push({ id: 5, name: "Municipio" });
+  if (level <= 3) r.push({ id: 3, name: "Provincia" });
+  if (level <= 3) r.push({ id: 4, name: "Municipio" });
 
   return r;
 };
@@ -225,26 +225,26 @@ const Contents = () => {
         label: "Destino",
         // list: { width: "180px" },
         list: {
-          width: "100px",
-          onRender: (item: any) => {
-            let destinys = ["", "", "Departamento", "Provincia", "Municipio"];
-            if (item?.item?.destiny == 0 || item?.item?.destiny == 1) {
-              return "Todos";
-            }
-            if (user?.role.level == 2 && item?.item?.destiny == 2) {
-              return "Mi departamento";
-            }
-            if (user?.role.level == 4 && item?.item?.destiny == 4) {
-              return "Mi provincia";
-            }
-            if (user?.role.level == 5 && item?.item?.destiny == 5) {
-              return "Mi municipio";
-            }
-            if (user?.role.level == 6 && item?.item?.destiny == 6) {
-              return "Mi distrito municipal";
-            }
-            return destinys[item?.item?.destiny];
-          },
+          width: "150px",
+          // onRender: (item: any) => {
+          //   let destinys = ["", "", "Departamento", "Provincia", "Municipio"];
+          //   if (item?.item?.destiny == 0 || item?.item?.destiny == 1) {
+          //     return "Todos";
+          //   }
+          //   if (user?.role.level == 2 && item?.item?.destiny == 2) {
+          //     return "Mi departamento";
+          //   }
+          //   if (user?.role.level == 4 && item?.item?.destiny == 4) {
+          //     return "Mi provincia";
+          //   }
+          //   if (user?.role.level == 5 && item?.item?.destiny == 5) {
+          //     return "Mi municipio";
+          //   }
+          //   if (user?.role.level == 6 && item?.item?.destiny == 6) {
+          //     return "Mi distrito municipal";
+          //   }
+          //   return destinys[item?.item?.destiny];
+          // },
         },
         form: {
           type: "select",
@@ -403,11 +403,14 @@ const Contents = () => {
     }
     if (name == "destiny") {
       selDestinies = null;
-      if (value == 2) selDestinies = extraData.sublemas;
-      if (value == 3) selDestinies = extraData.listas;
-      if (value == 4) selDestinies = extraData.dptos;
-      if (value == 5) selDestinies = extraData.locals;
-      if (value == 6) selDestinies = extraData.barrios;
+      // if (value == 2) selDestinies = extraData.sublemas;
+      // if (value == 3) selDestinies = extraData.listas;
+      if (value == 2) selDestinies = extraData.dptos;
+      if (value == 3) selDestinies = extraData.provs;
+      if (value == 4) selDestinies = extraData.muns;
+      if (value == 5) selDestinies = extraData.dmuns;
+      if (value == 6) selDestinies = extraData.locals;
+      if (value == 7) selDestinies = extraData.barrios;
       if (selDestinies)
         setShowExtraModal(
           <ModalDestiny
