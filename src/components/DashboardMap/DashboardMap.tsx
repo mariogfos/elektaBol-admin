@@ -60,7 +60,7 @@ export const DashboardMap = ({
           <Card style={{ textAlign: "right", fontSize: 16 }}>
             <p>Población Censo 2024</p>
             {params[0]?.level == entidadData?.role?.level ? (
-              <p>{formatNumber(entidadData?.entidad?.habitantes)}</p>
+              <p>{formatNumber(entidadData?.entidad?.habitantes,0)}</p>
             ) : (
               <p>{formatNumber(totalHabitantes,0)}</p>
             )}
@@ -68,7 +68,7 @@ export const DashboardMap = ({
           <Card style={{ textAlign: "right", fontSize: 16 }}>
             <p>Votantes habilitados 2024</p>
             {params[0]?.level == entidadData?.role?.level ? (
-              <p>{formatNumber(entidadData?.entidad?.habilitados)}</p>
+              <p>{formatNumber(entidadData?.entidad?.habilitados,0)}</p>
             ) : (
               <p>{formatNumber(totalHabilitados,0)}</p>
             )}
@@ -80,7 +80,7 @@ export const DashboardMap = ({
             ) : (
               <p>{formatNumber(totalPid)}</p>
             )}
-          </Card> */}
+          </Card> */} 
           <Card style={{ textAlign: "right", fontSize: 16 }}>
             <p>Afiliados en Elekta</p>
             <p>{formatNumber(totalAfiliados,0)}</p>
