@@ -103,18 +103,22 @@ export const validRule = (
     },
     facebook: () => {
       const regex = /^https:\/\/(www\.)?(facebook\.com\/)/;
+       if (!value) return ""; // No valida si el campo está vacío
       return !regex.test(value) ? "Debe ser un enlace válido de Facebook" : "";
     },
     instagram: () => {
       const regex = /^https:\/\/(www\.)?(instagram\.com\/)/;
+       if (!value) return ""; // No valida si el campo está vacío
       return !regex.test(value) ? "Debe ser un enlace válido de Instagram" : "";
     },
     twitter: () => {
       const regex = /^https:\/\/(www\.)?(x\.com\/)/;
+       if (!value) return ""; // No valida si el campo está vacío
       return !regex.test(value) ? "Debe ser un enlace válido de Twitter" : "";
     },
     linkedin: () => {
       const regex = /^https:\/\/(www\.)?(linkedin\.com\/)/;
+       if (!value) return ""; // No valida si el campo está vacío
       return !regex.test(value) ? "Debe ser un enlace válido de LinkedIn" : "";
     },
     between: () =>
