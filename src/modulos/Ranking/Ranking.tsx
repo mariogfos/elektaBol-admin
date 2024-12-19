@@ -3,9 +3,9 @@
 import React, { useEffect } from "react";
 import styles from "./Ranking.module.css";
 import RankingNational from "./RankingNational";
-import RankingProvincial from "./RankingProvincial";
 import useAxios from "@/mk/hooks/useAxios";
 import { useAuth } from "@/mk/contexts/AuthProvider";
+import RankingDepartamental from "./RankingDepartamental";
 
 const Ranking = () => {
   const { setStore } = useAuth();
@@ -25,7 +25,7 @@ const Ranking = () => {
         {extraData?.data && <RankingNational extraData={extraData?.data} />}
       </div>
       <div>
-        {extraData?.data && <RankingProvincial extraData={extraData?.data} />}
+        {extraData?.data && <RankingDepartamental extraData={extraData?.data} />}
       </div>
     </div>
   );
