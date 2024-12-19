@@ -68,14 +68,21 @@ const lDestinies = (data: {
   user?: Record<string, any>;
   item: Record<string, any>;
 }) => {
-  const r = [{ id: 0, name: "Todos" }];
+  const r = [];
   const level = data.user?.role.level;
   // const level = 3;
-  if (level <= 1) r.push({ id: 2, name: "Sublema" });
-  if (level <= 2) r.push({ id: 3, name: "Lista" });
-  if (level <= 4) r.push({ id: 4, name: "Departamento" });
-  if (level <= 5) r.push({ id: 5, name: "Localidad" });
-  if (level <= 6) r.push({ id: 6, name: "Barrio" });
+  if (level == 1 || level == 0) {
+    r.push({ id: 0, name: "Todos" });
+  }
+  if (level == 2) r.push({ id: 0, name: "Mi departamento" });
+  if (level == 4) r.push({ id: 0, name: "Mi provincia" });
+  if (level == 5) r.push({ id: 0, name: "Mi municipio" });
+  if (level == 6) r.push({ id: 0, name: "Mi distrito municipal" });
+
+  // const level = 3;
+  if (level <= 1) r.push({ id: 2, name: "Departamento" });
+  if (level <= 2) r.push({ id: 4, name: "Provincia" });
+  if (level <= 3) r.push({ id: 5, name: "Municipio" });
 
   return r;
 };
@@ -160,7 +167,7 @@ const Contents = () => {
     singular: "publicación",
     plural: "Contenidos multimedia",
     permiso: "contents",
-    import: true,
+    //import: true,
     extraData: true,
     saveMsg: {
       add: "Publicación creada con éxito",
@@ -175,6 +182,39 @@ const Contents = () => {
     }) => <RenderView {...props} />,
     loadView: { fullType: "DET" },
   };
+
+  const onTop = (data: {
+    user?: Record<string, any>;
+    item: Record<string, any>;
+    extraData: any;
+  }) => {
+    const extraData = data?.extraData;
+    if (data?.item?.destiny == 0) {
+      return;
+    }
+    let selDestinies = [];
+    if (data?.item?.destiny == 2) selDestinies = extraData.provs;
+    if (data?.item?.destiny == 3) selDestinies = extraData.cantons;
+    if (data?.item?.destiny == 4) selDestinies = extraData.parishes;
+    // if (data?.item?.destiny == 5) selDestinies = extraData.barrios;
+    return (
+      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+        {selDestinies
+          ?.filter((d: any) => data?.item?.lDestiny?.includes(d.id))
+          .map((d: any, index: number, array: any[]) => (
+            <p
+              key={d.id}
+              // className={styles.subtitle}
+              style={{ color: "var(--cInfo)", marginTop: 4 }}
+            >
+              {d.name}
+              {index < array.length - 1 ? "," : ""}
+            </p>
+          ))}
+      </div>
+    );
+  };
+  
 
   const fields = useMemo(
     () => ({
