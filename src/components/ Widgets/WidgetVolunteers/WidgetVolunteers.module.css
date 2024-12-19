@@ -8,10 +8,10 @@
     }
 
     &>p:first-of-type {
-      
+        font-size: 16px;
         @media (min-width: 1440px) {
             margin-bottom: 8px;
-            font-size: 16px;
+            font-size: 18px;
         }
     }
 

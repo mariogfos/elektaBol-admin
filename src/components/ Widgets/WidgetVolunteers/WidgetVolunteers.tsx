@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./WidgetVolunteers.module.css";
 import WidgetBase from "../WidgetBase/WidgetBase";
+import { formatNumber } from "../../../mk/utils/numbers";
 
 interface PropsType {
   widget1?: any;
@@ -14,7 +15,7 @@ const WidgetVolunteers = ({ widget1 }: PropsType) => {
       subtitle="Cantidad de afiliados"
       className={styles.widgetVolunteers}
     >
-      <h1>{widget1?.cant}</h1>
+      <h1>{formatNumber(widget1?.cant, 0)}</h1>
       <div></div>
       <p>Bolivia</p>
     </WidgetBase>
