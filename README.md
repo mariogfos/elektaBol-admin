@@ -5,11 +5,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
-npm run devss
+npm run devssasd
 # orassssd
 yarn devasdssasdasd
 # orasdadasdassdsdds
-pnpm devsdd
+pnpm devsddasd
 # or
 bun dev
 ```
