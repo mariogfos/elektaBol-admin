@@ -220,34 +220,33 @@ const EventsAdmin = () => {
         rules: ["required"],
         api: "ae",
         label: "Candidato",
+        // list: { width: "200px" },
+        // form: { type: "select", optionsExtra: "candidates" },
         list: false,
-        // {
-        //   width: "200px",
-        // onRender: ({ item }: any) => {
-        //   return getFullName(item?.candidate);
-        // },
-        // },
-
         form: {
           type: "select",
+          filter: true,
           options: ({ extraData }: any) => {
             let data: any = [];
             extraData?.candidates.map((c: any) => {
-              if (c.status == "A")
+              if (c.status == "A") {
                 data.push({
                   id: c.id,
                   name:
                     getFullName(c) +
                     " - " +
-                    extraData?.typeCands?.find(
-                      (t: any) => t.id == c.typecand_id
-                    )?.name,
+                    extraData?.typeCands.find((t: any) => t.id == c.typecand_id)
+                      ?.name,
                 });
+              }
             });
             return data;
           },
         },
+
+
       },
+      
       // sublema_id: {
       //   rules: ["required"],
       //   api: "ae",
