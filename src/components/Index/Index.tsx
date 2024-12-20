@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import HistoryTitle from "@/modulos/Statistics/HistoryTitle";
 import DashboardMap from "../DashboardMap/DashboardMap";
+import WidgetCandidates from "../ Widgets/WidgetCandidates/WidgetCandidates";
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -32,7 +33,6 @@ const HomePage = () => {
     ...params,
   });
 
-  console.log('user,', user);
 
   useEffect(() => {
     setStore({
@@ -55,12 +55,12 @@ const HomePage = () => {
   );
 
   const onClick = (row: any) => {
-    console.log("row", row);
+    // console.log("row", row);
     if (params?.level === 5) {
       return;
     }
 
-    console.log("params index", params);
+    // console.log("params index", params);
 
     const item: any = dashboard?.data?.entidad.find((d: any) => d.id == row.id);
 
@@ -68,7 +68,7 @@ const HomePage = () => {
     setHistTitulos((prev) => [...prev, item?.name]);
 
     setItemSelected(item);
-    console.log("itemSelected", itemSelected);
+    // console.log("itemSelected", itemSelected);
     setParams({
       ...params,
       searchBy: item?.id,
@@ -110,9 +110,9 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      {params?.level == 1 ? (
-        <WidgetTime data={dashboard?.data?.countDown} />
-      ) : (
+      {params?.level > 1 && (
+        // <WidgetTime data={dashboard?.data?.countDown} />
+      //) : (
         <HistoryTitle
           param={[params, setParams]}
           histTitulos={histTitulos}
@@ -132,8 +132,13 @@ const HomePage = () => {
         )}
 
         <div>
+        <WidgetTime data={dashboard?.data?.countDown} />
           <WidgetProgresiveBar data={{ totalAfiliados, totalHabilitados }} />
-          <WidgetPercentage data={dashboard?.data?.encuesta} />
+          {/* <WidgetPercentage data={dashboard?.data?.encuesta} /> */}
+          <WidgetCandidates
+            data={dashboard?.data?.candidates}
+            params={params}
+          />
         </div>
       </section>
       <section>
@@ -157,9 +162,9 @@ const HomePage = () => {
             />
           )}
         </div>
-        <div>
+        {/* <div>
           <WidgetAffiliatesRank data={dashboard?.data?.topAfiliados} />
-        </div>
+        </div> */}
       </section>
     </div>
   );
