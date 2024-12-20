@@ -15,7 +15,9 @@ import {
   IconTimer,
 } from "@/components/layout/icons/IconsBiblioteca";
 import { formatNumber } from "@/mk/utils/numbers";
+import WidgetEducation from "@/components/ Widgets/WidgetEducation/WidgetEducation";
 import WidgetAge from "@/components/ Widgets/WidgetAge/WidgetAge";
+import WidgetBase from "@/components/ Widgets/WidgetBase/WidgetBase";
 import Select from "@/mk/components/forms/Select/Select";
 import useAxios from "@/mk/hooks/useAxios";
 import { lAges, lGreader, RandomsColors } from "@/mk/utils/utils";
@@ -24,8 +26,6 @@ import Button from "@/mk/components/forms/Button/Button";
 import HorizontalProgresiveBar from "@/mk/components/ui/HorizontalProgresiveBar/HorizontalProgresiveBar";
 import LoadingScreen from "@/mk/components/ui/LoadingScreen/LoadingScreen";
 import WidgetDonut from "@/components/Widgets/WidgetDonut/WidgetDonut";
-import WidgetBase from "@/components/ Widgets/WidgetBase/WidgetBase";
-import WidgetEducation from "@/components/ Widgets/WidgetEducation/WidgetEducation";
 
 interface GraphValue {
   name: string;
@@ -75,7 +75,12 @@ const ViewSurveys = ({
   const allAnswersCountZero = data?.answers?.every(
     (item: any) => item.sanswers_count === 0
   );
-  const { m = 0, f = 0, x = 0 ,  0:incomplete=0 } = data?.metrics?.gender || {};
+  const {
+    m = 0,
+    f = 0,
+    x = 0,
+    0: incomplete = 0,
+  } = data?.metrics?.gender || {};
   const allGendersCountZero = m === 0 && f === 0 && x === 0 && incomplete === 0;
   let hoy: any = new Date();
   hoy.setHours(hoy.getHours() + 4);
@@ -85,7 +90,7 @@ const ViewSurveys = ({
     {
       key: "index",
       label: "Nº",
-      width: "170px",
+      width: "50px",
       onRender: (item: any) => item.i,
     },
     {
@@ -95,13 +100,15 @@ const ViewSurveys = ({
     },
     {
       key: "afiliados",
-      label: "Cantidad de afiliados",
+      label: "Cant. afiliados",
+      width: "120px",
       responsive: "onlyDesktop",
       style: { justifyContent: "flex-end", textAlign: "right" },
     },
     {
       key: "percentage_hab",
-      label: "Porcentaje de respuestas",
+      label: "% de respuestas",
+      width: "150px",
       responsive: "onlyDesktop",
       style: { textAlign: "right", display: "block" },
       //   onRenderFoot: (item: any, index: number, sumas: any) => {
@@ -141,7 +148,7 @@ const ViewSurveys = ({
   // });
   const dataFormattedProvs = () => {
     let newData: any = [];
-
+    console.log(provs,'provs1')
     provs?.data?.forEach((item: any, i: number) => {
       const d = data?.provs[item?.id];
       //     // if (d) {
@@ -157,7 +164,7 @@ const ViewSurveys = ({
 
   const getTotalAfiliados = (data: any, provs: any) => {
     let total = 0;
-
+    console.log(provs,'provs2')
     provs?.data?.forEach((item: any) => {
       const d = data?.provs[item?.id];
       if (d !== undefined) {
@@ -208,12 +215,17 @@ const ViewSurveys = ({
     }
 
     if (data?.metrics) {
-      const { m, f, x ,0:incomplete } = data?.metrics?.gender;
+      const { m, f, x, 0: incomplete } = data?.metrics?.gender;
       const hombres = typeof m === "number" ? m : 0;
       const mujeres = typeof f === "number" ? f : 0;
       const prefieroNoDecirlo = typeof x === "number" ? x : 0;
       const incompleto = typeof incomplete === "number" ? incomplete : 0;
-      const sexLabels = ["Hombres", "Mujeres", "Prefiero no decirlo","No indicado"];
+      const sexLabels = [
+        "Hombres",
+        "Mujeres",
+        "Prefiero no decirlo",
+        "No indicado",
+      ];
       const sexValues = [
         { name: "Hombres", values: [hombres] },
         { name: "Mujeres", values: [mujeres] },
@@ -353,7 +365,7 @@ const ViewSurveys = ({
     <div>
       <div className={styles.headerViewSurveys}>
         <div>
-          <div className="tSubtitle">
+          <div className="tSubtitle" style={{marginBottom: 4, color: "var(--cInfo)"}}>
             {differenceInDays(hoy, data?.data?.begin_at) > 0 &&
             hoy !== data?.data?.begin_at
               ? "Se publicará " + getDateStrMes(data?.data?.begin_at)
@@ -362,12 +374,23 @@ const ViewSurveys = ({
           <div className="tTitle">{data?.data?.name}</div>
         </div>
         <div className={styles.filtersStyle}>
-          <IconFilter
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              cursor: "pointer",
+            }}
             onClick={() => setOpenFilter(true)}
-            color="var(--cInfo)"
-            style={{ cursor: "pointer" }}
-          />
-          <p>Filtros</p>
+          >
+            <IconFilter
+              color="var(--cInfo)"
+              style={{
+                marginTop: -3,
+              }}
+            />
+            <p>Filtros</p>
+          </div>
+
           {filterTags?.length > 0 && (
             <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
               {filterTags?.map((item: string) => (
@@ -440,13 +463,13 @@ const ViewSurveys = ({
                 <div>
                   Alcance estimado <IconInterrogation size={24} />
                 </div>
-                <div>{data?.alcanceEst}</div>
+                <div>{formatNumber(data?.alcanceEst, 0)}</div>
               </div>
               <div className={styles["cardInfo"]}>
                 <div>
                   Alcance real <IconInterrogation size={24} />
                 </div>
-                <div>{data?.alcanceReal}</div>
+                <div>{formatNumber(data?.alcanceReal,0)}</div>
               </div>
               <div className={styles["cardInfo"]}>
                 <div>
@@ -481,17 +504,22 @@ const ViewSurveys = ({
                     key: "name",
                     responsive: "",
                     label: "Respuesta",
+
                     width: "300%",
                   },
                   {
                     key: "sanswers_count",
                     responsive: "",
                     label: "Total de Votos",
+                    style: { justifyContent: "flex-end", textAlign: "right" },
+                    width: "100",
                   },
                   {
                     key: "percentage",
                     responsive: "",
                     label: "Porcentaje",
+                    style: { justifyContent: "flex-end", textAlign: "right" },
+                    width: "100",
                   },
                 ]}
                 onRowClick={(row: any) =>
@@ -524,7 +552,7 @@ const ViewSurveys = ({
             <WidgetAge
               widget2={data?.metrics.age}
               title={"Estadística por edad"}
-              />
+            />
           </div>
         </div>
 
