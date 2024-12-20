@@ -68,21 +68,23 @@ const lDestinies = (data: {
   user?: Record<string, any>;
   item: Record<string, any>;
 }) => {
-  const r = [];
   const level = data.user?.role.level;
-  // const level = 3;
+  const r = [];
   if (level == 1 || level == 0) {
     r.push({ id: 0, name: "Todos" });
   }
   if (level == 2) r.push({ id: 0, name: "Mi departamento" });
-  if (level == 4) r.push({ id: 0, name: "Mi provincia" });
-  if (level == 5) r.push({ id: 0, name: "Mi municipio" });
-  if (level == 6) r.push({ id: 0, name: "Mi distrito municipal" });
+  if (level == 3) r.push({ id: 0, name: "Mi provincia" });
+  if (level == 4) r.push({ id: 0, name: "Mi municipio" });
+  if (level == 5) r.push({ id: 0, name: "Mi distrito municipal" });
 
   // const level = 3;
   if (level <= 1) r.push({ id: 2, name: "Departamento" });
-  if (level <= 3) r.push({ id: 3, name: "Provincia" });
+  if (level <= 2) r.push({ id: 3, name: "Provincia" });
   if (level <= 3) r.push({ id: 4, name: "Municipio" });
+  if (level <= 4) r.push({ id: 5, name: "Distrito Municipal" });
+  // if (level <= 5) r.push({ id: 5, name: "Barrio" });
+  // if (level <= 6) r.push({ id: 6, name: "Barrio" });
 
   return r;
 };
@@ -184,19 +186,20 @@ const Contents = () => {
   };
 
   const onTop = (data: {
+    key: string;
     user?: Record<string, any>;
     item: Record<string, any>;
-    extraData: any;
+    extraData: Record<string, any>;
   }) => {
     const extraData = data?.extraData;
     if (data?.item?.destiny == 0) {
       return;
     }
     let selDestinies = [];
-    if (data?.item?.destiny == 2) selDestinies = extraData.provs;
-    if (data?.item?.destiny == 3) selDestinies = extraData.cantons;
-    if (data?.item?.destiny == 4) selDestinies = extraData.parishes;
-    // if (data?.item?.destiny == 5) selDestinies = extraData.barrios;
+    if (data?.item?.destiny == 2) selDestinies = extraData.dptos;
+    if (data?.item?.destiny == 3) selDestinies = extraData.provs;
+    if (data?.item?.destiny == 4) selDestinies = extraData.muns;
+    if (data?.item?.destiny == 5) selDestinies = extraData.dmuns;
     return (
       <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
         {selDestinies
@@ -224,28 +227,28 @@ const Contents = () => {
         api: "ae",
         label: "Destino",
         // list: { width: "180px" },
-        list: {
-          width: "150px",
-          // onRender: (item: any) => {
-          //   let destinys = ["", "", "Departamento", "Provincia", "Municipio"];
-          //   if (item?.item?.destiny == 0 || item?.item?.destiny == 1) {
-          //     return "Todos";
-          //   }
-          //   if (user?.role.level == 2 && item?.item?.destiny == 2) {
-          //     return "Mi departamento";
-          //   }
-          //   if (user?.role.level == 4 && item?.item?.destiny == 4) {
-          //     return "Mi provincia";
-          //   }
-          //   if (user?.role.level == 5 && item?.item?.destiny == 5) {
-          //     return "Mi municipio";
-          //   }
-          //   if (user?.role.level == 6 && item?.item?.destiny == 6) {
-          //     return "Mi distrito municipal";
-          //   }
-          //   return destinys[item?.item?.destiny];
-          // },
-        },
+        // list: {
+        //   width: "150px",
+        //    onRender: (item: any) => {
+        //      let destinys = ["", "", "Departamento", "Provincia", "Municipio"];
+        //      if (item?.item?.destiny == 0 || item?.item?.destiny == 1) {
+        //        return "Todos";
+        //      }
+        //      if (user?.role.level == 2 && item?.item?.destiny == 2) {
+        //        return "Mi departamento";
+        //      }
+        //      if (user?.role.level == 4 && item?.item?.destiny == 4) {
+        //        return "Mi provincia";
+        //      }
+        //      if (user?.role.level == 5 && item?.item?.destiny == 5) {
+        //        return "Mi municipio";
+        //      }
+        //      if (user?.role.level == 6 && item?.item?.destiny == 6) {
+        //        return "Mi distrito municipal";
+        //      }
+        //      return destinys[item?.item?.destiny];
+        //    },
+        // },
         form: {
           type: "select",
           options: lDestinies,

@@ -153,7 +153,7 @@ const EventsAdmin = () => {
     if (data?.item?.destiny == 2) selDestinies = extraData.dptos;
     if (data?.item?.destiny == 3) selDestinies = extraData.provs;
     if (data?.item?.destiny == 4) selDestinies = extraData.muns;
-    if (data?.item?.destiny == 5) selDestinies = extraData.barrios;
+    if (data?.item?.destiny == 5) selDestinies = extraData.dmuns;
     return (
       <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
         {selDestinies
