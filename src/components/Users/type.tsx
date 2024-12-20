@@ -2,7 +2,7 @@ export const lLevels = [
   "FOS",
   "Partido",
   "Departamento",
-  // "Macroregion", //N
+    "Macroregion", //N
   "Provincia",
   "Municipios",
   "Distritos municipales", //N

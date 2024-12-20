@@ -113,7 +113,7 @@ const LeadershipHierarchy = ({
         {level < 9 && (
           <>
             <TagLabel
-              label={lLevels[level + 1]}
+              label={level === 2 ? lLevels[level + 2] : lLevels[level + 1]}
               styles={{ display: "flex", alignSelf: "flex-start" }}
             />
             <div className={styles["carouselCards"]}>

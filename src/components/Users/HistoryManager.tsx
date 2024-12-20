@@ -18,7 +18,7 @@ const HistoryManager = ({
     // console.log("newParamsHist", newParamsHist, level, ult);
     reload(ult);
   };
-
+  let decreaseValue =  level === 4 ? 2 : 1;
   return (
     <div
       style={{
@@ -32,7 +32,7 @@ const HistoryManager = ({
           onClick={() => handleGoBack()}
           style={{ color: "var(--cAccent)", cursor: "pointer" }}
         >
-          &lt; Volver al Nivel {lLevels[level - 1]}
+          &lt; Volver al Nivel {lLevels[level - decreaseValue]}
         </div>
       )}
     </div>
