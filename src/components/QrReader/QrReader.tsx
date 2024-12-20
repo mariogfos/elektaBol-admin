@@ -35,6 +35,7 @@ const QrReader = ({ open, close, eventId, onMsg = () => {} }: PropsType) => {
       searchBy: userId,
       fullType: "DET",
     });
+    
     if (data?.success === true) {
       setData(data?.data);
     } else {
@@ -44,6 +45,10 @@ const QrReader = ({ open, close, eventId, onMsg = () => {} }: PropsType) => {
       // setError(
       //   "Error al cargar los detalles del afiliado. Intente nuevamente."
       // );
+    }
+    if(!data){
+      onMsg("Afiliado no identificado", "Revisa que la persona esté correctamente afiliada en el sistema","I");
+      close();   
     }
   };
 
@@ -106,6 +111,7 @@ const QrReader = ({ open, close, eventId, onMsg = () => {} }: PropsType) => {
 
   const checkResultScannerQr = (decodedText: string, scanner: any) => {
     const parts = decodedText.split("|");
+   
     if (
       parts.length === 4 &&
       parts[0] === "elekta" &&
@@ -121,6 +127,7 @@ const QrReader = ({ open, close, eventId, onMsg = () => {} }: PropsType) => {
       onMsg("¡QR no válido!", "Asegúrate de que el afiliado tenga el QR correcto o regístralo manualmente.","Q");
       // setError("QR no válido. Por favor, inténtelo nuevamente.");
       // showToast("QR no válido. Por favor, inténtelo nuevamente.2222", "error");
+
       close();
       // // Reanudar el escáner
       // scanner.resume();
