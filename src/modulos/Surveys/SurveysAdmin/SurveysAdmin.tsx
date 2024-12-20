@@ -887,7 +887,7 @@ const SurveysAdmin = () => {
   }, [searchState]);
 
   const onClickDetail = (row: any) => {
-    console.log(row);
+    // console.log(row);
     router.push({
       pathname: "/detailSurveys",
       query: { id: row.id },

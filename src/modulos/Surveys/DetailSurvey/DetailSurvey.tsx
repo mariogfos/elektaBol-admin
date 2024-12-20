@@ -12,7 +12,7 @@ type Params = {
   perPage: number;
   searchBy: number;
   fullType: string;
-  prov_id?: number;
+  dpto_id?: number;
   soption_id?: number;
   ages?: string;
   gender?: string;
