@@ -95,8 +95,8 @@ const ViewSurveys = ({
     },
     {
       key: "name",
-      // label: type == "prov" ? "Provincia" : "Canton",
-      label: "Provincia",
+      // label: type == "dpto" ? "Provincia" : "Canton",
+      label: "Departamento",
     },
     {
       key: "afiliados",
@@ -125,7 +125,7 @@ const ViewSurveys = ({
       // },
       onRender: (item: any) => {
         //  console.log(item,'item aa')
-        const totalAfiliados = getTotalAfiliados(data, provs);
+        const totalAfiliados = getTotalAfiliados(data, dptos);
         return (
           <HorizontalProgresiveBar
             total={totalAfiliados}
@@ -138,19 +138,16 @@ const ViewSurveys = ({
     },
   ];
 
-  const { data: provs } = useAxios("/provs", "GET", {
+  const { data: dptos } = useAxios("/dptos", "GET", {
     fullType: "L",
     perPage: -1,
   });
-  // const { data: education } = useAxios("/educations", "GET", {
-  //   perPage: -1,
-  //   fullType: "L",
-  // });
-  const dataFormattedProvs = () => {
+  
+  const dataFormattedDptos = () => {
     let newData: any = [];
-    console.log(provs,'provs1')
-    provs?.data?.forEach((item: any, i: number) => {
-      const d = data?.provs[item?.id];
+    console.log(dptos,'dptos1',data)
+    dptos?.data?.forEach((item: any, i: number) => {
+      const d = data?.dptos[item?.id];
       //     // if (d) {
       newData.push({
         id: item?.id,
@@ -162,11 +159,11 @@ const ViewSurveys = ({
     return newData;
   };
 
-  const getTotalAfiliados = (data: any, provs: any) => {
+  const getTotalAfiliados = (data: any, dptos: any) => {
     let total = 0;
-    console.log(provs,'provs2')
-    provs?.data?.forEach((item: any) => {
-      const d = data?.provs[item?.id];
+    console.log(dptos,'dptos2')
+    dptos?.data?.forEach((item: any) => {
+      const d = data?.dptos[item?.id];
       if (d !== undefined) {
         total += d;
       }
@@ -274,8 +271,8 @@ const ViewSurveys = ({
         (education: any) => education.id === filters[item]
       )?.name;
     }
-    if (item === "prov_id") {
-      return provs?.data.find((prov: any) => prov.id === filters[item])?.name;
+    if (item === "dpto_id") {
+      return dptos?.data.find((dpto: any) => dpto.id === filters[item])?.name;
     }
     if (item === "soption_id") {
       return dataFormatted.find((option: any) => option.id === filters[item])
@@ -306,8 +303,8 @@ const ViewSurveys = ({
     if (filters.ages) {
       params.ages = filters.ages;
     }
-    if (filters.provs) {
-      params.prov_id = filters.prov_id;
+    if (filters.dptos) {
+      params.dpto_id = filters.dpto_id;
     }
     if (filters.soption_id) {
       params.soption_id = filters.soption_id;
@@ -325,7 +322,7 @@ const ViewSurveys = ({
       education_id: "T",
       ages: "T",
       soption_id: "T",
-      prov_id: "T",
+      dpto_id: "T",
     });
     setFilters({});
     setFilterTags([]);
@@ -346,7 +343,7 @@ const ViewSurveys = ({
       gender: "gender",
       education: "education_id",
       ages: "ages",
-      prov_id: "prov_id",
+      dpto_id: "dpto_id",
       soption_id: "soption_id",
     };
 
@@ -558,16 +555,16 @@ const ViewSurveys = ({
 
         <div style={{ width: "60%", marginTop: "var(--spL)" }}>
           <WidgetBase
-            // title={`Afiliados por ${type == "prov" ? "provincia" : "canton"}`}
-            title={`Encuestas respondidas por provincia`}
+            // title={`Afiliados por ${type == "dpto" ? "dptoincia" : "canton"}`}
+            title={`Encuestas respondidas por Departamento`}
             style={{ marginBottom: "var(--sL)" }}
           >
             <Table
-              data={dataFormattedProvs()}
+              data={dataFormattedDptos()}
               header={header}
               className="striped"
               sumarize={true}
-              onRowClick={(row: any) => handleTableRowClick("prov_id", row.id)}
+              onRowClick={(row: any) => handleTableRowClick("dpto_id", row.id)}
             />
           </WidgetBase>
         </div>
@@ -621,11 +618,11 @@ const ViewSurveys = ({
             type: "education",
           },
           {
-            title: "Provincias",
-            data: dataFormattedProvs() || [],
+            title: "Departamentos",
+            data: dataFormattedDptos() || [],
             filters: filters,
             setFilters: setFilters,
-            type: "prov_id",
+            type: "dpto_id",
           },
           {
             title: "Opciones",
