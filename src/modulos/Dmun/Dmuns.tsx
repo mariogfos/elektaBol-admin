@@ -46,21 +46,21 @@ const Dmuns = () => {
         rules: ["required"],
         api: "ae",
         label: "Provincia",
-        // list: { width: "300px" },
+         list: { width: "300px" },
         form: { type: "select", optionsExtra: "provs" },
       },
       circun_id: {
         rules: ["required"],
         api: "ae",
         label: "Circunscripción",
-
+     
         form: { type: "select", optionsExtra: "circuns" },
       },
       mun_id: {
         rules: ["required"],
         api: "ae",
         label: "Municipio",
-
+        list: { width: "300px" },
         form: { type: "select", optionsExtra: "muns" },
       },
       name: {
@@ -76,7 +76,7 @@ const Dmuns = () => {
         label: "Habitantes",
         list: {
           width: "300px",
-          style: { textAlign: "right" },
+           style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
 
@@ -88,7 +88,7 @@ const Dmuns = () => {
         label: "Habilitados",
         list: {
           width: "300px",
-          style: { textAlign: "right" },
+           style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
         form: { type: "text" },

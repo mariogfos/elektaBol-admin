@@ -49,7 +49,7 @@ const Dptos = () => {
         rules: ["max:5", "noSpaces"],
         api: "ae",
         label: "Cód",
-        list: { width: "60px", style: { textAlign: "right" } },
+        list: { width: "60px",  style: { justifyContent: "flex-end", textAlign: "right" }, },
         form: { type: "text" },
       },
       habitantes: {
@@ -58,7 +58,7 @@ const Dptos = () => {
         label: "Habitantes",
         list: {
           
-          style: { textAlign: "right" },
+          style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
 
@@ -69,8 +69,8 @@ const Dptos = () => {
         api: "ae",
         label: "Habilitados",
         list: {
-          width: "100px",
-          style: { textAlign: "right" },
+          
+          style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
         form: { type: "text" },

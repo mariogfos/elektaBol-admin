@@ -15,7 +15,7 @@ import Uvs from "@/modulos/Uvs/Uvs";
 import { useState } from "react";
 
 const Config = () => {
-  const [typeSearch, setTypeSearch] = useState("P");
+  const [typeSearch, setTypeSearch] = useState("2");
   return (
     <div>
       <div style={{ marginTop: 20 }}>
@@ -34,9 +34,9 @@ const Config = () => {
             // { value: "8", text: "Unidad vecinal" },
             // { value: "9", text: "Barrios" },
 
-            { value: "R", text: "Recintos" },
-            { value: "M", text: "Mesas" },
-            { value: "CI", text: "Circuncripciones" },
+            // { value: "R", text: "Recintos" },
+            // { value: "M", text: "Mesas" },
+            // { value: "CI", text: "Circuncripciones" },
           ]}
           sel={typeSearch}
           setSel={setTypeSearch}
@@ -55,9 +55,9 @@ const Config = () => {
       {/* {typeSearch === "8" && <Uvs />} */}
       {/* {typeSearch === "9" && <Barrios />} */}
 
-      {typeSearch === "R" && <Recintos />}
+      {/* {typeSearch === "R" && <Recintos />}
       {typeSearch === "CI" && <Circuns />}
-      {typeSearch === "M" && <Mesas />}
+      {typeSearch === "M" && <Mesas />} */}
     </div>
   );
 };

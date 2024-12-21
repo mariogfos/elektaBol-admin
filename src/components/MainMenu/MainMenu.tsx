@@ -3,7 +3,8 @@ import { usePathname } from "next/navigation";
 import {
   IconLogout,
   IconComunication, IconRedffiliates, IconNetwork,
-  IconCandidates
+  IconCandidates,
+  IconFluentVote
 } from "../layout/icons/IconsBiblioteca";
 import styles from "./mainmenu.module.css";
 import { useRouter } from "next/router";
@@ -91,9 +92,9 @@ const MainMenu = ({ user, client, collapsed, setOnLogout }: PropsType) => {
         /> */}
          <MainmenuDropdown
             label="Estadísticas"
-            icon={<IconNetwork />}
+            icon={<IconFluentVote />}
             items={[
-              { href: "/statistics", label: "Estadísticas" },
+              { href: "/statistics", label: "Resultados electorales" },
             ]}
             />
         <MainmenuDropdown

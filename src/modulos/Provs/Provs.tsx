@@ -44,7 +44,7 @@ const Provs = () => {
         rules: ["required"],
         api: "ae",
         label: "Provincia",
-        list: true,
+        list: {width:"300px"},
         form: { type: "text" },
       },
 
@@ -52,7 +52,7 @@ const Provs = () => {
         rules: ["max:5", "noSpaces"],
         api: "ae",
         label: "Cód",
-        list: { width: "120px", style: { textAlign: "right" } },
+        list: { width: "120px",  style: { justifyContent: "flex-end", textAlign: "right" },},
         form: { type: "text" },
       },
       habitantes: {
@@ -60,8 +60,8 @@ const Provs = () => {
         api: "ae",
         label: "Habitantes",
         list: {
-          width: "400px",
-          style: { textAlign: "right" },
+          
+          style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
 
@@ -72,8 +72,8 @@ const Provs = () => {
         api: "ae",
         label: "Habilitados",
         list: {
-          width: "400px",
-          style: { textAlign: "right" },
+          
+          style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
         form: { type: "text" },
