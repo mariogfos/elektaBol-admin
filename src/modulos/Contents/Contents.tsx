@@ -24,6 +24,7 @@ import RenderView from "./RenderView";
 import { getDateTimeStrMesShort } from "@/mk/utils/date";
 import ImportDataModal from "@/mk/components/data/ImportDataModal/ImportDataModal";
 import { formatNumber } from "@/mk/utils/numbers";
+import DataSearch from "@/mk/components/forms/DataSearch/DataSearch";
 
 const paramsInitial = {
   perPage: -1,
@@ -441,23 +442,52 @@ const Contents = () => {
   }) => {
     const [openDestiny, setOpenDestiny] = useState(true);
     const [sel, setSel]: any = useState([]);
+    const [destiniesFiltered, setDestiniesFiltered]: any = useState([]);
+    const [search, setSearch] = useState("");
     useEffect(() => {
       setSel(item?.lDestiny || []);
     }, [item]);
+
+    const setOnSearch = (e: any) => {
+      setSearch(e);
+    };
+    useEffect(() => {
+      if (search == "") {
+        setDestiniesFiltered(selDestinies);
+        return;
+      }
+      const filtered = selDestinies.filter((d: any) =>
+        d.name.toLowerCase().includes(search?.toLowerCase())
+      );
+      setDestiniesFiltered(filtered);
+    }, [search]);
+
+    const _onSave = () => {
+      if (sel <= 0) {
+        showToast("Debe seleccionar al menos un destino", "error");
+        return;
+      }
+      setItem((old: any) => ({ ...old, lDestiny: sel }));
+      setShowExtraModal(null);
+      setOpenDestiny(false);
+    };
+    const _onClose = () => {
+      if (item?.destiny && item?.lDestiny?.length <= 0) {
+        setItem((old: any) => ({ ...old, destiny: null }));
+      }
+      setOpenDestiny(false);
+      setShowExtraModal(null);
+    };
     return (
       <DataModal
         title="Destino"
         open={openDestiny}
-        onClose={() => {
-          setOpenDestiny(false);
-          setShowExtraModal(null);
-        }}
+        onClose={_onClose}
         onSave={() => {
-          setItem({ ...item, lDestiny: sel });
-          setShowExtraModal(null);
+          _onSave();
         }}
       >
-        <Check
+        {/* <Check
           key={"check0"}
           name={"destiny_0"}
           label="Todos"
@@ -470,13 +500,19 @@ const Contents = () => {
           }}
           value={0}
           optionValue={["0", "N"]}
+        /> */}
+        <DataSearch
+          name="searchDestiny"
+          setSearch={setOnSearch}
+          value={search}
         />
-        {selDestinies.map((d: any, i: number) => (
+        {destiniesFiltered.map((d: any, i: number) => (
           <Check
             key={"check" + i}
             name={"destiny_" + d.id}
             label={d.name}
             checked={sel.includes(d.id)}
+            reverse
             onChange={(e: any) => {
               const { name, checked } = e.target;
               const id: any = parseInt(name.replace("destiny_", ""));
