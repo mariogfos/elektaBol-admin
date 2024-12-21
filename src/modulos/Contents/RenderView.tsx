@@ -28,7 +28,7 @@ const RenderView = (props: {
   const [idOpenAff, setIdOpenAff]: any = useState({ open: false, id: "" });
   const entidad = ["", "", "Provincia", "Cantón", "Parroquia", "Barrio"];
   const { user } = useAuth();
-console.log(data,'data renderview contents')
+  console.log(data, "data renderview contents");
   const commentList = (item: any) => {
     if (item?.affiliate == null) {
       return;
@@ -253,14 +253,6 @@ console.log(data,'data renderview contents')
                   width="100%"
                   height={480}
                   controls
-                  // config={{
-                  //   youtube: {
-                  //     playerVars: { showinfo: 1 },
-                  //   },
-                  //   facebook: {
-                  //     appId: "12345",
-                  //   },
-                  // }}
                 />
               )}
             </section>
