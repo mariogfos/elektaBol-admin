@@ -14,6 +14,7 @@ const mod: ModCrudType = {
   plural: "provincias",
   permiso: "",
   extraData: true,
+  hideActions: {add:true}
 };
 
 const paramsInitial = {

@@ -16,6 +16,7 @@ const mod: ModCrudType = {
   permiso: "",
   extraData: true,
   import: true,
+  hideActions: {add:true}
 };
 
 const paramsInitial = {

@@ -16,6 +16,7 @@ const mod: ModCrudType = {
   permiso: "",
   extraData: true,
   import: true,
+  hideActions: {add:true}
 };
 
 const paramsInitial = {
@@ -67,7 +68,7 @@ const Dmuns = () => {
         rules: ["required"],
         api: "ae",
         label: "Distrito municipal",
-        list: true,
+        list: { width: "300px" },
         form: { type: "text" },
       },
       habitantes: {
@@ -75,7 +76,7 @@ const Dmuns = () => {
         api: "ae",
         label: "Habitantes",
         list: {
-          width: "300px",
+     
            style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
@@ -87,7 +88,7 @@ const Dmuns = () => {
         api: "ae",
         label: "Habilitados",
         list: {
-          width: "300px",
+          
            style: { justifyContent: "flex-end", textAlign: "right" },
           onRender: (item: any) => formatNumber(item.value, 0),
         },
