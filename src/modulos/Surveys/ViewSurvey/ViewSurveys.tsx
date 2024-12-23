@@ -48,6 +48,7 @@ interface ViewSurveysProps {
   edit?: any;
   onChangeParams: (params: any) => void;
   extraData?: any;
+  resetParams?: any;
 }
 
 const ViewSurveys = ({
@@ -56,6 +57,7 @@ const ViewSurveys = ({
   edit,
   onChangeParams,
   extraData,
+  resetParams ={},
 }: ViewSurveysProps) => {
   const [openFilter, setOpenFilter] = useState(false);
   const [filters, setFilters] = useState<Record<string, any>>({});
@@ -315,15 +317,19 @@ const ViewSurveys = ({
     getFilterTags();
     setOpenFilter(false);
   };
-
+  
+  
   const deleteFilter = async () => {
-    onChangeParams({
-      gender: "T",
-      education_id: "T",
-      ages: "T",
-      soption_id: "T",
-      dpto_id: "T",
-    });
+    // onChangeParams({
+    //   gender: "T",
+    //   education_id: "T",
+    //   ages: "T",
+    //   soption_id: "T",
+    //   dpto_id: "T",
+    // });
+    resetParams();
+
+ 
     setFilters({});
     setFilterTags([]);
     setOpenFilter(false);

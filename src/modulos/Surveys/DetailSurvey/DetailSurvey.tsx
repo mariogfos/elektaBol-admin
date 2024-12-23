@@ -25,7 +25,7 @@ const DetailSurvey = () => {
   const {
     query: { id },
   } = router;
-  const paramInitial: any = {
+  const paramsInitials: any = {
     page: 1,
     perPage: 1,
     searchBy: Number(id),
@@ -33,7 +33,7 @@ const DetailSurvey = () => {
     extraData: 1,
     metric: 1,
   };
-  const [params, setParams] = useState(paramInitial);
+  const [params, setParams] = useState(paramsInitials);
   const { data, reLoad } = useAxios("/surveys", "GET", params);
 
   const { user } = useAuth();
@@ -51,6 +51,9 @@ const DetailSurvey = () => {
       ...prevParams,
       ...newParams,
     }));
+  };
+  const resetParams = () => {
+    setParams(paramsInitials);
   };
 
   // if (!loaded) return <DetailSurveySkeleton />;
@@ -81,6 +84,7 @@ const DetailSurvey = () => {
           user={user}
           onChangeParams={onChangeParams}
           extraData={{ educations: data?.data?.educations }}
+          resetParams={resetParams}
         />
       )}
     </div>
