@@ -30,7 +30,7 @@ const PusherContextProvider = ({ children }: any) => {
     try {
       // log("init Pusher");
       // Pusher.logToConsole = true;
-      let newPusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
+      let newPusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_K as string, {
         cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
       });
       setPusher(newPusher);
