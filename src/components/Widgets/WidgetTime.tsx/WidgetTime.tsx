@@ -70,7 +70,8 @@ const WidgetTime = ({ data }: any) => {
               borderRight:
                 index < meses.length - 1 ? "1.5px solid var(--cWhite)" : "",
               backgroundColor:
-                currentMonth > item.mes && item.anio == currentYear
+                item.anio < currentYear ||
+                (item.anio === currentYear && currentMonth > item.mes)
                   ? "var(--cInfo)"
                   : "",
               borderTopLeftRadius: index == 0 ? 8 : 0,
