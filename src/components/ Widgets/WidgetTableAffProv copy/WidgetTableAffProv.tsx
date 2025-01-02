@@ -3,6 +3,7 @@ import { formatNumber } from "@/mk/utils/numbers";
 import React, { useEffect, useState } from "react";
 import WidgetBase from "../WidgetBase/WidgetBase";
 import Select from "@/mk/components/forms/Select/Select";
+import styles from "./WidgetTableAffProv.module.css";
 
 const colors = ["#F08080", "#F7B267", "#F8DDA4", "#A2D2BF", "#00AF90"];
 
@@ -140,21 +141,25 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
   ];
   return (
     <WidgetBase
-      title={`Afiliados por ${type == "dpto" ? "departamento" : "provincia"}`}
+      title={
+        <div className={styles.containerTitle}>
+          <p>Afiliados por {type == "prov" ? "provincia" : "canton"}</p>
+          <div style={{ width: "200px" }}>
+            <Select
+              name="orden"
+              value={orden}
+              onChange={(e: any) => setOrden(e.target.value)}
+              options={[
+                { id: "name", name: "Nombre" },
+                { id: "afiliados", name: "Afiliados" },
+                { id: "distribucion", name: "Distribución" },
+                { id: "habilitados", name: "Habilitados" },
+              ]}
+            />
+          </div>
+        </div>
+      }
     >
-      <div style={{ width: "200px", marginTop: 12 }}>
-        <Select
-          name="orden"
-          value={orden}
-          onChange={(e: any) => setOrden(e.target.value)}
-          options={[
-            { id: "name", name: "Nombre" },
-            { id: "afiliados", name: "Afiliados" },
-            { id: "distribucion", name: "Distribución" },
-            { id: "habilitados", name: "Habilitados" },
-          ]}
-        />
-      </div>
       <Table
         data={type == "dpto" ? dataFormattedDpto() : dataFormattedLocal()}
         header={header}
