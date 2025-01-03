@@ -36,7 +36,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       label: "Partido ganador",
       responsive: "onlyDesktop",
       style: { textAlign: "center" },
-      width: "400px",
+      // width: "300px",
       onRender: (item: any) => {
         return item?.item.emitidos == 0 ? (
           "Sin ganador"
@@ -49,7 +49,7 @@ const WidgetTableStats = ({ data, params, onClick, title }: any) => {
       key: "name",
       label: labels[level],
       responsive: "onlyDesktop",
-      width: "400px",
+      width: "200px",
       style: {
         display: "flex",
         justifyContent: "left",
