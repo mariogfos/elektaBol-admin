@@ -50,6 +50,7 @@ type PropsType = {
   className?: string;
   height?: string;
   showHeader?: boolean;
+  extraData?: any;
 };
 
 const getWidth = (width: any) => {
@@ -77,6 +78,7 @@ const Table = ({
   className = "",
   height,
   showHeader = true,
+  extraData = null,
 }: PropsType) => {
   const { isMobile } = useScreenSize();
   const [scrollbarWidth, setScrollbarWidth] = useState();
@@ -92,6 +94,7 @@ const Table = ({
           onRenderHead={onRenderHead}
           onButtonActions={onButtonActions}
           scrollbarWidth={scrollbarWidth}
+          extraData={extraData}
         />
       )}
       <div style={height ? { height: height, overflowY: "auto" } : {}}>
@@ -106,6 +109,7 @@ const Table = ({
           height={height}
           setScrollbarWidth={setScrollbarWidth}
           onRenderBody={onRenderBody}
+          extraData={extraData}
         />
       </div>
       {sumarize && (
@@ -116,6 +120,7 @@ const Table = ({
           onRenderFoot={onRenderFoot}
           onButtonActions={onButtonActions}
           scrollbarWidth={scrollbarWidth}
+          extraData={extraData}
         />
       )}
       {footer && <footer>{footer}</footer>}
@@ -129,12 +134,14 @@ const Head = memo(function Head({
   onRenderHead,
   onButtonActions,
   scrollbarWidth,
+  extraData,
 }: {
   header: any;
   actionsWidth: any;
   onRenderHead?: any;
   onButtonActions: any;
   scrollbarWidth?: number;
+  extraData?: any;
 }) {
   // const { store } = useStore();
   if (onRenderHead === false) return null;
@@ -171,6 +178,7 @@ const Sumarize = memo(function Sumarize({
   onRenderFoot = null,
   onButtonActions = false,
   scrollbarWidth,
+  extraData,
 }: {
   header: any;
   data: any;
@@ -178,6 +186,7 @@ const Sumarize = memo(function Sumarize({
   onRenderFoot?: Function | null;
   onButtonActions?: any;
   scrollbarWidth?: number;
+  extraData?: any;
 }) {
   // const { store } = useStore();
   const [sumas, setSumas]: any = useState({});
@@ -239,6 +248,7 @@ const Body = memo(function Body({
   height,
   setScrollbarWidth,
   onRenderBody,
+  extraData,
 }: {
   onTabletRow: any;
   onRowClick: any;
@@ -250,6 +260,7 @@ const Body = memo(function Body({
   height?: any;
   setScrollbarWidth?: Function;
   onRenderBody?: null | ((row: any, i: number) => any);
+  extraData?: any;
 }) {
   const { isMobile } = useScreenSize();
   const divRef = useRef(null);
@@ -287,6 +298,7 @@ const Body = memo(function Body({
                       key: item.key,
                       item: row,
                       i: index + 1,
+                      extraData,
                     })}
                   {!item.onRender && row[item.key]}
                 </span>

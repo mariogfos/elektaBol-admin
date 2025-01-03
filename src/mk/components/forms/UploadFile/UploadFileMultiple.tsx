@@ -13,6 +13,9 @@ interface PropsType extends PropsTypeInputBase {
   prefix?: string;
   images?: any[];
   item: any;
+  editor?: boolean | { width: number; height: number };
+  sizePreview?: { width: string; height: string };
+  // autoOpen?: boolean;
 }
 
 const UploadFileMultiple = ({
@@ -23,6 +26,9 @@ const UploadFileMultiple = ({
   item,
   name,
   onChange,
+  editor = false,
+  sizePreview = { width: "100px", height: "100px" },
+  // autoOpen = true,
   ...props
 }: PropsType) => {
   const [imgs, setImgs]: any = useState(images);
@@ -105,7 +111,9 @@ const UploadFileMultiple = ({
             <UploadFileM
               {...props}
               className="v2"
-              autoOpen={i > 0}
+              autoOpen={i > 0 && !it.id}
+              editor={editor}
+              sizePreview={sizePreview}
               value={value[name + i]?.file}
               name={name + i + "-" + it.id}
               onChange={_onChange}

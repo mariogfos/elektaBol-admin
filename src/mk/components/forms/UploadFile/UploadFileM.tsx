@@ -10,6 +10,7 @@ import {
 import styles from "./uploadFile.module.css";
 import { PropsTypeInputBase } from "../ControlLabel";
 import { useAuth } from "@/mk/contexts/AuthProvider";
+import { resizeImage } from "@/mk/utils/images";
 import ImageEditor from "./ImageEditor";
 
 interface PropsType extends PropsTypeInputBase {
@@ -18,6 +19,8 @@ interface PropsType extends PropsTypeInputBase {
   img?: boolean;
   fileName?: string | null;
   autoOpen?: boolean;
+  editor?: boolean | { width: number; height: number };
+  sizePreview?: { width: string; height: string };
 }
 export const UploadFileM = ({
   className = "",
@@ -25,6 +28,8 @@ export const UploadFileM = ({
   value = "",
   fileName = null,
   autoOpen = false,
+  editor = false,
+  sizePreview = { width: "100px", height: "100px" },
   ...props
 }: PropsType) => {
   const [selectedFiles, setSelectedFiles]: any = useState({});
@@ -71,7 +76,7 @@ export const UploadFileM = ({
       });
   };
 
-  const onChangeFile = (e: any) => {
+  const onChangeFile = async (e: any) => {
     // props.setError({});
     props.setError({ ...props.error, [props.name]: "" });
     try {
@@ -93,27 +98,49 @@ export const UploadFileM = ({
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const partes = file.name.split(".");
-        let base64String = e.target.result
-          .replace("data:", "")
-          .replace(/^.+,/, "");
+      if (
+        ["jpg", "png", "webp", "jpeg", "gif"].includes(
+          file.name
+            .toLowerCase()
+            .slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2)
+        )
+      ) {
+        const image: any = await resizeImage(file, 720, 1024, 0.7);
+        let base64String = image.replace("data:", "").replace(/^.+,/, "");
         base64String = encodeURIComponent(base64String);
-        setEditedImage(null);
-        setLoadedImage(e.target.result);
-        // onChange({
-        //   target: {
-        //     name: props.name,
-        //     value: { ext: partes[partes.length - 1], file: base64String },
-        //   },
-        // });
-      };
-      reader.onerror = onError;
-      reader.readAsDataURL(file);
+        setEditedImage(image);
+        if (editor) setLoadedImage(image);
+
+        onChange({
+          target: {
+            name: props.name,
+            value: { ext: "webp", file: base64String },
+          },
+        });
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          const partes = file.name.split(".");
+          let base64String = e.target.result
+            .replace("data:", "")
+            .replace(/^.+,/, "");
+          base64String = encodeURIComponent(base64String);
+          // setEditedImage(null);
+          // setLoadedImage(e.target.result);
+          setEditedImage(e.target.result);
+          onChange({
+            target: {
+              name: props.name,
+              value: { ext: partes[partes.length - 1], file: base64String },
+            },
+          });
+        };
+        reader.onerror = onError;
+        reader.readAsDataURL(file);
+      }
     } catch (error) {
       setSelectedFiles({});
-      setEditedImage(null);
+      // setEditedImage(null);
       onChange({
         target: {
           name: props.name,
@@ -327,7 +354,7 @@ export const UploadFileM = ({
         <ImageEditor
           imageBase64={loadedImage || false}
           onImageProcessed={handleImageProcessed}
-          size={{ width: 720, height: 1024 }}
+          size={editor}
         />
       )}
     </div>

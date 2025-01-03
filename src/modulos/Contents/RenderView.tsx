@@ -26,9 +26,16 @@ const RenderView = (props: {
   const { data } = props?.item;
   const extraData = props?.extraData;
   const [idOpenAff, setIdOpenAff]: any = useState({ open: false, id: "" });
-  const entidad = ["", "", "Provincia", "Cantón", "Parroquia", "Barrio"];
+  const entidad = [
+    "",
+    "",
+    "Departamento",
+    "Provincia",
+    "Municipio",
+    "Distrito munucipal",
+    "Barrio",
+  ];
   const { user } = useAuth();
-  console.log(data, "data renderview contents");
   const commentList = (item: any) => {
     if (item?.affiliate == null) {
       return;
@@ -67,28 +74,32 @@ const RenderView = (props: {
     data.cdestinies.map((item: any, index: number) => {
       if (data.destiny == 2) {
         lEntidad.push({
-          id: item.prov_id,
-          name: extraData.provs.find((prov: any) => prov.id == item.prov_id)
+          id: item.dpto_id,
+          name: extraData.dptos.find((dpto: any) => dpto.id == item.dpto_id)
             ?.name,
         });
       }
       if (data.destiny == 3) {
         lEntidad.push({
-          id: item.canton_id,
-          name: extraData.cantons.find(
-            (canton: any) => canton.id == item.canton_id
-          )?.name,
+          id: item.prov_id,
+          name: extraData.provs.find((prov: any) => prov.id == item.prov_id)
+            ?.name,
         });
       }
       if (data.destiny == 4) {
         lEntidad.push({
-          id: item.parish_id,
-          name: extraData.parishes.find(
-            (parish: any) => parish.id == item.parish_id
-          )?.name,
+          id: item.mun_id,
+          name: extraData.muns.find((mun: any) => mun.id == item.mun_id)?.name,
         });
       }
       if (data.destiny == 5) {
+        lEntidad.push({
+          id: item.dmun_id,
+          name: extraData.dmuns.find((dmun: any) => dmun.id == item.dmun_id)
+            ?.name,
+        });
+      }
+      if (data.destiny == 6) {
         lEntidad.push({
           id: item.barrio_id,
           name: extraData.barrios.find(
@@ -99,7 +110,8 @@ const RenderView = (props: {
     });
     return lEntidad;
   };
-  console.log(user?.role.level, data?.destiny);
+  console.log(getDestinys());
+  console.log(data);
   return (
     <>
       <DataModal
@@ -117,7 +129,7 @@ const RenderView = (props: {
                 {entidad[data.destiny] +
                   `${
                     getDestinys().length > 1
-                      ? data.destiny == 3
+                      ? data.destiny == 5
                         ? "es"
                         : "s"
                       : ""

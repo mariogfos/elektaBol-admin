@@ -10,12 +10,16 @@ import {
 import styles from "./uploadFile.module.css";
 import ControlLabel, { PropsTypeInputBase } from "../ControlLabel";
 import { useAuth } from "@/mk/contexts/AuthProvider";
+import { resizeImage } from "@/mk/utils/images";
+import ImageEditor from "./ImageEditor";
 
 interface PropsType extends PropsTypeInputBase {
   ext: string[];
   setError: Function;
   img?: boolean;
   item?: any;
+  editor?: boolean | { width: number; height: number };
+  sizePreview?: { width: string; height: string };
 }
 export const UploadFile = ({
   className = "",
@@ -23,6 +27,8 @@ export const UploadFile = ({
   value = "",
   item = {},
   img = false,
+  editor = false,
+  sizePreview = { width: "100px", height: "100px" },
   ...props
 }: PropsType) => {
   const [selectedFiles, setSelectedFiles]: any = useState({});
@@ -40,7 +46,32 @@ export const UploadFile = ({
     }
   }, [value, item]);
 
-  const onChangeFile = (e: any) => {
+  const [editedImage, setEditedImage]: any = useState(null);
+  const [loadedImage, setLoadedImage]: any = useState(false);
+
+  const handleImageProcessed = (imageBase64: string) => {
+    // setEditedImage(imageBase64);
+    const partes = selectedFiles.name.split(".");
+    let base64String = imageBase64.replace("data:", "").replace(/^.+,/, "");
+    base64String = encodeURIComponent(base64String);
+    setLoadedImage(false);
+    setEditedImage(imageBase64);
+
+    onChange({
+      target: {
+        name: props.name,
+        value: { ext: "webp", file: base64String },
+      },
+    });
+    // onChange({
+    //   target: {
+    //     name: props.name,
+    //     value: { ext: partes[partes.length - 1], file: base64String },
+    //   },
+    // });
+  };
+
+  const onChangeFile = async (e: any) => {
     // props.setError({});
     props.setError({ ...props.error, [props.name]: "" });
     try {
@@ -61,23 +92,43 @@ export const UploadFile = ({
         showToast("Solo se permiten archivos " + props.ext.join(", "), "error");
         return;
       }
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const partes = file.name.split(".");
-        let base64String = e.target.result
-          .replace("data:", "")
-          .replace(/^.+,/, "");
+      if (
+        ["jpg", "png", "webp", "jpeg", "gif"].includes(
+          file.name
+            .toLowerCase()
+            .slice(((file.name.lastIndexOf(".") - 1) >>> 0) + 2)
+        )
+      ) {
+        const image: any = await resizeImage(file, 720, 1024, 0.7);
+        let base64String = image.replace("data:", "").replace(/^.+,/, "");
         base64String = encodeURIComponent(base64String);
+        //
+        if (editor) setLoadedImage(image);
+        //
         onChange({
           target: {
             name: props.name,
-            value: { ext: partes[partes.length - 1], file: base64String },
+            value: { ext: "webp", file: base64String },
           },
         });
-      };
-      reader.onerror = onError;
-      reader.readAsDataURL(file);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          const partes = file.name.split(".");
+          let base64String = e.target.result
+            .replace("data:", "")
+            .replace(/^.+,/, "");
+          base64String = encodeURIComponent(base64String);
+          onChange({
+            target: {
+              name: props.name,
+              value: { ext: partes[partes.length - 1], file: base64String },
+            },
+          });
+        };
+        reader.onerror = onError;
+        reader.readAsDataURL(file);
+      }
     } catch (error) {
       setSelectedFiles({});
       onChange({
@@ -131,7 +182,6 @@ export const UploadFile = ({
     //     },
     //   });
   };
-
   return (
     <ControlLabel
       {...props}
@@ -198,7 +248,7 @@ export const UploadFile = ({
             </div>
           ) : (
             <div style={{ position: "relative" }}>
-              {(value || selectedFiles?.type?.startsWith("image/")) && img ? (
+              {/* {(value || selectedFiles?.type?.startsWith("image/")) && img ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={
@@ -210,6 +260,25 @@ export const UploadFile = ({
                   style={{
                     width: "100px",
                     height: "100px",
+                  }}
+                /> */}
+              {(editedImage ||
+                selectedFiles?.type?.startsWith("image/") ||
+                value) &&
+              img ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={
+                    editedImage ||
+                    (selectedFiles?.name
+                      ? URL.createObjectURL(selectedFiles)
+                      : value || "")
+                  }
+                  alt={selectedFiles?.name}
+                  style={{
+                    objectFit: "cover",
+                    width: sizePreview?.width || "100px",
+                    height: sizePreview?.height || "100px",
                   }}
                 />
               ) : selectedFiles.type === "application/pdf" ? (
@@ -299,6 +368,13 @@ export const UploadFile = ({
           )
         }
       </section>
+      {loadedImage && (
+        <ImageEditor
+          imageBase64={loadedImage || false}
+          onImageProcessed={handleImageProcessed}
+          size={editor}
+        />
+      )}
     </ControlLabel>
   );
 };

@@ -75,15 +75,18 @@ const lDestinies = (data: {
     r.push({ id: 0, name: "Todos" });
   }
   if (level == 2) r.push({ id: 0, name: "Mi departamento" });
-  if (level == 3) r.push({ id: 0, name: "Mi provincia" });
-  if (level == 4) r.push({ id: 0, name: "Mi municipio" });
-  if (level == 5) r.push({ id: 0, name: "Mi distrito municipal" });
+  if (level == 4) r.push({ id: 0, name: "Mi provincia" });
+  if (level == 5) r.push({ id: 0, name: "Mi municipio" });
+  if (level == 6) r.push({ id: 0, name: "Mi distrito municipal" });
+  if (level == 7) r.push({ id: 0, name: "Mi localidad" });
+  if (level == 9) r.push({ id: 0, name: "Mi barrio" });
 
   // const level = 3;
   if (level <= 1) r.push({ id: 2, name: "Departamento" });
-  if (level <= 2) r.push({ id: 3, name: "Provincia" });
-  if (level <= 3) r.push({ id: 4, name: "Municipio" });
-  if (level <= 4) r.push({ id: 5, name: "Distrito Municipal" });
+  if (level <= 3) r.push({ id: 3, name: "Provincia" });
+  if (level <= 4) r.push({ id: 4, name: "Municipio" });
+  if (level <= 5) r.push({ id: 5, name: "Distrito Municipal" });
+  if (level <= 6) r.push({ id: 5, name: "Localidad" });
   // if (level <= 5) r.push({ id: 5, name: "Barrio" });
   // if (level <= 6) r.push({ id: 6, name: "Barrio" });
 
@@ -191,6 +194,7 @@ const Contents = () => {
     user?: Record<string, any>;
     item: Record<string, any>;
     extraData: Record<string, any>;
+    action: any;
   }) => {
     const extraData = data?.extraData;
     if (data?.item?.destiny == 0) {
@@ -198,13 +202,37 @@ const Contents = () => {
     }
     let selDestinies = [];
     if (data?.item?.destiny == 2) selDestinies = extraData.dptos;
-    if (data?.item?.destiny == 3) selDestinies = extraData.provs;
-    if (data?.item?.destiny == 4) selDestinies = extraData.muns;
-    if (data?.item?.destiny == 5) selDestinies = extraData.dmuns;
+    if (data?.item?.destiny == 4) selDestinies = extraData.provs;
+    if (data?.item?.destiny == 5) selDestinies = extraData.muns;
+    if (data?.item?.destiny == 6) selDestinies = extraData.dmuns;
+    if (data?.item?.destiny == 7) selDestinies = extraData.locals;
+
+    let lDestinies: any = data?.item?.lDestiny || [];
+    // let dataDestinies =
+    //   data?.action == "edit" ? data?.item?.cdestinies : data?.item?.lDestiny;
+    if (data?.action == "edit" && !data?.item?.lDestiny) {
+      data?.item?.cdestinies?.map((d: any) => {
+        if (data?.item?.destiny == 2) {
+          lDestinies.push(d.dpto_id);
+        }
+        if (data?.item?.destiny == 4) {
+          lDestinies.push(d.prov_id);
+        }
+        if (data?.item?.destiny == 5) {
+          lDestinies.push(d.mun_id);
+        }
+        if (data?.item?.destiny == 6) {
+          lDestinies.push(d.dmun_id);
+        }
+        if (data?.item?.destiny == 7) {
+          lDestinies.push(d.local_id);
+        }
+      });
+    }
     return (
       <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
         {selDestinies
-          ?.filter((d: any) => data?.item?.lDestiny?.includes(d.id))
+          ?.filter((d: any) => lDestinies?.includes(d.id))
           .map((d: any, index: number, array: any[]) => (
             <p
               key={d.id}
@@ -218,7 +246,6 @@ const Contents = () => {
       </div>
     );
   };
-  
 
   const fields = useMemo(
     () => ({
@@ -254,7 +281,7 @@ const Contents = () => {
           type: "select",
           options: lDestinies,
           // onLeft: leftDestiny,
-          onTop:onTop,
+          onTop: onTop,
           precarga: 0,
         },
       },
@@ -308,8 +335,6 @@ const Contents = () => {
             return data;
           },
         },
-
-
       },
       type: {
         rules: ["required"],
@@ -386,7 +411,8 @@ const Contents = () => {
     e: any,
     item: any,
     setItem: Function,
-    setShowExtraModal: Function
+    setShowExtraModal: Function,
+    action: any
   ) => {
     const { name, value } = e.target;
     let selDestinies: any = [];
@@ -403,22 +429,50 @@ const Contents = () => {
           lDestiny: item.lDestiny.filter((d: number) => d != id),
         });
       }
+
       return true;
+    }
+    // console.log(action);
+    let lDestiny = item.lDestiny || [];
+    if (action == "edit") {
+      item?.cdestinies?.map((d: any) => {
+        if (item?.destiny == 2) {
+          lDestiny.push(d.dpto_id);
+        }
+        if (item?.destiny == 4) {
+          lDestiny.push(d.prov_id);
+        }
+        if (item?.destiny == 5) {
+          lDestiny.push(d.mun_id);
+        }
+        if (item?.destiny == 6) {
+          lDestiny.push(d.mun_id);
+        }
+        if (item?.destiny == 7) {
+          lDestiny.push(d.local_id);
+        }
+      });
     }
     if (name == "destiny") {
       selDestinies = null;
       // if (value == 2) selDestinies = extraData.sublemas;
       // if (value == 3) selDestinies = extraData.listas;
       if (value == 2) selDestinies = extraData.dptos;
-      if (value == 3) selDestinies = extraData.provs;
-      if (value == 4) selDestinies = extraData.muns;
-      if (value == 5) selDestinies = extraData.dmuns;
-      if (value == 6) selDestinies = extraData.locals;
-      if (value == 7) selDestinies = extraData.barrios;
+      if (value == 4) selDestinies = extraData.provs;
+      if (value == 5) selDestinies = extraData.muns;
+      if (value == 6) selDestinies = extraData.dmuns;
+      if (value == 7) selDestinies = extraData.locals;
+      if (value == 9) selDestinies = extraData.barrios;
+
+      if (value != item.destiny) {
+        setItem({ ...item, lDestiny: [] });
+        lDestiny = [];
+      }
+
       if (selDestinies)
         setShowExtraModal(
           <ModalDestiny
-            item={{ ...item, destiny: value, lDestiny: [] }}
+            item={{ ...item, destiny: value, lDestiny: lDestiny }}
             setItem={setItem}
             selDestinies={selDestinies}
             setShowExtraModal={setShowExtraModal}

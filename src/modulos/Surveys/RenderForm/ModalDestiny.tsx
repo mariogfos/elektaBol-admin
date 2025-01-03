@@ -14,6 +14,7 @@ const ModalDestiny = ({
 }: any) => {
   const [sel, setSel]: any = useState([]);
   const [destiniesFiltered, setDestiniesFiltered]: any = useState([]);
+  console.log(formState);
   useEffect(() => {
     setSel(formState?.lDestiny || []);
   }, [formState]);

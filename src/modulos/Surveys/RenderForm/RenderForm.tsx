@@ -29,6 +29,7 @@ const RenderForm = ({
   extraData,
   user,
   reLoad,
+  action,
 }: any) => {
   const [formState, setFormState]: any = useState({ ...item });
   const [openDestiny, setOpenDestiny] = useState(false);
@@ -39,6 +40,7 @@ const RenderForm = ({
   const [openSurveyTypeModal, setOpenSurveyTypeModal] = useState(false);
   const [level, setLevel] = useState(1);
   const { showToast } = useAuth();
+  const [lDestinys, setLdestinys]: any = useState([]);
 
   useEffect(() => {
     if (formState.id) {
@@ -91,7 +93,6 @@ const RenderForm = ({
         };
   const lDestinies = () => {
     const level = user?.role.level;
-    console.log(level,'levelvlelfhjgfjdsfk')
     const r = [];
     if (level == 1 || level == 0) {
       r.push({ id: 0, name: "Todos" });
@@ -273,6 +274,33 @@ const RenderForm = ({
   useEffect(() => {
     setAff((formState?.affCount * 10) / 100);
   }, [formState.affCount]);
+
+  useEffect(() => {
+    let lDestinies: any = formState.lDestiny || [];
+    if (action == "edit" && !formState.lDestiny) {
+      formState?.sdestinies?.map((d: any) => {
+        if (formState?.destiny == 2) {
+          lDestinies.push(d.dpto_id);
+        }
+        if (formState?.destiny == 4) {
+          lDestinies.push(d.prov_id);
+        }
+        if (formState?.destiny == 5) {
+          lDestinies.push(d.mun_id);
+        }
+        if (formState?.destiny == 6) {
+          lDestinies.push(d.dmun_id);
+        }
+        if (formState?.destiny == 7) {
+          lDestinies.push(d.local_id);
+        }
+        if (formState?.destiny == 9) {
+          lDestinies.push(d.barrio_id);
+        }
+      });
+    }
+    setLdestinys(lDestinies);
+  }, [action, formState.lDestiny]);
   return (
     <>
       <DataModal
@@ -338,9 +366,9 @@ const RenderForm = ({
                   <p className={styles.title}>Segmentación</p>
 
                   {formState.destiny > 0 ? (
-                    <div style={{ display: "flex", gap: 4, flexWrap:'wrap' }}>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                       {selDestinies(formState.destiny)
-                        .filter((d: any) => formState.lDestiny?.includes(d.id))
+                        .filter((d: any) => lDestinys?.includes(d.id))
                         .map((d: any, index: number, array: any[]) => (
                           <p
                             key={d.id}
@@ -578,7 +606,7 @@ const RenderForm = ({
                 open={openDestiny}
                 onClose={() => setOpenDestiny(false)}
                 selDestinies={selDestinies(formState.destiny)}
-                formState={{ ...formState, lDestinies: formState.lDestiny }}
+                formState={{ ...formState, lDestiny: lDestinys }}
                 setFormState={setFormState}
                 onSave={getMeta}
               />

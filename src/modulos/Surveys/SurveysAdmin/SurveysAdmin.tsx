@@ -325,6 +325,7 @@ const SurveysAdmin = () => {
       user: any;
       execute: any;
       setErrors: any;
+      action: any;
     }) => {
       return (
         <RenderForm
@@ -338,6 +339,7 @@ const SurveysAdmin = () => {
           execute={props.execute}
           setErrors={props.setErrors}
           reLoad={reLoad}
+          action={props?.action}
         />
       );
     },

@@ -22,10 +22,12 @@ import KeyValue from "@/mk/components/ui/KeyValue/KeyValue";
 import {
   IconEdit,
   IconImport,
+  IconTableEmpty,
   IconTrash,
 } from "@/components/layout/icons/IconsBiblioteca";
 import DataSearch from "@/mk/components/forms/DataSearch/DataSearch";
 import FormElement from "./FormElement";
+import Pagination from "@/mk/components/ui/Pagination/Pagination";
 
 export type ModCrudType = {
   modulo: string;
@@ -149,7 +151,7 @@ const useCrud = ({
 
   const { data, reLoad, execute } = useAxios("/" + mod.modulo, "GET", params);
 
-  const { isTablet } = useScreenSize();
+  const { isMobile } = useScreenSize();
 
   const onChange = useCallback((e: any) => {
     let value = e.target.value;
@@ -562,7 +564,15 @@ const useCrud = ({
         let value = e.target.value;
 
         if (_onChange) {
-          if (_onChange(e, formStateForm, setFormStateForm, setShowExtraModal))
+          if (
+            _onChange(
+              e,
+              formStateForm,
+              setFormStateForm,
+              setShowExtraModal,
+              action
+            )
+          )
             return;
         }
         if (item.onChange) {
@@ -652,7 +662,7 @@ const useCrud = ({
   const [filterSel, setFilterSel]: any = useState({});
   const AddMenu = memo(
     ({ filters, onClick }: { filters?: any; onClick?: (e?: any) => void }) => {
-      if (isTablet) return <FloatButton onClick={onClick || onAdd} />;
+      if (isMobile) return <FloatButton onClick={onClick || onAdd} />;
 
       const onChange = (e: any) => {
         setFilterSel({ ...filterSel, [e.target.name]: e.target.value });
@@ -721,8 +731,8 @@ const useCrud = ({
               ¿Estás seguro de eliminar esta información?
               <br />
               {/* <br />
-              {item.name || item.description}
-              <br /> */}
+                {item.name || item.description}
+                <br /> */}
               Recuerda que al momento de eliminar ya no podrás recuperarla.
             </>
           )}
@@ -840,7 +850,7 @@ const useCrud = ({
         if (!field.list) continue;
         const col: any = {
           key,
-          responsive: "onlyDesktop",
+          responsive: "",
           label: field.list.label || field.label,
           className: field.list.className || "",
           width: field.list.width,
@@ -848,9 +858,6 @@ const useCrud = ({
           order: field.list.order || field.order || 1000,
           style: field.list.style || field.style || {},
           sumarize: field.list.sumarize || field.sumarize || false,
-          // filter: field.filter
-          //   ? { options: field.filter.options || field.form.options || [] }
-          //   : false,
         };
         head.push(col);
       }
@@ -866,30 +873,55 @@ const useCrud = ({
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fields]);
 
+    // console.log(data?.data.length, params.perPage, params.page);
     return (
       <div className={styles.useCrud}>
         <AddMenu filters={lFilter} />
         <LoadingScreen type="TableSkeleton">
           <section style={{}}>
-            <Table
-              data={data?.data}
-              onRowClick={mod.hideActions?.view ? props.onRowClick : onView}
-              header={header}
-              onTabletRow={props.onTabletRow}
-              onRenderBody={props.onRenderBody}
-              onRenderFoot={props.onRenderFoot}
-              onRenderHead={props.onRenderHead}
-              onButtonActions={
-                mod.hideActions?.edit && mod.hideActions?.del
-                  ? undefined
-                  : onButtonActions
-              }
-              className="striped"
-              // actionsWidth={props.actionsWidth}
-              actionsWidth={"170px"}
-              sumarize={props.sumarize}
-            />
+            {data?.data.length > 0 ? (
+              <Table
+                data={data?.data}
+                onRowClick={mod.hideActions?.view ? props.onRowClick : onView}
+                header={header}
+                onTabletRow={props.onTabletRow}
+                onRenderBody={props.onRenderBody}
+                onRenderFoot={props.onRenderFoot}
+                onRenderHead={props.onRenderHead}
+                onButtonActions={
+                  mod.hideActions?.edit && mod.hideActions?.del
+                    ? undefined
+                    : onButtonActions
+                }
+                className="striped"
+                // actionsWidth={props.actionsWidth}
+                actionsWidth={"170px"}
+                sumarize={props.sumarize}
+                extraData={extraData}
+              />
+            ) : (
+              <section>
+                <IconTableEmpty size={180} color="var(--cBlackV2)" />
+                <p>No existen datos en este momento.</p>
+              </section>
+            )}
           </section>
+          {((data?.data.length == params.perPage &&
+            data?.message?.total > data?.data.length) ||
+            params.page > 1) && (
+            <div style={{ marginTop: 12 }}>
+              <Pagination
+                currentPage={params.page}
+                onPageChange={onChangePage}
+                totalPages={Math.ceil(
+                  (data?.message?.total || 1) / (params.perPage || 1)
+                )}
+                previousLabel=""
+                nextLabel=""
+              />
+            </div>
+          )}
+
           {openView && (
             <>
               {mod.renderView ? (
@@ -932,6 +964,7 @@ const useCrud = ({
                   onEdit,
                   onDel,
                   onAdd,
+                  action,
                 })
               ) : (
                 <Form

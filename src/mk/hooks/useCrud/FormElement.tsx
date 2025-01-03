@@ -16,6 +16,7 @@ export type FormFunctionRenderType = {
   onChange: (e: any) => void;
   error?: Record<string, any>;
   extraData?: any;
+  action: any;
 };
 
 const rigthFile = (data: {
@@ -60,6 +61,7 @@ const LeftRigthElement = memo(
     user,
     onChange,
     extraData,
+    action,
   }: {
     children: any;
     field: any;
@@ -68,6 +70,7 @@ const LeftRigthElement = memo(
     user: any;
     onChange: (e: any) => void;
     extraData?: any;
+    action: any;
   }) => {
     if (!field.onLeft && !field.onRigth && !field.onTop && !field.onBottom)
       return children;
@@ -78,6 +81,7 @@ const LeftRigthElement = memo(
       onChange,
       error,
       extraData,
+      action,
     };
     return (
       <div
@@ -149,6 +153,7 @@ const FormElement = memo(
       user: data?.user,
       onChange: onChange,
       extraData: data?.extraData,
+      action: data.action,
     };
     let val = item[_field.key] || "";
     switch (_field.type) {
@@ -211,6 +216,8 @@ const FormElement = memo(
               readOnly={_field.readOnly}
               required={_field.required}
               lines={_field.lines}
+              isLimit={_field.isLimit}
+              maxLength={_field.maxLength}
             />
           </LeftRigthElement>
         );
@@ -249,6 +256,8 @@ const FormElement = memo(
               setError={setError}
               img={true}
               item={item}
+              editor={_field.editor}
+              sizePreview={_field.sizePreview}
             />
           </LeftRigthElement>
         );
@@ -278,6 +287,8 @@ const FormElement = memo(
               prefix={_field.prefix}
               images={item[_field.images]}
               item={item}
+              editor={_field.editor}
+              sizePreview={_field.sizePreview}
               // autoOpen={data?.action == "add"}
             />
           </LeftRigthElement>
