@@ -143,7 +143,7 @@ const WidgetTableAffProv = ({ widget, data, type, filters }: any) => {
     <WidgetBase
       title={
         <div className={styles.containerTitle}>
-          <p>Afiliados por {type == "prov" ? "provincia" : "canton"}</p>
+          <p>Afiliados por {type == "prov" ? "provincia" : "departamento"}</p>
           <div style={{ width: "200px" }}>
             <Select
               name="orden"

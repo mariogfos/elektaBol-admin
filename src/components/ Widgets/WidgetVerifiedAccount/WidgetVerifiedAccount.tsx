@@ -5,16 +5,16 @@ import styles from "./WidgetVerifiedAccount.module.css";
 const WidgetVerifiedAccount = ({ widget5 }: any) => {
   return (
     <WidgetBase
-      title="Cuentas Verificadas"
+      title="Cuentas Validadas"
       className={styles.widgetVerifiedAccount}
     >
       <GraphBase
         data={{
-          labels: ["No verificados", "Verificados"],
+          labels: ["No validados", "Validados"],
           values: [
-            { name: "Verificados", values: [0, widget5?.verify] },
+            { name: "Validados", values: [0, widget5?.verify] },
             {
-              name: "No verificados",
+              name: "No validados",
               values: [widget5?.no_verify],
             },
           ],
