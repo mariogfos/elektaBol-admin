@@ -41,7 +41,7 @@ const WidgetEducation = ({
       return widget4[item.id] || 0; // Si el valor de widget4[item.id] es 0, usa 0
     });
       const dataLabelColors = data.map((val: any) =>
-        val === 0 ? "#FFFFFF" : "var(--cBlack)"
+        val === 0 ? "#858a8f" : "#858a8f"
       );
 
       const colors = [
@@ -81,7 +81,7 @@ const WidgetEducation = ({
           formatter: function (val: number) {
             return val.toLocaleString();
           },
-          offsetX: -10,
+          offsetX: 24,
           style: {
             fontSize: "12px",
             colors: dataLabelColors,
@@ -149,6 +149,7 @@ const WidgetEducation = ({
     <WidgetBase
       title={title ? title : "Educación"}
       className={`${styles.widgetSexo}  ${className}`}
+      style={{marginTop: 16}}
     >
       <div>
         <ReactApexChart

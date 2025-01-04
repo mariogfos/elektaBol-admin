@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import WidgetBase from "../WidgetBase/WidgetBase";
 import styles from "./WidgetAge.module.css";
+import { formatNumber } from "../../../mk/utils/numbers";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -22,7 +23,7 @@ type WidgetAgeProps = {
   title?: string | any;
 };
 
-const WidgetAge = ({ widget2 ,title }: WidgetAgeProps) => {
+const WidgetAge = ({ widget2, title }: WidgetAgeProps) => {
   const [chartOptions, setChartOptions] = useState<any>(null);
   const [chartSeries, setChartSeries] = useState<any>(null);
 
@@ -45,7 +46,7 @@ const WidgetAge = ({ widget2 ,title }: WidgetAgeProps) => {
       const data = Object.values(widget2);
 
       const dataLabelColors = data.map((val) =>
-        val === 0 ? "#FFFFFF" : "var(--cBlack)"
+        val === 0 ? "#858a8f" : "#858a8f"
       );
 
       const options = {
@@ -75,7 +76,7 @@ const WidgetAge = ({ widget2 ,title }: WidgetAgeProps) => {
           formatter: function (val: number) {
             return val.toLocaleString();
           },
-          offsetX: -10,
+          offsetX: 24,
           style: {
             fontSize: "12px",
             colors: dataLabelColors,
@@ -130,14 +131,14 @@ const WidgetAge = ({ widget2 ,title }: WidgetAgeProps) => {
 
   if (!widget2 || !chartOptions || !chartSeries) {
     return (
-      <WidgetBase title={ title ? title : "Edad" } className={styles.widgetAge}>
+      <WidgetBase title={title ? title : "Edad"} className={styles.widgetAge}>
         <div>Cargando...</div>
       </WidgetBase>
     );
   }
 
   return (
-    <WidgetBase title={ title ? title : "Edad" } className={styles.widgetAge}>
+    <WidgetBase title={title ? title : "Edad"} className={styles.widgetAge}>
       <div>
         <ReactApexChart
           options={chartOptions}
