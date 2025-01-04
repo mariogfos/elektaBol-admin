@@ -18,7 +18,7 @@ import ModalSearchAff from "./ModalSearchAff";
 
 const DirectAffiliates = () => {
   const paramInitial: any = {
-    fullType: "L",
+    fullType: "LD",
   };
 
   const { setStore, userCan } = useAuth();
