@@ -4,6 +4,8 @@ import {
 } from "@/components/layout/icons/IconsBiblioteca";
 import WidgetBase from "../WidgetBase/WidgetBase";
 import styles from "./WidgetIncrease.module.css";
+import { formatNumber } from "../../../mk/utils/numbers";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
 interface PropsType {
   widget8?: any;
@@ -12,7 +14,9 @@ interface PropsType {
 const WidgetIncrease = ({ widget8 }: PropsType) => {
   const growthPercentage =
     widget8 && widget8.previous_week > 0
-      ? (widget8.current_week / widget8.previous_week) * 100 - 100
+      ? ((widget8.current_week - widget8.previous_week) /
+          widget8.previous_week) *
+        100
       : 0;
 
   const percentageColor = growthPercentage >= 0 ? "#00AF90" : "#DA5D5D";
@@ -30,8 +34,18 @@ const WidgetIncrease = ({ widget8 }: PropsType) => {
             backgroundColor: backgroundColor,
           }}
         >
-          {growthPercentage.toFixed(2)}%
-          <IconComponent />
+          <Tooltip
+            position="right"
+            title="Crecimiento porcentual en relación a la anterior semana"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {growthPercentage.toFixed(2)}%
+            <IconComponent />
+          </Tooltip>
         </p>
       </div>
     );

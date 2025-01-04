@@ -8,7 +8,7 @@ const WidgetTime = ({ data }: any) => {
   const currentDay = today.getDate();
   const currentYear = today.getFullYear();
   const { isTablet } = useScreenSize();
-  data = { count_from: "2024-12-01", count_to: "2025-8-17" };
+  data = { count_from: "2024-12-01", count_to: "2025-8-10" };
   let d: any = data.count_from.split("-");
   const countFrom = new Date(2024, 12 - 1, 1);
   d = data.count_to.split("-");

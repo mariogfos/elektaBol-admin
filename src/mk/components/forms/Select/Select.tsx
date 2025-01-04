@@ -48,9 +48,9 @@ const Select = ({
   );
   const [openOptions, setOpenOptions] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const inputFilter = useRef<HTMLInputElement>(null);
   const [selectedNames, setSelectedNames]: any = useState([]);
-  const [_options, setOptions]: any = useState([]);
-  const [search, setSearch] = useState("");
+
   const [position, setPosition]: any = useState(null);
   // const [top, setTop] = useState(10);
 
@@ -64,13 +64,7 @@ const Select = ({
     return null;
   };
 
-  const onChangeSearch = (e: any) => {
-    setSearch(e.target.value);
-    const filteredOptions = options.filter((option: any) =>
-      option[optionLabel].toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setOptions(filteredOptions);
-  };
+  const [_options, setOptions]: any = useState([]);
 
   useEffect(() => {
     if (options) setOptions(options);
@@ -98,24 +92,14 @@ const Select = ({
   }, [selectValue, options]);
 
   useEffect(() => {
-    // const handleClickOutside = (e: any) => {
-    //   console.log("click fuera", e.target, selectRef.current);
-    //   if (selectRef.current && !selectRef.current.contains(e.target)) {
-    //     console.log("cerrar fuera");
-    //     setOpenOptions(false);
-    //   }
-    // };
     const parentWithClass = findParentWithClass(
       selectRef.current,
       "contScrollable"
     );
     if (parentWithClass) {
-      console.log("Scrollable encontrado");
       parentWithClass.addEventListener("scroll", calcPosition);
     }
-    // document.addEventListener("click", handleClickOutside);
     return () => {
-      // document.removeEventListener("click", handleClickOutside);
       if (parentWithClass) {
         parentWithClass.removeEventListener("scroll", calcPosition);
       }
@@ -132,7 +116,6 @@ const Select = ({
     //   fec.getSeconds() +
     //   fec.getMilliseconds();
     // fec = f * 1;
-
     // setTop(fec);
 
     const select: any = selectRef.current;
@@ -209,7 +192,7 @@ const Select = ({
 
   const handleSelectClickIcon = (e: any) => {
     e.stopPropagation();
-    setOpenOptions(!openOptions);
+    setOpenOptions((old: boolean) => !old);
   };
 
   const handleSelectPosition = () => {
@@ -223,8 +206,44 @@ const Select = ({
   };
 
   const Section = () => {
+    const [search, setSearch] = useState("");
+    const [_options, setFilterOptions]: any = useState(options);
+    const normalizeText = (text: string) =>
+      text
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
+    const onChangeSearch = (e: any) => {
+      const searchValue = normalizeText(e.target.value);
+      setSearch(e.target.value);
+
+      const filteredOptions = options.filter((option: any) =>
+        normalizeText(option[optionLabel]).includes(searchValue)
+      );
+
+      setFilterOptions(filteredOptions);
+    };
+
     const selectRef1 = useRef<HTMLDivElement>(null);
-    useOnClickOutside(selectRef1, () => setOpenOptions(false));
+    
+    // useOnClickOutside(
+    //   selectRef1,
+    //   (e: any) => {
+    //     setOpenOptions(false);
+    //   },
+    //   selectRef as any
+    //   // inputFilter as any
+    // );
+    useOnClickOutside(selectRef1, (e: MouseEvent) => {
+      if (
+        !selectRef.current?.contains(e.target as Node) &&
+        !inputFilter.current?.contains(e.target as Node)
+      ) {
+        setOpenOptions(false);
+      }
+    });
+    
     return (
       <section
         ref={selectRef1}
@@ -240,12 +259,15 @@ const Select = ({
         }}
       >
         {/* <div>{JSON.stringify(position)}</div> */}
-        <div className={filter ? "" : "hidden"}>
+        <div
+          className={filter ? "" : "hidden"}
+          // ref={inputFilter}
+        >
           <Input
             type="text"
             value={search}
             onChange={onChangeSearch}
-            name="search"
+            name={"search" + name}
             placeholder={"Buscar..."}
           />
         </div>
@@ -309,36 +331,38 @@ const Select = ({
       ref={selectRef}
       className={styles.select + " " + className}
       // style={{ zIndex: top }}
-      onClick={disabled ? () => {} : handleSelectClickIcon}
+      // onClick={disabled ? () => {} : handleSelectClickIcon}
       style={style}
     >
-      <Input
-        type={"text"}
-        value={
-          multiSelect
-            ? selectedNames
-            : options.find
-            ? options.find((i: any) => {
-                return i[optionValue] == value;
-              })
+      <div onClick={disabled ? () => {} : handleSelectClickIcon}>
+        <Input
+          type={"text"}
+          value={
+            multiSelect
+              ? selectedNames
+              : options.find
               ? options.find((i: any) => {
                   return i[optionValue] == value;
-                })[optionLabel]
-              : ""
-            : options[value]?.label
-        }
-        onChange={onChange}
-        readOnly={true}
-        label={label}
-        name={name}
-        iconRight={<IconArrowDown className={openOptions ? "rotate" : ""} />}
-        placeholder={placeholder}
-        required={required}
-        onBlur={onBlur}
-        disabled={disabled}
-        error={error}
-        style={inputStyle}
-      />
+                })
+                ? options.find((i: any) => {
+                    return i[optionValue] == value;
+                  })[optionLabel]
+                : ""
+              : options[value]?.label
+          }
+          onChange={onChange}
+          readOnly={true}
+          label={label}
+          name={name}
+          iconRight={<IconArrowDown className={openOptions ? "rotate" : ""} />}
+          placeholder={placeholder}
+          required={required}
+          onBlur={onBlur}
+          disabled={disabled}
+          error={error}
+          style={inputStyle}
+        />
+      </div>
       {openOptions &&
         createPortal(
           <Section />,
