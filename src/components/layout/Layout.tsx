@@ -2,24 +2,22 @@ import { useEffect, useState } from "react";
 import styles from "./layout.module.css";
 import { useAuth } from "@/mk/contexts/AuthProvider";
 import DataModal from "@/mk/components/ui/DataModal/DataModal";
-import Navbar from "@/mk/components/ui/Navbar/Navbar";
-import MainMenu from "../MainMenu/MainMenu";
-import Footer from "../Footer/Footer";
 import Sidebar from "@/mk/components/ui/Sidebar/Sidebar";
-import Profile from "../Profile/Profile";
+import MainMenu from "../MainMenu/MainMenu";
 import Header from "../Header/Header";
 import useScreenSize from "@/mk/hooks/useScreenSize";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { getFormattedDate } from "@/mk/utils/date";
+import SideMenu from "@/mk/components/ui/SideMenu/SideMenu";
 
 const Layout = ({ children }: any) => {
   const { user, logout, store } = useAuth();
-  const [client, setClient]: any = useState(null);
-  const [open, setOpen]: any = useState(false);
+  const { isTablet, isDesktop } = useScreenSize();
   const [sideBarOpen, setSideBarOpen] = useState(false);
+  const [sideMenuOpen, setSideMenuOpen] = useState(false);
+  const [client, setClient]: any = useState(null);
   const [onLogout, setOnLogout] = useState(false);
-  const { isTablet } = useScreenSize();
   const path: any = usePathname();
   const router = useRouter();
 
@@ -30,8 +28,12 @@ const Layout = ({ children }: any) => {
     }
   }, [user]);
 
+  const layoutClassName = `${styles.layout} ${
+    isDesktop && !sideMenuOpen ? styles.layoutExpanded : ""
+  } ${isDesktop && sideMenuOpen ? styles.layoutCollapsed : ""}`;
+
   return (
-    <main className={styles.layout}>
+    <main className={layoutClassName}>
       <section>
         <Header
           isTablet={isTablet}
@@ -47,25 +49,34 @@ const Layout = ({ children }: any) => {
         />
       </section>
       <section>
-        <MainMenu
-          client={client}
-          user={user}
-          collapsed={false}
-          setOnLogout={setOnLogout}
-        />
+        {isDesktop && (
+          <SideMenu collapsed={sideMenuOpen} setCollapsed={setSideMenuOpen}>
+            <MainMenu
+              collapsed={sideMenuOpen}
+              user={user}
+              client={client}
+              setLogout={setOnLogout}
+            />
+          </SideMenu>
+        )}
+        {isTablet && (
+          <Sidebar
+            open={sideBarOpen}
+            onClose={setSideBarOpen}
+            iconClose={false}
+          >
+            <MainMenu
+              setSideBarOpen={setSideBarOpen}
+              client={client}
+              user={user}
+              collapsed={false}
+              setLogout={setOnLogout}
+            />
+          </Sidebar>
+        )}
       </section>
       <section>{children}</section>
-      <section>
-        <Footer />
-      </section>
-      <Sidebar open={sideBarOpen} onClose={setSideBarOpen} iconClose={false}>
-        <MainMenu
-          client={client}
-          user={user}
-          collapsed={false}
-          setOnLogout={setOnLogout}
-        />
-      </Sidebar>
+      <section>{/* Fotter Here!! */}</section>
       <DataModal
         open={onLogout}
         title="Cerrar sesión"
