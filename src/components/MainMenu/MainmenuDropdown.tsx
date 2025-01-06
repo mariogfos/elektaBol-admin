@@ -9,6 +9,7 @@ interface MainmenuDropdownProps {
   icon: React.ReactNode;
   items: { href: string; label: string }[];
   collapsed?: boolean;
+  setSideBarOpen?: (open: boolean) => void; // Asegurar que este sea una función opcional
 }
 
 const MainmenuDropdown: React.FC<MainmenuDropdownProps> = ({
@@ -16,6 +17,7 @@ const MainmenuDropdown: React.FC<MainmenuDropdownProps> = ({
   icon,
   items,
   collapsed,
+  setSideBarOpen,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRouteActive, setIsRouteActive] = useState(false);
@@ -33,13 +35,7 @@ const MainmenuDropdown: React.FC<MainmenuDropdownProps> = ({
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        if (collapsed) {
-          setIsOpen(false); // Cierra el dropdown si está colapsado
-        } else {
-          if (!isRouteActive) {
-            setIsOpen(false); // Si la ruta no está activa, cierra el dropdown
-          }
-        }
+        setIsOpen(false);
       }
     };
 
@@ -47,30 +43,35 @@ const MainmenuDropdown: React.FC<MainmenuDropdownProps> = ({
     return () => {
       document.removeEventListener("mouseup", handleClickOutside);
     };
-  }, [isRouteActive, collapsed]);
+  }, []);
 
   // Verifica si la ruta está activa para gestionar el estado del dropdown
   useEffect(() => {
     const isActive = items.some((item) => pathname === item.href);
     setIsRouteActive(isActive);
+
     if (!isActive) {
       setIsOpen(false); // Cierra el dropdown si la ruta no está activa
     }
   }, [pathname, items]);
 
-  // Maneja el clic en los enlaces para cerrar el dropdown si está colapsado
+  // Maneja el clic en los enlaces para cerrar el dropdown y sidebar
   const handleLinkClick = () => {
     if (collapsed) {
       setIsOpen(false); // Cierra el dropdown si está colapsado
+    }
+
+    if (setSideBarOpen) {
+      setSideBarOpen(false); // Cierra el sidebar
     }
   };
 
   return (
     <div
       ref={dropdownRef}
-      className={`${styles.menuDropdown} ${isOpen ? `${styles.isOpen}` : ""} ${
-        collapsed ? `${styles.collapsed}` : ""
-      } ${isRouteActive ? `${styles.isRouteActive}` : ""}`}
+      className={`${styles.menuDropdown} ${isOpen ? styles.isOpen : ""} ${
+        collapsed ? styles.collapsed : ""
+      } ${isRouteActive ? styles.isRouteActive : ""}`}
     >
       <div onClick={toggleDropdown}>
         <div>
@@ -86,8 +87,8 @@ const MainmenuDropdown: React.FC<MainmenuDropdownProps> = ({
             <Link
               key={index}
               href={item.href}
-              className={`${pathname === item.href ? `${styles.active}` : ""}`}
-              onClick={handleLinkClick} // Cierra el dropdown al hacer clic
+              className={pathname === item.href ? styles.active : ""}
+              onClick={handleLinkClick} // Llama a handleLinkClick para cerrar
             >
               {item.label}
             </Link>
